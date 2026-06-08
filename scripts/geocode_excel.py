@@ -28,11 +28,7 @@ NOMINATIM_URL = "https://nominatim.openstreetmap.org/search"
 USER_AGENT = "CarteVoyage/1.0 (voyage planning map)"
 REQUEST_DELAY = 1.1
 
-COUNTRY_CODES = {
-    "Amsterdam": "nl",
-    "Cologne": "de",
-    "Lille": "fr",
-}
+DEFAULT_COUNTRY = "nl"
 
 MANUAL_COORDS = {
     "joods historisch museum": (52.367015, 4.903445),
@@ -68,19 +64,15 @@ def resolve_nom(nom: str) -> str:
     return NAME_ALIASES.get(nom, nom)
 
 
-def build_queries(nom: str, ville: str, remarque: str, action: str = "") -> list[str]:
+def build_queries(nom: str, remarque: str, action: str = "") -> list[str]:
     search_name = resolve_nom(nom)
     queries: list[str] = []
 
-    if remarque and ville and action.lower() == "balade":
-        queries.append(f"{remarque}, {ville}")
-    if ville:
-        queries.append(f"{search_name}, {ville}")
-    if remarque and ville:
-        queries.append(f"{search_name}, {remarque}, {ville}")
+    if remarque and action.lower() == "balade":
+        queries.append(remarque)
+    queries.append(search_name)
     if remarque:
         queries.append(f"{search_name}, {remarque}")
-    queries.append(search_name)
 
     seen: set[str] = set()
     unique: list[str] = []
@@ -92,11 +84,13 @@ def build_queries(nom: str, ville: str, remarque: str, action: str = "") -> list
     return unique
 
 
-def nominatim_search(query: str, ville: str = "") -> tuple[float, float] | None:
-    params: dict = {"q": query, "format": "json", "limit": 1}
-    country = COUNTRY_CODES.get(ville)
-    if country:
-        params["countrycodes"] = country
+def nominatim_search(query: str) -> tuple[float, float] | None:
+    params: dict = {
+        "q": query,
+        "format": "json",
+        "limit": 1,
+        "countrycodes": DEFAULT_COUNTRY,
+    }
 
     response = requests.get(
         NOMINATIM_URL,
@@ -112,18 +106,18 @@ def nominatim_search(query: str, ville: str = "") -> tuple[float, float] | None:
 
 
 def geocode_place(
-    nom: str, ville: str, remarque: str, cache: dict, action: str = "", use_cache: bool = True
+    nom: str, remarque: str, cache: dict, action: str = "", use_cache: bool = True
 ) -> tuple[float, float] | None:
     if nom in MANUAL_COORDS:
         lat, lon = MANUAL_COORDS[nom]
         return lat, lon
 
-    cache_key = f"{nom}|{ville}|{remarque}"
+    cache_key = f"{nom}|{remarque}"
     if use_cache and cache_key in cache:
         entry = cache[cache_key]
         return entry["lat"], entry["lon"]
 
-    for query in build_queries(nom, ville, remarque, action):
+    for query in build_queries(nom, remarque, action):
         query_key = f"query|{query}"
         if use_cache and query_key in cache:
             entry = cache[query_key]
@@ -133,7 +127,7 @@ def geocode_place(
 
         time.sleep(REQUEST_DELAY)
         try:
-            coords = nominatim_search(query, ville)
+            coords = nominatim_search(query)
         except requests.RequestException:
             coords = None
 
@@ -183,31 +177,32 @@ def run_geocoding(excel_path: Path, dry_run: bool = False, force: bool = False) 
         remarque = normalize_text(cell_value_safe(row, col_index, "Remarque"))
         action = normalize_text(cell_value_safe(row, col_index, "Action"))
         coords = geocode_place(
-            item["nom"], item["ville"], remarque, cache, action=action, use_cache=not force
+            item["nom"], remarque, cache, action=action, use_cache=not force
         )
 
+        label = f"{item['jour']}.{item['visite']}"
         if coords:
             if not dry_run:
                 ws.cell(row=row_idx, column=col_index["Latitude"] + 1, value=coords[0])
                 ws.cell(row=row_idx, column=col_index["Longitude"] + 1, value=coords[1])
             updated += 1
-            print(f"OK  [{item['sheet_name']}] {item['nom']} -> {coords[0]:.6f}, {coords[1]:.6f}")
+            print(f"OK  [{label}] {item['nom']} -> {coords[0]:.6f}, {coords[1]:.6f}")
         else:
             errors.append(
                 {
-                    "onglet": item["sheet_name"],
+                    "jour": str(item["jour"]),
+                    "visite": str(item["visite"]),
                     "nom": item["nom"],
-                    "ville": item["ville"],
-                    "requete": build_queries(item["nom"], item["ville"], remarque)[0],
+                    "requete": build_queries(item["nom"], remarque)[0],
                 }
             )
-            print(f"ERR [{item['sheet_name']}] {item['nom']} -> non trouve")
+            print(f"ERR [{label}] {item['nom']} -> non trouve")
 
     save_cache(cache_path, cache)
 
     errors_path = data_dir() / "geocode_errors.csv"
     with errors_path.open("w", encoding="utf-8-sig", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=["onglet", "nom", "ville", "requete"])
+        writer = csv.DictWriter(f, fieldnames=["jour", "visite", "nom", "requete"])
         writer.writeheader()
         writer.writerows(errors)
 

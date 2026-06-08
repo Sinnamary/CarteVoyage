@@ -1,1 +1,4 @@
-﻿onglet,nom,ville,jour,ordre
+﻿jour,visite,ordre,nom
+1,1,1.1,cologne
+2,1,2.1,cologne
+7,1,7.1,Lille

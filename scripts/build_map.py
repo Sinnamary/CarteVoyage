@@ -23,39 +23,41 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>{title}</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
-  <link rel="stylesheet" href="{assets_prefix}assets/css/map.css">
+  <link rel="stylesheet" href="assets/css/map.css">
 </head>
 <body>
   <header class="app-header">
     <div class="header-content">
       <h1>{heading}</h1>
       <p class="subtitle">{subtitle}</p>
-      <nav class="page-nav">
-        <a href="{home_href}">Tout le voyage</a>
-        {ville_links}
-      </nav>
     </div>
   </header>
 
   <div class="app-layout">
     <aside class="filters-panel" id="filters-panel">
-      <h2>Filtres</h2>
-      <section class="filter-section">
-        <h3>Villes</h3>
-        <div id="filter-villes" class="filter-group"></div>
-      </section>
-      <section class="filter-section">
-        <h3>Jours</h3>
-        <div id="filter-jours" class="filter-group"></div>
-      </section>
-      <section class="filter-section">
-        <h3>Onglets / quartiers</h3>
-        <div id="filter-onglets" class="filter-group"></div>
-      </section>
-      <button type="button" id="btn-reset" class="btn-reset">Tout afficher</button>
+      <details class="filters-details" open>
+        <summary class="filters-toggle">Filtres</summary>
+        <div class="filters-body">
+          <h2>Filtres</h2>
+          <section class="filter-section">
+            <h3>Jours</h3>
+            <div id="filter-jours" class="filter-group"></div>
+          </section>
+          <section class="filter-section filter-section-trajets">
+            <h3>Trajets a pied</h3>
+            <p class="filter-hint">Cochez un ou plusieurs trajets entre visites consecutives du meme jour.</p>
+            <div class="trajets-actions">
+              <button type="button" id="btn-trajets-clear" class="btn-secondary">Effacer les trajets</button>
+            </div>
+            <div id="filter-trajets" class="filter-trajets-list"></div>
+            <p id="trajets-status" class="filter-hint" hidden></p>
+          </section>
+          <button type="button" id="btn-reset" class="btn-reset">Tout afficher</button>
+        </div>
+      </details>
     </aside>
     <main class="map-container">
       <div id="map"></div>
@@ -65,9 +67,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script>
     window.VOYAGE_DATA = {voyage_json};
-    window.PAGE_FILTER = {page_filter_json};
   </script>
-  <script src="{assets_prefix}assets/js/map.js"></script>
+  <script src="assets/js/map.js"></script>
 </body>
 </html>
 """
@@ -81,106 +82,32 @@ def write_missing_coords_report(wb: openpyxl.Workbook) -> Path:
         if row_to_point(item) is None:
             rows.append(
                 {
-                    "onglet": item["sheet_name"],
+                    "jour": str(item["jour"]),
+                    "visite": str(item["visite"]),
+                    "ordre": item["ordre_label"],
                     "nom": item["nom"],
-                    "ville": item["ville"],
-                    "jour": str(item["jour"] or ""),
-                    "ordre": str(item["ordre"]),
                 }
             )
 
     with report_path.open("w", encoding="utf-8-sig", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=["onglet", "nom", "ville", "jour", "ordre"])
+        writer = csv.DictWriter(f, fieldnames=["jour", "visite", "ordre", "nom"])
         writer.writeheader()
         writer.writerows(rows)
 
     return report_path
 
 
-def build_ville_links(villes: list[str], current_ville: str | None, in_villes_folder: bool) -> str:
-    links = []
-    for ville in villes:
-        slug = ville.lower().replace(" ", "-")
-        href = f"villes/{slug}.html" if not in_villes_folder else f"{slug}.html"
-        if in_villes_folder:
-            home_href = "../index.html"
-        else:
-            home_href = "index.html"
-
-        active = ' class="active"' if ville == current_ville else ""
-        links.append(f'<a href="{href}"{active}>{ville}</a>')
-
-    if in_villes_folder:
-        return " ".join(links)
-    return " ".join(links)
-
-
-def render_html(
-    voyage_data: dict,
-    title: str,
-    heading: str,
-    subtitle: str,
-    page_filter: dict,
-    assets_prefix: str,
-    ville_links: str,
-    home_href: str,
-) -> str:
-    voyage_json = json.dumps(voyage_data, ensure_ascii=False)
-    page_filter_json = json.dumps(page_filter, ensure_ascii=False)
-
-    nav_villes = []
-    for ville in voyage_data["villes"]:
-        slug = ville.lower().replace(" ", "-")
-        href = f"{assets_prefix}villes/{slug}.html"
-        active = ' class="active"' if page_filter.get("ville") == ville else ""
-        nav_villes.append(f'<a href="{href}"{active}>{ville}</a>')
-
-    return HTML_TEMPLATE.format(
-        title=title,
-        heading=heading,
-        subtitle=subtitle,
-        assets_prefix=assets_prefix,
-        voyage_json=voyage_json,
-        page_filter_json=page_filter_json,
-        home_href=home_href,
-        ville_links=" ".join(nav_villes),
-    )
-
-
 def build_html_pages(voyage_data: dict) -> None:
-    web = web_dir()
-    villes_dir = web / "villes"
-    villes_dir.mkdir(exist_ok=True)
-
-    (web / "index.html").write_text(
-        render_html(
-            voyage_data=voyage_data,
+    voyage_json = json.dumps(voyage_data, ensure_ascii=False)
+    (web_dir() / "index.html").write_text(
+        HTML_TEMPLATE.format(
             title="Carte du voyage",
             heading="Carte du voyage",
-            subtitle="Tous les deplacements et points de visite",
-            page_filter={"mode": "all"},
-            assets_prefix="",
-            ville_links="",
-            home_href="index.html",
+            subtitle="Points de visite par jour",
+            voyage_json=voyage_json,
         ),
         encoding="utf-8",
     )
-
-    for ville in voyage_data["villes"]:
-        slug = ville.lower().replace(" ", "-")
-        (villes_dir / f"{slug}.html").write_text(
-            render_html(
-                voyage_data=voyage_data,
-                title=f"Carte — {ville}",
-                heading=ville,
-                subtitle=f"Points de visite a {ville}",
-                page_filter={"mode": "ville", "ville": ville},
-                assets_prefix="../",
-                ville_links="",
-                home_href="../index.html",
-            ),
-            encoding="utf-8",
-        )
 
 
 def run_build(excel_path: Path) -> None:
@@ -193,6 +120,7 @@ def run_build(excel_path: Path) -> None:
     build_html_pages(voyage_data)
 
     print(f"Points sur la carte: {len(voyage_data['points'])}")
+    print(f"Jours: {voyage_data['jours']}")
     print(f"JSON: {json_path}")
     print(f"HTML: {web_dir() / 'index.html'}")
     if missing_path.exists():

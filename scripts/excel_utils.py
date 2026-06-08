@@ -11,16 +11,6 @@ import openpyxl
 from openpyxl.worksheet.worksheet import Worksheet
 
 PLANNING_SHEETS = {"Amsterdam"}
-CITY_BY_SHEET = {
-    "Cologne": "Cologne",
-    "Lille": "Lille",
-}
-AMSTERDAM_QUARTIER_SHEETS = {
-    "Centre - Jordaan",
-    "Vondelpark",
-    "Est - Sud Est",
-    "Nord",
-}
 
 BASE_COLUMNS = [
     "Action",
@@ -36,14 +26,18 @@ BASE_COLUMNS = [
 ]
 MAP_COLUMNS = ["Ordre", "Latitude", "Longitude", "Lien"]
 
-SHEET_COLORS = {
-    "Centre - Jordaan": "#e74c3c",
-    "Vondelpark": "#27ae60",
-    "Est - Sud Est": "#3498db",
-    "Nord": "#9b59b6",
-    "Cologne": "#e67e22",
-    "Lille": "#1abc9c",
-}
+DAY_COLORS = [
+    "#e74c3c",
+    "#27ae60",
+    "#3498db",
+    "#9b59b6",
+    "#e67e22",
+    "#1abc9c",
+    "#f39c12",
+    "#2c3e50",
+    "#d35400",
+    "#16a085",
+]
 
 
 def project_root() -> Path:
@@ -78,64 +72,38 @@ def normalize_text(value: Any) -> str:
     return str(value).strip()
 
 
-def sheet_city(sheet_name: str) -> str:
-    if sheet_name in CITY_BY_SHEET:
-        return CITY_BY_SHEET[sheet_name]
-    if sheet_name in AMSTERDAM_QUARTIER_SHEETS:
-        return "Amsterdam"
-    return sheet_name
+ORDRE_RE = re.compile(r"^\s*(\d+)[.,](\d+)\s*$")
+
+
+def parse_ordre(value: Any) -> dict[str, int] | None:
+    """Extrait jour et visite depuis la colonne Ordre (ex. 6.5 -> jour 6, visite 5)."""
+    if value is None or value == "":
+        return None
+
+    text = normalize_text(value).replace(",", ".")
+    if not text:
+        return None
+
+    match = ORDRE_RE.match(text)
+    if not match and isinstance(value, (int, float)):
+        text = f"{float(value):g}".replace(",", ".")
+        match = ORDRE_RE.match(text)
+
+    if not match:
+        return None
+
+    return {
+        "jour": int(match.group(1)),
+        "visite": int(match.group(2)),
+    }
+
+
+def jour_color(jour: int) -> str:
+    return DAY_COLORS[(jour - 1) % len(DAY_COLORS)]
 
 
 def is_activity_sheet(sheet_name: str) -> bool:
     return sheet_name not in PLANNING_SHEETS
-
-
-def normalize_sheet_key(text: str) -> str:
-    return re.sub(r"[^a-z0-9]+", "", text.lower())
-
-
-def match_sheet_name(label: str, sheet_names: list[str]) -> str | None:
-    label_key = normalize_sheet_key(label)
-    for name in sheet_names:
-        if normalize_sheet_key(name) == label_key:
-            return name
-    for name in sheet_names:
-        name_key = normalize_sheet_key(name)
-        if label_key in name_key or name_key in label_key:
-            return name
-    return None
-
-
-def parse_planning_days(wb: openpyxl.Workbook) -> dict[int, list[str]]:
-    if "Amsterdam" not in wb.sheetnames:
-        return {}
-
-    ws = wb["Amsterdam"]
-    day_map: dict[int, list[str]] = {}
-    day_num = 0
-
-    for row in ws.iter_rows(values_only=True):
-        cells = [normalize_text(c) for c in row]
-        if not any(cells):
-            continue
-
-        joined = " ".join(c for c in cells if c).lower()
-        if "journ" in joined or re.search(r"\bjour\b", joined):
-            day_num += 1
-
-        for cell in cells:
-            if not cell:
-                continue
-            lower = cell.lower()
-            if "journ" in lower or re.search(r"\bjour\b", lower):
-                continue
-            matched = match_sheet_name(cell, wb.sheetnames)
-            if matched and is_activity_sheet(matched):
-                day_map.setdefault(day_num, [])
-                if matched not in day_map[day_num]:
-                    day_map[day_num].append(matched)
-
-    return day_map
 
 
 def find_header_row(ws: Worksheet) -> int | None:
@@ -150,7 +118,7 @@ def build_column_index(header_row: tuple[Any, ...]) -> dict[str, int]:
     index: dict[str, int] = {}
     for col_idx, value in enumerate(header_row):
         name = normalize_text(value)
-        if name:
+        if name and name not in index:
             index[name] = col_idx
     return index
 
@@ -213,12 +181,6 @@ def backup_excel(excel_path: Path) -> Path:
 
 
 def iter_activity_rows(wb: openpyxl.Workbook):
-    day_map = parse_planning_days(wb)
-    sheet_to_day: dict[str, int] = {}
-    for day, sheets in day_map.items():
-        for sheet in sheets:
-            sheet_to_day[sheet] = day
-
     for sheet_name in wb.sheetnames:
         if not is_activity_sheet(sheet_name):
             continue
@@ -233,10 +195,6 @@ def iter_activity_rows(wb: openpyxl.Workbook):
         if "Nom" not in col_index:
             continue
 
-        ville = sheet_city(sheet_name)
-        jour = sheet_to_day.get(sheet_name)
-        row_counter = 0
-
         for row_idx, row in enumerate(
             ws.iter_rows(min_row=header_row_idx + 1, values_only=True),
             start=header_row_idx + 1,
@@ -245,15 +203,21 @@ def iter_activity_rows(wb: openpyxl.Workbook):
             if not nom:
                 continue
 
-            row_counter += 1
-            ordre = parse_int(cell_value(row, col_index, "Ordre")) or row_counter
+            ordre_raw = cell_value(row, col_index, "Ordre")
+            parsed = parse_ordre(ordre_raw)
+            if not parsed:
+                continue
+
+            ordre_label = normalize_text(ordre_raw).replace(",", ".")
+            if not ORDRE_RE.match(ordre_label):
+                ordre_label = f"{parsed['jour']}.{parsed['visite']}"
 
             yield {
-                "sheet_name": sheet_name,
                 "row_idx": row_idx,
-                "ville": ville,
-                "jour": jour,
-                "ordre": ordre,
+                "jour": parsed["jour"],
+                "visite": parsed["visite"],
+                "ordre": parsed["visite"],
+                "ordre_label": ordre_label,
                 "nom": nom,
                 "col_index": col_index,
                 "row": row,
@@ -281,18 +245,19 @@ def row_to_point(item: dict[str, Any]) -> dict[str, Any] | None:
             return None
         return value
 
-    sheet_name = item["sheet_name"]
+    jour = item["jour"]
+    visite = item["visite"]
     return {
-        "id": f"{sheet_name}-{item['row_idx']}",
+        "id": f"{jour}.{visite}-{item['row_idx']}",
         "ordre": item["ordre"],
-        "jour": item["jour"],
-        "ville": item["ville"],
-        "onglet": sheet_name,
+        "ordre_label": item["ordre_label"],
+        "jour": jour,
+        "visite": visite,
         "nom": item["nom"],
         "lat": lat,
         "lon": lon,
         "lien": url,
-        "couleur": SHEET_COLORS.get(sheet_name, "#3388ff"),
+        "couleur": jour_color(jour),
         "popup": {
             "action": field("Action"),
             "type": field("Type"),
@@ -307,24 +272,18 @@ def row_to_point(item: dict[str, Any]) -> dict[str, Any] | None:
 
 
 def build_voyage_data(wb: openpyxl.Workbook) -> dict[str, Any]:
-    day_map = parse_planning_days(wb)
     points: list[dict[str, Any]] = []
-    onglets: list[str] = []
-    villes: set[str] = set()
+    jours: set[int] = set()
 
     for item in iter_activity_rows(wb):
-        onglet = item["sheet_name"]
-        if onglet not in onglets:
-            onglets.append(onglet)
-        villes.add(item["ville"])
-
+        jours.add(item["jour"])
         point = row_to_point(item)
         if point:
             points.append(point)
 
+    points.sort(key=lambda p: (p["jour"], p["visite"], p["id"]))
+
     return {
-        "villes": sorted(villes),
-        "onglets": onglets,
-        "jours": {str(k): v for k, v in day_map.items()},
+        "jours": sorted(jours),
         "points": points,
     }
