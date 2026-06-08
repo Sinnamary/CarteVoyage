@@ -1,0 +1,26 @@
+# Environnement Python
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+Desktop.ini
+
+# Secrets et config locale
+.env
+.env.*
+
+# Fichiers Excel source (souvent volumineux ou personnels)
+*.xlsx
+*.xlsm
