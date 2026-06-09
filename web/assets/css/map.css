@@ -30,27 +30,6 @@ body {
   font-size: 0.95rem;
 }
 
-.page-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.page-nav a {
-  color: #fff;
-  text-decoration: none;
-  padding: 0.35rem 0.75rem;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.15);
-  font-size: 0.875rem;
-  transition: background 0.2s;
-}
-
-.page-nav a:hover,
-.page-nav a.active {
-  background: rgba(255, 255, 255, 0.3);
-}
-
 .app-layout {
   display: flex;
   height: calc(100vh - 110px);
@@ -64,11 +43,6 @@ body {
   border-right: 1px solid #dde1e6;
   padding: 1rem;
   overflow-y: auto;
-}
-
-.filters-panel h2 {
-  margin: 0 0 1rem;
-  font-size: 1.1rem;
 }
 
 .filter-section {
@@ -323,27 +297,6 @@ body {
     margin-bottom: 0.6rem;
   }
 
-  .page-nav {
-    gap: 0.4rem;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding-bottom: 0.15rem;
-  }
-
-  .page-nav::-webkit-scrollbar {
-    display: none;
-  }
-
-  .page-nav a {
-    flex-shrink: 0;
-    padding: 0.5rem 0.85rem;
-    font-size: 0.8rem;
-    min-height: 44px;
-    display: inline-flex;
-    align-items: center;
-  }
-
   .app-layout {
     flex-direction: column;
     height: calc(100dvh - var(--header-height, 120px));
@@ -408,10 +361,6 @@ body {
   }
 
   .filters-details:not([open]) .filters-body {
-    display: none;
-  }
-
-  .filters-panel h2 {
     display: none;
   }
 

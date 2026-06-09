@@ -14,6 +14,7 @@ from excel_utils import (
     build_voyage_data,
     data_dir,
     default_excel_path,
+    find_ordre_collisions,
     iter_activity_rows,
     row_to_point,
     web_dir,
@@ -41,7 +42,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       <details class="filters-details" open>
         <summary class="filters-toggle">Filtres</summary>
         <div class="filters-body">
-          <h2>Filtres</h2>
           <section class="filter-section">
             <h3>Jours</h3>
             <div id="filter-jours" class="filter-group"></div>
@@ -74,7 +74,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 """
 
 
-def write_missing_coords_report(wb: openpyxl.Workbook) -> Path:
+def write_missing_coords_report(wb: openpyxl.Workbook) -> tuple[Path, int]:
     report_path = data_dir() / "lignes_sans_coords.csv"
     rows: list[dict[str, str]] = []
 
@@ -94,7 +94,7 @@ def write_missing_coords_report(wb: openpyxl.Workbook) -> Path:
         writer.writeheader()
         writer.writerows(rows)
 
-    return report_path
+    return report_path, len(rows)
 
 
 def build_html_pages(voyage_data: dict) -> None:
@@ -112,19 +112,24 @@ def build_html_pages(voyage_data: dict) -> None:
 
 def run_build(excel_path: Path) -> None:
     wb = openpyxl.load_workbook(excel_path, data_only=True)
+
+    collisions = find_ordre_collisions(wb)
+    for (jour, visite), noms in sorted(collisions.items()):
+        print(f"ATTENTION: ordre {jour}.{visite} utilise par plusieurs lignes: {', '.join(noms)}")
+
     voyage_data = build_voyage_data(wb)
     json_path = data_dir() / "voyages.json"
     json_path.write_text(json.dumps(voyage_data, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    missing_path = write_missing_coords_report(wb)
+    missing_path, missing_count = write_missing_coords_report(wb)
     build_html_pages(voyage_data)
 
     print(f"Points sur la carte: {len(voyage_data['points'])}")
     print(f"Jours: {voyage_data['jours']}")
     print(f"JSON: {json_path}")
     print(f"HTML: {web_dir() / 'index.html'}")
-    if missing_path.exists():
-        print(f"Lignes sans coords: {missing_path}")
+    if missing_count > 0:
+        print(f"Lignes sans coords: {missing_count} (voir {missing_path})")
 
 
 def main() -> None:

@@ -26,6 +26,8 @@ BASE_COLUMNS = [
 ]
 MAP_COLUMNS = ["Ordre", "Latitude", "Longitude", "Lien"]
 
+# Palette des jours, injectee dans le JSON via "couleur".
+# La palette des trajets (ROUTE_COLORS) vit separement dans web/assets/js/map.js.
 DAY_COLORS = [
     "#e74c3c",
     "#27ae60",
@@ -269,6 +271,18 @@ def row_to_point(item: dict[str, Any]) -> dict[str, Any] | None:
             "remarque": field("Remarque"),
         },
     }
+
+
+def find_ordre_collisions(wb: openpyxl.Workbook) -> dict[tuple[int, int], list[str]]:
+    """Retourne les couples (jour, visite) utilises par plusieurs lignes.
+
+    Permet de reperer par exemple un "5.10" saisi comme nombre dans Excel,
+    qui devient 5.1 et entre en collision avec la visite 1 du jour 5.
+    """
+    seen: dict[tuple[int, int], list[str]] = {}
+    for item in iter_activity_rows(wb):
+        seen.setdefault((item["jour"], item["visite"]), []).append(item["nom"])
+    return {key: noms for key, noms in seen.items() if len(noms) > 1}
 
 
 def build_voyage_data(wb: openpyxl.Workbook) -> dict[str, Any]:

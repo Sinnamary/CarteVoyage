@@ -133,9 +133,9 @@ L'utilisateur planifie un voyage (ex. : Amsterdam, 7 jours) dans un tableur Exce
 | F4.9 | Bouton « Effacer les trajets » | Obligatoire |
 | F4.10 | Désactiver automatiquement les trajets dont un point est masqué par le filtre jour | Obligatoire |
 
-#### F5 — Page ville Amsterdam (partielle)
+#### F5 — Pages par ville (évolution prévue)
 
-Une page `web/villes/amsterdam.html` existe avec une structure de données enrichie (`ville`, `onglet`, navigation entre pages). **À l'état actuel, le JavaScript (`map.js`) ne gère pas encore les filtres par ville/onglet ni `PAGE_FILTER`.** Cette page constitue une évolution prévue, non finalisée.
+Une page `web/villes/amsterdam.html` a existé avec une structure de données enrichie (`ville`, `onglet`, navigation entre pages), mais le JavaScript (`map.js`) ne gérait pas ces filtres ni `PAGE_FILTER` : la page était cassée et a été **supprimée**. Le support multi-villes reste une évolution prévue (voir §14).
 
 ---
 
@@ -346,12 +346,12 @@ start web/index.html          # Windows
   - Boutons « Effacer les trajets » et « Tout afficher »
 - **Zone carte** : occupe le reste de l'écran
 
-#### Page ville — `web/villes/amsterdam.html` (partielle)
+#### Pages par ville (évolution prévue, voir §14)
 
-- Navigation : « Tout le voyage » / « Amsterdam »
+- Navigation : « Tout le voyage » / une page par ville
 - Filtres prévus : villes, jours
-- Données enrichies avec `ville` et `onglet` (quartiers : Centre-Jordaan, Vondelpark, etc.)
-- **Non finalisée** : le JS actuel ne traite pas ces filtres
+- Données enrichies avec `ville` et `onglet` (quartiers)
+- L'ancienne page `web/villes/amsterdam.html`, non fonctionnelle, a été supprimée
 
 ### 7.3 Comportement des marqueurs
 
@@ -502,11 +502,9 @@ CarteVoyage/
 │   └── requirements.txt           # Dépendances Python
 ├── web/
 │   ├── index.html                 # Carte principale (générée)
-│   ├── assets/
-│   │   ├── css/map.css            # Styles
-│   │   └── js/map.js              # Logique carte + trajets
-│   └── villes/
-│       └── amsterdam.html         # Page ville (partielle)
+│   └── assets/
+│       ├── css/map.css            # Styles
+│       └── js/map.js              # Logique carte + trajets
 └── .venv/                         # Environnement virtuel Python
 ```
 
@@ -584,7 +582,7 @@ Copier le dossier `web/` (et éventuellement `data/voyages.json` si chargement e
 | Pas de HTTPS local | Certaines APIs peuvent bloquer en `file://` | Servir via un serveur local simple |
 | Orthographe des noms | Géocodage erroné | Alias dans `NAME_ALIASES` |
 | Feuille `Amsterdam` ignorée | Confusion si activités y sont stockées | Utiliser des feuilles d'activités dédiées |
-| Page `amsterdam.html` | Filtres ville/onglet non fonctionnels | Finaliser `map.js` ou supprimer la page |
+| Ordre `X.10` saisi comme nombre dans Excel | Devient `X.1` (collision de visite) | Saisir la colonne `Ordre` en texte ; `build_map.py` signale les collisions |
 
 ---
 

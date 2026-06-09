@@ -7,6 +7,8 @@
     "https://router.project-osrm.org/route/v1/foot",
   ];
   const ROUTE_DELAY_MS = 120;
+  // Palette des trajets. La palette des jours (DAY_COLORS) vit dans
+  // scripts/excel_utils.py et arrive via le champ "couleur" du JSON.
   const ROUTE_COLORS = [
     "#e74c3c",
     "#27ae60",
@@ -46,14 +48,17 @@
   const markers = [];
   const routeCache = new Map();
   const segmentInputs = new Map();
+  const segmentsById = new Map();
+  const dayToggleButtons = new Map();
   let routeRequestId = 0;
   let allSegments = [];
 
+  const escapeDiv = document.createElement("div");
+
   function escapeHtml(text) {
     if (text == null) return "";
-    const div = document.createElement("div");
-    div.textContent = String(text);
-    return div.innerHTML;
+    escapeDiv.textContent = String(text);
+    return escapeDiv.innerHTML;
   }
 
   function markerLabel(point) {
@@ -198,6 +203,9 @@
   }
 
   allSegments = buildAllSegments();
+  allSegments.forEach(function (segment) {
+    segmentsById.set(segment.id, segment);
+  });
 
   function segmentAvailable(segment) {
     return pointVisible(segment.from) && pointVisible(segment.to);
@@ -409,9 +417,21 @@
     }
   }
 
+  function refreshDayToggleLabels() {
+    dayToggleButtons.forEach(function (button, jourKey) {
+      const daySegments = allSegments.filter(function (segment) {
+        return segment.jour === jourKey && segmentAvailable(segment);
+      });
+      const allChecked = daySegments.length > 0 && daySegments.every(function (segment) {
+        return filterState.segments.has(segment.id);
+      });
+      button.textContent = allChecked ? "Tout decocher" : "Tout cocher";
+    });
+  }
+
   function syncSegmentInputs() {
     segmentInputs.forEach(function (input, segmentId) {
-      const segment = allSegments.find(function (s) { return s.id === segmentId; });
+      const segment = segmentsById.get(segmentId);
       if (!segment) return;
 
       const available = segmentAvailable(segment);
@@ -422,6 +442,7 @@
         filterState.segments.delete(segmentId);
       }
     });
+    refreshDayToggleLabels();
   }
 
   function refreshMarkers(zoomToMarkers) {
@@ -452,6 +473,7 @@
     const input = segmentInputs.get(segmentId);
     if (input) input.checked = checked;
 
+    refreshDayToggleLabels();
     refreshRoutes(zoomToSelection);
   }
 
@@ -468,6 +490,7 @@
       if (input) input.checked = checked;
     });
 
+    refreshDayToggleLabels();
     refreshRoutes(checked && daySegments.length === 1);
   }
 
@@ -476,6 +499,7 @@
     segmentInputs.forEach(function (input) {
       input.checked = false;
     });
+    refreshDayToggleLabels();
     routeLayer.clearLayers();
     setTrajetsStatus("", false);
   }
@@ -526,12 +550,12 @@
           event.preventDefault();
           event.stopPropagation();
           const daySegments = segmentsByDay[jourKey].filter(segmentAvailable);
-          const allChecked = daySegments.every(function (segment) {
+          const allChecked = daySegments.length > 0 && daySegments.every(function (segment) {
             return filterState.segments.has(segment.id);
           });
           setDaySegments(jourKey, !allChecked);
-          toggleBtn.textContent = allChecked ? "Tout cocher" : "Tout decocher";
         });
+        dayToggleButtons.set(jourKey, toggleBtn);
         summary.appendChild(toggleBtn);
         details.appendChild(summary);
 

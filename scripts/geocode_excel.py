@@ -14,6 +14,7 @@ import requests
 
 from excel_utils import (
     backup_excel,
+    cell_value,
     data_dir,
     default_excel_path,
     ensure_map_columns,
@@ -38,13 +39,12 @@ NAME_ALIASES = {
     "Het Bejinhof": "Begijnhof Amsterdam",
     "Risjkmuseum": "Rijksmuseum Amsterdam",
     "Rembrandhuis": "Museum Rembrandthuis Amsterdam",
-    "joods historisch museum": "Joods Historisch Museum Amsterdam",
+    # "joods historisch museum" est gere via MANUAL_COORDS.
     "Verzetmuseum": "Verzetsmuseum Amsterdam",
     "Het Scheepvaart Museum": "Het Scheepvaartmuseum Amsterdam",
     "Croisière sur les canaux": "Amsterdam canal cruise",
     "Rudi's Stroopwaffels": "Rudi's Original Stroopwafels Amsterdam",
     "Balade dans l'ancien quartier juif": "Jodenbreestraat Amsterdam",
-    "joods historisch museum": "Joods Historisch Museum Nieuwe Amstelstraat Amsterdam",
     "Les grands canaux": "Herengracht Amsterdam",
     "Tour A'DAM": "A'DAM Lookout Amsterdam",
 }
@@ -128,7 +128,8 @@ def geocode_place(
         time.sleep(REQUEST_DELAY)
         try:
             coords = nominatim_search(query)
-        except requests.RequestException:
+        except requests.RequestException as exc:
+            print(f"WARN requete Nominatim en echec pour '{query}': {exc}")
             coords = None
 
         if coords:
@@ -174,8 +175,8 @@ def run_geocoding(excel_path: Path, dry_run: bool = False, force: bool = False) 
             skipped += 1
             continue
 
-        remarque = normalize_text(cell_value_safe(row, col_index, "Remarque"))
-        action = normalize_text(cell_value_safe(row, col_index, "Action"))
+        remarque = normalize_text(cell_value(row, col_index, "Remarque"))
+        action = normalize_text(cell_value(row, col_index, "Action"))
         coords = geocode_place(
             item["nom"], remarque, cache, action=action, use_cache=not force
         )
@@ -214,15 +215,6 @@ def run_geocoding(excel_path: Path, dry_run: bool = False, force: bool = False) 
     print(f"\nTermine: {updated} geocode(s), {skipped} ignore(s), {len(errors)} erreur(s)")
     print(f"Cache: {cache_path}")
     print(f"Erreurs: {errors_path}")
-
-
-def cell_value_safe(row: tuple, col_index: dict[str, int], column: str) -> str:
-    if column not in col_index:
-        return ""
-    idx = col_index[column]
-    if idx >= len(row):
-        return ""
-    return normalize_text(row[idx])
 
 
 def main() -> None:
