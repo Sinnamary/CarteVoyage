@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Icône CarteVoyage</title>
+  <desc id="desc">Icône simplifiée représentant une carte, un itinéraire et une épingle de localisation.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1f6f8b"/>
+      <stop offset="100%" stop-color="#27ae60"/>
+    </linearGradient>
+    <linearGradient id="pin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ff7a59"/>
+      <stop offset="100%" stop-color="#e74c3c"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="16" y="16" width="224" height="224" rx="52" fill="url(#bg)"/>
+
+  <!-- Carte simplifiée -->
+  <path d="M55 72 L96 59 L137 72 L178 59 Q194 54 194 71 L194 180 L137 197 L96 184 L55 197 Q42 201 42 185 L42 84 Q42 76 55 72 Z" fill="#ffffff" opacity="0.94"/>
+  <path d="M96 59 L96 184" stroke="#1f6f8b" stroke-width="6" stroke-opacity="0.25"/>
+  <path d="M137 72 L137 197" stroke="#1f6f8b" stroke-width="6" stroke-opacity="0.25"/>
+
+  <!-- Trajet -->
+  <path d="M67 158 C88 126 108 151 126 118 S161 93 178 112" fill="none" stroke="#27ae60" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="67" cy="158" r="8" fill="#3498db" stroke="#ffffff" stroke-width="4"/>
+  <circle cx="178" cy="112" r="8" fill="#9b59b6" stroke="#ffffff" stroke-width="4"/>
+
+  <!-- Pin -->
+  <path d="M128 48 C105 48 87 66 87 89 C87 121 128 165 128 165 C128 165 169 121 169 89 C169 66 151 48 128 48 Z" fill="url(#pin)" stroke="#ffffff" stroke-width="8"/>
+  <circle cx="128" cy="89" r="17" fill="#ffffff"/>
+</svg>

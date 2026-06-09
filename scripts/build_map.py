@@ -32,8 +32,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <body>
   <header class="app-header">
     <div class="header-content">
-      <h1>{heading}</h1>
-      <p class="subtitle">{subtitle}</p>
+      <img src="assets/img/logo-cartevoyage.png" alt="CarteVoyage" class="header-logo">
+      <div class="header-titles">
+        <h1>{heading}</h1>
+        <p class="subtitle">{subtitle}</p>
+      </div>
     </div>
   </header>
 

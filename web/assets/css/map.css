@@ -26,6 +26,21 @@ summary:focus-visible {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-logo {
+  height: 56px;
+  width: auto;
+  background: #fff;
+  border-radius: 8px;
+  padding: 4px 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
 .header-content h1 {
   margin: 0 0 0.25rem;
   font-size: 1.5rem;
@@ -517,6 +532,15 @@ summary:focus-visible {
     padding-top: max(0.75rem, env(safe-area-inset-top));
     padding-left: max(1rem, env(safe-area-inset-left));
     padding-right: max(1rem, env(safe-area-inset-right));
+  }
+
+  .header-content {
+    gap: 0.6rem;
+  }
+
+  .header-logo {
+    height: 40px;
+    padding: 3px 6px;
   }
 
   .header-content h1 {
