@@ -11,6 +11,14 @@ body {
   background: #f4f6f8;
 }
 
+button:focus-visible,
+input:focus-visible,
+a:focus-visible,
+summary:focus-visible {
+  outline: 2px solid #2e86c1;
+  outline-offset: 2px;
+}
+
 .app-header {
   background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
   color: #fff;
@@ -37,8 +45,8 @@ body {
 }
 
 .filters-panel {
-  width: 280px;
-  min-width: 240px;
+  width: 300px;
+  min-width: 250px;
   background: #fff;
   border-right: 1px solid #dde1e6;
   padding: 1rem;
@@ -54,19 +62,149 @@ body {
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #5a6a7a;
+  color: #51606f;
 }
 
 .filter-hint {
   margin: 0.5rem 0 0;
   font-size: 0.78rem;
   line-height: 1.35;
-  color: #5a6a7a;
+  color: #51606f;
 }
 
 .filter-section-trajets .filter-hint:first-of-type {
   margin-top: 0;
 }
+
+/* --- Pastilles de couleur (jours) --- */
+
+.day-swatch {
+  display: inline-block;
+  flex: 0 0 14px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+
+/* --- Filtres jours --- */
+
+.filter-day-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.filter-day-row > label {
+  flex: 1;
+  min-width: 0;
+}
+
+.filter-day-count {
+  margin-left: auto;
+  font-size: 0.72rem;
+  color: #6b7c8f;
+  white-space: nowrap;
+}
+
+.filter-day-only {
+  flex-shrink: 0;
+  border: 1px solid #c5d0db;
+  background: #fff;
+  color: #3d4f5f;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.filter-day-only:hover {
+  background: #ebf5fb;
+  border-color: #2e86c1;
+  color: #1a5276;
+}
+
+/* --- Liste des visites --- */
+
+.filter-visites-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-height: 240px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.visites-day-group {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fafbfc;
+  padding: 0.35rem 0.5rem 0.5rem;
+}
+
+.visites-day-group summary {
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #1f6fa8;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.visites-day-group summary::-webkit-details-marker {
+  display: none;
+}
+
+.visites-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-top: 0.45rem;
+}
+
+.visite-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 0.25rem 0.3rem;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.82rem;
+  color: #1a1a2e;
+}
+
+.visite-item:hover {
+  background: #ebf5fb;
+}
+
+.visite-num {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.7rem;
+}
+
+.visite-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --- Trajets --- */
 
 .trajets-actions {
   display: flex;
@@ -109,7 +247,7 @@ body {
   cursor: pointer;
   font-size: 0.88rem;
   font-weight: 600;
-  color: #2e86c1;
+  color: #1f6fa8;
   list-style: none;
   display: flex;
   align-items: center;
@@ -121,6 +259,14 @@ body {
   display: none;
 }
 
+.trajets-day-total {
+  margin-left: auto;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #51606f;
+  white-space: nowrap;
+}
+
 .trajets-day-toggle {
   border: none;
   background: #ebf5fb;
@@ -129,6 +275,7 @@ body {
   padding: 0.2rem 0.45rem;
   border-radius: 4px;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .trajets-day-toggle:hover {
@@ -169,13 +316,27 @@ body {
 
 .trajets-segment-label {
   display: block;
+  min-width: 0;
 }
 
 .trajets-segment-sub {
   display: block;
   font-size: 0.74rem;
-  color: #6b7c8f;
+  color: #51606f;
 }
+
+.trajets-segment-meta {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #1f6fa8;
+}
+
+.trajets-segment-meta:empty {
+  display: none;
+}
+
+/* --- Filtres generiques --- */
 
 .filter-group {
   display: flex;
@@ -212,6 +373,12 @@ body {
   background: #ebf5fb;
 }
 
+.btn-close-filters {
+  display: none;
+}
+
+/* --- Carte --- */
+
 .map-container {
   flex: 1;
   position: relative;
@@ -220,6 +387,43 @@ body {
 #map {
   width: 100%;
   height: 100%;
+}
+
+.map-message {
+  position: absolute;
+  left: 50%;
+  bottom: 1.25rem;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background: rgba(26, 26, 46, 0.88);
+  color: #fff;
+  font-size: 0.85rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  max-width: calc(100% - 2rem);
+  text-align: center;
+}
+
+.locate-button {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a5276;
+}
+
+.location-marker {
+  background: transparent;
+  border: none;
+}
+
+.location-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #2e86c1;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25), 0 2px 6px rgba(0, 0, 0, 0.35);
 }
 
 .numbered-marker {
@@ -244,6 +448,8 @@ body {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
 }
 
+/* --- Popups --- */
+
 .popup-content h3 {
   margin: 0 0 0.5rem;
   font-size: 1rem;
@@ -261,7 +467,7 @@ body {
 }
 
 .popup-content a {
-  color: #2e86c1;
+  color: #1f6fa8;
   word-break: break-all;
 }
 
@@ -273,6 +479,31 @@ body {
   background: #ebf5fb;
   color: #1a5276;
   margin-bottom: 0.5rem;
+}
+
+.popup-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.popup-nav-btn {
+  border: 1px solid #c5d0db;
+  background: #fff;
+  color: #1a5276;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.25rem 0.55rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.popup-nav-btn:hover {
+  background: #ebf5fb;
+  border-color: #2e86c1;
 }
 
 /* ——— Mobile / tablette ——— */
@@ -342,8 +573,8 @@ body {
     content: "";
     width: 0.5rem;
     height: 0.5rem;
-    border-right: 2px solid #5a6a7a;
-    border-bottom: 2px solid #5a6a7a;
+    border-right: 2px solid #51606f;
+    border-bottom: 2px solid #51606f;
     transform: rotate(45deg);
     transition: transform 0.2s;
     flex-shrink: 0;
@@ -354,7 +585,7 @@ body {
   }
 
   .filters-body {
-    max-height: 38vh;
+    max-height: 44vh;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     padding: 0.75rem 1rem 1rem;
@@ -375,9 +606,38 @@ body {
     flex-shrink: 0;
   }
 
+  .filter-day-only {
+    min-height: 36px;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.78rem;
+  }
+
+  .visite-item {
+    min-height: 40px;
+  }
+
   .btn-reset {
     min-height: 44px;
     margin-bottom: 0.25rem;
+  }
+
+  .btn-close-filters {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    margin-top: 0.5rem;
+    padding: 0.6rem;
+    border: none;
+    background: #2e86c1;
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .btn-close-filters:active {
+    background: #1a5276;
   }
 
   .map-container {
@@ -398,7 +658,8 @@ body {
     border-radius: 16px;
   }
 
-  .leaflet-control-zoom a {
+  .leaflet-control-zoom a,
+  .locate-button {
     width: 36px !important;
     height: 36px !important;
     line-height: 36px !important;
@@ -423,6 +684,10 @@ body {
   .popup-content .meta {
     font-size: 0.8rem;
   }
+
+  .popup-nav-btn {
+    min-height: 36px;
+  }
 }
 
 @media (min-width: 769px) {
@@ -442,7 +707,7 @@ body {
   }
 
   .filters-body {
-    max-height: 42vh;
+    max-height: 48vh;
   }
 
   .leaflet-popup-content {

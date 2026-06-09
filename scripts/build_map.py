@@ -46,6 +46,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             <h3>Jours</h3>
             <div id="filter-jours" class="filter-group"></div>
           </section>
+          <section class="filter-section">
+            <h3>Visites</h3>
+            <p class="filter-hint">Cliquez sur une visite pour la localiser sur la carte.</p>
+            <div id="filter-visites" class="filter-visites-list"></div>
+          </section>
           <section class="filter-section filter-section-trajets">
             <h3>Trajets a pied</h3>
             <p class="filter-hint">Cochez un ou plusieurs trajets entre visites consecutives du meme jour.</p>
@@ -56,6 +61,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             <p id="trajets-status" class="filter-hint" hidden></p>
           </section>
           <button type="button" id="btn-reset" class="btn-reset">Tout afficher</button>
+          <button type="button" id="btn-close-filters" class="btn-close-filters">Voir la carte</button>
         </div>
       </details>
     </aside>
