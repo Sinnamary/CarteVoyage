@@ -31,13 +31,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 </head>
 <body>
   <header class="app-header">
-    <div class="header-content">
-      <img src="assets/img/logo-cartevoyage.png" alt="CarteVoyage" class="header-logo">
-      <div class="header-titles">
-        <h1>{heading}</h1>
-        <p class="subtitle">{subtitle}</p>
-      </div>
-    </div>
+    <img src="assets/img/logo-cartevoyage.svg" alt="CarteVoyage" class="header-logo">
   </header>
 
   <div class="app-layout">
@@ -111,8 +105,6 @@ def build_html_pages(voyage_data: dict) -> None:
     (web_dir() / "index.html").write_text(
         HTML_TEMPLATE.format(
             title="Carte du voyage",
-            heading="Carte du voyage",
-            subtitle="Points de visite par jour",
             voyage_json=voyage_json,
         ),
         encoding="utf-8",
