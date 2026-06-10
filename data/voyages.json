@@ -52,12 +52,12 @@
       "popup": {
         "action": "Repas",
         "type": "Restaurant",
-        "billet": null,
+        "billet": "À faire",
         "prix": null,
         "city_card": null,
         "ouverture": "14h00",
         "fermeture": "15h00",
-        "remarque": null
+        "remarque": "Centre"
       }
     },
     {
@@ -75,12 +75,12 @@
       "popup": {
         "action": "Visite",
         "type": "Musée",
-        "billet": null,
+        "billet": "Non",
         "prix": null,
         "city_card": null,
         "ouverture": "16h00",
         "fermeture": "17h00",
-        "remarque": null
+        "remarque": "Centre"
       }
     },
     {
@@ -98,12 +98,12 @@
       "popup": {
         "action": "Visite",
         "type": "Monument",
-        "billet": null,
+        "billet": "Non",
         "prix": null,
         "city_card": null,
         "ouverture": "17h00",
         "fermeture": "18h00",
-        "remarque": null
+        "remarque": "Centre"
       }
     },
     {
@@ -112,6 +112,52 @@
       "ordre_label": "1.5",
       "jour": 1,
       "visite": 5,
+      "nom": "Peters Brauhaus Mühlengasse 1 · 50667 Cologne",
+      "ville": "Cologne",
+      "lat": 50.9393,
+      "lon": 6.9604019,
+      "lien": null,
+      "couleur": "#e74c3c",
+      "popup": {
+        "action": "Repas",
+        "type": "Restaurant",
+        "billet": "À faire",
+        "prix": null,
+        "city_card": null,
+        "ouverture": "19h00",
+        "fermeture": "20h00",
+        "remarque": "Centre"
+      }
+    },
+    {
+      "id": "1.6-8",
+      "ordre": 6,
+      "ordre_label": "1.6",
+      "jour": 1,
+      "visite": 6,
+      "nom": "Hotel Pullman Cologne",
+      "ville": "Cologne",
+      "lat": 50.9402013,
+      "lon": 6.9455643,
+      "lien": null,
+      "couleur": "#e74c3c",
+      "popup": {
+        "action": "Bar",
+        "type": "Hôtel",
+        "billet": "Non",
+        "prix": null,
+        "city_card": null,
+        "ouverture": "21h00",
+        "fermeture": "22h00",
+        "remarque": "Centre"
+      }
+    },
+    {
+      "id": "1.7-9",
+      "ordre": 7,
+      "ordre_label": "1.7",
+      "jour": 1,
+      "visite": 7,
       "nom": "Hotel Pullman Cologne",
       "ville": "Cologne",
       "lat": 50.9402013,
@@ -124,7 +170,7 @@
         "billet": "Oui",
         "prix": 0,
         "city_card": null,
-        "ouverture": "18h00",
+        "ouverture": "20h00",
         "fermeture": "00h00",
         "remarque": "Centre"
       }
@@ -167,7 +213,7 @@
       "popup": {
         "action": "Visite",
         "type": "Musée",
-        "billet": null,
+        "billet": "Non",
         "prix": null,
         "city_card": null,
         "ouverture": "10h00",
@@ -190,7 +236,7 @@
       "popup": {
         "action": "Visite",
         "type": "Musée",
-        "billet": null,
+        "billet": "Non",
         "prix": null,
         "city_card": null,
         "ouverture": "12h00",
@@ -240,17 +286,17 @@
         "prix": 0,
         "city_card": null,
         "ouverture": "00h00",
-        "fermeture": "10h00",
+        "fermeture": "07h00",
         "remarque": "Centre"
       }
     },
     {
-      "id": "3.3-5",
-      "ordre": 3,
-      "ordre_label": "3.3",
+      "id": "3.4-6",
+      "ordre": 4,
+      "ordre_label": "3.4",
       "jour": 3,
-      "visite": 3,
-      "nom": "Les grands canaux",
+      "visite": 4,
+      "nom": "Les grands canaux, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.371979,
       "lon": 4.8847268,
@@ -263,17 +309,17 @@
         "prix": 0,
         "city_card": null,
         "ouverture": "14h00",
-        "fermeture": null,
+        "fermeture": "14h30",
         "remarque": "Grachtengordel"
       }
     },
     {
-      "id": "3.4-6",
-      "ordre": 4,
-      "ordre_label": "3.4",
+      "id": "3.5-7",
+      "ordre": 5,
+      "ordre_label": "3.5",
       "jour": 3,
-      "visite": 4,
-      "nom": "Jordaan",
+      "visite": 5,
+      "nom": "Jordaan, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.3754157,
       "lon": 4.8810958,
@@ -285,17 +331,17 @@
         "billet": "Non",
         "prix": 0,
         "city_card": null,
-        "ouverture": null,
-        "fermeture": null,
+        "ouverture": "14h30",
+        "fermeture": "15h00",
         "remarque": "Jordaan"
       }
     },
     {
-      "id": "3.5-7",
-      "ordre": 5,
-      "ordre_label": "3.5",
+      "id": "3.6-8",
+      "ordre": 6,
+      "ordre_label": "3.6",
       "jour": 3,
-      "visite": 5,
+      "visite": 6,
       "nom": "De Bakkerswinkel, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.373869,
@@ -308,17 +354,17 @@
         "billet": "Non",
         "prix": null,
         "city_card": null,
-        "ouverture": null,
-        "fermeture": null,
+        "ouverture": "15h00",
+        "fermeture": "15h30",
         "remarque": "Jordaan"
       }
     },
     {
-      "id": "3.6-8",
-      "ordre": 6,
-      "ordre_label": "3.6",
+      "id": "3.7-9",
+      "ordre": 7,
+      "ordre_label": "3.7",
       "jour": 3,
-      "visite": 6,
+      "visite": 7,
       "nom": "Pompadour, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.3688825,
@@ -331,17 +377,17 @@
         "billet": "Non",
         "prix": null,
         "city_card": null,
-        "ouverture": null,
-        "fermeture": null,
-        "remarque": "Centrum"
+        "ouverture": "15h30",
+        "fermeture": "16h00",
+        "remarque": "Centre"
       }
     },
     {
-      "id": "3.7-9",
-      "ordre": 7,
-      "ordre_label": "3.7",
+      "id": "3.8-10",
+      "ordre": 8,
+      "ordre_label": "3.8",
       "jour": 3,
-      "visite": 7,
+      "visite": 8,
       "nom": "Begijnhof, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.3694314,
@@ -354,17 +400,17 @@
         "billet": "Non",
         "prix": 0,
         "city_card": null,
-        "ouverture": null,
-        "fermeture": null,
-        "remarque": "Centrum"
+        "ouverture": "16h30",
+        "fermeture": "17h00",
+        "remarque": "Centre"
       }
     },
     {
-      "id": "3.8-10",
-      "ordre": 8,
-      "ordre_label": "3.8",
+      "id": "3.9-11",
+      "ordre": 9,
+      "ordre_label": "3.9",
       "jour": 3,
-      "visite": 8,
+      "visite": 9,
       "nom": "Allard Pierson Museum, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.368944,
@@ -377,17 +423,17 @@
         "billet": "Oui",
         "prix": 15.5,
         "city_card": null,
-        "ouverture": null,
-        "fermeture": null,
-        "remarque": "Centrum"
+        "ouverture": "17h30",
+        "fermeture": "18h00",
+        "remarque": "Centre"
       }
     },
     {
-      "id": "3.9-11",
-      "ordre": 9,
-      "ordre_label": "3.9",
+      "id": "3.10-12",
+      "ordre": 10,
+      "ordre_label": "3.10",
       "jour": 3,
-      "visite": 9,
+      "visite": 10,
       "nom": "Het Grachtenhuis, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.3678921,
@@ -400,17 +446,17 @@
         "billet": "Oui",
         "prix": 17.5,
         "city_card": null,
-        "ouverture": null,
-        "fermeture": null,
-        "remarque": "Centrum"
+        "ouverture": "18h00",
+        "fermeture": "18h15",
+        "remarque": "Centre"
       }
     },
     {
-      "id": "3.10-12",
-      "ordre": 10,
-      "ordre_label": "3.10",
+      "id": "3.11-13",
+      "ordre": 11,
+      "ordre_label": "3.11",
       "jour": 3,
-      "visite": 10,
+      "visite": 11,
       "nom": "Anne Frank Huis, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.3751558,
@@ -423,17 +469,17 @@
         "billet": "Oui",
         "prix": 16,
         "city_card": null,
-        "ouverture": null,
-        "fermeture": null,
-        "remarque": "Centrum"
+        "ouverture": "18h15",
+        "fermeture": "18h30",
+        "remarque": "Centre"
       }
     },
     {
-      "id": "3.11-13",
-      "ordre": 11,
-      "ordre_label": "3.11",
+      "id": "3.12-14",
+      "ordre": 12,
+      "ordre_label": "3.12",
       "jour": 3,
-      "visite": 11,
+      "visite": 12,
       "nom": "Houseboat Museum, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.3701526,
@@ -446,17 +492,40 @@
         "billet": "Oui",
         "prix": 9.5,
         "city_card": null,
-        "ouverture": null,
-        "fermeture": null,
-        "remarque": "Centrum"
+        "ouverture": "18h30",
+        "fermeture": "19h00",
+        "remarque": "Centre"
       }
     },
     {
-      "id": "3.12-14",
-      "ordre": 12,
-      "ordre_label": "3.12",
+      "id": "3.13-15",
+      "ordre": 13,
+      "ordre_label": "3.13",
       "jour": 3,
-      "visite": 12,
+      "visite": 13,
+      "nom": "Bob W Amsterdam Noord, Amsterdam",
+      "ville": "Amsterdam",
+      "lat": 52.3549181,
+      "lon": 4.9284135,
+      "lien": null,
+      "couleur": "#3498db",
+      "popup": {
+        "action": "Repas",
+        "type": "Hôtel",
+        "billet": null,
+        "prix": null,
+        "city_card": null,
+        "ouverture": "19h00",
+        "fermeture": "20h00",
+        "remarque": null
+      }
+    },
+    {
+      "id": "3.14-16",
+      "ordre": 14,
+      "ordre_label": "3.14",
+      "jour": 3,
+      "visite": 14,
       "nom": "Bob W Amsterdam Noord, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.3549181,
@@ -465,13 +534,13 @@
       "couleur": "#3498db",
       "popup": {
         "action": "Hébergement",
-        "type": null,
+        "type": "Hôtel",
         "billet": null,
         "prix": null,
         "city_card": null,
-        "ouverture": "19h00",
+        "ouverture": "20h00",
         "fermeture": "00h00",
-        "remarque": null
+        "remarque": "Centre"
       }
     },
     {
@@ -492,8 +561,8 @@
         "billet": null,
         "prix": null,
         "city_card": null,
-        "ouverture": "19h00",
-        "fermeture": "00h00",
+        "ouverture": "00h00",
+        "fermeture": "09h00",
         "remarque": null
       }
     },
@@ -515,8 +584,8 @@
         "billet": "Non",
         "prix": null,
         "city_card": null,
-        "ouverture": "9h00",
-        "fermeture": null,
+        "ouverture": "09h00",
+        "fermeture": "09h30",
         "remarque": "Oud-Zuid"
       }
     },
@@ -538,8 +607,8 @@
         "billet": "Oui",
         "prix": 25,
         "city_card": null,
-        "ouverture": null,
-        "fermeture": null,
+        "ouverture": "09h30",
+        "fermeture": "10h00",
         "remarque": "Museumplein"
       }
     },
@@ -561,17 +630,17 @@
         "billet": "Oui",
         "prix": 24,
         "city_card": null,
-        "ouverture": null,
-        "fermeture": null,
+        "ouverture": "10h00",
+        "fermeture": "11h00",
         "remarque": "Museumplein"
       }
     },
     {
-      "id": "4.5-7",
-      "ordre": 5,
-      "ordre_label": "4.5",
+      "id": "4.6-8",
+      "ordre": 6,
+      "ordre_label": "4.6",
       "jour": 4,
-      "visite": 5,
+      "visite": 6,
       "nom": "Stedelijk Museum, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.3579003,
@@ -584,17 +653,17 @@
         "billet": "Oui",
         "prix": 22.5,
         "city_card": null,
-        "ouverture": null,
-        "fermeture": null,
+        "ouverture": "14h00",
+        "fermeture": "15h00",
         "remarque": "Museumplein"
       }
     },
     {
-      "id": "4.6-8",
-      "ordre": 6,
-      "ordre_label": "4.6",
+      "id": "4.7-9",
+      "ordre": 7,
+      "ordre_label": "4.7",
       "jour": 4,
-      "visite": 6,
+      "visite": 7,
       "nom": "Croisière sur les canaux",
       "ville": "Amsterdam",
       "lat": 52.3635339,
@@ -607,17 +676,17 @@
         "billet": "Oui",
         "prix": null,
         "city_card": null,
-        "ouverture": null,
-        "fermeture": null,
+        "ouverture": "15h00",
+        "fermeture": "17h00",
         "remarque": "Centrum"
       }
     },
     {
-      "id": "4.7-9",
-      "ordre": 7,
-      "ordre_label": "4.7",
+      "id": "4.8-10",
+      "ordre": 8,
+      "ordre_label": "4.8",
       "jour": 4,
-      "visite": 7,
+      "visite": 8,
       "nom": "Rudi's Original Stroopwafels, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.3558515,
@@ -630,17 +699,17 @@
         "billet": null,
         "prix": null,
         "city_card": null,
-        "ouverture": null,
-        "fermeture": null,
+        "ouverture": "17h00",
+        "fermeture": "18h00",
         "remarque": "Oost"
       }
     },
     {
-      "id": "4.8-10",
-      "ordre": 8,
-      "ordre_label": "4.8",
+      "id": "4.10-12",
+      "ordre": 10,
+      "ordre_label": "4.10",
       "jour": 4,
-      "visite": 8,
+      "visite": 10,
       "nom": "Bob W Amsterdam Noord, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.3549181,
@@ -672,12 +741,12 @@
       "couleur": "#e67e22",
       "popup": {
         "action": "Hébergement",
-        "type": null,
+        "type": "Hôtel",
         "billet": null,
         "prix": null,
         "city_card": null,
-        "ouverture": "19h00",
-        "fermeture": "00h00",
+        "ouverture": "00h00",
+        "fermeture": "07h00",
         "remarque": null
       }
     },
@@ -700,7 +769,7 @@
         "prix": null,
         "city_card": null,
         "ouverture": "9h00",
-        "fermeture": null,
+        "fermeture": "10h00",
         "remarque": "Jodenbuurt"
       }
     },
@@ -722,8 +791,8 @@
         "billet": "Oui",
         "prix": 21.5,
         "city_card": null,
-        "ouverture": null,
-        "fermeture": null,
+        "ouverture": "10h00",
+        "fermeture": "10h30",
         "remarque": "Jodenbuurt"
       }
     },
@@ -745,8 +814,8 @@
         "billet": "Oui",
         "prix": 30,
         "city_card": null,
-        "ouverture": null,
-        "fermeture": null,
+        "ouverture": "10h30",
+        "fermeture": "11h00",
         "remarque": "Plantage"
       }
     },
@@ -768,17 +837,17 @@
         "billet": "Oui",
         "prix": 30,
         "city_card": null,
-        "ouverture": null,
-        "fermeture": null,
+        "ouverture": "11h00",
+        "fermeture": "12h00",
         "remarque": "Plantage"
       }
     },
     {
-      "id": "5.6-8",
-      "ordre": 6,
-      "ordre_label": "5.6",
+      "id": "5.7-9",
+      "ordre": 7,
+      "ordre_label": "5.7",
       "jour": 5,
-      "visite": 6,
+      "visite": 7,
       "nom": "Amsterdam Museum, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.3704312,
@@ -791,17 +860,17 @@
         "billet": "Oui",
         "prix": 20,
         "city_card": null,
-        "ouverture": null,
-        "fermeture": null,
+        "ouverture": "14h00",
+        "fermeture": "14h30",
         "remarque": "Centrum"
       }
     },
     {
-      "id": "5.7-9",
-      "ordre": 7,
-      "ordre_label": "5.7",
+      "id": "5.8-10",
+      "ordre": 8,
+      "ordre_label": "5.8",
       "jour": 5,
-      "visite": 7,
+      "visite": 8,
       "nom": "Hortus Botanicus, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.366806,
@@ -814,17 +883,17 @@
         "billet": "Oui",
         "prix": 13.5,
         "city_card": null,
-        "ouverture": null,
-        "fermeture": null,
+        "ouverture": "14h30",
+        "fermeture": "15h00",
         "remarque": "Plantage"
       }
     },
     {
-      "id": "5.8-10",
-      "ordre": 8,
-      "ordre_label": "5.8",
+      "id": "5.9-11",
+      "ordre": 9,
+      "ordre_label": "5.9",
       "jour": 5,
-      "visite": 8,
+      "visite": 9,
       "nom": "Wereldmuseum, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.362688,
@@ -837,17 +906,17 @@
         "billet": "Oui",
         "prix": 20,
         "city_card": null,
-        "ouverture": null,
-        "fermeture": null,
+        "ouverture": "15h00",
+        "fermeture": "15h30",
         "remarque": "Oost"
       }
     },
     {
-      "id": "5.9-11",
-      "ordre": 9,
-      "ordre_label": "5.9",
+      "id": "5.10-12",
+      "ordre": 10,
+      "ordre_label": "5.10",
       "jour": 5,
-      "visite": 9,
+      "visite": 10,
       "nom": "ARTIS Micropia, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.3668906,
@@ -860,17 +929,17 @@
         "billet": "Oui",
         "prix": 17.5,
         "city_card": null,
-        "ouverture": null,
-        "fermeture": null,
+        "ouverture": "15h30",
+        "fermeture": "16h00",
         "remarque": "Plantage"
       }
     },
     {
-      "id": "5.10-12",
-      "ordre": 10,
-      "ordre_label": "5.10",
+      "id": "5.11-13",
+      "ordre": 11,
+      "ordre_label": "5.11",
       "jour": 5,
-      "visite": 10,
+      "visite": 11,
       "nom": "Verzetsmuseum, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.3678083,
@@ -883,17 +952,17 @@
         "billet": "Oui",
         "prix": 16,
         "city_card": null,
-        "ouverture": null,
-        "fermeture": null,
+        "ouverture": "16h00",
+        "fermeture": "16h30",
         "remarque": "Plantage"
       }
     },
     {
-      "id": "5.11-13",
-      "ordre": 11,
-      "ordre_label": "5.11",
+      "id": "5.12-14",
+      "ordre": 12,
+      "ordre_label": "5.12",
       "jour": 5,
-      "visite": 11,
+      "visite": 12,
       "nom": "Het Scheepvaartmuseum, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.372005,
@@ -906,17 +975,17 @@
         "billet": "Oui",
         "prix": 18.5,
         "city_card": null,
-        "ouverture": null,
-        "fermeture": null,
+        "ouverture": "16h30",
+        "fermeture": "17h00",
         "remarque": "Oost"
       }
     },
     {
-      "id": "5.12-14",
-      "ordre": 12,
-      "ordre_label": "5.12",
+      "id": "5.13-15",
+      "ordre": 13,
+      "ordre_label": "5.13",
       "jour": 5,
-      "visite": 12,
+      "visite": 13,
       "nom": "Oostelijk havengebied",
       "ville": "Amsterdam",
       "lat": 52.3518137,
@@ -929,17 +998,17 @@
         "billet": "Non",
         "prix": null,
         "city_card": null,
-        "ouverture": null,
-        "fermeture": null,
+        "ouverture": "17h00",
+        "fermeture": "17h30",
         "remarque": "Oost"
       }
     },
     {
-      "id": "5.13-15",
-      "ordre": 13,
-      "ordre_label": "5.13",
+      "id": "5.15-17",
+      "ordre": 15,
+      "ordre_label": "5.15",
       "jour": 5,
-      "visite": 13,
+      "visite": 15,
       "nom": "Bob W Amsterdam Noord, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.3549181,
@@ -948,11 +1017,11 @@
       "couleur": "#e67e22",
       "popup": {
         "action": "Hébergement",
-        "type": null,
+        "type": "Hôtel",
         "billet": null,
         "prix": null,
         "city_card": null,
-        "ouverture": "19h00",
+        "ouverture": "20h00",
         "fermeture": "00h00",
         "remarque": null
       }
@@ -1004,11 +1073,11 @@
       }
     },
     {
-      "id": "6.3-5",
-      "ordre": 3,
-      "ordre_label": "6.3",
+      "id": "6.5-7",
+      "ordre": 5,
+      "ordre_label": "6.5",
       "jour": 6,
-      "visite": 3,
+      "visite": 5,
       "nom": "Bob W Amsterdam Noord, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.3549181,
@@ -1050,11 +1119,11 @@
       }
     },
     {
-      "id": "7.2-4",
-      "ordre": 2,
-      "ordre_label": "7.2",
+      "id": "7.4-6",
+      "ordre": 4,
+      "ordre_label": "7.4",
       "jour": 7,
-      "visite": 2,
+      "visite": 4,
       "nom": "Bob W Amsterdam Noord, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.3549181,
@@ -1096,13 +1165,13 @@
       }
     },
     {
-      "id": "8.3-5",
-      "ordre": 3,
-      "ordre_label": "8.3",
+      "id": "8.5-7",
+      "ordre": 5,
+      "ordre_label": "8.5",
       "jour": 8,
-      "visite": 3,
+      "visite": 5,
       "nom": "Ennevelin",
-      "ville": "Ennevelin",
+      "ville": "Lille",
       "lat": 50.5397188,
       "lon": 3.1258883,
       "lien": null,
@@ -1125,7 +1194,7 @@
       "jour": 9,
       "visite": 1,
       "nom": "Ennevelin",
-      "ville": "Ennevelin",
+      "ville": "Lille",
       "lat": 50.5397188,
       "lon": 3.1258883,
       "lien": null,
@@ -1142,11 +1211,11 @@
       }
     },
     {
-      "id": "9.2-4",
-      "ordre": 2,
-      "ordre_label": "9.2",
+      "id": "9.3-5",
+      "ordre": 3,
+      "ordre_label": "9.3",
       "jour": 9,
-      "visite": 2,
+      "visite": 3,
       "nom": "Vieille Bourse de Lille",
       "ville": "Lille",
       "lat": 47.5490251,
@@ -1165,13 +1234,13 @@
       }
     },
     {
-      "id": "9.3-5",
-      "ordre": 3,
-      "ordre_label": "9.3",
+      "id": "9.5-7",
+      "ordre": 5,
+      "ordre_label": "9.5",
       "jour": 9,
-      "visite": 3,
+      "visite": 5,
       "nom": "Ennevelin",
-      "ville": "Ennevelin",
+      "ville": "Lille",
       "lat": 50.5397188,
       "lon": 3.1258883,
       "lien": null,
@@ -1182,7 +1251,7 @@
         "billet": null,
         "prix": null,
         "city_card": null,
-        "ouverture": "19h00",
+        "ouverture": "21h00",
         "fermeture": "00h00",
         "remarque": null
       }
@@ -1205,17 +1274,17 @@
         "billet": null,
         "prix": null,
         "city_card": null,
-        "ouverture": "19h00",
-        "fermeture": "00h00",
+        "ouverture": "00h00",
+        "fermeture": "07h00",
         "remarque": null
       }
     },
     {
-      "id": "10.2-4",
-      "ordre": 2,
-      "ordre_label": "10.2",
+      "id": "10.4-6",
+      "ordre": 4,
+      "ordre_label": "10.4",
       "jour": 10,
-      "visite": 2,
+      "visite": 4,
       "nom": "Côte d'Opale",
       "ville": "Côte d'Opale",
       "lat": 50.7259,
@@ -1228,17 +1297,17 @@
         "billet": null,
         "prix": null,
         "city_card": null,
-        "ouverture": "10h00",
-        "fermeture": "12h00",
+        "ouverture": "14h00",
+        "fermeture": "16h00",
         "remarque": null
       }
     },
     {
-      "id": "10.3-5",
-      "ordre": 3,
-      "ordre_label": "10.3",
+      "id": "10.7-9",
+      "ordre": 7,
+      "ordre_label": "10.7",
       "jour": 10,
-      "visite": 3,
+      "visite": 7,
       "nom": "Ennevelin",
       "ville": "Ennevelin",
       "lat": 50.5397188,
@@ -1251,7 +1320,7 @@
         "billet": null,
         "prix": null,
         "city_card": null,
-        "ouverture": "19h00",
+        "ouverture": "20h00",
         "fermeture": "00h00",
         "remarque": null
       }
@@ -1274,17 +1343,17 @@
         "billet": null,
         "prix": null,
         "city_card": null,
-        "ouverture": "19h00",
-        "fermeture": "00h00",
+        "ouverture": "00h00",
+        "fermeture": "07h00",
         "remarque": null
       }
     },
     {
-      "id": "11.2-4",
-      "ordre": 2,
-      "ordre_label": "11.2",
+      "id": "11.4-6",
+      "ordre": 4,
+      "ordre_label": "11.4",
       "jour": 11,
-      "visite": 2,
+      "visite": 4,
       "nom": "Cap Gris-Nez",
       "ville": "Cap Gris-Nez",
       "lat": 50.8696997,
@@ -1297,17 +1366,17 @@
         "billet": null,
         "prix": null,
         "city_card": null,
-        "ouverture": "10h00",
-        "fermeture": "11h00",
+        "ouverture": "14h00",
+        "fermeture": "15h00",
         "remarque": null
       }
     },
     {
-      "id": "11.3-5",
-      "ordre": 3,
-      "ordre_label": "11.3",
+      "id": "11.7-9",
+      "ordre": 7,
+      "ordre_label": "11.7",
       "jour": 11,
-      "visite": 3,
+      "visite": 7,
       "nom": "Ennevelin",
       "ville": "Ennevelin",
       "lat": 50.5397188,
@@ -1320,7 +1389,7 @@
         "billet": null,
         "prix": null,
         "city_card": null,
-        "ouverture": "19h00",
+        "ouverture": "21h00",
         "fermeture": "00h00",
         "remarque": null
       }

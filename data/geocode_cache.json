@@ -388,5 +388,38 @@
     "lon": 1.584847,
     "source": "nominatim",
     "query": "Cap Gris-Nez France"
+  },
+  "query|de|Peters Brauhaus Mühlengasse 1 · 50667 Cologne": {
+    "lat": 50.9393,
+    "lon": 6.9604019,
+    "source": "nominatim"
+  },
+  "de|Peters Brauhaus Mühlengasse 1 · 50667 Cologne|Centre": {
+    "lat": 50.9393,
+    "lon": 6.9604019,
+    "source": "nominatim",
+    "query": "Peters Brauhaus Mühlengasse 1 · 50667 Cologne"
+  },
+  "query|de|Pullman Cologne Hotel": {
+    "lat": 50.9402013,
+    "lon": 6.9455643,
+    "source": "nominatim"
+  },
+  "de|Pullman Cologne Hotel|Centre": {
+    "lat": 50.9402013,
+    "lon": 6.9455643,
+    "source": "nominatim",
+    "query": "Pullman Cologne Hotel"
+  },
+  "query|nl|Bob W Amsterdam Noord Amsterdam": {
+    "lat": 52.3549181,
+    "lon": 4.9284135,
+    "source": "nominatim"
+  },
+  "nl|Bob W Amsterdam Noord Amsterdam|": {
+    "lat": 52.3549181,
+    "lon": 4.9284135,
+    "source": "nominatim",
+    "query": "Bob W Amsterdam Noord Amsterdam"
   }
 }
