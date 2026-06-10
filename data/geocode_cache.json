@@ -366,5 +366,27 @@
     "lon": 6.958138,
     "source": "nominatim",
     "query": "Kölner Dom"
+  },
+  "query|fr|Ennevelin": {
+    "lat": 50.5397188,
+    "lon": 3.1258883,
+    "source": "nominatim"
+  },
+  "fr|Ennevelin|": {
+    "lat": 50.5397188,
+    "lon": 3.1258883,
+    "source": "nominatim",
+    "query": "Ennevelin"
+  },
+  "query|fr|Cap Gris-Nez France": {
+    "lat": 50.8696997,
+    "lon": 1.584847,
+    "source": "nominatim"
+  },
+  "fr|Cap Gris-Nez France|": {
+    "lat": 50.8696997,
+    "lon": 1.584847,
+    "source": "nominatim",
+    "query": "Cap Gris-Nez France"
   }
 }
