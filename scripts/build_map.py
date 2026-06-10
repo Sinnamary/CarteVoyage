@@ -44,6 +44,14 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             <h3>Jours</h3>
             <div id="filter-jours" class="filter-group"></div>
           </section>
+          <section class="filter-section filter-section-map">
+            <h3>Carte</h3>
+            <label class="map-view-toggle" for="toggle-exclude-car">
+              <input type="checkbox" id="toggle-exclude-car" checked>
+              Centrer sur les activites du jour
+            </label>
+            <p class="filter-hint">Masque les trajets voiture et les points de transport inter-villes.</p>
+          </section>
           <section class="filter-section">
             <h3>Visites</h3>
             <p class="filter-hint">Cliquez sur une visite pour la localiser sur la carte.</p>

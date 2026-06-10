@@ -189,6 +189,16 @@ summary:focus-visible {
   background: #ebf5fb;
 }
 
+.visite-item.is-car-hidden,
+.visite-item:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.visite-item:disabled:hover {
+  background: transparent;
+}
+
 .visite-num {
   flex-shrink: 0;
   display: inline-flex;
@@ -215,6 +225,26 @@ summary:focus-visible {
   display: flex;
   gap: 0.5rem;
   margin: 0.5rem 0 0.75rem;
+}
+
+.map-view-toggle {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  margin: 0.15rem 0 0.35rem;
+  font-size: 0.82rem;
+  color: #3d4f5f;
+  line-height: 1.35;
+  cursor: pointer;
+}
+
+.map-view-toggle input {
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+}
+
+.filter-section-map .filter-hint {
+  margin-top: 0;
 }
 
 .btn-secondary {
@@ -312,6 +342,10 @@ summary:focus-visible {
   border-radius: 3px;
   border: 1px solid rgba(0, 0, 0, 0.15);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+
+.trajets-segments label.is-car-hidden {
+  opacity: 0.55;
 }
 
 .trajets-segments label.is-disabled {

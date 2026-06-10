@@ -271,7 +271,18 @@
   const filterState = {
     jours: new Set(allJours),
     segments: new Set(),
+    excludeCarRoutes: true,
   };
+
+  function isCarSegment(segment) {
+    return segment.mode === "car";
+  }
+
+  function displayedSegments(segments) {
+    const list = segments || selectedSegments();
+    if (!filterState.excludeCarRoutes) return list;
+    return list.filter(function (segment) { return !isCarSegment(segment); });
+  }
 
   function writeStateToHash() {
     const parts = [];
@@ -282,6 +293,9 @@
     }
     if (filterState.segments.size > 0) {
       parts.push("t=" + Array.from(filterState.segments).map(encodeURIComponent).join("!"));
+    }
+    if (!filterState.excludeCarRoutes) {
+      parts.push("c=0");
     }
     const hash = parts.length ? "#" + parts.join("&") : "";
     if (window.history.replaceState) {
@@ -308,13 +322,27 @@
           try { id = decodeURIComponent(raw); } catch (e) { /* hash invalide, ignore */ }
           if (segmentsById.has(id)) filterState.segments.add(id);
         });
+      } else if (key === "c" && value === "0") {
+        filterState.excludeCarRoutes = false;
       }
     });
+  }
+
+  function pointHiddenByCarFilter(point) {
+    if (!filterState.excludeCarRoutes) return false;
+    if (isTransportPoint(point)) return true;
+    const segments = allSegments.filter(function (segment) {
+      return segment.jour === String(point.jour)
+        && (segment.from.id === point.id || segment.to.id === point.id);
+    });
+    if (!segments.length) return false;
+    return segments.every(function (segment) { return isCarSegment(segment); });
   }
 
   function pointVisible(point) {
     const jourKey = point.jour != null ? String(point.jour) : null;
     if (jourKey && filterState.jours.size > 0 && !filterState.jours.has(jourKey)) return false;
+    if (pointHiddenByCarFilter(point)) return false;
     return true;
   }
 
@@ -546,17 +574,20 @@
   function updateDayTotals() {
     dayTotalEls.forEach(function (el, jourKey) {
       const checked = allSegments.filter(function (segment) {
-        return segment.jour === jourKey && filterState.segments.has(segment.id) && segmentAvailable(segment);
+        return segment.jour === jourKey
+          && filterState.segments.has(segment.id)
+          && segmentAvailable(segment);
       });
-      if (!checked.length) {
-        el.textContent = "";
+      const visible = displayedSegments(checked);
+      if (!visible.length) {
+        el.textContent = checked.length ? "—" : "";
         return;
       }
       let distance = 0;
       let duration = 0;
       let hasDuration = false;
       let missing = false;
-      checked.forEach(function (segment) {
+      visible.forEach(function (segment) {
         const route = routeCache.get(routeCacheKey(segment.from, segment.to, segment.mode));
         if (!route) {
           missing = true;
@@ -583,6 +614,7 @@
     routeLayer.clearLayers();
 
     const segments = selectedSegments();
+    const drawnSegments = displayedSegments(segments);
     if (!segments.length) {
       setTrajetsStatus("", false);
       updateDayTotals();
@@ -627,10 +659,12 @@
 
     const routeLatLngs = [];
     let fallbackCount = 0;
+    const drawnIds = new Set(drawnSegments.map(function (segment) { return segment.id; }));
 
     segments.forEach(function (segment, i) {
       const route = results[i];
       if (!route) return;
+      if (!drawnIds.has(segment.id)) return;
       if (route.fallback) fallbackCount += 1;
 
       const isCar = segment.mode === "car";
@@ -668,14 +702,31 @@
 
     updateDayTotals();
 
-    let statusText = segments.length === 1 ? "1 trajet affiché" : segments.length + " trajets affichés";
+    const hiddenCarCount = segments.length - drawnSegments.length;
+    let statusText;
+    if (!drawnSegments.length) {
+      statusText = hiddenCarCount > 0
+        ? "Trajets voiture masqués — carte centrée sur les activités"
+        : "Aucun trajet affiché";
+    } else {
+      statusText = drawnSegments.length === 1
+        ? "1 trajet affiché"
+        : drawnSegments.length + " trajets affichés";
+      if (hiddenCarCount > 0) {
+        statusText += " (" + hiddenCarCount + " trajet(s) voiture masqué(s))";
+      }
+    }
     if (fallbackCount > 0) {
       statusText += " (dont " + fallbackCount + " approximatif" + (fallbackCount > 1 ? "s" : "") + ")";
     }
     setTrajetsStatus(statusText + ".", true);
 
     if (zoomToSelection) {
-      fitToLatLngs(routeLatLngs, true);
+      if (routeLatLngs.length > 0) {
+        fitToLatLngs(routeLatLngs, true);
+      } else {
+        fitToVisibleMarkers(true);
+      }
     }
   }
 
@@ -684,10 +735,37 @@
       const daySegments = allSegments.filter(function (segment) {
         return segment.jour === jourKey && segmentAvailable(segment);
       });
-      const allChecked = daySegments.length > 0 && daySegments.every(function (segment) {
+      const targetSegments = filterState.excludeCarRoutes
+        ? daySegments.filter(function (segment) { return !isCarSegment(segment); })
+        : daySegments;
+      const allChecked = targetSegments.length > 0 && targetSegments.every(function (segment) {
         return filterState.segments.has(segment.id);
       });
       button.textContent = allChecked ? "Tout décocher" : "Tout cocher";
+    });
+  }
+
+  function syncVisitesCarFilter() {
+    document.querySelectorAll(".visite-item[data-point-id]").forEach(function (btn) {
+      const marker = markersByPointId.get(btn.getAttribute("data-point-id"));
+      if (!marker) return;
+      const point = marker.pointData;
+      const jourKey = String(point.jour);
+      const jourHidden = filterState.jours.size > 0 && !filterState.jours.has(jourKey);
+      const carHidden = pointHiddenByCarFilter(point);
+      btn.classList.toggle("is-car-hidden", !jourHidden && carHidden);
+      btn.disabled = carHidden;
+    });
+  }
+
+  function syncCarSegmentStyles() {
+    segmentInputs.forEach(function (input, segmentId) {
+      const segment = segmentsById.get(segmentId);
+      if (!segment || !input.parentElement) return;
+      const hidden = filterState.excludeCarRoutes
+        && isCarSegment(segment)
+        && filterState.segments.has(segmentId);
+      input.parentElement.classList.toggle("is-car-hidden", hidden);
     });
   }
 
@@ -704,6 +782,7 @@
         filterState.segments.delete(segmentId);
       }
     });
+    syncCarSegmentStyles();
     refreshDayToggleLabels();
   }
 
@@ -719,6 +798,7 @@
     });
 
     syncSegmentInputs();
+    syncVisitesCarFilter();
 
     if (zoomToMarkers) {
       fitToVisibleMarkers(true);
@@ -743,6 +823,7 @@
     refreshDayToggleLabels();
     writeStateToHash();
     refreshRoutes(zoomToSelection);
+    syncCarSegmentStyles();
   }
 
   function setDaySegments(jourKey, checked) {
@@ -751,6 +832,7 @@
     });
 
     daySegments.forEach(function (segment) {
+      if (checked && filterState.excludeCarRoutes && isCarSegment(segment)) return;
       if (checked) filterState.segments.add(segment.id);
       else filterState.segments.delete(segment.id);
 
@@ -969,6 +1051,7 @@
           const btn = document.createElement("button");
           btn.type = "button";
           btn.className = "visite-item";
+          btn.dataset.pointId = point.id;
           btn.title = "Centrer la carte sur " + point.nom;
 
           const num = document.createElement("span");
@@ -1091,8 +1174,12 @@
 
   /* ---------- Boutons globaux ---------- */
 
+  const excludeCarToggle = document.getElementById("toggle-exclude-car");
+
   document.getElementById("btn-reset").addEventListener("click", function () {
     filterState.jours = new Set(allJours);
+    filterState.excludeCarRoutes = true;
+    if (excludeCarToggle) excludeCarToggle.checked = true;
     clearAllSegments();
     syncDayCheckboxes();
     writeStateToHash();
@@ -1104,14 +1191,29 @@
     fitToVisibleMarkers(true);
   });
 
+  if (excludeCarToggle) {
+    excludeCarToggle.checked = filterState.excludeCarRoutes;
+    excludeCarToggle.addEventListener("change", function () {
+      filterState.excludeCarRoutes = excludeCarToggle.checked;
+      syncCarSegmentStyles();
+      syncVisitesCarFilter();
+      writeStateToHash();
+      refreshMarkers(true);
+    });
+  }
+
   /* ---------- Initialisation ---------- */
 
   readStateFromHash();
   buildFilters();
   syncSegmentInputs();
+  syncCarSegmentStyles();
+  syncVisitesCarFilter();
+  refreshMarkers(false);
 
   if (filterState.jours.size < allJours.length) {
-    refreshMarkers(false);
+    fitToVisibleMarkers(false);
+  } else if (filterState.excludeCarRoutes) {
     fitToVisibleMarkers(false);
   }
   if (filterState.segments.size > 0) {
