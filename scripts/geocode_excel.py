@@ -31,6 +31,7 @@ REQUEST_DELAY = 1.1
 
 MANUAL_COORDS = {
     "joods historisch museum": (52.367015, 4.903445),
+    "Allard Pierson": (52.368944, 4.892944),
 }
 
 NAME_ALIASES = {
@@ -45,6 +46,7 @@ NAME_ALIASES = {
     "Balade dans l'ancien quartier juif": "Jodenbreestraat Amsterdam",
     "Les grands canaux": "Herengracht Amsterdam",
     "Tour A'DAM": "A'DAM Lookout Amsterdam",
+    "Allard Pierson": "Allard Pierson Museum Amsterdam",
 }
 
 COUNTRY_BY_VILLE: dict[str, str] = {

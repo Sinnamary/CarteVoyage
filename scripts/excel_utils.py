@@ -255,6 +255,7 @@ def row_to_point(item: dict[str, Any]) -> dict[str, Any] | None:
         "jour": jour,
         "visite": visite,
         "nom": item["nom"],
+        "ville": field("Ville"),
         "lat": lat,
         "lon": lon,
         "lien": url,

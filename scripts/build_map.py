@@ -50,8 +50,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             <div id="filter-visites" class="filter-visites-list"></div>
           </section>
           <section class="filter-section filter-section-trajets">
-            <h3>Trajets a pied</h3>
-            <p class="filter-hint">Cochez un ou plusieurs trajets entre visites consecutives du meme jour.</p>
+            <h3>Trajets</h3>
+            <p class="filter-hint">Cochez un ou plusieurs trajets entre visites consecutives du meme jour (a pied en ville, en voiture si changement de ville, transport ou plus de 5 km).</p>
             <div class="trajets-actions">
               <button type="button" id="btn-trajets-clear" class="btn-secondary">Effacer les trajets</button>
             </div>

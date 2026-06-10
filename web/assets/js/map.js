@@ -2,10 +2,18 @@
   "use strict";
 
   const data = window.VOYAGE_DATA;
-  const OSRM_SERVERS = [
-    "https://routing.openstreetmap.de/routed-foot/route/v1/foot",
-    "https://router.project-osrm.org/route/v1/foot",
-  ];
+  const OSRM_SERVERS = {
+    foot: [
+      "https://routing.openstreetmap.de/routed-foot/route/v1/foot",
+      "https://router.project-osrm.org/route/v1/foot",
+    ],
+    car: [
+      "https://routing.openstreetmap.de/routed-car/route/v1/car",
+      "https://router.project-osrm.org/route/v1/driving",
+    ],
+  };
+  // Au-delà de cette distance a vol d'oiseau, le trajet est calcule en voiture.
+  const WALKING_MAX_AIR_DISTANCE_M = 5000;
   const ROUTE_DELAY_MS = 100;
   // Nombre de requetes OSRM simultanees (reste courtois envers les serveurs publics).
   const ROUTE_CONCURRENCY = 3;
@@ -323,11 +331,13 @@
         for (let i = 0; i < points.length - 1; i += 1) {
           const from = points[i];
           const to = points[i + 1];
+          const mode = segmentTravelMode(from, to);
           segments.push({
             id: jourKey + ":" + from.id + ":" + to.id,
             jour: jourKey,
             from: from,
             to: to,
+            mode: mode,
             label: markerLabel(from) + " → " + markerLabel(to),
             subtitle: shortName(from.nom) + " → " + shortName(to.nom),
             routeColor: ROUTE_COLORS[colorIndex % ROUTE_COLORS.length],
@@ -356,8 +366,34 @@
 
   /* ---------- Calcul d'itineraires (OSRM) ---------- */
 
-  function routeCacheKey(from, to) {
-    return from.id + "->" + to.id;
+  function normalizeVille(ville) {
+    if (ville == null || ville === "") return "";
+    return String(ville).trim().toLowerCase();
+  }
+
+  function isTransportPoint(point) {
+    const action = point.popup && point.popup.action;
+    return action != null && String(action).trim().toLowerCase() === "transport";
+  }
+
+  function segmentTravelMode(from, to) {
+    if (isTransportPoint(from) || isTransportPoint(to)) return "car";
+
+    const villeFrom = normalizeVille(from.ville);
+    const villeTo = normalizeVille(to.ville);
+    if (villeFrom && villeTo && villeFrom !== villeTo) return "car";
+
+    if (airDistanceMeters(from, to) > WALKING_MAX_AIR_DISTANCE_M) return "car";
+
+    return "foot";
+  }
+
+  function travelModeLabel(mode) {
+    return mode === "car" ? "en voiture" : "à pied";
+  }
+
+  function routeCacheKey(from, to, mode) {
+    return mode + ":" + from.id + "->" + to.id;
   }
 
   function sleep(ms) {
@@ -391,7 +427,7 @@
     return 6371000 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   }
 
-  async function fetchRouteFromServer(baseUrl, from, to) {
+  async function fetchRouteFromServer(baseUrl, from, to, mode) {
     const url = baseUrl + "/" + from.lon + "," + from.lat + ";" + to.lon + "," + to.lat
       + "?overview=full&geometries=geojson";
     const response = await fetch(url);
@@ -403,37 +439,43 @@
     const route = payload.routes[0];
     const latlngs = decodeRouteGeometry(route.geometry);
     if (!latlngs.length) throw new Error("geometrie vide");
+    const isCar = mode === "car";
+    const osmDe = baseUrl.includes("openstreetmap.de");
     return {
       latlngs: latlngs,
       fallback: false,
       distance: route.distance,
       duration: route.duration,
-      source: baseUrl.includes("openstreetmap.de") ? "piéton (OSM DE)" : "piéton (OSRM)",
+      mode: mode,
+      source: isCar
+        ? (osmDe ? "voiture (OSM DE)" : "voiture (OSRM)")
+        : (osmDe ? "piéton (OSM DE)" : "piéton (OSRM)"),
     };
   }
 
-  async function fetchRouteGeometry(from, to) {
-    const cacheKey = routeCacheKey(from, to);
+  async function fetchRouteGeometry(from, to, mode) {
+    const cacheKey = routeCacheKey(from, to, mode);
     if (routeCache.has(cacheKey)) {
       return routeCache.get(cacheKey);
     }
 
     const airDist = airDistanceMeters(from, to);
+    const servers = OSRM_SERVERS[mode] || OSRM_SERVERS.foot;
     let bestRoute = null;
 
-    for (let i = 0; i < OSRM_SERVERS.length; i += 1) {
+    for (let i = 0; i < servers.length; i += 1) {
       try {
-        const candidate = await fetchRouteFromServer(OSRM_SERVERS[i], from, to);
+        const candidate = await fetchRouteFromServer(servers[i], from, to, mode);
         if (!bestRoute || candidate.distance < bestRoute.distance) {
           bestRoute = candidate;
         }
         if (candidate.distance <= airDist * 1.8) break;
       } catch (error) {
-        console.warn("Route serveur", OSRM_SERVERS[i], from.ordre_label, "->", to.ordre_label, error);
+        console.warn("Route serveur", servers[i], from.ordre_label, "->", to.ordre_label, error);
       }
     }
 
-    if (bestRoute && bestRoute.distance > airDist * 2.5 && airDist < 1200) {
+    if (mode === "foot" && bestRoute && bestRoute.distance > airDist * 2.5 && airDist < 1200) {
       console.warn(
         "Trajet piéton long vs distance directe",
         from.ordre_label,
@@ -453,7 +495,8 @@
       latlngs: straightLine(from, to),
       fallback: true,
       distance: airDist,
-      duration: null,
+      duration: mode === "car" ? Math.round(airDist / 22) : null,
+      mode: mode,
       source: "ligne droite",
     };
     routeCache.set(cacheKey, fallback);
@@ -489,7 +532,7 @@
   function updateSegmentMeta(segment) {
     const el = segmentMetaEls.get(segment.id);
     if (!el) return;
-    const route = routeCache.get(routeCacheKey(segment.from, segment.to));
+    const route = routeCache.get(routeCacheKey(segment.from, segment.to, segment.mode));
     if (!route) return;
     if (route.fallback) {
       el.textContent = "≈ " + formatDistance(route.distance) + " (ligne droite)";
@@ -514,7 +557,7 @@
       let hasDuration = false;
       let missing = false;
       checked.forEach(function (segment) {
-        const route = routeCache.get(routeCacheKey(segment.from, segment.to));
+        const route = routeCache.get(routeCacheKey(segment.from, segment.to, segment.mode));
         if (!route) {
           missing = true;
           return;
@@ -546,7 +589,7 @@
       return;
     }
 
-    setTrajetsStatus("Calcul de " + segments.length + " trajet(s) à pied…", true);
+    setTrajetsStatus("Calcul de " + segments.length + " trajet(s)…", true);
 
     // Requetes en parallele limite, pour rester rapide sans surcharger OSRM.
     const results = new Array(segments.length);
@@ -560,7 +603,7 @@
         if (requestId !== routeRequestId) return;
 
         const segment = segments[i];
-        results[i] = await fetchRouteGeometry(segment.from, segment.to);
+        results[i] = await fetchRouteGeometry(segment.from, segment.to, segment.mode);
         done += 1;
 
         if (requestId !== routeRequestId) return;
@@ -590,18 +633,22 @@
       if (!route) return;
       if (route.fallback) fallbackCount += 1;
 
+      const isCar = segment.mode === "car";
       const polyline = L.polyline(route.latlngs, {
         color: segment.routeColor,
-        weight: route.fallback ? 3 : 5,
+        weight: route.fallback ? 3 : (isCar ? 4 : 5),
         opacity: route.fallback ? 0.5 : 0.85,
-        dashArray: route.fallback ? "8 8" : null,
+        dashArray: route.fallback ? "8 8" : (isCar ? "10 6" : null),
         lineJoin: "round",
         lineCap: "round",
       });
 
       const distanceText = formatDistance(route.distance);
       const durationText = formatDuration(route.duration);
-      const metaParts = [route.fallback ? "Trajet approximatif (ligne droite)" : "Trajet à pied (" + route.source + ")"];
+      const modeText = travelModeLabel(segment.mode);
+      const metaParts = [route.fallback
+        ? "Trajet approximatif (ligne droite, " + modeText + ")"
+        : "Trajet " + modeText + " (" + route.source + ")"];
       if (distanceText) metaParts.push(distanceText);
       if (durationText) metaParts.push(durationText);
 
@@ -1015,7 +1062,7 @@
           strong.textContent = segment.label;
           const sub = document.createElement("span");
           sub.className = "trajets-segment-sub";
-          sub.textContent = segment.subtitle;
+          sub.textContent = segment.subtitle + " · " + travelModeLabel(segment.mode);
           const meta = document.createElement("span");
           meta.className = "trajets-segment-meta";
           segmentMetaEls.set(segment.id, meta);

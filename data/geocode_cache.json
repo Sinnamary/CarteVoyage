@@ -99,15 +99,20 @@
     "query": "Begijnhof"
   },
   "query|nl|Allard Pierson": {
-    "lat": 51.9198559,
-    "lon": 4.442758,
-    "source": "nominatim"
+    "lat": 52.368944,
+    "lon": 4.892944,
+    "source": "manual"
+  },
+  "query|nl|Allard Pierson Museum Amsterdam": {
+    "lat": 52.368944,
+    "lon": 4.892944,
+    "source": "manual"
   },
   "nl|Allard Pierson|Centrum": {
-    "lat": 51.9198559,
-    "lon": 4.442758,
-    "source": "nominatim",
-    "query": "Allard Pierson"
+    "lat": 52.368944,
+    "lon": 4.892944,
+    "source": "manual",
+    "query": "Allard Pierson Museum Amsterdam"
   },
   "query|nl|Het Grachtenhuis": {
     "lat": 52.3678921,
