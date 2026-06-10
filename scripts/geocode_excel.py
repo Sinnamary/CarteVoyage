@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Géocode les lieux du fichier Excel et remplit Latitude/Longitude."""
+"""Géocode les lieux du classeur de planning et remplit Latitude/Longitude."""
 
 from __future__ import annotations
 
@@ -16,20 +16,18 @@ from excel_utils import (
     backup_excel,
     cell_value,
     data_dir,
+    day_sheets,
     default_excel_path,
     ensure_map_columns,
-    find_header_row,
     has_coordinates,
-    is_activity_sheet,
     iter_activity_rows,
     normalize_text,
+    ville_for_row,
 )
 
 NOMINATIM_URL = "https://nominatim.openstreetmap.org/search"
 USER_AGENT = "CarteVoyage/1.0 (voyage planning map)"
 REQUEST_DELAY = 1.1
-
-DEFAULT_COUNTRY = "nl"
 
 MANUAL_COORDS = {
     "joods historisch museum": (52.367015, 4.903445),
@@ -39,7 +37,7 @@ NAME_ALIASES = {
     "Het Bejinhof": "Begijnhof Amsterdam",
     "Risjkmuseum": "Rijksmuseum Amsterdam",
     "Rembrandhuis": "Museum Rembrandthuis Amsterdam",
-    # "joods historisch museum" est gere via MANUAL_COORDS.
+    "Joods Historisch Museum": "Joods Historisch Museum Amsterdam",
     "Verzetmuseum": "Verzetsmuseum Amsterdam",
     "Het Scheepvaart Museum": "Het Scheepvaartmuseum Amsterdam",
     "Croisière sur les canaux": "Amsterdam canal cruise",
@@ -47,6 +45,20 @@ NAME_ALIASES = {
     "Balade dans l'ancien quartier juif": "Jodenbreestraat Amsterdam",
     "Les grands canaux": "Herengracht Amsterdam",
     "Tour A'DAM": "A'DAM Lookout Amsterdam",
+}
+
+COUNTRY_BY_VILLE: dict[str, str] = {
+    "amsterdam": "nl",
+    "cologne": "de",
+    "köln": "de",
+    "lille": "fr",
+    "strasbourg": "fr",
+    "ennevelin": "fr",
+}
+
+NOM_ALIASES_BY_VILLE: dict[tuple[str, str], str] = {
+    ("cathédrale", "cologne"): "Kölner Dom",
+    ("cathédrale", "köln"): "Kölner Dom",
 }
 
 
@@ -62,6 +74,15 @@ def save_cache(cache_path: Path, cache: dict) -> None:
 
 def resolve_nom(nom: str) -> str:
     return NAME_ALIASES.get(nom, nom)
+
+
+def resolve_nom_for_ville(nom: str, ville: str) -> str:
+    key = (normalize_text(nom).lower(), normalize_text(ville).lower())
+    return NOM_ALIASES_BY_VILLE.get(key, resolve_nom(nom))
+
+
+def country_for_ville(ville: str) -> str:
+    return COUNTRY_BY_VILLE.get(ville.strip().lower(), "nl")
 
 
 def build_queries(nom: str, remarque: str, action: str = "") -> list[str]:
@@ -84,14 +105,13 @@ def build_queries(nom: str, remarque: str, action: str = "") -> list[str]:
     return unique
 
 
-def nominatim_search(query: str) -> tuple[float, float] | None:
-    params: dict = {
+def nominatim_search(query: str, country: str) -> tuple[float, float] | None:
+    params = {
         "q": query,
         "format": "json",
         "limit": 1,
-        "countrycodes": DEFAULT_COUNTRY,
+        "countrycodes": country,
     }
-
     response = requests.get(
         NOMINATIM_URL,
         params=params,
@@ -106,19 +126,27 @@ def nominatim_search(query: str) -> tuple[float, float] | None:
 
 
 def geocode_place(
-    nom: str, remarque: str, cache: dict, action: str = "", use_cache: bool = True
+    nom: str,
+    remarque: str,
+    cache: dict,
+    country: str,
+    action: str = "",
+    use_cache: bool = True,
+    ville: str = "",
 ) -> tuple[float, float] | None:
-    if nom in MANUAL_COORDS:
-        lat, lon = MANUAL_COORDS[nom]
-        return lat, lon
+    search_nom = resolve_nom_for_ville(nom, ville)
+    if search_nom in MANUAL_COORDS:
+        return MANUAL_COORDS[search_nom]
+    if nom.lower() in MANUAL_COORDS:
+        return MANUAL_COORDS[nom.lower()]
 
-    cache_key = f"{nom}|{remarque}"
+    cache_key = f"{country}|{search_nom}|{remarque}"
     if use_cache and cache_key in cache:
         entry = cache[cache_key]
         return entry["lat"], entry["lon"]
 
-    for query in build_queries(nom, remarque, action):
-        query_key = f"query|{query}"
+    for query in build_queries(search_nom, remarque, action):
+        query_key = f"query|{country}|{query}"
         if use_cache and query_key in cache:
             entry = cache[query_key]
             coords = (entry["lat"], entry["lon"])
@@ -127,7 +155,7 @@ def geocode_place(
 
         time.sleep(REQUEST_DELAY)
         try:
-            coords = nominatim_search(query)
+            coords = nominatim_search(query, country)
         except requests.RequestException as exc:
             print(f"WARN requete Nominatim en echec pour '{query}': {exc}")
             coords = None
@@ -146,13 +174,8 @@ def geocode_place(
 
 
 def ensure_columns(wb: openpyxl.Workbook) -> None:
-    for sheet_name in wb.sheetnames:
-        if not is_activity_sheet(sheet_name):
-            continue
-        ws = wb[sheet_name]
-        header_row_idx = find_header_row(ws)
-        if header_row_idx:
-            ensure_map_columns(ws, header_row_idx)
+    for sheet_name in day_sheets(wb):
+        ensure_map_columns(wb[sheet_name])
 
 
 def run_geocoding(excel_path: Path, dry_run: bool = False, force: bool = False) -> None:
@@ -177,24 +200,35 @@ def run_geocoding(excel_path: Path, dry_run: bool = False, force: bool = False) 
 
         remarque = normalize_text(cell_value(row, col_index, "Remarque"))
         action = normalize_text(cell_value(row, col_index, "Action"))
+        ville = ville_for_row(row, col_index)
+        country = country_for_ville(ville)
+
         coords = geocode_place(
-            item["nom"], remarque, cache, action=action, use_cache=not force
+            item["nom"],
+            remarque,
+            cache,
+            country=country,
+            action=action,
+            use_cache=not force,
+            ville=ville,
         )
 
-        label = f"{item['jour']}.{item['visite']}"
+        label = item["ordre_label"]
         if coords:
             if not dry_run:
                 ws.cell(row=row_idx, column=col_index["Latitude"] + 1, value=coords[0])
                 ws.cell(row=row_idx, column=col_index["Longitude"] + 1, value=coords[1])
             updated += 1
-            print(f"OK  [{label}] {item['nom']} -> {coords[0]:.6f}, {coords[1]:.6f}")
+            print(f"OK  [{label}] {item['nom']} ({ville or country}) -> {coords[0]:.6f}, {coords[1]:.6f}")
         else:
             errors.append(
                 {
                     "jour": str(item["jour"]),
                     "visite": str(item["visite"]),
                     "nom": item["nom"],
-                    "requete": build_queries(item["nom"], remarque)[0],
+                    "ville": ville,
+                    "pays": country,
+                    "requete": build_queries(item["nom"], remarque, action)[0],
                 }
             )
             print(f"ERR [{label}] {item['nom']} -> non trouve")
@@ -203,7 +237,9 @@ def run_geocoding(excel_path: Path, dry_run: bool = False, force: bool = False) 
 
     errors_path = data_dir() / "geocode_errors.csv"
     with errors_path.open("w", encoding="utf-8-sig", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=["jour", "visite", "nom", "requete"])
+        writer = csv.DictWriter(
+            f, fieldnames=["jour", "visite", "nom", "ville", "pays", "requete"]
+        )
         writer.writeheader()
         writer.writerows(errors)
 

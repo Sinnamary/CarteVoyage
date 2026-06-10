@@ -14,6 +14,7 @@ from excel_utils import (
     build_voyage_data,
     data_dir,
     default_excel_path,
+    find_duplicate_ordre_labels,
     find_ordre_collisions,
     iter_activity_rows,
     row_to_point,
@@ -89,11 +90,14 @@ def write_missing_coords_report(wb: openpyxl.Workbook) -> tuple[Path, int]:
                     "visite": str(item["visite"]),
                     "ordre": item["ordre_label"],
                     "nom": item["nom"],
+                    "feuille": item["sheet_name"],
                 }
             )
 
     with report_path.open("w", encoding="utf-8-sig", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=["jour", "visite", "ordre", "nom"])
+        writer = csv.DictWriter(
+            f, fieldnames=["jour", "visite", "ordre", "nom", "feuille"]
+        )
         writer.writeheader()
         writer.writerows(rows)
 
@@ -103,10 +107,7 @@ def write_missing_coords_report(wb: openpyxl.Workbook) -> tuple[Path, int]:
 def build_html_pages(voyage_data: dict) -> None:
     voyage_json = json.dumps(voyage_data, ensure_ascii=False)
     (web_dir() / "index.html").write_text(
-        HTML_TEMPLATE.format(
-            title="Carte du voyage",
-            voyage_json=voyage_json,
-        ),
+        HTML_TEMPLATE.format(title="Carte du voyage", voyage_json=voyage_json),
         encoding="utf-8",
     )
 
@@ -114,17 +115,23 @@ def build_html_pages(voyage_data: dict) -> None:
 def run_build(excel_path: Path) -> None:
     wb = openpyxl.load_workbook(excel_path, data_only=True)
 
-    collisions = find_ordre_collisions(wb)
-    for (jour, visite), noms in sorted(collisions.items()):
-        print(f"ATTENTION: ordre {jour}.{visite} utilise par plusieurs lignes: {', '.join(noms)}")
+    for (jour, visite), noms in sorted(find_ordre_collisions(wb).items()):
+        print(f"ATTENTION: ordre {jour}.{visite} en double: {', '.join(noms)}")
+
+    for label, locs in sorted(find_duplicate_ordre_labels(wb).items()):
+        print(f"ATTENTION: N° étape {label} répété: {', '.join(locs)}")
 
     voyage_data = build_voyage_data(wb)
     json_path = data_dir() / "voyages.json"
-    json_path.write_text(json.dumps(voyage_data, ensure_ascii=False, indent=2), encoding="utf-8")
+    json_path.write_text(
+        json.dumps(voyage_data, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
 
     missing_path, missing_count = write_missing_coords_report(wb)
     build_html_pages(voyage_data)
 
+    total_rows = sum(1 for _ in iter_activity_rows(wb))
+    print(f"Lignes planning: {total_rows}")
     print(f"Points sur la carte: {len(voyage_data['points'])}")
     print(f"Jours: {voyage_data['jours']}")
     print(f"JSON: {json_path}")

@@ -154,50 +154,50 @@ Une page `web/villes/amsterdam.html` a existé avec une structure de données en
 ### 5.1 Emplacement
 
 - Dossier : `excel/`
-- Fichier par défaut : `excel/Voyage Amsterdam.xlsx`
-- Sauvegardes automatiques : `excel/backups/Voyage Amsterdam.backup.xlsx`
+- Fichier par défaut : `excel/Voyage Aout 2026.xlsx`
+- Sauvegardes automatiques : `excel/backups/Voyage Aout 2026.backup.xlsx`
 
 ### 5.2 Structure des feuilles
 
 | Type de feuille | Exemple | Traitement |
 |-----------------|---------|------------|
-| **Feuille de planning** | `Amsterdam` | Ignorée par les scripts (liste `PLANNING_SHEETS`) |
-| **Feuilles d'activités** | Toute autre feuille avec en-tête contenant `Nom` | Lue et traitée |
+| **Vue d'ensemble** | `Vue d'ensemble` | Ignorée (synthèse du voyage) |
+| **Listes** | `Listes` | Ignorée (listes déroulantes) |
+| **Jours** | `Jour 1`, `Jour 2`, … | Lues et traitées (activités du jour) |
 
-Chaque feuille d'activités doit contenir une **ligne d'en-tête** identifiable par la présence de la colonne `Nom`.
+Chaque feuille `Jour N` a une bannière en ligne 1, les en-têtes en ligne 2, les activités à partir de la ligne 3.
 
 ### 5.3 Colonnes requises et optionnelles
 
-#### Colonnes métier (présentes dans le planning)
+#### Colonnes métier (feuilles `Jour N`, ligne d'en-tête 2)
 
-| Colonne | Obligatoire | Description | Exemple |
-|---------|-------------|-------------|---------|
-| `Action` | Non | Type d'activité | Visite, Balade, Pause, Croisière |
-| `Nom` | **Oui** | Nom du lieu | Rijksmuseum |
-| `Type` | Non | Catégorie | Musée, Balade, Salon de thé |
-| `Billet` | Non | Réservation nécessaire | Oui / Non |
-| `Prix` | Non | Prix en euros | 25 |
-| `City Card` | Non | Prise en charge city card | 0, 16, Réduit, ? |
-| `Ouverture` | Non | Heure d'ouverture | 9h |
-| `Fermeture` | Non | Heure de fermeture | 17h |
-| `Remarque` | Non | Notes libres (utilisée pour le géocodage des balades) | Herengracht, Keizersgracht |
-| `Site` | Non | URL du site web | https://… |
+| Colonne Excel | Obligatoire | Description | Exemple |
+|---------------|-------------|-------------|---------|
+| `N° étape` | **Oui** | Jour et numéro de visite | `3.5`, `5.10` (format texte pour `.10`) |
+| `Lieu` | **Oui** | Nom du lieu | Rijksmuseum |
+| `Nature` | Non | Type d'activité | Visite, Transport, Hébergement |
+| `Catégorie` | Non | Catégorie | Musée, Balade, Hôtel |
+| `Quartier` | Non | Quartier (aide au géocodage des balades) | Jordaan |
+| `Ville` | Non | Ville (détermine le pays pour le géocodage) | Amsterdam, Cologne |
+| `Réservation` | Non | Réservation nécessaire | Oui / Non |
+| `Prix (€)` | Non | Prix en euros | 25 |
+| `Heure début` / `Heure fin` | Non | Horaires | 9h00 |
+| `Site web` | Non | URL du site | https://… |
 
 #### Colonnes carte (créées automatiquement si absentes)
 
 | Colonne | Obligatoire | Description | Format |
 |---------|-------------|-------------|--------|
-| `Ordre` | **Oui** (pour apparaître sur la carte) | Jour et numéro de visite | `jour.visite` — ex. `3.5` = jour 3, 5e visite |
 | `Latitude` | **Oui** (pour apparaître sur la carte) | Latitude WGS84 | Décimal, ex. `52.3598431` |
 | `Longitude` | **Oui** (pour apparaître sur la carte) | Longitude WGS84 | Décimal, ex. `4.8850395` |
-| `Lien` | Non | URL prioritaire pour le popup (sinon `Site`) | https://… |
+| `Lien` | Non | URL prioritaire pour le popup (sinon `Site web`) | https://… |
 
-### 5.4 Règles de parsing de la colonne `Ordre`
+### 5.4 Règles de parsing du `N° étape`
 
 - Format attendu : `jour.visite` (ex. `6.5`, `3.10`)
 - Le séparateur `.` ou `,` est accepté
-- Les valeurs numériques Excel (ex. `3.1` lu comme float) sont converties
-- Une ligne **sans `Nom`** ou **sans `Ordre` valide** est ignorée
+- Saisir en **format texte** les étapes contenant `.10` pour éviter `5.10` → `5.1`
+- Une ligne **sans `Lieu`** ou **sans `N° étape` valide** est ignorée
 - Une ligne **sans coordonnées** est listée dans `lignes_sans_coords.csv` mais n'apparaît pas sur la carte
 
 ### 5.5 Exemple de lignes actuellement sans coordonnées
@@ -488,7 +488,7 @@ CarteVoyage/
 ├── docs/
 │   └── CAHIER_DES_CHARGES.md      # Ce document
 ├── excel/
-│   ├── Voyage Amsterdam.xlsx      # Source (non versionnée ou locale)
+│   ├── Voyage Aout 2026.xlsx      # Source (non versionnée ou locale)
 │   └── backups/                   # Sauvegardes automatiques
 ├── data/
 │   ├── voyages.json               # Données générées
@@ -515,12 +515,11 @@ CarteVoyage/
 ### 11.1 Préparer un nouveau voyage
 
 1. Créer ou copier un fichier Excel dans `excel/`
-2. Structurer les activités en feuilles (hors feuilles de planning listées dans `PLANNING_SHEETS`)
-3. Renseigner les colonnes métier et la colonne `Ordre` (`jour.visite`)
-4. Adapter si besoin :
-   - `DEFAULT_COUNTRY` dans `geocode_excel.py` (ex. `de` pour l'Allemagne)
-   - `NAME_ALIASES` et `MANUAL_COORDS` pour les lieux difficiles
-   - `PLANNING_SHEETS` dans `excel_utils.py`
+2. Structurer les activités en feuilles `Jour 1`, `Jour 2`, … avec les colonnes du planning
+3. Renseigner `Lieu`, `N° étape` (`jour.visite`) et `Ville` pour chaque activité
+4. Adapter si besoin dans `geocode_excel.py` :
+   - `COUNTRY_BY_VILLE` pour les villes du voyage
+   - `NAME_ALIASES`, `NOM_ALIASES_BY_VILLE` et `MANUAL_COORDS` pour les lieux difficiles
 
 ### 11.2 Mettre à jour la carte après modification de l'Excel
 

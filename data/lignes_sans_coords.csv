@@ -1,1 +1,18 @@
-﻿jour,visite,ordre,nom
+﻿jour,visite,ordre,nom,feuille
+1,2,1.2,"Brauhaus Päffgen Friesenstraße 64–66, 50670 Köln",Jour 1
+2,2,2.2,Römisch-Germanisches Museum,Jour 2
+2,3,2.3,Kolumba,Jour 2
+3,2,3.2,Trajet Cologne → Amsterdam,Jour 3
+5,4,5.4,Joods Historisch Museum,Jour 5
+8,2,8.2,Trajet Amsterdam → Lille,Jour 8
+8,3,8.3,Ennevelin,Jour 8
+9,1,9.1,Ennevelin,Jour 9
+9,3,9.3,Ennevelin,Jour 9
+10,1,10.1,Ennevelin,Jour 10
+10,2,10.2,Cote opale,Jour 10
+10,3,10.3,Ennevelin,Jour 10
+11,1,11.1,Ennevelin,Jour 11
+11,2,11.2,Capr Gris nez,Jour 11
+11,3,11.3,Ennevelin,Jour 11
+12,1,12.1,Ennevelin,Jour 12
+12,2,12.2,Retour Lille → Strasbourg,Jour 12

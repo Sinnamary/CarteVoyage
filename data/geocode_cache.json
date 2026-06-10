@@ -1,298 +1,365 @@
 {
-  "query|Les grands canaux": {
-    "lat": 47.3981249,
-    "lon": -2.2786186,
+  "query|fr|Départ Strasbourg": {
+    "lat": 48.5812769,
+    "lon": 7.7505253,
     "source": "nominatim"
   },
-  "Les grands canaux|Amsterdam|Singel, Herengracht, Keizersgracht, Magere Brug, Prinsengracht": {
-    "lat": 52.3647238,
-    "lon": 4.8969202,
+  "fr|Départ Strasbourg|Robertsau": {
+    "lat": 48.5812769,
+    "lon": 7.7505253,
     "source": "nominatim",
-    "query": "Herengracht Amsterdam, Amsterdam"
+    "query": "Départ Strasbourg"
   },
-  "query|Jordaan, Amsterdam": {
+  "query|de|Museum Ludwig": {
+    "lat": 50.9408347,
+    "lon": 6.9600217,
+    "source": "nominatim"
+  },
+  "de|Museum Ludwig|": {
+    "lat": 50.9408347,
+    "lon": 6.9600217,
+    "source": "nominatim",
+    "query": "Museum Ludwig"
+  },
+  "query|nl|Cathédrale": {
+    "lat": 52.3220362,
+    "lon": 5.3172606,
+    "source": "nominatim"
+  },
+  "nl|Cathédrale|": {
+    "lat": 52.3220362,
+    "lon": 5.3172606,
+    "source": "nominatim",
+    "query": "Cathédrale"
+  },
+  "query|de|Hotel Pullman Cologne": {
+    "lat": 50.9402013,
+    "lon": 6.9455643,
+    "source": "nominatim"
+  },
+  "de|Hotel Pullman Cologne|Centre": {
+    "lat": 50.9402013,
+    "lon": 6.9455643,
+    "source": "nominatim",
+    "query": "Hotel Pullman Cologne"
+  },
+  "query|nl|Grachtengordel": {
+    "lat": 52.371979,
+    "lon": 4.8847268,
+    "source": "nominatim"
+  },
+  "nl|Les grands canaux|Grachtengordel": {
+    "lat": 52.371979,
+    "lon": 4.8847268,
+    "source": "nominatim",
+    "query": "Grachtengordel"
+  },
+  "query|nl|Jordaan": {
     "lat": 52.3754157,
     "lon": 4.8810958,
     "source": "nominatim"
   },
-  "Jordaan|Amsterdam|Bloemgracht, Egelantiersgracht, Brouwersgracht": {
+  "nl|Jordaan|Jordaan": {
     "lat": 52.3754157,
     "lon": 4.8810958,
     "source": "nominatim",
-    "query": "Jordaan, Amsterdam"
+    "query": "Jordaan"
   },
-  "query|De Bakkerswinkel, Amsterdam": {
-    "lat": 52.3858309,
-    "lon": 4.8746448,
+  "query|nl|De Bakkerswinkel": {
+    "lat": 52.373869,
+    "lon": 4.8961635,
     "source": "nominatim"
   },
-  "De Bakkerswinkel|Amsterdam|": {
-    "lat": 52.3858309,
-    "lon": 4.8746448,
+  "nl|De Bakkerswinkel|Jordaan": {
+    "lat": 52.373869,
+    "lon": 4.8961635,
     "source": "nominatim",
-    "query": "De Bakkerswinkel, Amsterdam"
+    "query": "De Bakkerswinkel"
   },
-  "query|Pompadour, Amsterdam": {
+  "query|nl|Pompadour": {
     "lat": 52.3688825,
     "lon": 4.8858376,
     "source": "nominatim"
   },
-  "Pompadour|Amsterdam|": {
+  "nl|Pompadour|Centrum": {
     "lat": 52.3688825,
     "lon": 4.8858376,
     "source": "nominatim",
-    "query": "Pompadour, Amsterdam"
+    "query": "Pompadour"
   },
-  "query|Allard Pierson, Amsterdam": {
-    "lat": 52.3688053,
-    "lon": 4.8930549,
+  "query|nl|Begijnhof": {
+    "lat": 52.3694314,
+    "lon": 4.8900431,
     "source": "nominatim"
   },
-  "Allard Pierson|Amsterdam|Fermé le lundi, Musée archeologique classique": {
-    "lat": 52.3688053,
-    "lon": 4.8930549,
+  "nl|Begijnhof|Centrum": {
+    "lat": 52.3694314,
+    "lon": 4.8900431,
     "source": "nominatim",
-    "query": "Allard Pierson, Amsterdam"
+    "query": "Begijnhof"
   },
-  "query|Het Grachtenhuis, Amsterdam": {
+  "query|nl|Allard Pierson": {
+    "lat": 51.9198559,
+    "lon": 4.442758,
+    "source": "nominatim"
+  },
+  "nl|Allard Pierson|Centrum": {
+    "lat": 51.9198559,
+    "lon": 4.442758,
+    "source": "nominatim",
+    "query": "Allard Pierson"
+  },
+  "query|nl|Het Grachtenhuis": {
     "lat": 52.3678921,
     "lon": 4.8862198,
     "source": "nominatim"
   },
-  "Het Grachtenhuis|Amsterdam|Musée des canaux, Demeure du XVII": {
+  "nl|Het Grachtenhuis|Centrum": {
     "lat": 52.3678921,
     "lon": 4.8862198,
     "source": "nominatim",
-    "query": "Het Grachtenhuis, Amsterdam"
+    "query": "Het Grachtenhuis"
   },
-  "query|Anne Frank Huis, Amsterdam": {
+  "query|nl|Anne Frank Huis": {
     "lat": 52.3751558,
     "lon": 4.8840807,
     "source": "nominatim"
   },
-  "Anne Frank Huis|Amsterdam|A réserver longtemps à l'avance": {
+  "nl|Anne Frank Huis|Centrum": {
     "lat": 52.3751558,
     "lon": 4.8840807,
     "source": "nominatim",
-    "query": "Anne Frank Huis, Amsterdam"
+    "query": "Anne Frank Huis"
   },
-  "query|Houseboat Museum, Amsterdam": {
+  "query|nl|Houseboat Museum": {
     "lat": 52.3701526,
     "lon": 4.882602,
     "source": "nominatim"
   },
-  "Houseboat Museum|Amsterdam|Visite rapide d'un bateau, à faire si on passe à coté": {
+  "nl|Houseboat Museum|Centrum": {
     "lat": 52.3701526,
     "lon": 4.882602,
     "source": "nominatim",
-    "query": "Houseboat Museum, Amsterdam"
+    "query": "Houseboat Museum"
   },
-  "query|Vondelpark, Amsterdam": {
+  "query|nl|Bob W Amsterdam Noord": {
+    "lat": 52.3549181,
+    "lon": 4.9284135,
+    "source": "nominatim"
+  },
+  "nl|Bob W Amsterdam Noord|": {
+    "lat": 52.3549181,
+    "lon": 4.9284135,
+    "source": "nominatim",
+    "query": "Bob W Amsterdam Noord"
+  },
+  "query|nl|Vondelpark": {
     "lat": 52.3571974,
     "lon": 4.864119,
     "source": "nominatim"
   },
-  "Vondelpark|Amsterdam|": {
+  "nl|Vondelpark|Oud-Zuid": {
     "lat": 52.3571974,
     "lon": 4.864119,
     "source": "nominatim",
-    "query": "Vondelpark, Amsterdam"
+    "query": "Vondelpark"
   },
-  "query|Van Gogh museum, Amsterdam": {
-    "lat": 52.3583673,
-    "lon": 4.88109,
-    "source": "nominatim"
-  },
-  "Van Gogh museum|Amsterdam|Réverver les billets, à faire le matin": {
-    "lat": 52.3583673,
-    "lon": 4.88109,
-    "source": "nominatim",
-    "query": "Van Gogh museum, Amsterdam"
-  },
-  "query|Stedelijk museum, Amsterdam": {
-    "lat": 52.3579003,
-    "lon": 4.8798598,
-    "source": "nominatim"
-  },
-  "Stedelijk museum|Amsterdam|Art moderne": {
-    "lat": 52.3579003,
-    "lon": 4.8798598,
-    "source": "nominatim",
-    "query": "Stedelijk museum, Amsterdam"
-  },
-  "query|National holocaust museum, Amsterdam": {
-    "lat": 52.3668719,
-    "lon": 4.9110104,
-    "source": "nominatim"
-  },
-  "National holocaust museum|Amsterdam|": {
-    "lat": 52.3668719,
-    "lon": 4.9110104,
-    "source": "nominatim",
-    "query": "National holocaust museum, Amsterdam"
-  },
-  "query|Amsterdam museum, Amsterdam": {
-    "lat": 52.3704312,
-    "lon": 4.8904288,
-    "source": "nominatim"
-  },
-  "Amsterdam museum|Amsterdam|Musée de la ville": {
-    "lat": 52.3704312,
-    "lon": 4.8904288,
-    "source": "nominatim",
-    "query": "Amsterdam museum, Amsterdam"
-  },
-  "query|Hortus Botanicus, Amsterdam": {
-    "lat": 52.366806,
-    "lon": 4.9077777,
-    "source": "nominatim"
-  },
-  "Hortus Botanicus|Amsterdam|Jardin botanique avec cafétéria": {
-    "lat": 52.366806,
-    "lon": 4.9077777,
-    "source": "nominatim",
-    "query": "Hortus Botanicus, Amsterdam"
-  },
-  "query|Wereldmuseum, Amsterdam": {
-    "lat": 52.362688,
-    "lon": 4.9224397,
-    "source": "nominatim"
-  },
-  "Wereldmuseum|Amsterdam|Musée colonial": {
-    "lat": 52.362688,
-    "lon": 4.9224397,
-    "source": "nominatim",
-    "query": "Wereldmuseum, Amsterdam"
-  },
-  "query|Micropia, Amsterdam": {
-    "lat": 52.3668906,
-    "lon": 4.9126888,
-    "source": "nominatim"
-  },
-  "Micropia|Amsterdam|Musée des micro organismes": {
-    "lat": 52.3668906,
-    "lon": 4.9126888,
-    "source": "nominatim",
-    "query": "Micropia, Amsterdam"
-  },
-  "query|Oostelijk havengebied, Amsterdam": {
-    "lat": 52.3735527,
-    "lon": 4.9384713,
-    "source": "nominatim"
-  },
-  "Oostelijk havengebied|Amsterdam|Ancien docks": {
-    "lat": 52.3735527,
-    "lon": 4.9384713,
-    "source": "nominatim",
-    "query": "Oostelijk havengebied, Amsterdam"
-  },
-  "query|Tour A'DAM": {
-    "lat": 48.3262046,
-    "lon": 7.4239423,
-    "source": "nominatim"
-  },
-  "Tour A'DAM|Amsterdam|Tour de 100m avec panorama et restaurant": {
-    "lat": 52.3838564,
-    "lon": 4.9021028,
-    "source": "nominatim",
-    "query": "A'DAM Lookout Amsterdam, Amsterdam"
-  },
-  "query|Herengracht Amsterdam, Amsterdam": {
-    "lat": 52.3647238,
-    "lon": 4.8969202,
-    "source": "nominatim"
-  },
-  "query|Begijnhof Amsterdam, Amsterdam": {
-    "lat": 52.3693959,
-    "lon": 4.889956,
-    "source": "nominatim"
-  },
-  "Het Bejinhof|Amsterdam|Beguinage": {
-    "lat": 52.3693959,
-    "lon": 4.889956,
-    "source": "nominatim",
-    "query": "Begijnhof Amsterdam, Amsterdam"
-  },
-  "query|Rijksmuseum Amsterdam, Amsterdam": {
+  "query|nl|Rijksmuseum": {
     "lat": 52.3598431,
     "lon": 4.8850395,
     "source": "nominatim"
   },
-  "Risjkmuseum|Amsterdam|Réverver les billets, principal musée de la ville": {
+  "nl|Rijksmuseum|Museumplein": {
     "lat": 52.3598431,
     "lon": 4.8850395,
     "source": "nominatim",
-    "query": "Rijksmuseum Amsterdam, Amsterdam"
+    "query": "Rijksmuseum"
   },
-  "query|Amsterdam canal cruise": {
-    "lat": 52.3786758,
-    "lon": 4.8971651,
+  "query|nl|Van Gogh Museum": {
+    "lat": 52.3583673,
+    "lon": 4.88109,
     "source": "nominatim"
   },
-  "Croisière sur les canaux|Amsterdam|": {
-    "lat": 52.3786758,
-    "lon": 4.8971651,
+  "nl|Van Gogh Museum|Museumplein": {
+    "lat": 52.3583673,
+    "lon": 4.88109,
+    "source": "nominatim",
+    "query": "Van Gogh Museum"
+  },
+  "query|nl|Stedelijk Museum": {
+    "lat": 52.3579003,
+    "lon": 4.8798598,
+    "source": "nominatim"
+  },
+  "nl|Stedelijk Museum|Museumplein": {
+    "lat": 52.3579003,
+    "lon": 4.8798598,
+    "source": "nominatim",
+    "query": "Stedelijk Museum"
+  },
+  "query|nl|Amsterdam canal cruise": {
+    "lat": 52.3635339,
+    "lon": 4.880547,
+    "source": "nominatim"
+  },
+  "nl|Croisière sur les canaux|Centrum": {
+    "lat": 52.3635339,
+    "lon": 4.880547,
     "source": "nominatim",
     "query": "Amsterdam canal cruise"
   },
-  "query|Rudi's Original Stroopwafels Amsterdam, Amsterdam": {
+  "query|nl|Rudi's Original Stroopwafels Amsterdam": {
     "lat": 52.3558515,
     "lon": 4.8950212,
     "source": "nominatim"
   },
-  "Rudi's Stroopwaffels|Amsterdam|Gauffre à emporter sauf dimanche et mercredi jeudi": {
+  "nl|Rudi's Stroopwaffels|Oost": {
     "lat": 52.3558515,
     "lon": 4.8950212,
     "source": "nominatim",
-    "query": "Rudi's Original Stroopwafels Amsterdam, Amsterdam"
+    "query": "Rudi's Original Stroopwafels Amsterdam"
   },
-  "query|Museum Rembrandthuis Amsterdam, Amsterdam": {
+  "query|nl|Jodenbreestraat Amsterdam": {
+    "lat": 52.368803,
+    "lon": 4.9030991,
+    "source": "nominatim"
+  },
+  "nl|Balade dans l'ancien quartier juif|Jodenbuurt": {
+    "lat": 52.368803,
+    "lon": 4.9030991,
+    "source": "nominatim",
+    "query": "Jodenbreestraat Amsterdam"
+  },
+  "query|nl|Rembrandthuis": {
     "lat": 52.3693692,
     "lon": 4.9012497,
     "source": "nominatim"
   },
-  "Rembrandhuis|Amsterdam|Maison de Rembrandt avec musée sur sa vie": {
+  "nl|Rembrandthuis|Jodenbuurt": {
     "lat": 52.3693692,
     "lon": 4.9012497,
     "source": "nominatim",
-    "query": "Museum Rembrandthuis Amsterdam, Amsterdam"
+    "query": "Rembrandthuis"
   },
-  "query|Verzetsmuseum Amsterdam, Amsterdam": {
+  "query|nl|National Holocaust Museum": {
+    "lat": 52.3668719,
+    "lon": 4.9110104,
+    "source": "nominatim"
+  },
+  "nl|National Holocaust Museum|Plantage": {
+    "lat": 52.3668719,
+    "lon": 4.9110104,
+    "source": "nominatim",
+    "query": "National Holocaust Museum"
+  },
+  "query|nl|Amsterdam Museum": {
+    "lat": 52.3704312,
+    "lon": 4.8904288,
+    "source": "nominatim"
+  },
+  "nl|Amsterdam Museum|Centrum": {
+    "lat": 52.3704312,
+    "lon": 4.8904288,
+    "source": "nominatim",
+    "query": "Amsterdam Museum"
+  },
+  "query|nl|Hortus Botanicus": {
+    "lat": 52.366806,
+    "lon": 4.9077777,
+    "source": "nominatim"
+  },
+  "nl|Hortus Botanicus|Plantage": {
+    "lat": 52.366806,
+    "lon": 4.9077777,
+    "source": "nominatim",
+    "query": "Hortus Botanicus"
+  },
+  "query|nl|Wereldmuseum": {
+    "lat": 52.362688,
+    "lon": 4.9224397,
+    "source": "nominatim"
+  },
+  "nl|Wereldmuseum|Oost": {
+    "lat": 52.362688,
+    "lon": 4.9224397,
+    "source": "nominatim",
+    "query": "Wereldmuseum"
+  },
+  "query|nl|Micropia": {
+    "lat": 52.3668906,
+    "lon": 4.9126888,
+    "source": "nominatim"
+  },
+  "nl|Micropia|Plantage": {
+    "lat": 52.3668906,
+    "lon": 4.9126888,
+    "source": "nominatim",
+    "query": "Micropia"
+  },
+  "query|nl|Verzetsmuseum Amsterdam": {
     "lat": 52.3678083,
     "lon": 4.912728,
     "source": "nominatim"
   },
-  "Verzetmuseum|Amsterdam|Musée de la seconde guerre mondiale": {
+  "nl|Verzetmuseum|Plantage": {
     "lat": 52.3678083,
     "lon": 4.912728,
     "source": "nominatim",
-    "query": "Verzetsmuseum Amsterdam, Amsterdam"
+    "query": "Verzetsmuseum Amsterdam"
   },
-  "query|Het Scheepvaartmuseum Amsterdam, Amsterdam": {
+  "query|nl|Het Scheepvaartmuseum Amsterdam": {
     "lat": 52.372005,
     "lon": 4.9149527,
     "source": "nominatim"
   },
-  "Het Scheepvaart Museum|Amsterdam|Musée maritime avec cafétéria": {
+  "nl|Het Scheepvaart Museum|Oost": {
     "lat": 52.372005,
     "lon": 4.9149527,
     "source": "nominatim",
-    "query": "Het Scheepvaartmuseum Amsterdam, Amsterdam"
+    "query": "Het Scheepvaartmuseum Amsterdam"
   },
-  "query|A'DAM Lookout Amsterdam, Amsterdam": {
+  "query|nl|Oost": {
+    "lat": 52.3518137,
+    "lon": 4.9305528,
+    "source": "nominatim"
+  },
+  "nl|Oostelijk havengebied|Oost": {
+    "lat": 52.3518137,
+    "lon": 4.9305528,
+    "source": "nominatim",
+    "query": "Oost"
+  },
+  "query|nl|A'DAM Lookout Amsterdam": {
     "lat": 52.3838564,
     "lon": 4.9021028,
     "source": "nominatim"
   },
-  "query|Jodenbreestraat Amsterdam, Amsterdam": {
-    "lat": 52.3693333,
-    "lon": 4.9017912,
+  "nl|Tour A'DAM|Noord / IJ": {
+    "lat": 52.3838564,
+    "lon": 4.9021028,
+    "source": "nominatim",
+    "query": "A'DAM Lookout Amsterdam"
+  },
+  "query|fr|Centre": {
+    "lat": 47.5490251,
+    "lon": 1.7324062,
     "source": "nominatim"
   },
-  "Balade dans l'ancien quartier juif|Amsterdam|": {
-    "lat": 52.3693333,
-    "lon": 4.9017912,
+  "fr|Vieille Bourse (Lille)|Centre": {
+    "lat": 47.5490251,
+    "lon": 1.7324062,
     "source": "nominatim",
-    "query": "Jodenbreestraat Amsterdam, Amsterdam"
+    "query": "Centre"
+  },
+  "query|de|Kölner Dom": {
+    "lat": 50.9413035,
+    "lon": 6.958138,
+    "source": "nominatim"
+  },
+  "de|Kölner Dom|": {
+    "lat": 50.9413035,
+    "lon": 6.958138,
+    "source": "nominatim",
+    "query": "Kölner Dom"
   }
 }

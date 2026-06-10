@@ -1,4 +1,4 @@
-"""Utilitaires partagés pour lire/écrire le fichier Excel de voyage."""
+"""Utilitaires pour lire/écrire le classeur de planning (feuilles Jour 1, Jour 2, …)."""
 
 from __future__ import annotations
 
@@ -10,24 +10,29 @@ from typing import Any
 import openpyxl
 from openpyxl.worksheet.worksheet import Worksheet
 
-PLANNING_SHEETS = {"Amsterdam"}
+DEFAULT_EXCEL_NAME = "Voyage Aout 2026.xlsx"
 
-BASE_COLUMNS = [
-    "Action",
-    "Nom",
-    "Type",
-    "Billet",
-    "Prix",
-    "City Card",
-    "Ouverture",
-    "Fermeture",
-    "Remarque",
-    "Site",
-]
-MAP_COLUMNS = ["Ordre", "Latitude", "Longitude", "Lien"]
+IGNORE_SHEETS = {"Vue d'ensemble", "Listes"}
+DAY_HEADER_ROW = 2
+DATA_START_ROW = 3
 
-# Palette des jours, injectee dans le JSON via "couleur".
-# La palette des trajets (ROUTE_COLORS) vit separement dans web/assets/js/map.js.
+PLANNING_COLUMNS = {
+    "Ordre": "N° étape",
+    "Nom": "Lieu",
+    "Action": "Nature",
+    "Type": "Catégorie",
+    "Remarque": "Quartier",
+    "Ville": "Ville",
+    "Billet": "Réservation",
+    "Prix": "Prix (€)",
+    "Ouverture": "Heure début",
+    "Fermeture": "Heure fin",
+    "Site": "Site web",
+}
+
+MAP_EXTRA_COLUMNS = ["Latitude", "Longitude", "Lien"]
+SKIP_LIEU = {"", "Journée à planifier"}
+
 DAY_COLORS = [
     "#e74c3c",
     "#27ae60",
@@ -40,6 +45,8 @@ DAY_COLORS = [
     "#d35400",
     "#16a085",
 ]
+
+ORDRE_RE = re.compile(r"^\s*(\d+)[.,](\d+)\s*$")
 
 
 def project_root() -> Path:
@@ -65,7 +72,7 @@ def web_dir() -> Path:
 
 
 def default_excel_path() -> Path:
-    return excel_dir() / "Voyage Amsterdam.xlsx"
+    return excel_dir() / DEFAULT_EXCEL_NAME
 
 
 def normalize_text(value: Any) -> str:
@@ -74,11 +81,7 @@ def normalize_text(value: Any) -> str:
     return str(value).strip()
 
 
-ORDRE_RE = re.compile(r"^\s*(\d+)[.,](\d+)\s*$")
-
-
 def parse_ordre(value: Any) -> dict[str, int] | None:
-    """Extrait jour et visite depuis la colonne Ordre (ex. 6.5 -> jour 6, visite 5)."""
     if value is None or value == "":
         return None
 
@@ -94,49 +97,54 @@ def parse_ordre(value: Any) -> dict[str, int] | None:
     if not match:
         return None
 
-    return {
-        "jour": int(match.group(1)),
-        "visite": int(match.group(2)),
-    }
+    return {"jour": int(match.group(1)), "visite": int(match.group(2))}
 
 
 def jour_color(jour: int) -> str:
     return DAY_COLORS[(jour - 1) % len(DAY_COLORS)]
 
 
-def is_activity_sheet(sheet_name: str) -> bool:
-    return sheet_name not in PLANNING_SHEETS
+def is_day_sheet(sheet_name: str) -> bool:
+    return sheet_name.startswith("Jour ") and sheet_name not in IGNORE_SHEETS
 
 
-def find_header_row(ws: Worksheet) -> int | None:
-    for row_idx, row in enumerate(ws.iter_rows(values_only=True), start=1):
-        values = [normalize_text(c) for c in row]
-        if "Nom" in values:
-            return row_idx
-    return None
+def day_sheets(wb: openpyxl.Workbook) -> list[str]:
+    return [name for name in wb.sheetnames if is_day_sheet(name)]
 
 
-def build_column_index(header_row: tuple[Any, ...]) -> dict[str, int]:
+def build_planning_col_index(header_row: tuple[Any, ...]) -> dict[str, int]:
     index: dict[str, int] = {}
+    excel_to_internal = {excel: internal for internal, excel in PLANNING_COLUMNS.items()}
+
     for col_idx, value in enumerate(header_row):
         name = normalize_text(value)
-        if name and name not in index:
+        if not name:
+            continue
+        if name in excel_to_internal:
+            internal = excel_to_internal[name]
+            if internal not in index:
+                index[internal] = col_idx
+        elif name in MAP_EXTRA_COLUMNS and name not in index:
             index[name] = col_idx
+
     return index
 
 
-def ensure_map_columns(ws: Worksheet, header_row_idx: int) -> dict[str, int]:
-    header = [cell.value for cell in ws[header_row_idx]]
-    col_index = build_column_index(tuple(header))
+def ensure_map_columns(ws: Worksheet) -> dict[str, int]:
+    header = [cell.value for cell in ws[DAY_HEADER_ROW]]
+    col_index = build_planning_col_index(tuple(header))
 
     next_col = len(header) + 1
-    for col_name in MAP_COLUMNS:
+    while next_col > 1 and header[next_col - 2] is None:
+        next_col -= 1
+    if next_col <= len(header):
+        next_col = len(header) + 1
+
+    for col_name in MAP_EXTRA_COLUMNS:
         if col_name not in col_index:
-            ws.cell(row=header_row_idx, column=next_col, value=col_name)
+            ws.cell(row=DAY_HEADER_ROW, column=next_col, value=col_name)
             col_index[col_name] = next_col - 1
             next_col += 1
-        else:
-            next_col = max(next_col, col_index[col_name] + 2)
 
     return col_index
 
@@ -159,15 +167,6 @@ def parse_float(value: Any) -> float | None:
         return None
 
 
-def parse_int(value: Any) -> int | None:
-    if value is None or value == "":
-        return None
-    try:
-        return int(float(value))
-    except (TypeError, ValueError):
-        return None
-
-
 def has_coordinates(row: tuple[Any, ...], col_index: dict[str, int]) -> bool:
     lat = parse_float(cell_value(row, col_index, "Latitude"))
     lon = parse_float(cell_value(row, col_index, "Longitude"))
@@ -182,27 +181,26 @@ def backup_excel(excel_path: Path) -> Path:
     return backup_path
 
 
+def ville_for_row(row: tuple[Any, ...], col_index: dict[str, int]) -> str:
+    return normalize_text(cell_value(row, col_index, "Ville"))
+
+
 def iter_activity_rows(wb: openpyxl.Workbook):
-    for sheet_name in wb.sheetnames:
-        if not is_activity_sheet(sheet_name):
-            continue
-
+    for sheet_name in day_sheets(wb):
         ws = wb[sheet_name]
-        header_row_idx = find_header_row(ws)
-        if header_row_idx is None:
-            continue
-
-        header = next(ws.iter_rows(min_row=header_row_idx, max_row=header_row_idx, values_only=True))
-        col_index = build_column_index(header)
-        if "Nom" not in col_index:
+        header = next(
+            ws.iter_rows(min_row=DAY_HEADER_ROW, max_row=DAY_HEADER_ROW, values_only=True)
+        )
+        col_index = build_planning_col_index(header)
+        if "Nom" not in col_index or "Ordre" not in col_index:
             continue
 
         for row_idx, row in enumerate(
-            ws.iter_rows(min_row=header_row_idx + 1, values_only=True),
-            start=header_row_idx + 1,
+            ws.iter_rows(min_row=DATA_START_ROW, values_only=True),
+            start=DATA_START_ROW,
         ):
             nom = normalize_text(cell_value(row, col_index, "Nom"))
-            if not nom:
+            if nom in SKIP_LIEU:
                 continue
 
             ordre_raw = cell_value(row, col_index, "Ordre")
@@ -211,7 +209,7 @@ def iter_activity_rows(wb: openpyxl.Workbook):
                 continue
 
             ordre_label = normalize_text(ordre_raw).replace(",", ".")
-            if not ORDRE_RE.match(ordre_label):
+            if not ordre_label:
                 ordre_label = f"{parsed['jour']}.{parsed['visite']}"
 
             yield {
@@ -224,7 +222,8 @@ def iter_activity_rows(wb: openpyxl.Workbook):
                 "col_index": col_index,
                 "row": row,
                 "ws": ws,
-                "header_row_idx": header_row_idx,
+                "header_row_idx": DAY_HEADER_ROW,
+                "sheet_name": sheet_name,
             }
 
 
@@ -274,15 +273,18 @@ def row_to_point(item: dict[str, Any]) -> dict[str, Any] | None:
 
 
 def find_ordre_collisions(wb: openpyxl.Workbook) -> dict[tuple[int, int], list[str]]:
-    """Retourne les couples (jour, visite) utilises par plusieurs lignes.
-
-    Permet de reperer par exemple un "5.10" saisi comme nombre dans Excel,
-    qui devient 5.1 et entre en collision avec la visite 1 du jour 5.
-    """
     seen: dict[tuple[int, int], list[str]] = {}
     for item in iter_activity_rows(wb):
         seen.setdefault((item["jour"], item["visite"]), []).append(item["nom"])
     return {key: noms for key, noms in seen.items() if len(noms) > 1}
+
+
+def find_duplicate_ordre_labels(wb: openpyxl.Workbook) -> dict[str, list[str]]:
+    seen: dict[str, list[str]] = {}
+    for item in iter_activity_rows(wb):
+        label = item["ordre_label"]
+        seen.setdefault(label, []).append(f"{item['sheet_name']}:{item['nom']}")
+    return {label: locs for label, locs in seen.items() if len(locs) > 1}
 
 
 def build_voyage_data(wb: openpyxl.Workbook) -> dict[str, Any]:
@@ -296,8 +298,4 @@ def build_voyage_data(wb: openpyxl.Workbook) -> dict[str, Any]:
             points.append(point)
 
     points.sort(key=lambda p: (p["jour"], p["visite"], p["id"]))
-
-    return {
-        "jours": sorted(jours),
-        "points": points,
-    }
+    return {"jours": sorted(jours), "points": points}
