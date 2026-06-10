@@ -181,6 +181,62 @@ def backup_excel(excel_path: Path) -> Path:
     return backup_path
 
 
+LISTES_SHEET = "Listes"
+LISTES_DATA_START_ROW = 2
+# Colonnes de la feuille Listes -> plages utilisees par les listes deroulantes.
+LISTES_COLUMN_LETTERS = ("A", "B", "C", "D", "E")
+
+
+def listes_end_row(ws: Worksheet, col_idx: int) -> int:
+    """Derniere ligne non vide d'une colonne de listes (a partir de la ligne 2)."""
+    end_row = LISTES_DATA_START_ROW - 1
+    for row_idx in range(LISTES_DATA_START_ROW, ws.max_row + 1):
+        if normalize_text(ws.cell(row_idx, col_idx).value):
+            end_row = row_idx
+    return end_row
+
+
+def listes_range_formula(col_letter: str, end_row: int) -> str:
+    return f"Listes!${col_letter}${LISTES_DATA_START_ROW}:${col_letter}${end_row}"
+
+
+def build_listes_ranges(wb: openpyxl.Workbook) -> dict[str, str]:
+    """Calcule les plages Listes!$X$2:$X$N pour chaque colonne de listes."""
+    ws = wb[LISTES_SHEET]
+    ranges: dict[str, str] = {}
+    for col_idx, col_letter in enumerate(LISTES_COLUMN_LETTERS, start=1):
+        end_row = listes_end_row(ws, col_idx)
+        if end_row >= LISTES_DATA_START_ROW:
+            ranges[col_letter] = listes_range_formula(col_letter, end_row)
+    return ranges
+
+
+def sync_listes_validations(wb: openpyxl.Workbook) -> list[str]:
+    """
+    Met a jour les validations des feuilles Jour pour couvrir toute la feuille Listes.
+    Retourne la liste des changements effectues.
+    """
+    ranges = build_listes_ranges(wb)
+    changes: list[str] = []
+
+    for sheet_name in day_sheets(wb):
+        ws = wb[sheet_name]
+        for dv in ws.data_validations.dataValidation:
+            formula = str(dv.formula1 or "")
+            if not formula.startswith("Listes!$"):
+                continue
+            for col_letter, new_range in ranges.items():
+                prefix = f"Listes!${col_letter}$"
+                if not formula.startswith(prefix):
+                    continue
+                if formula != new_range:
+                    dv.formula1 = new_range
+                    changes.append(f"{sheet_name}: {formula} -> {new_range}")
+                break
+
+    return changes
+
+
 def ville_for_row(row: tuple[Any, ...], col_index: dict[str, int]) -> str:
     return normalize_text(cell_value(row, col_index, "Ville"))
 

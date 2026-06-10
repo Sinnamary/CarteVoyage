@@ -7,6 +7,7 @@ import openpyxl
 from excel_utils import (
     DEFAULT_EXCEL_NAME,
     PLANNING_COLUMNS,
+    build_listes_ranges,
     day_sheets,
     default_excel_path,
     excel_dir,
@@ -15,6 +16,7 @@ from excel_utils import (
     iter_activity_rows,
     normalize_text,
     row_to_point,
+    sync_listes_validations,
 )
 
 REQUIRED_OVERVIEW_MARKERS = ("Strasbourg", "Cologne", "Amsterdam", "Lille", "11 au 14 août 2026")
@@ -55,6 +57,15 @@ def main() -> None:
     listes = wb["Listes"]
     if listes.sheet_state != "hidden":
         warnings.append("Feuille Listes devrait être masquée")
+
+    wb_validations = openpyxl.load_workbook(path)
+    expected_ranges = build_listes_ranges(wb_validations)
+    pending = sync_listes_validations(wb_validations)
+    if pending:
+        warnings.append(
+            "Listes deroulantes desynchronisees: lancer python scripts/sync_listes_validations.py "
+            f"(ex. Ville attendue {expected_ranges.get('E', '?')})"
+        )
 
     overview = wb["Vue d'ensemble"]
     overview_text = " ".join(
