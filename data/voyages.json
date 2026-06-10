@@ -1218,8 +1218,8 @@
       "visite": 3,
       "nom": "Vieille Bourse de Lille",
       "ville": "Lille",
-      "lat": 47.5490251,
-      "lon": 1.7324062,
+      "lat": 50.6370472,
+      "lon": 3.064017,
       "lien": null,
       "couleur": "#d35400",
       "popup": {
@@ -1231,6 +1231,29 @@
         "ouverture": "14h00",
         "fermeture": null,
         "remarque": "Centre"
+      }
+    },
+    {
+      "id": "9.4-6",
+      "ordre": 4,
+      "ordre_label": "9.4",
+      "jour": 9,
+      "visite": 4,
+      "nom": "Ville de Bergues",
+      "ville": "Bergues",
+      "lat": 50.9683886,
+      "lon": 2.4325247,
+      "lien": null,
+      "couleur": "#d35400",
+      "popup": {
+        "action": null,
+        "type": "Balade",
+        "billet": null,
+        "prix": null,
+        "city_card": null,
+        "ouverture": "20h00",
+        "fermeture": "21h00",
+        "remarque": null
       }
     },
     {

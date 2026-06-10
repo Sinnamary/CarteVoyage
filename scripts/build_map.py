@@ -20,6 +20,7 @@ from excel_utils import (
     row_to_point,
     web_dir,
 )
+from site_nav import render_header
 
 HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="fr">
@@ -31,9 +32,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   <link rel="stylesheet" href="assets/css/map.css">
 </head>
 <body>
-  <header class="app-header">
-    <img src="assets/img/logo-cartevoyage.svg" alt="CarteVoyage" class="header-logo">
-  </header>
+  {header}
 
   <div class="app-layout">
     <aside class="filters-panel" id="filters-panel">
@@ -115,7 +114,11 @@ def write_missing_coords_report(wb: openpyxl.Workbook) -> tuple[Path, int]:
 def build_html_pages(voyage_data: dict) -> None:
     voyage_json = json.dumps(voyage_data, ensure_ascii=False)
     (web_dir() / "index.html").write_text(
-        HTML_TEMPLATE.format(title="Carte du voyage", voyage_json=voyage_json),
+        HTML_TEMPLATE.format(
+            title="Carte du voyage",
+            header=render_header("map"),
+            voyage_json=voyage_json,
+        ),
         encoding="utf-8",
     )
 

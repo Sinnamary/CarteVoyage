@@ -345,16 +345,21 @@
     "source": "nominatim",
     "query": "A'DAM Lookout Amsterdam"
   },
-  "query|fr|Centre": {
-    "lat": 47.5490251,
-    "lon": 1.7324062,
-    "source": "nominatim"
+  "query|fr|Centre, Lille": {
+    "lat": 50.6370472,
+    "lon": 3.064017,
+    "source": "manual"
   },
   "fr|Vieille Bourse (Lille)|Centre": {
-    "lat": 47.5490251,
-    "lon": 1.7324062,
-    "source": "nominatim",
-    "query": "Centre"
+    "lat": 50.6370472,
+    "lon": 3.064017,
+    "source": "manual",
+    "query": "Vieille Bourse Lille"
+  },
+  "query|fr|Vieille Bourse Lille": {
+    "lat": 50.6370472,
+    "lon": 3.064017,
+    "source": "manual"
   },
   "query|de|Kölner Dom": {
     "lat": 50.9413035,

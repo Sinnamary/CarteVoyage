@@ -46,7 +46,16 @@ MANUAL_COORDS = {
     "Côte d'Opale": (50.7259, 1.6137),
     "côte d'opale": (50.7259, 1.6137),
     "Côte d'Opale Boulogne-sur-Mer France": (50.7259, 1.6137),
+    "Vieille Bourse de Lille": (50.6370472, 3.0640170),
+    "Vieille Bourse Lille": (50.6370472, 3.0640170),
+    "Ville de Bergues": (50.9683886, 2.4325247),
+    "Bergues": (50.9683886, 2.4325247),
+    "Bergues, Nord, France": (50.9683886, 2.4325247),
 }
+
+GENERIC_REMARQUES = frozenset(
+    {"centre", "center", "centrum", "nord", "sud", "est", "ouest", "—", "-", ""}
+)
 
 # Noms officiels dans la colonne Excel « Lieu » (anciens noms ambigus -> noms exacts).
 EXCEL_LIEU_RENAMES: dict[str, str] = {
@@ -116,6 +125,7 @@ NAME_ALIASES: dict[str, str] = {
     "Van Gogh Museum, Amsterdam": "Van Gogh Museum Amsterdam",
     "Verzetsmuseum, Amsterdam": "Verzetsmuseum Amsterdam",
     "Vieille Bourse de Lille": "Vieille Bourse Lille",
+    "Ville de Bergues": "Bergues, Nord, France",
     "Wereldmuseum, Amsterdam": "Wereldmuseum Amsterdam",
     "Amsterdam Museum, Amsterdam": "Amsterdam Museum Amsterdam",
     "De Bakkerswinkel, Amsterdam": "De Bakkerswinkel Amsterdam Centrum",
@@ -147,6 +157,10 @@ COUNTRY_BY_VILLE: dict[str, str] = {
     "strasbourg": "fr",
     "ennevelin": "fr",
     "cap gris-nez": "fr",
+    "bergues": "fr",
+    "boulogne-sur-mer": "fr",
+    "côte d'opale": "fr",
+    "cote d'opale": "fr",
 }
 
 NOM_ALIASES_BY_VILLE: dict[tuple[str, str], str] = {
@@ -166,6 +180,7 @@ EXCEL_VILLE_BY_NOM: dict[str, str] = {
     "Ennevelin": "Ennevelin",
     "Cap Gris-Nez": "Cap Gris-Nez",
     "Côte d'Opale": "Boulogne-sur-Mer",
+    "Ville de Bergues": "Bergues",
 }
 
 
@@ -207,11 +222,15 @@ def is_non_geocodable_lieu(nom: str) -> bool:
 def build_queries(nom: str, remarque: str, action: str = "", ville: str = "") -> list[str]:
     search_name = resolve_nom(nom)
     queries: list[str] = []
+    remarque_key = normalize_text(remarque).lower()
 
     if remarque and action.lower() == "balade":
-        queries.append(remarque)
+        if ville:
+            queries.append(f"{remarque}, {ville}")
+        elif remarque_key not in GENERIC_REMARQUES:
+            queries.append(remarque)
     queries.append(search_name)
-    if remarque:
+    if remarque and remarque_key not in GENERIC_REMARQUES:
         queries.append(f"{search_name}, {remarque}")
     if ville:
         queries.append(f"{search_name}, {ville}")

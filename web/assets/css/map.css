@@ -26,11 +26,44 @@ summary:focus-visible {
 .app-header {
   display: flex;
   align-items: center;
+  gap: 1rem;
   background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
   color: #fff;
   padding: 0.75rem 1.5rem;
   min-height: var(--header-height);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.header-nav {
+  display: flex;
+  gap: 0.35rem;
+  margin-left: auto;
+}
+
+.header-nav-link {
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: none;
+  font-size: 0.9rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  transition: background 0.15s;
+}
+
+.header-nav-link:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.header-nav-link.is-active {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+  font-weight: 600;
 }
 
 .header-logo {

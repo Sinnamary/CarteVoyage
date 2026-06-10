@@ -14,6 +14,10 @@ Write-Host "Regeneration de la carte depuis Excel..." -ForegroundColor Cyan
 python scripts/build_map.py
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
+Write-Host "Generation des statistiques du voyage..." -ForegroundColor Cyan
+python scripts/build_stats.py
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
 git add -A
 
 git diff --cached --quiet
