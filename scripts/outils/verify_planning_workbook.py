@@ -2,10 +2,16 @@
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 import openpyxl
 
-from excel_utils import (
+from outils.excel_utils import (
     DEFAULT_EXCEL_NAME,
+    OVERVIEW_SHEET,
     PLANNING_COLUMNS,
     build_listes_ranges,
     day_sheets,
@@ -18,8 +24,8 @@ from excel_utils import (
     row_to_point,
     sync_listes_validations,
 )
+from outils.overview_config import load_overview_config
 
-REQUIRED_OVERVIEW_MARKERS = ("Strasbourg", "Cologne", "Amsterdam", "Lille", "11 au 14 août 2026")
 MAP_COLUMNS = ("Latitude", "Longitude")
 
 
@@ -46,11 +52,15 @@ def main() -> None:
     if not path.exists():
         raise SystemExit(f"Fichier introuvable: {path}")
 
+    overview_config = load_overview_config()
+    overview_sheet = overview_config.get("sheet_name") or OVERVIEW_SHEET
+    verify_markers = overview_config.get("verify_markers") or []
+
     wb = openpyxl.load_workbook(path, data_only=True)
     errors: list[str] = []
     warnings: list[str] = []
 
-    expected_meta = ["Vue d'ensemble", "Listes"] + [f"Jour {d}" for d in range(1, 13)]
+    expected_meta = [overview_sheet, "Listes"] + [f"Jour {d}" for d in range(1, 13)]
     if wb.sheetnames != expected_meta:
         errors.append(f"Feuilles inattendues: {wb.sheetnames}")
 
@@ -63,17 +73,20 @@ def main() -> None:
     pending = sync_listes_validations(wb_validations)
     if pending:
         warnings.append(
-            "Listes deroulantes desynchronisees: lancer python scripts/sync_listes_validations.py "
+            "Listes deroulantes desynchronisees: lancer generer_site.py ou scripts/outils/sync_listes_validations.py "
             f"(ex. Ville attendue {expected_ranges.get('E', '?')})"
         )
 
-    overview = wb["Vue d'ensemble"]
-    overview_text = " ".join(
-        str(cell.value) for row in overview.iter_rows() for cell in row if cell.value
-    )
-    for marker in REQUIRED_OVERVIEW_MARKERS:
-        if marker not in overview_text:
-            warnings.append(f"Vue d'ensemble: '{marker}' absent")
+    if overview_sheet not in wb.sheetnames:
+        errors.append(f"Feuille manquante: {overview_sheet}")
+    elif verify_markers:
+        overview = wb[overview_sheet]
+        overview_text = " ".join(
+            str(cell.value) for row in overview.iter_rows() for cell in row if cell.value
+        )
+        for marker in verify_markers:
+            if marker not in overview_text:
+                warnings.append(f"{overview_sheet}: '{marker}' absent")
 
     for sheet_name in day_sheets(wb):
         ws = wb[sheet_name]

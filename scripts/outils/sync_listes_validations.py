@@ -4,11 +4,14 @@
 from __future__ import annotations
 
 import argparse
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import openpyxl
 
-from excel_utils import (
+from outils.excel_utils import (
     LISTES_COLUMN_LETTERS,
     backup_excel,
     build_listes_ranges,

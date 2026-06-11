@@ -1,22 +1,12 @@
-# Publie le site sur GitHub Pages.
+# Publie le site sur GitHub Pages (apres verification locale).
 # Usage :  .\publier.ps1            (message par defaut)
 #          .\publier.ps1 "Ajout de la ville de Rome"
+#
+# Ne regenere pas le site : lancez generer_site.py avant de publier.
 
 param([string]$Message = "Mise a jour du site")
 
 Set-Location $PSScriptRoot
-
-Write-Host "Synchronisation des listes deroulantes Excel..." -ForegroundColor Cyan
-python scripts/sync_listes_validations.py
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-
-Write-Host "Regeneration de la carte depuis Excel..." -ForegroundColor Cyan
-python scripts/build_map.py
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-
-Write-Host "Generation des statistiques du voyage..." -ForegroundColor Cyan
-python scripts/build_stats.py
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 git add -A
 

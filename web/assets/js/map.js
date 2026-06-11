@@ -18,7 +18,7 @@
   // Nombre de requetes OSRM simultanees (reste courtois envers les serveurs publics).
   const ROUTE_CONCURRENCY = 3;
   // Palette des trajets. La palette des jours (DAY_COLORS) vit dans
-  // scripts/excel_utils.py et arrive via le champ "couleur" du JSON.
+  // scripts/outils/excel_utils.py — champ "couleur" du JSON.
   const ROUTE_COLORS = [
     "#e74c3c",
     "#27ae60",

@@ -1,8 +1,10 @@
 # CarteVoyage — Cahier des charges
 
-**Version :** 1.0  
-**Date :** 8 juin 2026  
-**Projet :** CarteVoyage — Carte interactive de voyage à partir d'un fichier Excel
+**Version :** 2.0  
+**Date :** 11 juin 2026  
+**Projet :** CarteVoyage — Carte interactive et statistiques de voyage à partir d'un fichier Excel
+
+**Site en ligne :** [https://sinnamary.github.io/CarteVoyage/web/](https://sinnamary.github.io/CarteVoyage/web/)
 
 ---
 
@@ -15,27 +17,34 @@
 5. [Source de données — Fichier Excel](#5-source-de-données--fichier-excel)
 6. [Pipeline de traitement des données](#6-pipeline-de-traitement-des-données)
 7. [Application web — Carte interactive](#7-application-web--carte-interactive)
-8. [Modèle de données JSON](#8-modèle-de-données-json)
-9. [Architecture technique](#9-architecture-technique)
-10. [Structure du projet](#10-structure-du-projet)
-11. [Guide d'utilisation](#11-guide-dutilisation)
-12. [Critères d'acceptation](#12-critères-dacceptation)
-13. [Contraintes, limites et risques](#13-contraintes-limites-et-risques)
-14. [Évolutions envisageables](#14-évolutions-envisageables)
+8. [Application web — Statistiques](#8-application-web--statistiques)
+9. [Modèle de données JSON](#9-modèle-de-données-json)
+10. [Architecture technique](#10-architecture-technique)
+11. [Structure du projet](#11-structure-du-projet)
+12. [Guide d'utilisation](#12-guide-dutilisation)
+13. [Publication sur GitHub Pages](#13-publication-sur-github-pages)
+14. [Critères d'acceptation](#14-critères-dacceptation)
+15. [Contraintes, limites et risques](#15-contraintes-limites-et-risques)
+16. [Évolutions envisageables](#16-évolutions-envisageables)
 
 ---
 
 ## 1. Présentation générale
 
-**CarteVoyage** est un outil personnel de planification et de visualisation de voyages. Il transforme un fichier Excel de planning (activités, musées, balades, pauses…) en une **carte web interactive** affichant les points de visite géolocalisés, organisés par jour, avec possibilité de calculer les **trajets à pied** entre visites consécutives.
+**CarteVoyage** est un outil personnel de planification et de visualisation de voyages. Il transforme un fichier Excel de planning (activités, musées, balades, transports, repas…) en :
+
+- une **carte web interactive** affichant les points géolocalisés, organisés par jour, avec calcul des **trajets à pied ou en voiture** entre visites consécutives ;
+- une **page de statistiques** (distances, durées, budget, répartition par jour et par ville).
 
 Le projet repose sur une chaîne simple :
 
 ```
-Excel (source) → Scripts Python (géocodage + build) → JSON + HTML statique → Navigateur (Leaflet)
+Excel (source) → Scripts Python (sync, géocodage, build, stats) → JSON + HTML statique → Navigateur (Leaflet)
 ```
 
-Il n'y a **pas de serveur applicatif** : le site web est entièrement statique et peut être ouvert localement ou hébergé sur n'importe quel hébergeur de fichiers statiques.
+Il n'y a **pas de serveur applicatif** : le site web est entièrement statique et peut être ouvert localement ou hébergé sur GitHub Pages (ou tout hébergeur de fichiers statiques).
+
+**Voyage de référence :** Strasbourg → Cologne → Amsterdam → Lille (12 jours, août 2026).
 
 ---
 
@@ -43,29 +52,31 @@ Il n'y a **pas de serveur applicatif** : le site web est entièrement statique e
 
 ### 2.1 Contexte
 
-L'utilisateur planifie un voyage (ex. : Amsterdam, 7 jours) dans un tableur Excel structuré par feuilles et colonnes. Il souhaite :
+L'utilisateur planifie un voyage multi-villes dans un tableur Excel structuré par feuilles et colonnes. Il souhaite :
 
 - Visualiser géographiquement l'ensemble des lieux à visiter ;
 - Filtrer par jour pour se concentrer sur un itinéraire donné ;
-- Estimer les déplacements à pied entre deux visites consécutives du même jour ;
-- Consulter les informations pratiques (horaires, prix, billets, remarques) directement sur la carte.
+- Estimer les déplacements à pied (en ville) ou en voiture (changement de ville, transport, longues distances) ;
+- Consulter les informations pratiques (horaires, prix, billets, quartier) directement sur la carte ;
+- Avoir une vue synthétique des distances parcourues et du budget.
 
 ### 2.2 Objectifs
 
 | Objectif | Description |
 |----------|-------------|
 | **Centraliser** | Une seule source de vérité : le fichier Excel |
-| **Automatiser** | Géocoder automatiquement les lieux sans saisie manuelle des coordonnées |
+| **Automatiser** | Géocoder automatiquement les lieux, générer carte et statistiques |
 | **Visualiser** | Carte claire, numérotée, colorée par jour |
-| **Naviguer** | Filtres par jour et sélection de trajets piétons |
+| **Naviguer** | Filtres par jour, liste des visites, trajets piétons/voiture |
+| **Analyser** | Statistiques agrégées (distances, budget, répartitions) |
 | **Rester simple** | Pas de base de données, pas de backend, déploiement minimal |
 
-### 2.3 Hors périmètre (v1)
+### 2.3 Hors périmètre
 
 - Édition en ligne du planning (lecture seule côté web)
 - Authentification / multi-utilisateurs
 - Application mobile native
-- Calcul d'itinéraires multimodaux (transports en commun, vélo, voiture)
+- Calcul d'itinéraires multimodaux (transports en commun, vélo)
 - Synchronisation temps réel avec Excel
 
 ---
@@ -78,64 +89,109 @@ L'utilisateur planifie un voyage (ex. : Amsterdam, 7 jours) dans un tableur Exce
 
 | ID | Exigence | Priorité |
 |----|----------|----------|
-| F1.1 | Lire toutes les feuilles d'activités du fichier Excel | Obligatoire |
-| F1.2 | Créer automatiquement les colonnes `Ordre`, `Latitude`, `Longitude`, `Lien` si absentes | Obligatoire |
-| F1.3 | Géocoder chaque lieu via l'API Nominatim (OpenStreetMap), pays par défaut : Pays-Bas (`nl`) | Obligatoire |
-| F1.4 | Respecter un délai de 1,1 s entre requêtes (politique d'utilisation Nominatim) | Obligatoire |
-| F1.5 | Utiliser un cache local (`data/geocode_cache.json`) pour éviter les requêtes redondantes | Obligatoire |
-| F1.6 | Appliquer des alias de noms pour les lieux mal orthographiés ou ambigus | Obligatoire |
-| F1.7 | Permettre des coordonnées manuelles pour certains lieux (`MANUAL_COORDS`) | Obligatoire |
-| F1.8 | Pour les balades, utiliser la colonne `Remarque` comme requête de recherche prioritaire | Obligatoire |
-| F1.9 | Ignorer les lignes déjà géocodées (sauf option `--force`) | Obligatoire |
-| F1.10 | Créer une sauvegarde du fichier Excel avant modification (`excel/backups/`) | Obligatoire |
-| F1.11 | Produire un rapport d'erreurs (`data/geocode_errors.csv`) | Obligatoire |
-| F1.12 | Mode simulation `--dry-run` sans écriture dans Excel | Souhaité |
+| F1.1 | Lire toutes les feuilles `Jour N` du fichier Excel | Obligatoire |
+| F1.2 | Créer automatiquement les colonnes `Latitude`, `Longitude`, `Lien` si absentes | Obligatoire |
+| F1.3 | Géocoder via Nominatim (OpenStreetMap), pays déduit de la colonne `Ville` (`COUNTRY_BY_VILLE`) | Obligatoire |
+| F1.4 | Respecter un délai de 1,1 s entre requêtes (politique Nominatim) | Obligatoire |
+| F1.5 | Utiliser un cache local (`data/geocode_cache.json`) | Obligatoire |
+| F1.6 | Appliquer des alias de noms (`NAME_ALIASES`, `NOM_ALIASES_BY_VILLE`) | Obligatoire |
+| F1.7 | Permettre des coordonnées manuelles (`MANUAL_COORDS`) | Obligatoire |
+| F1.8 | Pour les balades, utiliser la colonne `Quartier` (interne `Remarque`) comme requête prioritaire | Obligatoire |
+| F1.9 | Ignorer les lignes déjà géocodées (sauf `--force`) | Obligatoire |
+| F1.10 | Ignorer les lignes « Trajet … » et « Retour … » (logistique sans point carte) | Obligatoire |
+| F1.11 | Renommer automatiquement les lieux ambigus (`EXCEL_LIEU_RENAMES`) et compléter les villes manquantes | Obligatoire |
+| F1.12 | Créer une sauvegarde Excel avant modification (`excel/backups/`) | Obligatoire |
+| F1.13 | Produire un rapport d'erreurs (`data/geocode_errors.csv`) | Obligatoire |
+| F1.14 | Mode simulation `--dry-run` sans écriture dans Excel | Souhaité |
+
+**Pays supportés (via `COUNTRY_BY_VILLE`) :** Pays-Bas (`nl`), Allemagne (`de`), France (`fr`), avec défaut `nl`.
 
 #### F2 — Génération de la carte (`build_map.py`)
 
 | ID | Exigence | Priorité |
 |----|----------|----------|
-| F2.1 | Extraire les points ayant des coordonnées valides (Latitude + Longitude) | Obligatoire |
-| F2.2 | Ignorer les lignes sans colonne `Ordre` valide (format `jour.visite`, ex. `3.5`) | Obligatoire |
-| F2.3 | Générer `data/voyages.json` (données structurées) | Obligatoire |
-| F2.4 | Générer `web/index.html` avec les données embarquées | Obligatoire |
-| F2.5 | Produire un rapport des lignes sans coordonnées (`data/lignes_sans_coords.csv`) | Obligatoire |
-| F2.6 | Attribuer une couleur par jour (palette cyclique de 10 couleurs) | Obligatoire |
-| F2.7 | Inclure les métadonnées popup (Action, Type, Billet, Prix, City Card, horaires, Remarque) | Obligatoire |
+| F2.1 | Extraire les points ayant des coordonnées valides | Obligatoire |
+| F2.2 | Ignorer les lignes sans `N° étape` valide (format `jour.visite`) | Obligatoire |
+| F2.3 | Signaler les collisions d'ordre et les labels dupliqués | Obligatoire |
+| F2.4 | Générer `data/voyages.json` | Obligatoire |
+| F2.5 | Générer `web/index.html` avec `window.VOYAGE_DATA` embarqué et en-tête de navigation | Obligatoire |
+| F2.6 | Produire `data/lignes_sans_coords.csv` | Obligatoire |
+| F2.7 | Attribuer une couleur par jour (palette cyclique de 10 couleurs) | Obligatoire |
+| F2.8 | Inclure `ville` et métadonnées popup (Nature, Catégorie, Réservation, Prix, horaires, Quartier) | Obligatoire |
+
+#### F3 — Statistiques du voyage (`build_stats.py`)
+
+| ID | Exigence | Priorité |
+|----|----------|----------|
+| F3.1 | Calculer les segments entre visites consécutives du même jour | Obligatoire |
+| F3.2 | Déterminer le mode de déplacement (pied / voiture) selon les mêmes règles que la carte | Obligatoire |
+| F3.3 | Interroger OSRM pour distances et durées (cache `data/route_stats_cache.json`) | Obligatoire |
+| F3.4 | Fallback distance à vol d'oiseau si OSRM indisponible (`--no-osrm` pour tout désactiver) | Obligatoire |
+| F3.5 | Agréger par jour, par ville, par nature, par catégorie, par réservation | Obligatoire |
+| F3.6 | Calculer le budget (prix renseignés, total visites) | Obligatoire |
+| F3.7 | Générer `data/stats.json` et `web/stats.html` | Obligatoire |
+
+#### F4 — Synchronisation des listes déroulantes (`sync_listes_validations.py`)
+
+| ID | Exigence | Priorité |
+|----|----------|----------|
+| F4.1 | Recalculer les plages de la feuille masquée `Listes` (colonnes A–E) | Obligatoire |
+| F4.2 | Mettre à jour les validations des feuilles `Jour N` pour pointer vers les bonnes plages | Obligatoire |
+| F4.3 | Sauvegarder Excel avant écriture ; mode `--dry-run` | Obligatoire |
+
+#### F5 — Vérification du classeur (`verify_planning_workbook.py`)
+
+| ID | Exigence | Priorité |
+|----|----------|----------|
+| F5.1 | Vérifier la structure des feuilles (`Vue d'ensemble`, `Listes`, `Jour 1`…`Jour 12`) | Obligatoire |
+| F5.2 | Contrôler les colonnes requises du planning et la présence de Latitude/Longitude | Obligatoire |
+| F5.3 | Détecter les listes déroulantes désynchronisées | Obligatoire |
+| F5.4 | Signaler collisions d'ordre, labels dupliqués, format texte pour `.10` | Obligatoire |
+| F5.5 | Vérifier les marqueurs attendus dans la vue d'ensemble | Souhaité |
+| F5.6 | Code de sortie 1 en cas d'erreur bloquante | Obligatoire |
 
 ### 3.2 Fonctionnalités — Application web
 
-#### F3 — Carte principale (`web/index.html` + `map.js`)
+#### F6 — Carte principale (`web/index.html` + `map.js`)
 
 | ID | Exigence | Priorité |
 |----|----------|----------|
-| F3.1 | Afficher une carte Leaflet avec tuiles OpenStreetMap | Obligatoire |
-| F3.2 | Afficher un marqueur numéroté pour chaque point (`ordre_label`, ex. `3.5`) | Obligatoire |
-| F3.3 | Colorer les marqueurs par jour | Obligatoire |
-| F3.4 | Popup détaillée au clic : nom, jour/visite, action, type, horaires, prix, billet, city card, remarque, lien site | Obligatoire |
-| F3.5 | Ajuster automatiquement le zoom pour englober tous les points visibles | Obligatoire |
-| F3.6 | Filtre par jour (cases à cocher) | Obligatoire |
-| F3.7 | Bouton « Tout afficher » pour réinitialiser les filtres | Obligatoire |
-| F3.8 | Interface responsive (panneau filtres repliable sur mobile ≤ 768 px) | Obligatoire |
+| F6.1 | Carte Leaflet avec tuiles OpenStreetMap | Obligatoire |
+| F6.2 | Marqueur numéroté par point (`ordre_label`, ex. `3.5`), coloré par jour | Obligatoire |
+| F6.3 | Popup détaillée : nom, jour/visite, nature, catégorie, horaires, prix, billet, quartier, lien site | Obligatoire |
+| F6.4 | Navigation précédent/suivant dans la popup (visites du même jour) | Obligatoire |
+| F6.5 | Décalage des marqueurs aux coordonnées identiques | Obligatoire |
+| F6.6 | Filtre par jour (cases à cocher) | Obligatoire |
+| F6.7 | Liste des visites cliquable pour centrer la carte | Obligatoire |
+| F6.8 | Option « Centrer sur les activités du jour » (masque trajets voiture et points transport inter-villes) | Obligatoire |
+| F6.9 | Bouton « Tout afficher » | Obligatoire |
+| F6.10 | Interface responsive (panneau filtres repliable ≤ 768 px) | Obligatoire |
+| F6.11 | Persistance de l'état des filtres dans l'URL (`#j=…&t=…&c=0`) | Souhaité |
 
-#### F4 — Trajets à pied
+#### F7 — Trajets sur la carte
 
 | ID | Exigence | Priorité |
 |----|----------|----------|
-| F4.1 | Lister les segments entre visites consécutives **du même jour** | Obligatoire |
-| F4.2 | Permettre de cocher un ou plusieurs trajets à afficher sur la carte | Obligatoire |
-| F4.3 | Calculer l'itinéraire piéton via OSRM (serveurs : `routing.openstreetmap.de` puis `router.project-osrm.org`) | Obligatoire |
-| F4.4 | Afficher la distance (m) et la durée estimée (min) dans la popup du trajet | Obligatoire |
-| F4.5 | Attribuer une couleur distincte à chaque trajet sélectionné | Obligatoire |
-| F4.6 | Fallback en ligne droite pointillée si OSRM indisponible | Obligatoire |
-| F4.7 | Mettre en cache les trajets calculés côté client | Obligatoire |
-| F4.8 | Grouper les trajets par jour avec bouton « Tout cocher / Tout décocher » | Obligatoire |
-| F4.9 | Bouton « Effacer les trajets » | Obligatoire |
-| F4.10 | Désactiver automatiquement les trajets dont un point est masqué par le filtre jour | Obligatoire |
+| F7.1 | Segments entre visites consécutives **du même jour** | Obligatoire |
+| F7.2 | Mode automatique : **à pied** en ville, **voiture** si transport, changement de ville ou > 5 km à vol d'oiseau | Obligatoire |
+| F7.3 | Calcul OSRM piéton et voiture (serveurs DE puis Project OSRM) | Obligatoire |
+| F7.4 | Distance et durée dans la popup du trajet | Obligatoire |
+| F7.5 | Couleur distincte par trajet ; regroupement par jour avec « Tout cocher / Tout décocher » | Obligatoire |
+| F7.6 | Fallback ligne droite pointillée si OSRM indisponible | Obligatoire |
+| F7.7 | Cache côté client ; requêtes concurrentes limitées (3) | Obligatoire |
+| F7.8 | Bouton « Effacer les trajets » | Obligatoire |
+| F7.9 | Désactivation des trajets dont un point est masqué par les filtres | Obligatoire |
 
-#### F5 — Pages par ville (évolution prévue)
+#### F8 — Page statistiques (`web/stats.html`)
 
-Une page `web/villes/amsterdam.html` a existé avec une structure de données enrichie (`ville`, `onglet`, navigation entre pages), mais le JavaScript (`map.js`) ne gérait pas ces filtres ni `PAGE_FILTER` : la page était cassée et a été **supprimée**. Le support multi-villes reste une évolution prévue (voir §14).
+| ID | Exigence | Priorité |
+|----|----------|----------|
+| F8.1 | Cartes récapitulatives (jours, activités, distances pied/voiture, budget) | Obligatoire |
+| F8.2 | Points saillants (plus long segment pied/voiture, jour le plus marché) | Obligatoire |
+| F8.3 | Tableaux par jour, par ville, segments détaillés | Obligatoire |
+| F8.4 | Graphiques en barres (nature, catégorie, réservations) | Obligatoire |
+| F8.5 | Liste des trajets logistiques et lieux sans coordonnées | Obligatoire |
+| F8.6 | Navigation commune avec la carte (en-tête partagé) | Obligatoire |
 
 ---
 
@@ -143,9 +199,9 @@ Une page `web/villes/amsterdam.html` a existé avec une structure de données en
 
 | Acteur | Rôle |
 |--------|------|
-| **Planificateur** | Maintient le fichier Excel, lance les scripts de géocodage et de build |
-| **Voyageur** | Consulte la carte dans un navigateur (desktop ou mobile) pendant le voyage |
-| **Services externes** | Nominatim (géocodage), OSRM (routage piéton), OpenStreetMap (tuiles carte) |
+| **Planificateur** | Maintient le fichier Excel, lance les scripts (sync, géocodage, build, stats, vérification) |
+| **Voyageur** | Consulte la carte et les statistiques dans un navigateur (desktop ou mobile) |
+| **Services externes** | Nominatim (géocodage), OSRM (routage pied/voiture), OpenStreetMap (tuiles) |
 
 ---
 
@@ -156,59 +212,66 @@ Une page `web/villes/amsterdam.html` a existé avec une structure de données en
 - Dossier : `excel/`
 - Fichier par défaut : `excel/Voyage Aout 2026.xlsx`
 - Sauvegardes automatiques : `excel/backups/Voyage Aout 2026.backup.xlsx`
+- **Non versionné** (`.gitignore` : `*.xlsx`) — fichier local ou personnel
 
 ### 5.2 Structure des feuilles
 
 | Type de feuille | Exemple | Traitement |
 |-----------------|---------|------------|
 | **Vue d'ensemble** | `Vue d'ensemble` | Ignorée (synthèse du voyage) |
-| **Listes** | `Listes` | Ignorée (listes déroulantes) |
-| **Jours** | `Jour 1`, `Jour 2`, … | Lues et traitées (activités du jour) |
+| **Listes** | `Listes` | Feuille masquée — listes déroulantes (colonnes A–E) |
+| **Jours** | `Jour 1` … `Jour 12` | Lues et traitées |
 
 Chaque feuille `Jour N` a une bannière en ligne 1, les en-têtes en ligne 2, les activités à partir de la ligne 3.
 
-### 5.3 Colonnes requises et optionnelles
+Structure attendue par `verify_planning_workbook.py` :
 
-#### Colonnes métier (feuilles `Jour N`, ligne d'en-tête 2)
+```
+Vue d'ensemble, Listes, Jour 1, Jour 2, …, Jour 12
+```
 
-| Colonne Excel | Obligatoire | Description | Exemple |
-|---------------|-------------|-------------|---------|
-| `N° étape` | **Oui** | Jour et numéro de visite | `3.5`, `5.10` (format texte pour `.10`) |
-| `Lieu` | **Oui** | Nom du lieu | Rijksmuseum |
-| `Nature` | Non | Type d'activité | Visite, Transport, Hébergement |
-| `Catégorie` | Non | Catégorie | Musée, Balade, Hôtel |
-| `Quartier` | Non | Quartier (aide au géocodage des balades) | Jordaan |
-| `Ville` | Non | Ville (détermine le pays pour le géocodage) | Amsterdam, Cologne |
-| `Réservation` | Non | Réservation nécessaire | Oui / Non |
-| `Prix (€)` | Non | Prix en euros | 25 |
-| `Heure début` / `Heure fin` | Non | Horaires | 9h00 |
-| `Site web` | Non | URL du site | https://… |
+### 5.3 Colonnes du planning
 
-#### Colonnes carte (créées automatiquement si absentes)
+Mapping interne (`PLANNING_COLUMNS` dans `excel_utils.py`) :
 
-| Colonne | Obligatoire | Description | Format |
-|---------|-------------|-------------|--------|
-| `Latitude` | **Oui** (pour apparaître sur la carte) | Latitude WGS84 | Décimal, ex. `52.3598431` |
-| `Longitude` | **Oui** (pour apparaître sur la carte) | Longitude WGS84 | Décimal, ex. `4.8850395` |
-| `Lien` | Non | URL prioritaire pour le popup (sinon `Site web`) | https://… |
+| Colonne Excel | Clé interne | Obligatoire | Description |
+|---------------|-------------|-------------|-------------|
+| `N° étape` | `Ordre` | **Oui** | Jour et numéro de visite (`3.5`, `5.10` en **texte**) |
+| `Lieu` | `Nom` | **Oui** | Nom du lieu |
+| `Nature` | `Action` | Non | Visite, Transport, Balade, Repas… |
+| `Catégorie` | `Type` | Non | Musée, Restaurant, Route… |
+| `Quartier` | `Remarque` | Non | Quartier (aide géocodage des balades) |
+| `Ville` | `Ville` | Non | Détermine le pays pour le géocodage |
+| `Réservation` | `Billet` | Non | Oui / Non / À faire |
+| `Prix (€)` | `Prix` | Non | Prix en euros |
+| `Heure début` / `Heure fin` | `Ouverture` / `Fermeture` | Non | Horaires |
+| `Site web` | `Site` | Non | URL |
+
+Lignes ignorées : `Lieu` vide, « Journée à planifier », sans `N° étape` valide.
+
+#### Colonnes carte (créées automatiquement)
+
+| Colonne | Description |
+|---------|-------------|
+| `Latitude` / `Longitude` | Coordonnées WGS84 |
+| `Lien` | URL prioritaire pour le popup (sinon `Site web`) |
 
 ### 5.4 Règles de parsing du `N° étape`
 
-- Format attendu : `jour.visite` (ex. `6.5`, `3.10`)
-- Le séparateur `.` ou `,` est accepté
-- Saisir en **format texte** les étapes contenant `.10` pour éviter `5.10` → `5.1`
-- Une ligne **sans `Lieu`** ou **sans `N° étape` valide** est ignorée
-- Une ligne **sans coordonnées** est listée dans `lignes_sans_coords.csv` mais n'apparaît pas sur la carte
+- Format : `jour.visite` (ex. `6.5`, `3.10`)
+- Séparateur `.` ou `,` accepté
+- Saisir en **format texte** (`@`) les étapes contenant `.10` pour éviter `5.10` → `5.1`
+- Lignes « Trajet … » / « Retour … » : pas de géocodage, comptées comme trajets logistiques dans les stats
 
-### 5.5 Exemple de lignes actuellement sans coordonnées
+### 5.5 Feuille Listes et validations
 
-| Jour | Visite | Ordre | Nom |
-|------|--------|-------|-----|
-| 1 | 1 | 1.1 | cologne |
-| 2 | 1 | 2.1 | cologne |
-| 7 | 1 | 7.1 | Lille |
+La feuille `Listes` (masquée) alimente les listes déroulantes des feuilles jour. Lorsque des valeurs sont ajoutées ou supprimées, lancer :
 
-Ces lieux (hors Amsterdam / Pays-Bas) nécessitent un géocodage avec un pays adapté ou une saisie manuelle.
+```bash
+python scripts/sync_listes_validations.py
+```
+
+Le script recalcule les plages `Listes!$A$2:$A$N` … `Listes!$E$2:$E$N` et met à jour les validations Excel.
 
 ---
 
@@ -218,87 +281,80 @@ Ces lieux (hors Amsterdam / Pays-Bas) nécessitent un géocodage avec un pays ad
 
 ```mermaid
 flowchart LR
-    A[Excel Voyage] --> B[geocode_excel.py]
-    B --> C[Nominatim API]
-    C --> B
-    B --> D[Excel mis à jour + cache]
-    D --> E[build_map.py]
-    E --> F[voyages.json]
-    E --> G[index.html]
-    E --> H[lignes_sans_coords.csv]
-    G --> I[Navigateur + map.js]
-    I --> J[OSRM API]
+    A[Excel Voyage] --> B[sync_listes_validations.py]
+    B --> A
+    A --> C[geocode_excel.py]
+    C --> D[Nominatim API]
+    D --> C
+    C --> E[Excel + geocode_cache]
+    E --> F[build_map.py]
+    E --> G[build_stats.py]
+    F --> H[voyages.json + index.html]
+    G --> I[stats.json + stats.html]
+    H --> J[Navigateur map.js]
+    I --> K[Navigateur stats.html]
+    J --> L[OSRM API]
+    G --> L
 ```
 
 ### 6.2 Script `geocode_excel.py`
 
-**Rôle :** Remplir `Latitude` et `Longitude` dans le fichier Excel.
+**Algorithme (par lieu) :**
 
-**Algorithme de recherche (par lieu) :**
-
-1. Vérifier les coordonnées manuelles (`MANUAL_COORDS`)
-2. Consulter le cache (`nom|remarque`)
-3. Construire les requêtes :
-   - Si `Action` = « balade » et `Remarque` renseignée → requête = remarque
-   - Sinon → requête = nom (avec alias éventuel)
-   - Puis → `nom, remarque` si remarque présente
-4. Interroger Nominatim avec `countrycodes=nl`
-5. Enregistrer le résultat dans le cache et dans Excel
-
-**Alias configurés (exemples) :**
-
-| Nom Excel | Requête Nominatim |
-|-----------|-------------------|
-| Het Bejinhof | Begijnhof Amsterdam |
-| Risjkmuseum | Rijksmuseum Amsterdam |
-| Rembrandhuis | Museum Rembrandthuis Amsterdam |
-| Croisière sur les canaux | Amsterdam canal cruise |
-| Tour A'DAM | A'DAM Lookout Amsterdam |
+1. Ignorer si « Trajet … » / « Retour … »
+2. Ignorer si déjà géocodé (sauf `--force`)
+3. Coordonnées manuelles (`MANUAL_COORDS`)
+4. Cache (`pays|nom|quartier`)
+5. Requêtes Nominatim :
+   - Balade + quartier → `{quartier}, {ville}`
+   - Nom (avec alias)
+   - `{nom}, {quartier}` si quartier non générique
+   - `{nom}, {ville}`
+6. Pays via `country_for_ville(ville)` (`COUNTRY_BY_VILLE`, défaut `nl`)
 
 **Commandes :**
 
 ```bash
-# Géocodage standard
 python scripts/geocode_excel.py
-
-# Fichier Excel personnalisé
 python scripts/geocode_excel.py "excel/MonVoyage.xlsx"
-
-# Simulation sans modification
 python scripts/geocode_excel.py --dry-run
-
-# Forcer le re-géocodage de toutes les lignes
 python scripts/geocode_excel.py --force
 ```
 
-**Fichiers produits :**
-
-| Fichier | Contenu |
-|---------|---------|
-| `data/geocode_cache.json` | Cache des coordonnées trouvées |
-| `data/geocode_errors.csv` | Lieux non trouvés |
-| `excel/backups/*.backup.xlsx` | Sauvegarde avant écriture |
+**Fichiers produits :** `data/geocode_cache.json`, `data/geocode_errors.csv`, `excel/backups/*.backup.xlsx`
 
 ### 6.3 Script `build_map.py`
-
-**Rôle :** Générer les artefacts web à partir de l'Excel géocodé.
-
-**Commandes :**
 
 ```bash
 python scripts/build_map.py
 python scripts/build_map.py "excel/MonVoyage.xlsx"
 ```
 
-**Fichiers produits :**
+**Fichiers produits :** `data/voyages.json`, `web/index.html`, `data/lignes_sans_coords.csv`
 
-| Fichier | Contenu |
-|---------|---------|
-| `data/voyages.json` | Données structurées (jours + points) |
-| `web/index.html` | Page HTML avec `window.VOYAGE_DATA` embarqué |
-| `data/lignes_sans_coords.csv` | Activités sans Latitude/Longitude |
+### 6.4 Script `build_stats.py`
 
-### 6.4 Workflow recommandé
+```bash
+python scripts/build_stats.py
+python scripts/build_stats.py --no-osrm    # distances à vol d'oiseau uniquement
+```
+
+**Fichiers produits :** `data/stats.json`, `data/route_stats_cache.json`, `web/stats.html`
+
+**Règle mode de déplacement (identique à la carte) :**
+
+- `car` si Nature = Transport, ou villes différentes, ou distance > 5 km
+- `foot` sinon
+
+### 6.5 Script `verify_planning_workbook.py`
+
+```bash
+python scripts/verify_planning_workbook.py
+```
+
+Contrôle structure, colonnes, validations, collisions. Code de sortie 1 si erreur bloquante.
+
+### 6.6 Workflow recommandé
 
 ```bash
 # 1. Environnement Python
@@ -309,16 +365,24 @@ pip install -r scripts/requirements.txt
 
 # 2. Placer le fichier Excel dans excel/
 
-# 3. Géocoder
+# 3. Synchroniser les listes déroulantes (si modifiées)
+python scripts/sync_listes_validations.py
+
+# 4. Vérifier le classeur
+python scripts/verify_planning_workbook.py
+
+# 5. Géocoder
 python scripts/geocode_excel.py
 
-# 4. Corriger manuellement les erreurs dans Excel si nécessaire
+# 6. Corriger manuellement les erreurs dans Excel si nécessaire
 
-# 5. Générer la carte
+# 7. Générer carte et statistiques
 python scripts/build_map.py
+python scripts/build_stats.py
 
-# 6. Ouvrir la carte
+# 8. Ouvrir localement
 start web/index.html          # Windows
+start web/stats.html
 ```
 
 ---
@@ -327,64 +391,77 @@ start web/index.html          # Windows
 
 ### 7.1 Technologies
 
-| Composant | Technologie | Version |
-|-----------|-------------|---------|
-| Carte | Leaflet | 1.9.4 (CDN unpkg) |
-| Tuiles | OpenStreetMap | — |
-| Routage | OSRM (mode `foot`) | API publique |
-| Styles | CSS custom (`map.css`) | — |
-| Logique | JavaScript vanilla (`map.js`) | — |
+| Composant | Technologie |
+|-----------|-------------|
+| Carte | Leaflet 1.9.4 (CDN unpkg) |
+| Tuiles | OpenStreetMap |
+| Routage | OSRM (profils `foot` et `car`) |
+| Styles | `assets/css/map.css` |
+| Logique | JavaScript vanilla ES5 (`assets/js/map.js`) |
+| Navigation | En-tête généré par `scripts/site_nav.py` |
 
-### 7.2 Écrans
+### 7.2 Interface
 
-#### Page principale — `web/index.html`
-
-- **En-tête** : titre « Carte du voyage », sous-titre « Points de visite par jour »
-- **Panneau latéral gauche** (280 px) :
+- **En-tête** : logo CarteVoyage, liens Carte / Statistiques
+- **Panneau latéral** (280 px) :
   - Filtres par jour
-  - Section trajets à pied (liste par jour, cases à cocher, pastille de couleur)
-  - Boutons « Effacer les trajets » et « Tout afficher »
-- **Zone carte** : occupe le reste de l'écran
-
-#### Pages par ville (évolution prévue, voir §14)
-
-- Navigation : « Tout le voyage » / une page par ville
-- Filtres prévus : villes, jours
-- Données enrichies avec `ville` et `onglet` (quartiers)
-- L'ancienne page `web/villes/amsterdam.html`, non fonctionnelle, a été supprimée
+  - Option « Centrer sur les activités du jour »
+  - Liste des visites (clic → centrage)
+  - Trajets par jour (cases à cocher, pastille couleur, tout cocher/décocher)
+  - Boutons « Effacer les trajets », « Tout afficher », « Voir la carte »
+- **Zone carte** : reste de l'écran
 
 ### 7.3 Comportement des marqueurs
 
-- Label affiché : `ordre_label` (ex. `3.5`) ou `jour.visite`
-- Couleur : palette fixe par numéro de jour (10 couleurs, cyclique)
-- Clic → popup avec toutes les métadonnées disponibles
-- Lien « Site web » si `lien` ou `Site` renseigné dans Excel
+- Label : `ordre_label` (ex. `3.5`)
+- Couleur : champ `couleur` du JSON (palette `DAY_COLORS` côté Python)
+- Tooltip au survol, popup au clic
+- Points `Nature = Transport` ou liés uniquement à des segments voiture masqués quand le filtre voiture est actif
 
 ### 7.4 Comportement des trajets
 
-- Un segment = liaison entre visite N et visite N+1 **du même jour**
-- Calcul asynchrone avec indicateur de progression
-- Délai de 120 ms entre requêtes OSRM successives
-- Si la distance piétonne OSRM dépasse 2,5× la distance à vol d'oiseau (< 1,2 km), un avertissement est logué dans la console
-- Le serveur OSRM DE est essayé en premier ; le serveur Project OSRM en secours
-- Zoom automatique sur la sélection lors de l'activation d'un trajet unique
+- Segment = liaison visite N → visite N+1 du **même jour**
+- OSRM DE en premier, Project OSRM en secours
+- Délai 100 ms entre requêtes ; 3 requêtes concurrentes max
+- Fallback ligne droite pointillée
+- Zoom automatique sur la sélection
 
-### 7.5 Responsive
+### 7.5 État dans l'URL
 
-- Viewport mobile pris en charge (`viewport-fit=cover`)
-- Panneau filtres en `<details>` repliable
-- Fermé par défaut sur écran ≤ 768 px
-- `map.invalidateSize()` au redimensionnement et à l'ouverture/fermeture des filtres
+Hash optionnel :
+
+| Paramètre | Signification |
+|-----------|---------------|
+| `j=1,3,5` | Jours affichés |
+| `t=id1!id2` | Trajets cochés |
+| `c=0` | Afficher aussi les trajets voiture |
 
 ---
 
-## 8. Modèle de données JSON
+## 8. Application web — Statistiques
 
-### 8.1 Structure `voyages.json` (version actuelle)
+Page `web/stats.html`, générée par `build_stats.py`.
+
+### 8.1 Sections affichées
+
+1. **Cartes récapitulatives** — jours, activités géolocalisées, distances pied/voiture/total, budget
+2. **Points saillants** — plus long segment à pied, plus long en voiture, jour le plus marché
+3. **Note méthodologique** — OSRM vs vol d'oiseau, segments non calculables
+4. **Tableaux** — par jour, par ville, trajets logistiques, tous les segments
+5. **Graphiques en barres** — nature, catégorie, réservations
+6. **Lieux sans coordonnées** (si applicable)
+
+Les données brutes sont aussi disponibles dans `data/stats.json`.
+
+---
+
+## 9. Modèle de données JSON
+
+### 9.1 `voyages.json`
 
 ```json
 {
-  "jours": [1, 2, 3, 4, 5, 6, 7],
+  "jours": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
   "points": [
     {
       "id": "3.1-2",
@@ -392,212 +469,246 @@ start web/index.html          # Windows
       "ordre_label": "3.1",
       "jour": 3,
       "visite": 1,
-      "nom": "Les grands canaux",
-      "lat": 52.3647238,
-      "lon": 4.8969202,
+      "nom": "Rijksmuseum, Amsterdam",
+      "ville": "Amsterdam",
+      "lat": 52.3598431,
+      "lon": 4.8850395,
       "lien": null,
       "couleur": "#3498db",
       "popup": {
-        "action": "Balade",
-        "type": "Balade",
+        "action": "Visite",
+        "type": "Musée",
         "billet": "Non",
-        "prix": 0,
+        "prix": 25,
         "city_card": null,
-        "ouverture": null,
-        "fermeture": null,
-        "remarque": "Singel, Herengracht…"
+        "ouverture": "9h00",
+        "fermeture": "17h00",
+        "remarque": "Museumplein"
       }
     }
   ]
 }
 ```
 
-### 8.2 Description des champs
+| Champ | Description |
+|-------|-------------|
+| `points[].id` | `{ordre_label}-{numéro_ligne_excel}` |
+| `points[].ville` | Ville (colonne Excel) |
+| `points[].popup.remarque` | Quartier (colonne Excel `Quartier`) |
 
-| Champ | Type | Description |
-|-------|------|-------------|
-| `jours` | `int[]` | Liste triée des numéros de jour présents |
-| `points` | `object[]` | Tous les points géolocalisés |
-| `points[].id` | `string` | Identifiant unique : `{ordre_label}-{numéro_ligne_excel}` |
-| `points[].ordre` | `int` | Numéro de visite dans le jour |
-| `points[].ordre_label` | `string` | Affichage : `jour.visite` |
-| `points[].jour` | `int` | Numéro du jour de voyage |
-| `points[].visite` | `int` | Rang de la visite ce jour-là |
-| `points[].nom` | `string` | Nom du lieu |
-| `points[].lat` / `lon` | `float` | Coordonnées WGS84 |
-| `points[].lien` | `string\|null` | URL (colonne `Lien` ou `Site`) |
-| `points[].couleur` | `string` | Code couleur hex du jour |
-| `points[].popup` | `object` | Métadonnées affichées dans le popup |
-
-### 8.3 Structure étendue (page Amsterdam — non intégrée au build actuel)
+### 9.2 `stats.json` (extrait)
 
 ```json
 {
-  "villes": ["Amsterdam"],
-  "onglets": ["Centre - Jordaan", "Vondelpark", "Est - Sud Est", "Nord"],
-  "jours": { "3": ["Centre - Jordaan"], "4": ["Vondelpark"] },
-  "points": [
-    {
-      "ville": "Amsterdam",
-      "onglet": "Centre - Jordaan",
-      "...": "..."
-    }
-  ]
+  "generated_at": "10/06/2026 16:45 UTC",
+  "summary": {
+    "jours": 12,
+    "activities": 70,
+    "geocoded": 62,
+    "villes": 8,
+    "segments_foot": 40,
+    "segments_car": 4
+  },
+  "distances": {
+    "foot_m": 54577,
+    "car_m": 528311,
+    "foot_duration_s": 43866,
+    "car_duration_s": 22453
+  },
+  "budget": {
+    "total": 335.5,
+    "visits_total": 335.5
+  },
+  "by_day": { "1": { "foot_km": 4.1, "car_km": 364.34, "prix": 0 } },
+  "segments": [ { "jour": 1, "mode": "car", "distance_m": 350000 } ]
 }
 ```
 
 ---
 
-## 9. Architecture technique
+## 10. Architecture technique
 
-### 9.1 Stack
+### 10.1 Stack
 
 | Couche | Technologie |
 |--------|-------------|
-| Langage scripts | Python 3 |
-| Lecture Excel | openpyxl ≥ 3.1.0 |
-| HTTP (géocodage) | requests ≥ 2.31.0 |
+| Scripts | Python 3 |
+| Excel | openpyxl ≥ 3.1.0 |
+| HTTP | requests ≥ 2.31.0 |
 | Frontend | HTML5, CSS3, JavaScript ES5 (IIFE) |
 | Cartographie | Leaflet 1.9.4 |
-| Géocodage | Nominatim (OpenStreetMap) |
-| Routage | OSRM (profil piéton) |
+| Géocodage | Nominatim |
+| Routage | OSRM (pied + voiture) |
 
-### 9.2 Dépendances externes (réseau requis)
+### 10.2 Services externes
 
-| Service | URL | Usage | Contrainte |
-|---------|-----|-------|------------|
-| Nominatim | `nominatim.openstreetmap.org` | Géocodage (scripts) | 1 req/s, User-Agent obligatoire |
-| OSRM DE | `routing.openstreetmap.de` | Itinéraires piétons (navigateur) | Usage fair-use |
-| OSRM Project | `router.project-osrm.org` | Secours routage | Usage fair-use |
-| OSM Tiles | `tile.openstreetmap.org` | Fond de carte | Usage fair-use |
-| Leaflet CDN | `unpkg.com/leaflet` | Bibliothèque carte | Connexion internet à l'ouverture |
+| Service | Usage | Contrainte |
+|---------|-------|------------|
+| Nominatim | Géocodage (scripts) | 1 req/s, User-Agent obligatoire |
+| OSRM DE | Itinéraires pied/voiture | Usage fair-use |
+| OSRM Project | Secours routage | Usage fair-use |
+| OSM Tiles | Fond de carte | Usage fair-use |
+| Leaflet CDN | Bibliothèque carte | Connexion internet requise |
 
-### 9.3 Sécurité
+### 10.3 Sécurité
 
 - Pas de secrets dans le code
-- Données personnelles de voyage stockées localement
-- Échappement HTML systématique dans les popups (`escapeHtml`)
+- Données de voyage stockées localement / déployées en statique
+- Échappement HTML dans les popups et pages stats
 - Liens externes avec `rel="noopener"`
 
 ---
 
-## 10. Structure du projet
+## 11. Structure du projet
 
 ```
 CarteVoyage/
 ├── docs/
-│   └── CAHIER_DES_CHARGES.md      # Ce document
+│   └── CAHIER_DES_CHARGES.md       # Ce document
 ├── excel/
-│   ├── Voyage Aout 2026.xlsx      # Source (non versionnée ou locale)
-│   └── backups/                   # Sauvegardes automatiques
+│   ├── Voyage Aout 2026.xlsx       # Source (local, non versionnée)
+│   └── backups/                    # Sauvegardes automatiques
 ├── data/
-│   ├── voyages.json               # Données générées
-│   ├── geocode_cache.json         # Cache géocodage
-│   ├── geocode_errors.csv         # Erreurs de géocodage
-│   └── lignes_sans_coords.csv     # Lignes sans coordonnées
+│   ├── voyages.json                # Données carte
+│   ├── stats.json                  # Données statistiques
+│   ├── geocode_cache.json          # Cache géocodage
+│   ├── route_stats_cache.json      # Cache routage OSRM (stats)
+│   ├── geocode_errors.csv
+│   └── lignes_sans_coords.csv
 ├── scripts/
-│   ├── excel_utils.py             # Bibliothèque partagée Excel/JSON
-│   ├── geocode_excel.py           # Géocodage Nominatim
-│   ├── build_map.py               # Génération HTML + JSON
-│   └── requirements.txt           # Dépendances Python
+│   ├── excel_utils.py              # Bibliothèque partagée Excel/JSON
+│   ├── geocode_excel.py            # Géocodage Nominatim
+│   ├── build_map.py                # Génération carte
+│   ├── build_stats.py              # Génération statistiques
+│   ├── sync_listes_validations.py  # Sync listes déroulantes Excel
+│   ├── verify_planning_workbook.py # Vérification classeur
+│   ├── site_nav.py                 # En-tête HTML partagé
+│   └── requirements.txt
 ├── web/
-│   ├── index.html                 # Carte principale (générée)
+│   ├── index.html                  # Carte (générée)
+│   ├── stats.html                  # Statistiques (générée)
 │   └── assets/
-│       ├── css/map.css            # Styles
-│       └── js/map.js              # Logique carte + trajets
-└── .venv/                         # Environnement virtuel Python
+│       ├── css/map.css, stats.css
+│       ├── js/map.js
+│       └── img/logo-cartevoyage.svg, .png
+├── logos/                          # Logos sources (SVG)
+├── .github/workflows/pages.yml     # Déploiement GitHub Pages
+├── publier.ps1                     # Script de publication
+└── .venv/                          # Environnement Python (local)
 ```
 
 ---
 
-## 11. Guide d'utilisation
+## 12. Guide d'utilisation
 
-### 11.1 Préparer un nouveau voyage
+### 12.1 Préparer un nouveau voyage
 
 1. Créer ou copier un fichier Excel dans `excel/`
-2. Structurer les activités en feuilles `Jour 1`, `Jour 2`, … avec les colonnes du planning
-3. Renseigner `Lieu`, `N° étape` (`jour.visite`) et `Ville` pour chaque activité
-4. Adapter si besoin dans `geocode_excel.py` :
-   - `COUNTRY_BY_VILLE` pour les villes du voyage
-   - `NAME_ALIASES`, `NOM_ALIASES_BY_VILLE` et `MANUAL_COORDS` pour les lieux difficiles
+2. Structurer les feuilles `Jour 1`, `Jour 2`, … avec les colonnes du planning
+3. Renseigner `Lieu`, `N° étape` (texte), `Ville` pour chaque activité
+4. Adapter dans `geocode_excel.py` si besoin :
+   - `COUNTRY_BY_VILLE` pour de nouvelles villes
+   - `NAME_ALIASES`, `NOM_ALIASES_BY_VILLE`, `MANUAL_COORDS`
+   - `EXCEL_LIEU_RENAMES`, `EXCEL_VILLE_BY_NOM`
 
-### 11.2 Mettre à jour la carte après modification de l'Excel
+### 12.2 Mettre à jour après modification de l'Excel
 
 ```bash
-python scripts/geocode_excel.py   # Si nouveaux lieux
-python scripts/build_map.py       # Toujours après modification
+python scripts/sync_listes_validations.py   # Si listes déroulantes modifiées
+python scripts/verify_planning_workbook.py  # Contrôle (recommandé)
+python scripts/geocode_excel.py             # Si nouveaux lieux
+python scripts/build_map.py                 # Toujours
+python scripts/build_stats.py               # Toujours
 ```
 
-### 11.3 Consulter la carte
+### 12.3 Consulter le site
 
-- Ouvrir `web/index.html` dans un navigateur
-- Cocher/décocher les jours pour filtrer
-- Cocher des trajets pour voir les itinéraires piétons
-- Cliquer sur les marqueurs pour les détails
-
-### 11.4 Déployer en ligne
-
-Copier le dossier `web/` (et éventuellement `data/voyages.json` si chargement externe futur) sur un hébergeur statique (GitHub Pages, Netlify, etc.). Une connexion internet est nécessaire pour les tuiles et le routage OSRM.
+- **Carte** : filtres jour, visites, trajets ; clic marqueurs pour détails
+- **Statistiques** : synthèse distances et budget
 
 ---
 
-## 12. Critères d'acceptation
+## 13. Publication sur GitHub Pages
 
-### Géocodage
+### 13.1 Script `publier.ps1`
 
-- [ ] Toutes les lignes avec `Nom` + `Ordre` valide sont traitées
-- [ ] Les lignes déjà géocodées ne sont pas écrasées (sauf `--force`)
-- [ ] Une sauvegarde Excel est créée avant toute modification
-- [ ] Les erreurs sont listées dans `geocode_errors.csv`
-- [ ] Le cache évite les appels API redondants
+Automatise la régénération et le push vers GitHub :
 
-### Build
+```powershell
+.\publier.ps1
+.\publier.ps1 "Message de commit personnalisé"
+```
 
-- [ ] `voyages.json` contient tous les points avec coordonnées
-- [ ] `index.html` s'ouvre sans serveur et affiche la carte
-- [ ] Les lignes sans coords sont listées dans `lignes_sans_coords.csv`
-- [ ] Les points sont triés par jour, visite, id
+Étapes exécutées :
+
+1. `python scripts/sync_listes_validations.py`
+2. `python scripts/build_map.py`
+3. `python scripts/build_stats.py`
+4. `git add -A` → commit → push
+
+Le site est disponible sous **1 à 2 minutes** à :  
+[https://sinnamary.github.io/CarteVoyage/web/](https://sinnamary.github.io/CarteVoyage/web/)
+
+### 13.2 GitHub Actions (`.github/workflows/pages.yml`)
+
+- Déclenché sur push vers `master` ou manuellement
+- Publie le dossier `web/` sur GitHub Pages
+- Les fichiers `data/*.json` versionnés servent de référence ; le HTML embarque les données pour la carte
+
+---
+
+## 14. Critères d'acceptation
+
+### Excel et scripts
+
+- [ ] Structure feuilles conforme (`Vue d'ensemble`, `Listes`, `Jour 1`…`Jour N`)
+- [ ] `verify_planning_workbook.py` termine sans erreur bloquante
+- [ ] Géocodage multi-pays selon la colonne `Ville`
+- [ ] Sauvegarde Excel avant toute modification
+- [ ] `build_map.py` et `build_stats.py` produisent HTML + JSON à jour
 
 ### Carte web
 
-- [ ] Chaque point affiche son numéro `jour.visite`
-- [ ] Les couleurs différencient les jours
-- [ ] Le filtre jour masque/affiche les marqueurs et ajuste le zoom
-- [ ] Les popups affichent les informations Excel disponibles
-- [ ] Les trajets piétons s'affichent avec distance et durée
-- [ ] Le fallback ligne droite fonctionne si OSRM est indisponible
-- [ ] L'interface est utilisable sur mobile
+- [ ] Marqueurs numérotés, colorés par jour, popups complètes
+- [ ] Filtres jour, visites, option masquage voiture
+- [ ] Trajets pied et voiture avec distance/durée
+- [ ] Interface utilisable sur mobile
+
+### Statistiques
+
+- [ ] Distances pied/voiture cohérentes avec la logique carte
+- [ ] Tableaux par jour et par ville
+- [ ] Budget et répartitions affichés
 
 ---
 
-## 13. Contraintes, limites et risques
+## 15. Contraintes, limites et risques
 
 | Contrainte / limite | Impact | Mitigation |
 |---------------------|--------|------------|
-| Géocodage limité au pays `nl` par défaut | Cologne, Lille non trouvés | Changer `DEFAULT_COUNTRY` ou saisie manuelle |
-| Politique Nominatim (1 req/s) | Géocodage lent sur grands fichiers | Cache + alias + coords manuelles |
-| APIs OSRM publiques | Indisponibilité ou résultats imprécis | Fallback ligne droite, double serveur |
-| Données embarquées dans HTML | Regénération nécessaire à chaque changement | Relancer `build_map.py` |
-| Pas de HTTPS local | Certaines APIs peuvent bloquer en `file://` | Servir via un serveur local simple |
-| Orthographe des noms | Géocodage erroné | Alias dans `NAME_ALIASES` |
-| Feuille `Amsterdam` ignorée | Confusion si activités y sont stockées | Utiliser des feuilles d'activités dédiées |
-| Ordre `X.10` saisi comme nombre dans Excel | Devient `X.1` (collision de visite) | Saisir la colonne `Ordre` en texte ; `build_map.py` signale les collisions |
+| Villes inconnues dans `COUNTRY_BY_VILLE` | Géocodage avec pays `nl` par défaut | Ajouter la ville au dictionnaire |
+| Politique Nominatim (1 req/s) | Géocodage lent | Cache, alias, coords manuelles |
+| APIs OSRM publiques | Indisponibilité ou imprécision | Fallback ligne droite / vol d'oiseau |
+| Données embarquées dans HTML | Regénération à chaque changement | Relancer `build_map.py` / `publier.ps1` |
+| Protocole `file://` | APIs parfois bloquées | GitHub Pages ou serveur local |
+| Ordre `X.10` en nombre Excel | Devient `X.1` | Format texte `@` ; vérification automatique |
+| Listes déroulantes désynchronisées | Combos Excel tronquées | `sync_listes_validations.py` |
+| Fichier Excel non versionné | CI ne peut pas regénérer seule | Données JSON/HTML commitées après build local |
 
 ---
 
-## 14. Évolutions envisageables
+## 16. Évolutions envisageables
 
-| Évolution | Description | Priorité suggérée |
-|-----------|-------------|-------------------|
-| Filtres ville / quartier | Finaliser le support `ville`, `onglet`, `PAGE_FILTER` dans `map.js` | Haute |
-| Build multi-pages | Générer automatiquement `web/villes/*.html` depuis `build_map.py` | Haute |
-| Géocodage multi-pays | Déduire le pays depuis la feuille Excel ou une colonne `Pays` | Haute |
-| Chargement JSON externe | Charger `voyages.json` par fetch au lieu de l'embarquer | Moyenne |
-| Export GPX / KML | Exporter l'itinéraire du jour | Moyenne |
-| Serveur local intégré | Script `serve.py` pour éviter les problèmes `file://` | Moyenne |
-| Regroupement par type | Filtre musées / balades / pauses | Basse |
-| Mode hors-ligne | Tuiles et routage en cache local | Basse |
-| Interface d'édition | Modifier le planning depuis la carte | Basse |
+| Évolution | Description | Priorité |
+|-----------|-------------|----------|
+| Filtres ville / quartier sur la carte | Filtrer les points par `ville` ou quartier | Haute |
+| Build multi-pages par ville | Pages dédiées par ville | Moyenne |
+| Chargement JSON externe | `fetch('voyages.json')` au lieu de données embarquées | Moyenne |
+| Export GPX / KML | Exporter l'itinéraire d'un jour | Moyenne |
+| Serveur local intégré | Script `serve.py` pour éviter `file://` | Moyenne |
+| CI avec Excel de test | Regénérer le site en CI sans fichier local | Moyenne |
+| Filtre par type d'activité | Musées / balades / restaurants | Basse |
+| Mode hors-ligne | Tuiles et routage en cache | Basse |
 
 ---
 
@@ -631,14 +742,15 @@ requests>=2.31.0
 
 | Terme | Définition |
 |-------|------------|
-| **Jour** | Numéro du jour de voyage (colonne `Ordre`, partie entière) |
-| **Visite** | Rang de l'activité dans la journée (colonne `Ordre`, partie décimale) |
+| **Jour** | Numéro du jour de voyage (partie entière du `N° étape`) |
+| **Visite** | Rang de l'activité dans la journée (partie décimale) |
 | **Segment** | Trajet entre deux visites consécutives du même jour |
+| **Quartier** | Colonne Excel ; stockée en interne comme `Remarque` |
+| **Trajet logistique** | Ligne « Trajet … » ou « Retour … », sans point sur la carte |
 | **Géocodage** | Conversion d'un nom de lieu en coordonnées GPS |
-| **Nominatim** | Service de géocodage d'OpenStreetMap |
+| **Nominatim** | Service de géocodage OpenStreetMap |
 | **OSRM** | Open Source Routing Machine — calcul d'itinéraires |
-| **City Card** | Pass touristique (ex. Amsterdam City Card) |
 
 ---
 
-*Document généré à partir de l'analyse du code source du projet CarteVoyage (juin 2026).*
+*Document mis à jour à partir de l'analyse du code source du projet CarteVoyage (juin 2026).*

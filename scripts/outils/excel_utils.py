@@ -12,7 +12,8 @@ from openpyxl.worksheet.worksheet import Worksheet
 
 DEFAULT_EXCEL_NAME = "Voyage Aout 2026.xlsx"
 
-IGNORE_SHEETS = {"Vue d'ensemble", "Listes"}
+OVERVIEW_SHEET = "Vue d'ensemble"
+IGNORE_SHEETS = {OVERVIEW_SHEET, "Listes"}
 DAY_HEADER_ROW = 2
 DATA_START_ROW = 3
 
@@ -50,7 +51,7 @@ ORDRE_RE = re.compile(r"^\s*(\d+)[.,](\d+)\s*$")
 
 
 def project_root() -> Path:
-    return Path(__file__).resolve().parent.parent
+    return Path(__file__).resolve().parent.parent.parent
 
 
 def excel_dir() -> Path:
@@ -165,6 +166,10 @@ def parse_float(value: Any) -> float | None:
         return float(value)
     except (TypeError, ValueError):
         return None
+
+
+def parse_prix(value: Any) -> float | None:
+    return parse_float(value)
 
 
 def has_coordinates(row: tuple[Any, ...], col_index: dict[str, int]) -> bool:

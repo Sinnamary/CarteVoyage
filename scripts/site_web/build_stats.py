@@ -16,10 +16,12 @@ from typing import Any
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 import openpyxl
 import requests
 
-from excel_utils import (
+from outils.excel_utils import (
     cell_value,
     data_dir,
     default_excel_path,
@@ -29,7 +31,7 @@ from excel_utils import (
     row_to_point,
     web_dir,
 )
-from site_nav import render_header
+from site_web.site_nav import render_header
 
 WALKING_MAX_AIR_DISTANCE_M = 5000
 ROUTE_DELAY_S = 0.12

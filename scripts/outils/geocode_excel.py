@@ -13,10 +13,12 @@ from pathlib import Path
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 import openpyxl
 import requests
 
-from excel_utils import (
+from outils.excel_utils import (
     backup_excel,
     cell_value,
     data_dir,
@@ -365,7 +367,8 @@ def run_geocoding(excel_path: Path, dry_run: bool = False, force: bool = False) 
     cache = load_cache(cache_path)
     errors: list[dict[str, str]] = []
     updated = 0
-    skipped = 0
+    skipped_geocoded = 0
+    skipped_trajet = 0
 
     for item in iter_activity_rows(wb):
         col_index = item["col_index"]
@@ -376,11 +379,11 @@ def run_geocoding(excel_path: Path, dry_run: bool = False, force: bool = False) 
         nom = normalize_text(cell_value(row, col_index, "Nom"))
 
         if is_non_geocodable_lieu(nom):
-            skipped += 1
+            skipped_trajet += 1
             continue
 
         if has_coordinates(row, col_index) and not force:
-            skipped += 1
+            skipped_geocoded += 1
             continue
         remarque = normalize_text(cell_value(row, col_index, "Remarque"))
         action = normalize_text(cell_value(row, col_index, "Action"))
@@ -432,7 +435,12 @@ def run_geocoding(excel_path: Path, dry_run: bool = False, force: bool = False) 
         wb.save(excel_path)
         print(f"Backup: {backup_path}")
 
-    print(f"\nTermine: {updated} geocode(s), {skipped} ignore(s), {len(errors)} erreur(s)")
+    print(
+        f"\nTermine: {updated} nouveau(x) geocode(s), "
+        f"{skipped_geocoded} deja geocode(s) (ignores), "
+        f"{skipped_trajet} trajet(s) / logistique, "
+        f"{len(errors)} erreur(s)"
+    )
     print(f"Cache: {cache_path}")
     print(f"Erreurs: {errors_path}")
 

@@ -6,11 +6,14 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import openpyxl
 
-from excel_utils import (
+from outils.excel_utils import (
     build_voyage_data,
     data_dir,
     default_excel_path,
@@ -20,7 +23,7 @@ from excel_utils import (
     row_to_point,
     web_dir,
 )
-from site_nav import render_header
+from site_web.site_nav import render_header
 
 HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="fr">

@@ -1,0 +1,259 @@
+{
+  "generated_at": "11/06/2026 06:34 UTC",
+  "config": {
+    "title": "Voyage été 2026",
+    "start_date": "2026-08-03",
+    "sheet_name": "Vue d'ensemble"
+  },
+  "summary": {
+    "period": "3 au 14 août 2026",
+    "route": "Cologne → Amsterdam → Ennevelin",
+    "jours_count": 12,
+    "activities_total": 62,
+    "visites_total": 24,
+    "prix_total": 335.5
+  },
+  "phases": [
+    {
+      "ville": "Départ & Cologne",
+      "start": "2026-08-03",
+      "end": "2026-08-04",
+      "jours": "Jour 1–2"
+    },
+    {
+      "ville": "Amsterdam",
+      "start": "2026-08-05",
+      "end": "2026-08-10",
+      "jours": "Jour 3–8"
+    },
+    {
+      "ville": "Retour Nord",
+      "start": "2026-08-11",
+      "end": "2026-08-14",
+      "jours": "Jour 9–12"
+    }
+  ],
+  "by_day": [
+    {
+      "jour": 1,
+      "date": "2026-08-03",
+      "ville": "Cologne",
+      "villes": [
+        "Strasbourg",
+        "Cologne"
+      ],
+      "activities": 7,
+      "visites": 2,
+      "prix": 0.0,
+      "resume": "Museum Ludwig, Köln, Cathédrale de Cologne (Kölner Dom)",
+      "couleur": "#e74c3c"
+    },
+    {
+      "jour": 2,
+      "date": "2026-08-04",
+      "ville": "Cologne",
+      "villes": [
+        "Cologne"
+      ],
+      "activities": 4,
+      "visites": 2,
+      "prix": 0.0,
+      "resume": "Römisch-Germanisches Museum, Köln, Kolumba Kunstmuseum, Köln",
+      "couleur": "#27ae60"
+    },
+    {
+      "jour": 3,
+      "date": "2026-08-05",
+      "ville": "Amsterdam",
+      "villes": [
+        "Cologne",
+        "Amsterdam"
+      ],
+      "activities": 12,
+      "visites": 5,
+      "prix": 58.5,
+      "resume": "Begijnhof, Amsterdam, Allard Pierson Museum, Amsterdam, Het Grachtenhuis, Amsterdam (+2)",
+      "couleur": "#3498db"
+    },
+    {
+      "jour": 4,
+      "date": "2026-08-06",
+      "ville": "Amsterdam",
+      "villes": [
+        "Amsterdam"
+      ],
+      "activities": 8,
+      "visites": 3,
+      "prix": 71.5,
+      "resume": "Rijksmuseum, Amsterdam, Van Gogh Museum, Amsterdam, Stedelijk Museum, Amsterdam",
+      "couleur": "#9b59b6"
+    },
+    {
+      "jour": 5,
+      "date": "2026-08-07",
+      "ville": "Amsterdam",
+      "villes": [
+        "Amsterdam"
+      ],
+      "activities": 13,
+      "visites": 9,
+      "prix": 187.0,
+      "resume": "Museum Rembrandthuis, Amsterdam, Joods Historisch Museum, Amsterdam, National Holocaust Museum, Amsterdam (+6)",
+      "couleur": "#e67e22"
+    },
+    {
+      "jour": 6,
+      "date": "2026-08-08",
+      "ville": "Amsterdam",
+      "villes": [
+        "Amsterdam"
+      ],
+      "activities": 3,
+      "visites": 1,
+      "prix": 18.5,
+      "resume": "Tour A'DAM",
+      "couleur": "#1abc9c"
+    },
+    {
+      "jour": 7,
+      "date": "2026-08-09",
+      "ville": "Amsterdam",
+      "villes": [
+        "Amsterdam"
+      ],
+      "activities": 2,
+      "visites": 0,
+      "prix": 0,
+      "resume": "2 hébergement",
+      "couleur": "#f39c12"
+    },
+    {
+      "jour": 8,
+      "date": "2026-08-10",
+      "ville": "Amsterdam",
+      "villes": [
+        "Amsterdam",
+        "Lille"
+      ],
+      "activities": 2,
+      "visites": 0,
+      "prix": 0,
+      "resume": "2 hébergement",
+      "couleur": "#2c3e50"
+    },
+    {
+      "jour": 9,
+      "date": "2026-08-11",
+      "ville": "Ennevelin",
+      "villes": [
+        "Ennevelin",
+        "Lille",
+        "Bergues"
+      ],
+      "activities": 4,
+      "visites": 0,
+      "prix": 0.0,
+      "resume": "2 hébergement, 1 balade, 1 activité",
+      "couleur": "#d35400"
+    },
+    {
+      "jour": 10,
+      "date": "2026-08-12",
+      "ville": "Ennevelin",
+      "villes": [
+        "Ennevelin",
+        "Côte d'Opale"
+      ],
+      "activities": 3,
+      "visites": 1,
+      "prix": 0,
+      "resume": "Côte d'Opale",
+      "couleur": "#16a085"
+    },
+    {
+      "jour": 11,
+      "date": "2026-08-13",
+      "ville": "Ennevelin",
+      "villes": [
+        "Ennevelin",
+        "Cap Gris-Nez"
+      ],
+      "activities": 3,
+      "visites": 1,
+      "prix": 0,
+      "resume": "Cap Gris-Nez",
+      "couleur": "#e74c3c"
+    },
+    {
+      "jour": 12,
+      "date": "2026-08-14",
+      "ville": "Ennevelin",
+      "villes": [
+        "Ennevelin"
+      ],
+      "activities": 1,
+      "visites": 0,
+      "prix": 0,
+      "resume": "1 hébergement",
+      "couleur": "#27ae60"
+    }
+  ],
+  "by_ville": [
+    {
+      "ville": "Strasbourg",
+      "activities": 1,
+      "visites": 0,
+      "prix": 0.0,
+      "jours": 1
+    },
+    {
+      "ville": "Cologne",
+      "activities": 11,
+      "visites": 4,
+      "prix": 0.0,
+      "jours": 3
+    },
+    {
+      "ville": "Amsterdam",
+      "activities": 38,
+      "visites": 18,
+      "prix": 335.5,
+      "jours": 6
+    },
+    {
+      "ville": "Lille",
+      "activities": 2,
+      "visites": 0,
+      "prix": 0.0,
+      "jours": 2
+    },
+    {
+      "ville": "Ennevelin",
+      "activities": 7,
+      "visites": 0,
+      "prix": 0.0,
+      "jours": 4
+    },
+    {
+      "ville": "Bergues",
+      "activities": 1,
+      "visites": 0,
+      "prix": 0.0,
+      "jours": 1
+    },
+    {
+      "ville": "Côte d'Opale",
+      "activities": 1,
+      "visites": 1,
+      "prix": 0.0,
+      "jours": 1
+    },
+    {
+      "ville": "Cap Gris-Nez",
+      "activities": 1,
+      "visites": 1,
+      "prix": 0.0,
+      "jours": 1
+    }
+  ]
+}
