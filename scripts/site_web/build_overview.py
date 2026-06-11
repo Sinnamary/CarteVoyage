@@ -11,11 +11,12 @@ from collections import Counter, defaultdict
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
+from urllib.parse import quote
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import openpyxl
-from openpyxl.styles import Alignment, Font, PatternFill
+from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.worksheet import Worksheet
 
@@ -23,10 +24,12 @@ from outils.excel_utils import (
     backup_excel,
     cell_value,
     data_dir,
+    day_sheets,
     default_excel_path,
     iter_activity_rows,
     jour_color,
     normalize_text,
+    parse_float,
     parse_prix,
 )
 from outils.overview_config import default_overview_config_path, resolve_overview_config
@@ -47,11 +50,34 @@ MOIS_FR = (
     "décembre",
 )
 
-HEADER_FILL = PatternFill(start_color="2C3E50", end_color="2C3E50", fill_type="solid")
-HEADER_FONT = Font(bold=True, color="FFFFFF")
-TITLE_FONT = Font(bold=True, size=16)
-SUBTITLE_FONT = Font(bold=True, size=12)
-BOLD_FONT = Font(bold=True)
+BANNER_FILL = PatternFill(start_color="2C3E50", end_color="2C3E50", fill_type="solid")
+BANNER_FONT = Font(bold=True, size=15, color="FFFFFF")
+SUBTITLE_FONT = Font(size=10, color="5D6D7E", italic=True)
+AUTO_GENERATED_FONT = Font(size=9, color="95A5A6", italic=True)
+TABLE_HEADER_FILL = PatternFill(start_color="ECF0F1", end_color="ECF0F1", fill_type="solid")
+TABLE_HEADER_FONT = Font(bold=True, size=10, color="2C3E50")
+SECTION_HEADER_FILL = PatternFill(start_color="BDC3C7", end_color="BDC3C7", fill_type="solid")
+SECTION_HEADER_FONT = Font(bold=True, size=11, color="2C3E50")
+HIGHLIGHT_FILL = PatternFill(start_color="FFF9E6", end_color="FFF9E6", fill_type="solid")
+BODY_FONT = Font(size=10)
+JOUR_FONT = Font(bold=True, size=11, color="FFFFFF")
+LODGING_FONT = Font(size=10, color="1A5276")
+LINK_FONT = Font(size=10, color="0563C1", underline="single")
+TOTAL_FONT = Font(bold=True, size=10, color="2C3E50")
+
+THIN_SIDE = Side(style="thin", color="BDC3C7")
+TABLE_BORDER = Border(left=THIN_SIDE, right=THIN_SIDE, top=THIN_SIDE, bottom=THIN_SIDE)
+HEADER_BORDER = Border(
+    left=THIN_SIDE,
+    right=THIN_SIDE,
+    top=THIN_SIDE,
+    bottom=Side(style="medium", color="7F8C8D"),
+)
+
+OVERVIEW_COL_WIDTHS = (10, 28, 32, 40, 11, 12)
+OVERVIEW_MAX_COL = 6
+DATA_ROW_HEIGHT = 22
+PLACEHOLDER_MARKERS = ("à compléter", "a completer", "(à compléter)")
 
 
 def is_trajet_line(nom: str) -> bool:
@@ -84,9 +110,31 @@ def date_for_jour(start: date, jour: int) -> date:
     return start + timedelta(days=jour - 1)
 
 
-def hex_to_fill(hex_color: str) -> PatternFill:
-    color = hex_color.lstrip("#").upper()
-    return PatternFill(start_color=color, end_color=color, fill_type="solid")
+def parse_heure(value: Any) -> int | None:
+    text = normalize_text(value).lower().replace(" ", "")
+    match = re.match(r"^(\d{1,2})h(?:\d{2})?$", text)
+    if not match:
+        return None
+    return int(match.group(1))
+
+
+def is_overnight_stay(row: dict[str, Any]) -> bool:
+    """Une nuit = arrivée le soir ; exclut le départ/check-out le matin."""
+    if not is_hebergement(row["action"]):
+        return False
+    ouverture = parse_heure(row.get("ouverture"))
+    if ouverture is not None and ouverture < 12:
+        return False
+    return True
+
+
+def format_lodging_dates_label(start: date, end: date, nights: int) -> str:
+    label = format_date_range_fr(start, end)
+    if nights > 1:
+        return f"{label} ({nights} nuits)"
+    if nights == 1:
+        return f"{label} (1 nuit)"
+    return label
 
 
 def row_entry(item: dict[str, Any]) -> dict[str, Any]:
@@ -101,8 +149,292 @@ def row_entry(item: dict[str, Any]) -> dict[str, Any]:
         "action": normalize_text(cell_value(row, ci, "Action")),
         "type": normalize_text(cell_value(row, ci, "Type")),
         "prix": parse_prix(cell_value(row, ci, "Prix")),
+        "remarque": normalize_text(cell_value(row, ci, "Remarque")),
+        "ouverture": normalize_text(cell_value(row, ci, "Ouverture")),
+        "fermeture": normalize_text(cell_value(row, ci, "Fermeture")),
+        "lat": parse_float(cell_value(row, ci, "Latitude")),
+        "lon": parse_float(cell_value(row, ci, "Longitude")),
+        "lien": normalize_text(cell_value(row, ci, "Lien")),
+        "site": normalize_text(cell_value(row, ci, "Site")),
         "is_trajet_line": is_trajet_line(nom),
     }
+
+
+def is_hebergement(action: str) -> bool:
+    return normalize_text(action).lower() in ("hébergement", "hebergement")
+
+
+def lodging_ville(row: dict[str, Any]) -> str:
+    """Ville réelle de la nuit (domicile Ennevelin même si la colonne Ville indique Lille)."""
+    nom = normalize_text(row.get("nom", "")).lower()
+    if "ennevelin" in nom:
+        return "Ennevelin"
+    return normalize_text(row.get("ville", ""))
+
+
+def is_placeholder(value: str) -> bool:
+    lower = normalize_text(value).lower()
+    return any(marker in lower for marker in PLACEHOLDER_MARKERS)
+
+
+def format_budget_cell(prix: float, activities: int) -> str:
+    if activities == 0:
+        return "—"
+    if not prix:
+        return "0 €"
+    text = f"{prix:g}".replace(".", ",")
+    return f"~{text} €"
+
+
+def excel_color(hex_color: str) -> str:
+    return hex_color.lstrip("#").upper()
+
+
+def lighten_hex(hex_color: str, white_blend: float = 0.88) -> str:
+    color = excel_color(hex_color)
+    red = int(color[0:2], 16)
+    green = int(color[2:4], 16)
+    blue = int(color[4:6], 16)
+    red = int(red + (255 - red) * white_blend)
+    green = int(green + (255 - green) * white_blend)
+    blue = int(blue + (255 - blue) * white_blend)
+    return f"{red:02X}{green:02X}{blue:02X}"
+
+
+def fill_from_hex(hex_color: str, *, light: bool = False) -> PatternFill:
+    color = lighten_hex(hex_color) if light else excel_color(hex_color)
+    return PatternFill(start_color=color, end_color=color, fill_type="solid")
+
+
+def nightly_lodging_by_jour(rows: list[dict[str, Any]]) -> dict[int, dict[str, str]]:
+    """Dernière arrivée (nuit) par jour — exclut les check-out matinaux."""
+    by_jour: dict[int, dict[str, str]] = {}
+    for row in sorted(rows, key=lambda r: (r["jour"], r["visite"])):
+        if not is_overnight_stay(row):
+            continue
+        nom = row["nom"] or "À compléter"
+        ville = lodging_ville(row)
+        by_jour[row["jour"]] = {"nom": nom, "ville": ville}
+    return by_jour
+
+
+def format_night_cell(entry: dict[str, str] | None) -> str:
+    if not entry:
+        return "—"
+    nom = entry.get("nom") or ""
+    ville = entry.get("ville") or ""
+    if nom and ville and ville.lower() not in nom.lower():
+        return f"{nom} ({ville})"
+    return nom or ville or "—"
+
+
+def lodging_villes_label(
+    rows: list[dict[str, Any]],
+    *,
+    domicile: str = "",
+    jour: int = 0,
+    last_jour: int = 0,
+) -> str:
+    """Villes de nuit depuis Nature = Hébergement ; domicile = départ (J1) / retour (dernier jour)."""
+    villes: list[str] = []
+    hebergement_rows = [r for r in rows if is_hebergement(r["action"])]
+    for row in sorted(hebergement_rows, key=lambda r: r["visite"]):
+        ville = lodging_ville(row)
+        if not ville:
+            continue
+        if not villes or villes[-1] != ville:
+            villes.append(ville)
+
+    home = normalize_text(domicile)
+    if home and villes:
+        has_overnight = any(is_overnight_stay(r) for r in hebergement_rows)
+        has_checkout = any(not is_overnight_stay(r) for r in hebergement_rows)
+        if jour == 1 and has_overnight and villes[0] != home:
+            villes.insert(0, home)
+        if (
+            jour == last_jour
+            and has_checkout
+            and villes[-1] != home
+            and not any(is_overnight_stay(r) and lodging_ville(r) == home for r in hebergement_rows)
+        ):
+            villes.append(home)
+
+    if len(villes) >= 2:
+        return " → ".join(villes)
+    if villes:
+        return villes[0]
+    return "—"
+
+
+def format_day_villes(summary: dict[str, Any]) -> str:
+    return summary.get("lodging_villes_label") or "—"
+
+
+def day_theme_auto(day_rows: list[dict[str, Any]], summary: dict[str, Any]) -> str:
+    activities = [r for r in day_rows if not r["is_trajet_line"]]
+    if not activities:
+        ville = summary.get("ville") or ""
+        return f"{ville} — journée libre" if ville else "Journée libre"
+
+    for row in sorted(activities, key=lambda r: r["visite"]):
+        if is_hebergement(row["action"]):
+            continue
+        if row["nom"]:
+            return row["nom"]
+    return summary.get("resume") or day_resume(day_rows, limit=2)
+
+
+def should_highlight_day(summary: dict[str, Any]) -> bool:
+    return summary.get("activities", 0) == 0
+
+
+def phase_jour_bounds(phase: dict[str, Any]) -> tuple[int, int] | None:
+    match = re.search(r"Jour\s+(\d+)[–-](\d+)", normalize_text(phase.get("jours")))
+    if not match:
+        return None
+    return int(match.group(1)), int(match.group(2))
+
+
+def build_trip_steps(
+    phases: list[dict[str, Any]],
+    day_summaries: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    by_jour = {summary["jour"]: summary for summary in day_summaries}
+    steps: list[dict[str, Any]] = []
+    for phase in phases:
+        bounds = phase_jour_bounds(phase)
+        description = ""
+        if bounds:
+            from_jour, to_jour = bounds
+            themes = [
+                normalize_text(by_jour[j]["theme"])
+                for j in range(from_jour, to_jour + 1)
+                if j in by_jour and normalize_text(by_jour[j]["theme"])
+            ]
+            if len(themes) == 1:
+                description = themes[0]
+            elif themes:
+                description = f"{themes[0]} … {themes[-1]}"
+        steps.append(
+            {
+                "ville": phase["ville"],
+                "dates": format_date_range_fr(phase["start"], phase["end"]),
+                "description": description,
+            }
+        )
+    return steps
+
+
+def fill_empty_day_villes(day_summaries: list[dict[str, Any]]) -> None:
+    last_ville = ""
+    for summary in day_summaries:
+        if summary["ville"]:
+            last_ville = summary["ville"]
+        elif last_ville:
+            summary["ville"] = last_ville
+    next_ville = ""
+    for summary in reversed(day_summaries):
+        if summary["ville"]:
+            next_ville = summary["ville"]
+        elif next_ville:
+            summary["ville"] = next_ville
+
+
+def max_planned_jour(wb: openpyxl.Workbook, by_jour: dict[int, list[dict[str, Any]]]) -> int:
+    from_sheets = 0
+    for sheet_name in day_sheets(wb):
+        try:
+            from_sheets = max(from_sheets, int(sheet_name.split()[1]))
+        except (IndexError, ValueError):
+            continue
+    from_rows = max(by_jour) if by_jour else 0
+    return max(from_sheets, from_rows)
+
+
+def google_maps_url(
+    *,
+    nom: str = "",
+    ville: str = "",
+    lat: float | None = None,
+    lon: float | None = None,
+    existing: str = "",
+) -> str | None:
+    url = normalize_text(existing)
+    lower = url.lower()
+    if url and ("google.com/maps" in lower or "maps.google" in lower or "goo.gl/maps" in lower):
+        return url
+    if lat is not None and lon is not None:
+        return f"https://www.google.com/maps/search/?api=1&query={lat},{lon}"
+    parts = [normalize_text(part) for part in (nom, ville) if normalize_text(part)]
+    if not parts:
+        return None
+    return f"https://www.google.com/maps/search/?api=1&query={quote(', '.join(parts))}"
+
+
+def lodging_from_excel(
+    rows: list[dict[str, Any]],
+    start_date: date,
+) -> dict[str, dict[str, Any]]:
+    by_ville: dict[str, dict[str, Any]] = {}
+    for row in rows:
+        if not is_overnight_stay(row):
+            continue
+        ville = lodging_ville(row)
+        if not ville:
+            continue
+        entry = by_ville.setdefault(
+            ville,
+            {"ville": ville, "nom": "", "jours": set(), "lat": None, "lon": None, "lien": ""},
+        )
+        if row["nom"]:
+            entry["nom"] = row["nom"]
+        if row.get("lat") is not None and row.get("lon") is not None:
+            entry["lat"] = row["lat"]
+            entry["lon"] = row["lon"]
+        if row.get("lien"):
+            entry["lien"] = row["lien"]
+        elif row.get("site") and not entry["lien"]:
+            entry["lien"] = row["site"]
+        entry["jours"].add(row["jour"])
+
+    auto_rows: dict[str, dict[str, Any]] = {}
+    for ville, entry in by_ville.items():
+        jours = sorted(entry["jours"])
+        start = date_for_jour(start_date, jours[0])
+        end = date_for_jour(start_date, jours[-1])
+        nights = len(jours)
+        auto_rows[ville] = {
+            "ville": ville,
+            "nom": entry["nom"] or "À compléter",
+            "dates": format_lodging_dates_label(start, end, nights),
+            "maps_url": google_maps_url(
+                nom=entry["nom"],
+                ville=ville,
+                lat=entry["lat"],
+                lon=entry["lon"],
+                existing=entry["lien"],
+            ),
+            "start": start,
+        }
+    return auto_rows
+
+
+def build_lodging_rows(
+    rows: list[dict[str, Any]],
+    start_date: date,
+) -> list[dict[str, Any]]:
+    auto_by_ville = lodging_from_excel(rows, start_date)
+    return sorted(auto_by_ville.values(), key=lambda row: row["start"])
+
+
+def resolve_banner_title(config: dict[str, Any], start_date: date) -> str:
+    custom = normalize_text(config.get("banner_title"))
+    if custom:
+        return custom
+    month = MOIS_FR[start_date.month]
+    if month:
+        return f"Vacances {month.capitalize()} {start_date.year}"
+    return "Vue d'ensemble"
 
 
 def primary_ville(rows: list[dict[str, Any]]) -> str:
@@ -148,26 +480,6 @@ def day_resume(rows: list[dict[str, Any]], limit: int = 3) -> str:
     return ", ".join(f"{n} {label.lower()}" for label, n in actions.most_common(3))
 
 
-def build_phases_from_config(
-    config_phases: list[dict[str, Any]],
-    start_date: date,
-) -> list[dict[str, Any]]:
-    phases: list[dict[str, Any]] = []
-    for entry in config_phases:
-        from_jour = int(entry["from_jour"])
-        to_jour = int(entry["to_jour"])
-        label = normalize_text(entry.get("label")) or normalize_text(entry.get("ville"))
-        phases.append(
-            {
-                "ville": label,
-                "start": date_for_jour(start_date, from_jour),
-                "end": date_for_jour(start_date, to_jour),
-                "jours": f"Jour {from_jour}–{to_jour}",
-            }
-        )
-    return phases
-
-
 def build_phases_auto(day_summaries: list[dict[str, Any]]) -> list[dict[str, Any]]:
     phases: list[dict[str, Any]] = []
     if not day_summaries:
@@ -185,6 +497,8 @@ def build_phases_auto(day_summaries: list[dict[str, Any]]) -> list[dict[str, Any
                     "start": start["date"],
                     "end": end["date"],
                     "jours": f"Jour {start['jour']}–{end['jour']}",
+                    "from_jour": start["jour"],
+                    "to_jour": end["jour"],
                 }
             )
             phase_start_idx = idx
@@ -197,6 +511,8 @@ def build_phases_auto(day_summaries: list[dict[str, Any]]) -> list[dict[str, Any
             "start": start["date"],
             "end": end["date"],
             "jours": f"Jour {start['jour']}–{end['jour']}",
+            "from_jour": start["jour"],
+            "to_jour": end["jour"],
         }
     )
     return phases
@@ -207,7 +523,6 @@ def collect_overview_data(
     config: dict[str, Any],
 ) -> dict[str, Any]:
     start_date = parse_start_date(config["start_date"])
-    trip_title = config["title"]
     resume_limit = int(config.get("day_resume_limit") or 3)
 
     rows = [row_entry(item) for item in iter_activity_rows(wb)]
@@ -215,41 +530,52 @@ def collect_overview_data(
     for row in rows:
         by_jour[row["jour"]].append(row)
 
-    jours = sorted(by_jour)
+    planned_last_jour = max_planned_jour(wb, by_jour)
+    domicile = normalize_text(config.get("domicile"))
+
     day_summaries: list[dict[str, Any]] = []
     route_cities: list[str] = []
 
-    for jour in jours:
-        day_rows = by_jour[jour]
+    for jour in range(1, planned_last_jour + 1):
+        day_rows = by_jour.get(jour, [])
         main_ville = primary_ville(day_rows)
         day_villes = villes_for_day(day_rows)
-        if main_ville and (not route_cities or route_cities[-1] != main_ville):
-            route_cities.append(main_ville)
+        for ville in day_villes:
+            if ville and (not route_cities or route_cities[-1] != ville):
+                route_cities.append(ville)
 
         activities = [r for r in day_rows if not r["is_trajet_line"]]
         visites = [r for r in activities if r["action"].lower() == "visite"]
         prix_rows = [r for r in day_rows if r["prix"] is not None]
         prix_total = sum(r["prix"] for r in prix_rows)
-
-        day_summaries.append(
-            {
-                "jour": jour,
-                "date": date_for_jour(start_date, jour),
-                "ville": main_ville,
-                "villes": day_villes,
-                "activities": len(activities),
-                "visites": len(visites),
-                "prix": prix_total,
-                "resume": day_resume(day_rows, limit=resume_limit),
-                "couleur": jour_color(jour),
-            }
+        summary = {
+            "jour": jour,
+            "date": date_for_jour(start_date, jour),
+            "ville": main_ville,
+            "villes": day_villes,
+            "activities": len(activities),
+            "visites": len(visites),
+            "prix": prix_total,
+            "resume": day_resume(day_rows, limit=resume_limit) if day_rows else "",
+            "couleur": jour_color(jour),
+        }
+        summary["theme"] = day_theme_auto(day_rows, summary)
+        summary["lodging_villes_label"] = lodging_villes_label(
+            day_rows,
+            domicile=domicile,
+            jour=jour,
+            last_jour=planned_last_jour,
         )
+        day_summaries.append(summary)
 
-    config_phases = config.get("phases") or []
-    if config_phases:
-        phases = build_phases_from_config(config_phases, start_date)
-    else:
-        phases = build_phases_auto(day_summaries)
+    fill_empty_day_villes(day_summaries)
+    nightly = nightly_lodging_by_jour(rows)
+    for summary in day_summaries:
+        summary["highlight"] = should_highlight_day(summary)
+        summary["nuit"] = nightly.get(summary["jour"])
+
+    jours = [summary["jour"] for summary in day_summaries]
+    phases = build_phases_auto(day_summaries)
 
     by_ville: dict[str, dict[str, Any]] = defaultdict(
         lambda: {"activities": 0, "visites": 0, "prix": 0.0, "jours": set()}
@@ -290,13 +616,12 @@ def collect_overview_data(
     else:
         period = ""
 
-    route = normalize_text(config.get("route")) or " → ".join(route_cities)
+    route = " → ".join(route_cities)
+    trip_steps = build_trip_steps(phases, day_summaries)
+    lodging_rows = build_lodging_rows(rows, start_date)
 
     return {
-        "title": trip_title,
-        "intro": normalize_text(config.get("intro")),
-        "notes": [normalize_text(note) for note in (config.get("notes") or []) if normalize_text(note)],
-        "sections": config.get("sections") or {},
+        "banner_title": resolve_banner_title(config, start_date),
         "generated_at": datetime.now(timezone.utc).strftime("%d/%m/%Y %H:%M UTC"),
         "period": period,
         "route": route,
@@ -306,6 +631,8 @@ def collect_overview_data(
         "prix_total": prix_total,
         "day_summaries": day_summaries,
         "phases": phases,
+        "trip_steps": trip_steps,
+        "lodging_rows": lodging_rows,
         "ville_rows": ville_rows,
     }
 
@@ -320,9 +647,9 @@ def write_overview_snapshot(data: dict[str, Any], config: dict[str, Any]) -> Pat
     snapshot = {
         "generated_at": data["generated_at"],
         "config": {
-            "title": config["title"],
             "start_date": config["start_date"],
             "sheet_name": config["sheet_name"],
+            "domicile": config.get("domicile"),
         },
         "summary": {
             "period": data["period"],
@@ -333,6 +660,8 @@ def write_overview_snapshot(data: dict[str, Any], config: dict[str, Any]) -> Pat
             "prix_total": data["prix_total"],
         },
         "phases": data["phases"],
+        "steps": data["trip_steps"],
+        "lodging": data["lodging_rows"],
         "by_day": data["day_summaries"],
         "by_ville": data["ville_rows"],
     }
@@ -353,6 +682,7 @@ def set_cell(
     font: Font | None = None,
     fill: PatternFill | None = None,
     alignment: Alignment | None = None,
+    border: Border | None = None,
 ) -> None:
     cell = ws.cell(row=row, column=col, value=value)
     if font:
@@ -361,33 +691,65 @@ def set_cell(
         cell.fill = fill
     if alignment:
         cell.alignment = alignment
+    if border:
+        cell.border = border
+
+
+def set_link_cell(
+    ws: Worksheet,
+    row: int,
+    col: int,
+    url: str,
+    label: str = "Google Maps",
+    *,
+    fill: PatternFill | None = None,
+    alignment: Alignment | None = None,
+    border: Border | None = None,
+) -> None:
+    cell = ws.cell(row=row, column=col, value=label)
+    cell.hyperlink = url
+    cell.font = LINK_FONT
+    if fill:
+        cell.fill = fill
+    if alignment:
+        cell.alignment = alignment
+    if border:
+        cell.border = border
+
+
+def merge_row(ws: Worksheet, row: int, col_start: int, col_end: int) -> None:
+    if col_end > col_start:
+        ws.merge_cells(
+            start_row=row,
+            start_column=col_start,
+            end_row=row,
+            end_column=col_end,
+        )
 
 
 def write_table_header(ws: Worksheet, row: int, headers: list[str]) -> None:
+    ws.row_dimensions[row].height = 24
     for col, header in enumerate(headers, start=1):
         set_cell(
             ws,
             row,
             col,
             header,
-            font=HEADER_FONT,
-            fill=HEADER_FILL,
-            alignment=Alignment(horizontal="center"),
+            font=TABLE_HEADER_FONT,
+            fill=TABLE_HEADER_FILL,
+            alignment=Alignment(horizontal="center", vertical="center", wrap_text=True),
+            border=HEADER_BORDER,
         )
 
 
-def autosize_columns(ws: Worksheet, max_col: int, min_width: int = 10, max_width: int = 48) -> None:
-    for col in range(1, max_col + 1):
-        letter = get_column_letter(col)
-        max_len = min_width
-        for cell in ws[letter]:
-            if cell.value is None:
-                continue
-            max_len = max(max_len, min(len(str(cell.value)), max_width))
-        ws.column_dimensions[letter].width = max_len + 2
+def apply_fixed_column_widths(ws: Worksheet) -> None:
+    for col, width in enumerate(OVERVIEW_COL_WIDTHS, start=1):
+        ws.column_dimensions[get_column_letter(col)].width = width
 
 
 def clear_sheet(ws: Worksheet) -> None:
+    for merged in list(ws.merged_cells.ranges):
+        ws.unmerge_cells(str(merged))
     if ws.max_row:
         ws.delete_rows(1, ws.max_row)
 
@@ -398,134 +760,240 @@ def ensure_overview_sheet(wb: openpyxl.Workbook, sheet_name: str) -> Worksheet:
     return wb.create_sheet(sheet_name, 0)
 
 
-def section_enabled(sections: dict[str, Any], name: str, default: bool = True) -> bool:
-    value = sections.get(name, default)
-    return bool(value)
+def write_day_row(
+    ws: Worksheet,
+    row: int,
+    summary: dict[str, Any],
+) -> None:
+    ws.row_dimensions[row].height = DATA_ROW_HEIGHT
+    jour = summary["jour"]
+    day_color = summary.get("couleur") or jour_color(jour)
+    row_fill = HIGHLIGHT_FILL if summary.get("highlight") else fill_from_hex(day_color, light=True)
+    jour_fill = fill_from_hex(day_color)
+    night_text = format_night_cell(summary.get("nuit"))
+
+    values = [
+        jour,
+        format_date_fr(summary["date"]),
+        format_day_villes(summary),
+        night_text,
+        summary["activities"],
+        format_budget_cell(summary["prix"], summary["activities"]),
+    ]
+    for col, value in enumerate(values, start=1):
+        if col == 1:
+            set_cell(
+                ws,
+                row,
+                col,
+                value,
+                font=JOUR_FONT,
+                fill=jour_fill,
+                alignment=Alignment(horizontal="center", vertical="center"),
+                border=TABLE_BORDER,
+            )
+            continue
+
+        font = LODGING_FONT if col == 4 and night_text != "—" else BODY_FONT
+        cell_fill = row_fill
+        if col == 4 and isinstance(value, str) and is_placeholder(value):
+            cell_fill = HIGHLIGHT_FILL
+
+        alignment = Alignment(vertical="center")
+        if col in (1, 5, 6):
+            alignment = Alignment(horizontal="center", vertical="center")
+        elif col == 2:
+            alignment = Alignment(horizontal="center", vertical="center")
+        elif col == 3:
+            alignment = Alignment(horizontal="left", vertical="center", wrap_text=True)
+        else:
+            alignment = Alignment(horizontal="left", vertical="center", wrap_text=True)
+
+        set_cell(
+            ws,
+            row,
+            col,
+            value,
+            font=font,
+            fill=cell_fill,
+            alignment=alignment,
+            border=TABLE_BORDER,
+        )
+
+
+def write_section_title(ws: Worksheet, row: int, title: str) -> None:
+    set_cell(
+        ws,
+        row,
+        1,
+        title,
+        font=SECTION_HEADER_FONT,
+        fill=SECTION_HEADER_FILL,
+        alignment=Alignment(horizontal="left", vertical="center"),
+    )
+    merge_row(ws, row, 1, OVERVIEW_MAX_COL)
+    ws.row_dimensions[row].height = 22
+
+
+def write_lodging_table(ws: Worksheet, start_row: int, lodging_rows: list[dict[str, Any]]) -> int:
+    row = start_row
+    ws.row_dimensions[row].height = 24
+    lodging_headers = [
+        (1, "Ville", False),
+        (2, "Période", False),
+        (3, "Hébergement", True),
+        (6, "Lien", False),
+    ]
+    for col, label, merge_rest in lodging_headers:
+        set_cell(
+            ws, row, col, label,
+            font=TABLE_HEADER_FONT,
+            fill=TABLE_HEADER_FILL,
+            alignment=Alignment(horizontal="center", vertical="center"),
+            border=HEADER_BORDER,
+        )
+        if merge_rest:
+            merge_row(ws, row, col, OVERVIEW_MAX_COL - 1)
+            for extra_col in range(col + 1, OVERVIEW_MAX_COL):
+                cell = ws.cell(row=row, column=extra_col)
+                cell.fill = TABLE_HEADER_FILL
+                cell.border = HEADER_BORDER
+    row += 1
+
+    if not lodging_rows:
+        set_cell(ws, row, 1, "Aucun hébergement renseigné", font=BODY_FONT)
+        merge_row(ws, row, 1, OVERVIEW_MAX_COL)
+        return row + 1
+
+    for entry in lodging_rows:
+        ws.row_dimensions[row].height = DATA_ROW_HEIGHT
+        set_cell(
+            ws, row, 1, entry["ville"],
+            font=BODY_FONT, fill=HIGHLIGHT_FILL,
+            alignment=Alignment(horizontal="center", vertical="center"),
+            border=TABLE_BORDER,
+        )
+        set_cell(
+            ws, row, 2, entry["dates"],
+            font=BODY_FONT,
+            alignment=Alignment(horizontal="center", vertical="center"),
+            border=TABLE_BORDER,
+        )
+        set_cell(
+            ws, row, 3, entry.get("nom") or "À compléter",
+            font=LODGING_FONT,
+            alignment=Alignment(horizontal="left", vertical="center", wrap_text=True),
+            border=TABLE_BORDER,
+        )
+        merge_row(ws, row, 3, OVERVIEW_MAX_COL - 1)
+        for col in range(4, OVERVIEW_MAX_COL):
+            cell = ws.cell(row=row, column=col)
+            cell.border = TABLE_BORDER
+        maps_url = entry.get("maps_url") or ""
+        if maps_url:
+            set_link_cell(
+                ws, row, OVERVIEW_MAX_COL, maps_url, label="Carte",
+                alignment=Alignment(horizontal="center", vertical="center"),
+                border=TABLE_BORDER,
+            )
+        else:
+            set_cell(
+                ws, row, OVERVIEW_MAX_COL, "—",
+                font=BODY_FONT,
+                alignment=Alignment(horizontal="center", vertical="center"),
+                border=TABLE_BORDER,
+            )
+        row += 1
+    return row
+
+
+def write_totals_row(ws: Worksheet, row: int, data: dict[str, Any]) -> None:
+    ws.row_dimensions[row].height = 22
+    label = (
+        f"{data['jours_count']} jour(s) · "
+        f"{data['activities_total']} activité(s) · "
+        f"{data['visites_total']} visite(s)"
+    )
+    prix = data.get("prix_total") or 0
+    if prix:
+        label += f" · budget estimé ~{prix:g} €".replace(".", ",")
+    set_cell(
+        ws, row, 1, label,
+        font=TOTAL_FONT,
+        alignment=Alignment(horizontal="left", vertical="center"),
+    )
+    merge_row(ws, row, 1, OVERVIEW_MAX_COL)
+
+
+def write_auto_generated_notice(ws: Worksheet, row: int) -> int:
+    set_cell(
+        ws,
+        row,
+        1,
+        "Feuille générée automatiquement — toute modification manuelle sera remplacée à la prochaine génération.",
+        font=AUTO_GENERATED_FONT,
+        alignment=Alignment(horizontal="center", vertical="center"),
+    )
+    merge_row(ws, row, 1, OVERVIEW_MAX_COL)
+    ws.row_dimensions[row].height = 16
+    return row + 1
 
 
 def render_overview_sheet(ws: Worksheet, data: dict[str, Any]) -> None:
     clear_sheet(ws)
-    sections = data.get("sections") or {}
     row = 1
-    max_col = 8
 
-    set_cell(ws, row, 1, data["title"], font=TITLE_FONT)
+    set_cell(
+        ws, row, 1, data["banner_title"],
+        font=BANNER_FONT, fill=BANNER_FILL,
+        alignment=Alignment(horizontal="center", vertical="center"),
+    )
+    merge_row(ws, row, 1, OVERVIEW_MAX_COL)
+    ws.row_dimensions[row].height = 28
     row += 1
-    set_cell(ws, row, 1, f"Période : {data['period']} ({data['jours_count']} jours)", font=SUBTITLE_FONT)
-    row += 1
-    if data["intro"]:
-        set_cell(ws, row, 1, data["intro"])
-        row += 1
-    if data["route"]:
-        set_cell(ws, row, 1, f"Itinéraire : {data['route']}")
-        row += 1
-    if section_enabled(sections, "totals", True):
+
+    if data.get("period"):
         set_cell(
-            ws,
-            row,
-            1,
-            f"{data['activities_total']} activités · {data['visites_total']} visites · "
-            f"{data['prix_total']:.2f} € budget renseigné",
+            ws, row, 1, data["period"],
+            font=SUBTITLE_FONT,
+            alignment=Alignment(horizontal="center", vertical="center"),
         )
+        merge_row(ws, row, 1, OVERVIEW_MAX_COL)
         row += 1
-    set_cell(ws, row, 1, f"Généré le {data['generated_at']}")
+
+    row = write_auto_generated_notice(ws, row)
     row += 1
-
-    for note in data.get("notes") or []:
-        set_cell(ws, row, 1, f"• {note}")
-        row += 1
-    row += 1
-
-    if section_enabled(sections, "phases", True) and data["phases"]:
-        set_cell(ws, row, 1, "Phases du voyage", font=SUBTITLE_FONT)
-        row += 1
-        write_table_header(ws, row, ["Phase", "Jours", "Période"])
-        row += 1
-        for phase in data["phases"]:
-            set_cell(ws, row, 1, phase["ville"])
-            set_cell(ws, row, 2, phase["jours"])
-            set_cell(ws, row, 3, format_date_range_fr(phase["start"], phase["end"]))
-            row += 1
-        row += 1
-
+    write_table_header(
+        ws,
+        row,
+        ["Jour", "Date", "Villes du jour", "Nuit à", "Activités", "Budget"],
+    )
     header_row = row
-    if section_enabled(sections, "by_day", True):
-        set_cell(ws, row, 1, "Planning par jour", font=SUBTITLE_FONT)
-        row += 1
-        day_headers = [
-            "Jour",
-            "Date",
-            "Ville principale",
-            "Autres villes",
-            "Activités",
-            "Visites",
-            "Budget (€)",
-            "Résumé",
-        ]
-        write_table_header(ws, row, day_headers)
-        header_row = row
+    row += 1
+
+    for summary in data.get("day_summaries") or []:
+        write_day_row(ws, row, summary)
         row += 1
 
-        for summary in data["day_summaries"]:
-            autres = ", ".join(v for v in summary["villes"] if v != summary["ville"])
-            day_fill = hex_to_fill(summary["couleur"])
-            set_cell(ws, row, 1, summary["jour"], fill=day_fill, font=Font(bold=True, color="FFFFFF"))
-            set_cell(ws, row, 2, format_date_fr(summary["date"]))
-            set_cell(ws, row, 3, summary["ville"])
-            set_cell(ws, row, 4, autres)
-            set_cell(ws, row, 5, summary["activities"], alignment=Alignment(horizontal="center"))
-            set_cell(ws, row, 6, summary["visites"], alignment=Alignment(horizontal="center"))
-            prix = summary["prix"]
-            set_cell(
-                ws,
-                row,
-                7,
-                round(prix, 2) if prix else "",
-                alignment=Alignment(horizontal="right"),
-            )
-            set_cell(ws, row, 8, summary["resume"])
-            row += 1
+    row += 1
+    write_section_title(ws, row, "Hébergements du voyage")
+    row += 1
+    row = write_lodging_table(ws, row, data.get("lodging_rows") or [])
 
-        if section_enabled(sections, "totals", True):
-            set_cell(ws, row, 1, "Total", font=BOLD_FONT)
-            set_cell(ws, row, 5, data["activities_total"], font=BOLD_FONT, alignment=Alignment(horizontal="center"))
-            set_cell(ws, row, 6, data["visites_total"], font=BOLD_FONT, alignment=Alignment(horizontal="center"))
-            set_cell(
-                ws,
-                row,
-                7,
-                round(data["prix_total"], 2) if data["prix_total"] else "",
-                font=BOLD_FONT,
-                alignment=Alignment(horizontal="right"),
-            )
-            row += 1
-        row += 1
+    row += 1
+    write_totals_row(ws, row, data)
 
-    if section_enabled(sections, "by_ville", True):
-        set_cell(ws, row, 1, "Répartition par ville", font=SUBTITLE_FONT)
-        row += 1
-        ville_headers = ["Ville", "Jours", "Activités", "Visites", "Budget (€)"]
-        write_table_header(ws, row, ville_headers)
-        row += 1
-        for ville_row in data["ville_rows"]:
-            set_cell(ws, row, 1, ville_row["ville"])
-            set_cell(ws, row, 2, ville_row["jours"], alignment=Alignment(horizontal="center"))
-            set_cell(ws, row, 3, ville_row["activities"], alignment=Alignment(horizontal="center"))
-            set_cell(ws, row, 4, ville_row["visites"], alignment=Alignment(horizontal="center"))
-            prix = ville_row["prix"]
-            set_cell(
-                ws,
-                row,
-                5,
-                round(prix, 2) if prix else "",
-                alignment=Alignment(horizontal="right"),
-            )
-            row += 1
-        max_col = max(max_col, len(ville_headers))
+    ws.freeze_panes = f"A{header_row + 1}"
+    apply_fixed_column_widths(ws)
 
-    if section_enabled(sections, "by_day", True):
-        ws.freeze_panes = f"A{header_row + 1}"
-    autosize_columns(ws, max_col=max_col)
+
+def write_snapshot_from_excel(excel_path: Path, config: dict[str, Any]) -> Path | None:
+    """Ecrit data/overview.json sans modifier la feuille Excel."""
+    if not config.get("write_snapshot", True):
+        return None
+    wb = openpyxl.load_workbook(excel_path, data_only=True)
+    data = collect_overview_data(wb, config)
+    return write_overview_snapshot(data, config)
 
 
 def run_build(
@@ -534,7 +1002,21 @@ def run_build(
     *,
     config_path: Path | None = None,
     dry_run: bool = False,
+    snapshot_only: bool = False,
 ) -> None:
+    if snapshot_only:
+        if dry_run:
+            wb = openpyxl.load_workbook(excel_path, data_only=True)
+            data = collect_overview_data(wb, config)
+            print(f"(dry-run) Snapshot overview.json")
+            print(f"  Période : {data['period']}")
+            print(f"  {len(data['day_summaries'])} jour(s), {data['activities_total']} activité(s)")
+            return
+        snapshot_path = write_snapshot_from_excel(excel_path, config)
+        if snapshot_path:
+            print(f"Snapshot overview : {snapshot_path}")
+        return
+
     wb = openpyxl.load_workbook(excel_path)
     data = collect_overview_data(wb, config)
     sheet_name = config["sheet_name"]
@@ -549,6 +1031,7 @@ def run_build(
 
     ws = ensure_overview_sheet(wb, sheet_name)
     render_overview_sheet(ws, data)
+
     backup_path = backup_excel(excel_path)
     wb.save(excel_path)
 
@@ -558,8 +1041,7 @@ def run_build(
 
     print(f"Vue d'ensemble regeneree : {excel_path}")
     print(f"  Feuille : {sheet_name}")
-    print(f"  Période : {data['period']}")
-    print(f"  Itinéraire : {data['route']}")
+    print(f"  Periode : {data['period']}")
     print(f"  Backup : {backup_path}")
     if snapshot_path:
         print(f"  Snapshot : {snapshot_path}")
@@ -580,12 +1062,12 @@ def main() -> None:
         default=None,
         help="Surcharge la date du jour 1 (AAAA-MM-JJ).",
     )
-    parser.add_argument(
-        "--title",
-        default=None,
-        help="Surcharge le titre affiche en tete de la feuille.",
-    )
     parser.add_argument("--dry-run", action="store_true", help="Afficher sans ecrire dans Excel")
+    parser.add_argument(
+        "--snapshot-only",
+        action="store_true",
+        help="Ecrire uniquement data/overview.json (sans modifier Excel).",
+    )
     args = parser.parse_args()
 
     excel_path = Path(args.excel).resolve()
@@ -596,14 +1078,19 @@ def main() -> None:
     try:
         config = resolve_overview_config(
             config_path,
-            title=args.title,
             start_date=args.start_date,
         )
         parse_start_date(config["start_date"])
     except (ValueError, json.JSONDecodeError) as exc:
         raise SystemExit(str(exc)) from exc
 
-    run_build(excel_path, config, config_path=config_path, dry_run=args.dry_run)
+    run_build(
+        excel_path,
+        config,
+        config_path=config_path,
+        dry_run=args.dry_run,
+        snapshot_only=args.snapshot_only,
+    )
 
 
 if __name__ == "__main__":

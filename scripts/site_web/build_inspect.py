@@ -13,8 +13,8 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from outils.excel_utils import data_dir, normalize_text, project_root, web_dir
-from outils.overview_config import default_overview_config_path, load_overview_config
+from outils.excel_utils import data_dir, default_excel_path, normalize_text, project_root, web_dir
+from outils.overview_config import default_overview_config_path, load_overview_config, resolve_overview_config
 from site_web.site_nav import render_header
 
 STATUS_OK = "ok"
@@ -273,7 +273,7 @@ def run_checks(
             checks,
             "source_overview",
             STATUS_WARN,
-            "overview.json absent — lancer build_overview.py",
+            "overview.json absent — lancer generer_site.py ou build_overview.py --snapshot-only",
         )
     else:
         add_check(checks, "source_overview", STATUS_OK, "Synthèse (overview.json) présente")
@@ -416,7 +416,7 @@ def run_checks(
                 details=", ".join(missing),
             )
 
-    phases = config.get("phases") or []
+    phases = (overview or {}).get("phases") or []
     if phases and stats:
         uncovered = []
         for jour in stats.get("jours", []):
@@ -537,7 +537,7 @@ def build_inspect_data(paths: dict[str, Path]) -> dict[str, Any]:
         overall = STATUS_WARN
 
     summary = {
-        "title": config.get("title", "Voyage"),
+        "title": (overview or {}).get("summary", {}).get("route", "Voyage"),
         "period": (overview or {}).get("summary", {}).get("period", ""),
         "route": (overview or {}).get("summary", {}).get("route", ""),
         "activities": (stats or {}).get("summary", {}).get("activities", len(activities)),
@@ -573,9 +573,7 @@ def build_inspect_data(paths: dict[str, Path]) -> dict[str, Any]:
         "geocode_errors": geocode_errors[:50],
         "missing_coords": missing_csv[:50],
         "config": {
-            "title": config.get("title"),
             "start_date": config.get("start_date"),
-            "phases": config.get("phases", []),
             "verify_markers": config.get("verify_markers", []),
         },
         "map_points": map_points,
@@ -589,10 +587,34 @@ def render_html(inspect: dict[str, Any]) -> str:
     )
 
 
-def run_build(config_path: Path | None = None) -> None:
+def ensure_overview_snapshot(config_path: Path, excel_path: Path | None = None) -> bool:
+    """Genere overview.json depuis Excel s'il est absent."""
+    overview_path = data_dir() / "overview.json"
+    if overview_path.exists():
+        return False
+
+    path = excel_path or default_excel_path()
+    if not path.exists():
+        return False
+
+    config = resolve_overview_config(config_path)
+    if not config.get("write_snapshot", True):
+        return False
+
+    from site_web.build_overview import write_snapshot_from_excel
+
+    write_snapshot_from_excel(path, config)
+    print(f"overview.json genere : {overview_path}")
+    return True
+
+
+def run_build(config_path: Path | None = None, excel_path: Path | None = None) -> None:
+    cfg_path = config_path or default_overview_config_path()
+    ensure_overview_snapshot(cfg_path, excel_path)
+
     root = data_dir()
     paths = {
-        "overview_config": config_path or default_overview_config_path(),
+        "overview_config": cfg_path,
         "overview": root / "overview.json",
         "voyages": root / "voyages.json",
         "stats": root / "stats.json",
@@ -624,12 +646,19 @@ def run_build(config_path: Path | None = None) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Genere inspect.json et inspect.html.")
     parser.add_argument(
+        "excel",
+        nargs="?",
+        default=str(default_excel_path()),
+        help="Classeur Excel pour generer overview.json si absent.",
+    )
+    parser.add_argument(
         "--config",
         default=str(default_overview_config_path()),
         help="Fichier overview_config.json",
     )
     args = parser.parse_args()
-    run_build(Path(args.config).resolve())
+    excel = Path(args.excel).resolve() if args.excel else None
+    run_build(Path(args.config).resolve(), excel_path=excel if excel.exists() else None)
 
 
 if __name__ == "__main__":

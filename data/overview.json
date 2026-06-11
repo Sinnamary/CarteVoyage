@@ -1,13 +1,13 @@
 {
-  "generated_at": "11/06/2026 06:34 UTC",
+  "generated_at": "11/06/2026 10:20 UTC",
   "config": {
-    "title": "Voyage été 2026",
     "start_date": "2026-08-03",
-    "sheet_name": "Vue d'ensemble"
+    "sheet_name": "Vue d'ensemble",
+    "domicile": "Strasbourg"
   },
   "summary": {
     "period": "3 au 14 août 2026",
-    "route": "Cologne → Amsterdam → Ennevelin",
+    "route": "Strasbourg → Cologne → Amsterdam → Lille → Ennevelin → Lille → Bergues → Ennevelin → Côte d'Opale → Ennevelin → Cap Gris-Nez → Ennevelin",
     "jours_count": 12,
     "activities_total": 62,
     "visites_total": 24,
@@ -15,22 +15,68 @@
   },
   "phases": [
     {
-      "ville": "Départ & Cologne",
+      "ville": "Cologne",
       "start": "2026-08-03",
       "end": "2026-08-04",
-      "jours": "Jour 1–2"
+      "jours": "Jour 1–2",
+      "from_jour": 1,
+      "to_jour": 2
     },
     {
       "ville": "Amsterdam",
       "start": "2026-08-05",
       "end": "2026-08-10",
-      "jours": "Jour 3–8"
+      "jours": "Jour 3–8",
+      "from_jour": 3,
+      "to_jour": 8
     },
     {
-      "ville": "Retour Nord",
+      "ville": "Ennevelin",
       "start": "2026-08-11",
       "end": "2026-08-14",
-      "jours": "Jour 9–12"
+      "jours": "Jour 9–12",
+      "from_jour": 9,
+      "to_jour": 12
+    }
+  ],
+  "steps": [
+    {
+      "ville": "Cologne",
+      "dates": "3 au 4 août 2026",
+      "description": "Départ Strasbourg … Römisch-Germanisches Museum, Köln"
+    },
+    {
+      "ville": "Amsterdam",
+      "dates": "5 au 10 août 2026",
+      "description": "Les grands canaux, Amsterdam … 2 hébergement"
+    },
+    {
+      "ville": "Ennevelin",
+      "dates": "11 au 14 août 2026",
+      "description": "Vieille Bourse de Lille … 1 hébergement"
+    }
+  ],
+  "lodging": [
+    {
+      "ville": "Cologne",
+      "nom": "Hotel Pullman Cologne",
+      "dates": "3 au 4 août 2026 (2 nuits)",
+      "maps_url": "https://www.google.com/maps/search/?api=1&query=50.9402013,6.9455643",
+      "start": "2026-08-03"
+    },
+    {
+      "ville": "Amsterdam",
+      "nom": "Bob W Amsterdam Noord, Amsterdam",
+      "dates": "5 au 9 août 2026 (5 nuits)",
+      "maps_url": "https://www.google.com/maps/search/?api=1&query=52.3549181,4.9284135",
+      "start": "2026-08-05"
+    },
+    {
+      "ville": "Ennevelin",
+      "nom": "17 Rue des Trois Bourdons, Ennevelin",
+      "dates": "10 au 13 août 2026 (4 nuits)",
+      "maps_url": "https://www.google.com/maps/search/?api=1&query=50.5397188,3.1258883",
+      "start": "2026-08-10"
     }
   ],
   "by_day": [
@@ -46,7 +92,14 @@
       "visites": 2,
       "prix": 0.0,
       "resume": "Museum Ludwig, Köln, Cathédrale de Cologne (Kölner Dom)",
-      "couleur": "#e74c3c"
+      "couleur": "#e74c3c",
+      "theme": "Départ Strasbourg",
+      "lodging_villes_label": "Strasbourg → Cologne",
+      "highlight": false,
+      "nuit": {
+        "nom": "Hotel Pullman Cologne",
+        "ville": "Cologne"
+      }
     },
     {
       "jour": 2,
@@ -59,7 +112,14 @@
       "visites": 2,
       "prix": 0.0,
       "resume": "Römisch-Germanisches Museum, Köln, Kolumba Kunstmuseum, Köln",
-      "couleur": "#27ae60"
+      "couleur": "#27ae60",
+      "theme": "Römisch-Germanisches Museum, Köln",
+      "lodging_villes_label": "Cologne",
+      "highlight": false,
+      "nuit": {
+        "nom": "Hotel Pullman Cologne",
+        "ville": "Cologne"
+      }
     },
     {
       "jour": 3,
@@ -73,7 +133,14 @@
       "visites": 5,
       "prix": 58.5,
       "resume": "Begijnhof, Amsterdam, Allard Pierson Museum, Amsterdam, Het Grachtenhuis, Amsterdam (+2)",
-      "couleur": "#3498db"
+      "couleur": "#3498db",
+      "theme": "Les grands canaux, Amsterdam",
+      "lodging_villes_label": "Cologne → Amsterdam",
+      "highlight": false,
+      "nuit": {
+        "nom": "Bob W Amsterdam Noord, Amsterdam",
+        "ville": "Amsterdam"
+      }
     },
     {
       "jour": 4,
@@ -86,7 +153,14 @@
       "visites": 3,
       "prix": 71.5,
       "resume": "Rijksmuseum, Amsterdam, Van Gogh Museum, Amsterdam, Stedelijk Museum, Amsterdam",
-      "couleur": "#9b59b6"
+      "couleur": "#9b59b6",
+      "theme": "Vondelpark",
+      "lodging_villes_label": "Amsterdam",
+      "highlight": false,
+      "nuit": {
+        "nom": "Bob W Amsterdam Noord, Amsterdam",
+        "ville": "Amsterdam"
+      }
     },
     {
       "jour": 5,
@@ -99,7 +173,14 @@
       "visites": 9,
       "prix": 187.0,
       "resume": "Museum Rembrandthuis, Amsterdam, Joods Historisch Museum, Amsterdam, National Holocaust Museum, Amsterdam (+6)",
-      "couleur": "#e67e22"
+      "couleur": "#e67e22",
+      "theme": "Balade dans l'ancien quartier juif",
+      "lodging_villes_label": "Amsterdam",
+      "highlight": false,
+      "nuit": {
+        "nom": "Bob W Amsterdam Noord, Amsterdam",
+        "ville": "Amsterdam"
+      }
     },
     {
       "jour": 6,
@@ -112,7 +193,14 @@
       "visites": 1,
       "prix": 18.5,
       "resume": "Tour A'DAM",
-      "couleur": "#1abc9c"
+      "couleur": "#1abc9c",
+      "theme": "Tour A'DAM",
+      "lodging_villes_label": "Amsterdam",
+      "highlight": false,
+      "nuit": {
+        "nom": "Bob W Amsterdam Noord, Amsterdam",
+        "ville": "Amsterdam"
+      }
     },
     {
       "jour": 7,
@@ -125,7 +213,14 @@
       "visites": 0,
       "prix": 0,
       "resume": "2 hébergement",
-      "couleur": "#f39c12"
+      "couleur": "#f39c12",
+      "theme": "2 hébergement",
+      "lodging_villes_label": "Amsterdam",
+      "highlight": false,
+      "nuit": {
+        "nom": "Bob W Amsterdam Noord, Amsterdam",
+        "ville": "Amsterdam"
+      }
     },
     {
       "jour": 8,
@@ -139,7 +234,14 @@
       "visites": 0,
       "prix": 0,
       "resume": "2 hébergement",
-      "couleur": "#2c3e50"
+      "couleur": "#2c3e50",
+      "theme": "2 hébergement",
+      "lodging_villes_label": "Amsterdam → Ennevelin",
+      "highlight": false,
+      "nuit": {
+        "nom": "17 Rue des Trois Bourdons, Ennevelin",
+        "ville": "Ennevelin"
+      }
     },
     {
       "jour": 9,
@@ -154,7 +256,14 @@
       "visites": 0,
       "prix": 0.0,
       "resume": "2 hébergement, 1 balade, 1 activité",
-      "couleur": "#d35400"
+      "couleur": "#d35400",
+      "theme": "Vieille Bourse de Lille",
+      "lodging_villes_label": "Ennevelin",
+      "highlight": false,
+      "nuit": {
+        "nom": "17 Rue des Trois Bourdons, Ennevelin",
+        "ville": "Ennevelin"
+      }
     },
     {
       "jour": 10,
@@ -168,7 +277,14 @@
       "visites": 1,
       "prix": 0,
       "resume": "Côte d'Opale",
-      "couleur": "#16a085"
+      "couleur": "#16a085",
+      "theme": "Côte d'Opale",
+      "lodging_villes_label": "Ennevelin",
+      "highlight": false,
+      "nuit": {
+        "nom": "17 Rue des Trois Bourdons, Ennevelin",
+        "ville": "Ennevelin"
+      }
     },
     {
       "jour": 11,
@@ -182,7 +298,14 @@
       "visites": 1,
       "prix": 0,
       "resume": "Cap Gris-Nez",
-      "couleur": "#e74c3c"
+      "couleur": "#e74c3c",
+      "theme": "Cap Gris-Nez",
+      "lodging_villes_label": "Ennevelin",
+      "highlight": false,
+      "nuit": {
+        "nom": "17 Rue des Trois Bourdons, Ennevelin",
+        "ville": "Ennevelin"
+      }
     },
     {
       "jour": 12,
@@ -195,7 +318,11 @@
       "visites": 0,
       "prix": 0,
       "resume": "1 hébergement",
-      "couleur": "#27ae60"
+      "couleur": "#27ae60",
+      "theme": "1 hébergement",
+      "lodging_villes_label": "Ennevelin → Strasbourg",
+      "highlight": false,
+      "nuit": null
     }
   ],
   "by_ville": [

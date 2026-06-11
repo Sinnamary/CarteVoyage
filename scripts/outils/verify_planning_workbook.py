@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import sys
 from pathlib import Path
 
@@ -10,13 +11,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import openpyxl
 
 from outils.excel_utils import (
-    DEFAULT_EXCEL_NAME,
+    LINKS_SHEET,
     OVERVIEW_SHEET,
     PLANNING_COLUMNS,
     build_listes_ranges,
     day_sheets,
     default_excel_path,
-    excel_dir,
     find_duplicate_ordre_labels,
     find_ordre_collisions,
     iter_activity_rows,
@@ -27,11 +27,12 @@ from outils.excel_utils import (
 from outils.overview_config import load_overview_config
 
 MAP_COLUMNS = ("Latitude", "Longitude")
+EXPECTED_DAY_COUNT = 12
 
 
-def check_ordre_text_format(wb: openpyxl.Workbook) -> list[str]:
+def check_ordre_text_format(excel_path: Path, wb: openpyxl.Workbook) -> list[str]:
     issues: list[str] = []
-    wb_fmt = openpyxl.load_workbook(default_excel_path(), data_only=False)
+    wb_fmt = openpyxl.load_workbook(excel_path, data_only=False)
     for sheet_name in day_sheets(wb):
         ws = wb_fmt[sheet_name]
         for r in range(3, ws.max_row + 1):
@@ -48,7 +49,11 @@ def check_ordre_text_format(wb: openpyxl.Workbook) -> list[str]:
 
 
 def main() -> None:
-    path = excel_dir() / DEFAULT_EXCEL_NAME
+    parser = argparse.ArgumentParser(description="Verifie la structure du classeur Excel de voyage.")
+    parser.add_argument("excel", nargs="?", default=str(default_excel_path()))
+    args = parser.parse_args()
+
+    path = Path(args.excel).resolve()
     if not path.exists():
         raise SystemExit(f"Fichier introuvable: {path}")
 
@@ -60,9 +65,22 @@ def main() -> None:
     errors: list[str] = []
     warnings: list[str] = []
 
-    expected_meta = [overview_sheet, "Listes"] + [f"Jour {d}" for d in range(1, 13)]
-    if wb.sheetnames != expected_meta:
-        errors.append(f"Feuilles inattendues: {wb.sheetnames}")
+    day_sheet_names = [f"Jour {d}" for d in range(1, EXPECTED_DAY_COUNT + 1)]
+    required_sheets = [overview_sheet, LINKS_SHEET, "Listes", *day_sheet_names]
+    missing_sheets = [name for name in required_sheets if name not in wb.sheetnames]
+    extra_sheets = [name for name in wb.sheetnames if name not in required_sheets]
+    if missing_sheets:
+        errors.append(f"Feuilles manquantes: {missing_sheets}")
+    if extra_sheets:
+        errors.append(f"Feuilles inattendues: {extra_sheets}")
+    if LINKS_SHEET in wb.sheetnames and "Listes" in wb.sheetnames:
+        links_idx = wb.sheetnames.index(LINKS_SHEET)
+        listes_idx = wb.sheetnames.index("Listes")
+        if links_idx != listes_idx - 1:
+            errors.append(
+                f"La feuille {LINKS_SHEET!r} doit etre placee juste avant Listes "
+                f"(ordre actuel: {wb.sheetnames})"
+            )
 
     listes = wb["Listes"]
     if listes.sheet_state != "hidden":
@@ -115,7 +133,7 @@ def main() -> None:
     for label, locs in sorted(find_duplicate_ordre_labels(wb).items()):
         warnings.append(f"N° étape {label} répété: {', '.join(locs)}")
 
-    errors.extend(check_ordre_text_format(wb))
+    errors.extend(check_ordre_text_format(path, wb))
 
     items = list(iter_activity_rows(wb))
     with_coords = sum(1 for item in items if row_to_point(item))

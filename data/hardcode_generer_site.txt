@@ -1,0 +1,102 @@
+CarteVoyage — éléments codés en dur par generer_site.py
+======================================================
+Généré pour documenter ce qui n'est PAS calculé depuis les feuilles Jour N.
+Dernière mise à jour : juin 2026.
+
+Périmètre : chaîne generer_site.py et scripts appelés.
+
+
+1. FICHIER EXCEL PAR DÉFAUT
+---------------------------
+scripts/outils/excel_utils.py
+  • DEFAULT_EXCEL_NAME = "Voyage Aout 2026.xlsx"
+  • Chemin : excel/Voyage Aout 2026.xlsx
+
+Surcharge : passer le chemin en argument à generer_site.py
+
+
+2. VUE D'ENSEMBLE (build_overview.py)
+-------------------------------------
+Fichier de config minimal : data/overview_config.json
+
+ENCORE CODÉ EN DUR (config utilisateur) :
+  • start_date — date du Jour 1 (ex. "2026-08-03"). Indispensable : les
+    feuilles Jour n'ont pas de colonne date calendaire.
+  • sheet_name — nom de la feuille Excel à régénérer ("Vue d'ensemble")
+  • verify_markers — textes attendus pour la vérification du classeur
+    (optionnel, utilisé par verify_planning_workbook.py)
+  • day_resume_limit — nombre de visites dans le résumé JSON (défaut 3)
+
+CALCULÉ AUTOMATIQUEMENT DEPUIS LES FEUILLES JOUR :
+  • Titre bandeau (villes du parcours)
+  • Période, itinéraire
+  • Calendrier : jour, date, thème, ville, nb activités, budget
+  • Phases / étapes (regroupement par ville principale)
+  • Hébergements (lignes « Hébergement », nuits soir vs départ matin)
+  • Jours surlignés (journées sans activité)
+  • Thème du jour (1ère activité significative ou « journée libre »)
+  • Villes des jours vides (report depuis les jours voisins)
+
+NON RÉGÉNÉRÉ (manuel utilisateur) :
+  • Feuille « Liens » — jamais modifiée par generer_site.py
+
+PRÉSENTATION EXCEL (style, pas contenu voyage) :
+  • Couleurs, polices, largeurs de colonnes (constantes Python)
+  • Structure : bandeau + sous-titre période/itinéraire + tableau unique
+    (pas de volets / sections séparées)
+
+
+3. VÉRIFICATION CLASSEUR (verify_planning_workbook.py)
+------------------------------------------------------
+  • Liste fixe de 12 feuilles attendues : Jour 1 … Jour 12
+  • Feuilles méta obligatoires : Vue d'ensemble, Liens, Listes
+  • Nom du fichier vérifié : excel/Voyage Aout 2026.xlsx (DEFAULT_EXCEL_NAME)
+
+
+4. LISTES DÉROULANTES (sync_listes_validations.py)
+--------------------------------------------------
+  • Colonnes Listes A–E mappées aux validations des feuilles Jour
+  • Structure des en-têtes PLANNING_COLUMNS dans excel_utils.py
+
+
+5. GÉOCODAGE (geocode_excel.py)
+-------------------------------
+  • API Nominatim (réseau externe)
+  • Lignes « Trajet … » / « Retour … » jamais géocodées (règle métier)
+  • SKIP_LIEU = {"Journée à planifier"}
+
+
+6. CARTE (build_map.py)
+-----------------------
+  • Couleurs par jour : palette DAY_COLORS (10 couleurs, cycle)
+  • Colonnes lues : PLANNING_COLUMNS + Latitude, Longitude, Lien
+
+
+7. STATISTIQUES (build_stats.py)
+--------------------------------
+  • ROUTE_DELAY_S = 0.12 s entre appels OSRM
+  • Option --no-osrm : distances à vol d'oiseau
+  • Seuils pied / voiture pour le calcul des trajets (dans le script)
+
+
+8. CONTRÔLE WEB (build_inspect.py)
+----------------------------------
+  • Seuils et libellés des checks de cohérence
+  • Marqueurs verify_markers lus depuis overview_config.json
+
+
+9. PUBLICATION
+--------------
+  • publier.ps1 : chemins web/, data/ — pas de logique voyage
+
+
+RÉSUMÉ — CE QU'IL FAUT ENCORE RENSEIGNER À LA MAIN
+--------------------------------------------------
+  1. Date de départ (start_date) dans data/overview_config.json
+  2. Contenu des feuilles Jour 1…N (source de vérité du voyage)
+  3. Feuille Liens (URLs, libellés)
+  4. Éventuellement verify_markers pour la vérification automatique
+  5. Nom du fichier Excel si différent du défaut
+
+Pour réduire encore le point 1, il faudrait une cellule « date jour 1 »
+dans Excel (non implémenté aujourd'hui).

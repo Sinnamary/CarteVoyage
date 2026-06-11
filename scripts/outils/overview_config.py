@@ -10,20 +10,9 @@ from typing import Any
 from outils.excel_utils import data_dir
 
 DEFAULT_OVERVIEW_CONFIG: dict[str, Any] = {
-    "title": "Voyage été 2026",
     "start_date": "2026-08-03",
     "sheet_name": "Vue d'ensemble",
-    "intro": "",
-    "route": "",
-    "notes": [],
-    "sections": {
-        "phases": True,
-        "by_day": True,
-        "by_ville": True,
-        "totals": True,
-    },
     "verify_markers": [],
-    "phases": [],
     "day_resume_limit": 3,
     "write_snapshot": True,
 }
@@ -59,12 +48,9 @@ def load_overview_config(path: Path | None = None) -> dict[str, Any]:
 def resolve_overview_config(
     path: Path | None = None,
     *,
-    title: str | None = None,
     start_date: str | None = None,
 ) -> dict[str, Any]:
     config = load_overview_config(path)
-    if title is not None and title.strip():
-        config["title"] = title.strip()
     if start_date is not None and start_date.strip():
         config["start_date"] = start_date.strip()
     return config

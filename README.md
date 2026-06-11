@@ -93,19 +93,25 @@ CarteVoyage/
 
 ### `scripts/outils/` — utilitaires
 
-| Script | Rôle |
-|--------|------|
+Voir [scripts/outils/README.md](scripts/outils/README.md) pour le détail.
+
+| Script / module | Rôle |
+|-----------------|------|
+| `excel_utils.py` | Bibliothèque partagée (colonnes, feuilles Jour, JSON carte) |
+| `overview_config.py` | Chargement de `data/overview_config.json` |
 | `geocode_excel.py` | Géocode les lieux sans coordonnées (Nominatim) |
 | `sync_listes_validations.py` | Resynchronise les listes déroulantes Excel |
 | `verify_planning_workbook.py` | Vérifie la structure du classeur |
 
 ## Configuration vue d'ensemble
 
-Fichier `data/overview_config.json` : titre, date de départ, sections affichées, phases, notes et marqueurs de vérification. Produit aussi `data/overview.json` (snapshot calculé).
+La feuille Excel **Vue d'ensemble** est **générée automatiquement** à chaque exécution de `generer_site.py` (via `build_overview.py`). Ne pas la modifier à la main : les changements seront écrasés à la prochaine génération.
+
+Fichier `data/overview_config.json` : titre, date de départ, domicile et marqueurs de vérification. Produit aussi `data/overview.json` (snapshot calculé).
 
 ## Fichier Excel
 
-- Feuilles : `Vue d'ensemble`, `Listes` (masquée), `Jour 1` … `Jour N`
+- Feuilles : **`Vue d'ensemble`** (générée automatiquement), `Listes` (masquée), `Jour 1` … `Jour N`
 - Colonnes principales : `N° étape`, `Lieu`, `Nature`, `Catégorie`, `Quartier`, `Ville`, `Prix (€)`, horaires…
 - Colonnes carte (auto) : `Latitude`, `Longitude`, `Lien`
 - Saisir les étapes `.10` en **format texte** (`@`) pour éviter les collisions d'ordre

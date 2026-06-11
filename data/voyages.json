@@ -15,11 +15,11 @@
   ],
   "points": [
     {
-      "id": "1.1-3",
-      "ordre": 1,
-      "ordre_label": "1.1",
+      "id": "1.2-3",
+      "ordre": 2,
+      "ordre_label": "1.2",
       "jour": 1,
-      "visite": 1,
+      "visite": 2,
       "nom": "Départ Strasbourg",
       "ville": "Strasbourg",
       "lat": 48.5812769,
@@ -38,11 +38,11 @@
       }
     },
     {
-      "id": "1.2-4",
-      "ordre": 2,
-      "ordre_label": "1.2",
+      "id": "1.3-4",
+      "ordre": 3,
+      "ordre_label": "1.3",
       "jour": 1,
-      "visite": 2,
+      "visite": 3,
       "nom": "Brauhaus Päffgen Friesenstraße 64–66, 50670 Köln",
       "ville": "Cologne",
       "lat": 50.9488,
@@ -61,11 +61,11 @@
       }
     },
     {
-      "id": "1.3-5",
-      "ordre": 3,
-      "ordre_label": "1.3",
+      "id": "1.4-5",
+      "ordre": 4,
+      "ordre_label": "1.4",
       "jour": 1,
-      "visite": 3,
+      "visite": 4,
       "nom": "Museum Ludwig, Köln",
       "ville": "Cologne",
       "lat": 50.9408347,
@@ -84,11 +84,11 @@
       }
     },
     {
-      "id": "1.4-6",
-      "ordre": 4,
-      "ordre_label": "1.4",
+      "id": "1.5-6",
+      "ordre": 5,
+      "ordre_label": "1.5",
       "jour": 1,
-      "visite": 4,
+      "visite": 5,
       "nom": "Cathédrale de Cologne (Kölner Dom)",
       "ville": "Cologne",
       "lat": 50.9413035,
@@ -107,11 +107,11 @@
       }
     },
     {
-      "id": "1.5-7",
-      "ordre": 5,
-      "ordre_label": "1.5",
+      "id": "1.6-7",
+      "ordre": 6,
+      "ordre_label": "1.6",
       "jour": 1,
-      "visite": 5,
+      "visite": 6,
       "nom": "Peters Brauhaus Mühlengasse 1 · 50667 Cologne",
       "ville": "Cologne",
       "lat": 50.9393,
@@ -130,11 +130,11 @@
       }
     },
     {
-      "id": "1.6-8",
-      "ordre": 6,
-      "ordre_label": "1.6",
+      "id": "1.7-8",
+      "ordre": 7,
+      "ordre_label": "1.7",
       "jour": 1,
-      "visite": 6,
+      "visite": 7,
       "nom": "Hotel Pullman Cologne",
       "ville": "Cologne",
       "lat": 50.9402013,
@@ -153,11 +153,11 @@
       }
     },
     {
-      "id": "1.7-9",
-      "ordre": 7,
-      "ordre_label": "1.7",
+      "id": "1.8-9",
+      "ordre": 8,
+      "ordre_label": "1.8",
       "jour": 1,
-      "visite": 7,
+      "visite": 8,
       "nom": "Hotel Pullman Cologne",
       "ville": "Cologne",
       "lat": 50.9402013,
@@ -399,7 +399,7 @@
         "type": "Balade",
         "billet": "Non",
         "prix": 0,
-        "city_card": null,
+        "city_card": 0,
         "ouverture": "16h30",
         "fermeture": "17h00",
         "remarque": "Centre"
@@ -422,7 +422,7 @@
         "type": "Musée",
         "billet": "Oui",
         "prix": 15.5,
-        "city_card": null,
+        "city_card": 0,
         "ouverture": "17h30",
         "fermeture": "18h00",
         "remarque": "Centre"
@@ -445,7 +445,7 @@
         "type": "Musée",
         "billet": "Oui",
         "prix": 17.5,
-        "city_card": null,
+        "city_card": 0,
         "ouverture": "18h00",
         "fermeture": "18h15",
         "remarque": "Centre"
@@ -468,7 +468,7 @@
         "type": "Musée",
         "billet": "Oui",
         "prix": 16,
-        "city_card": null,
+        "city_card": 16,
         "ouverture": "18h15",
         "fermeture": "18h30",
         "remarque": "Centre"
@@ -491,7 +491,7 @@
         "type": "Musée",
         "billet": "Oui",
         "prix": 9.5,
-        "city_card": null,
+        "city_card": 0,
         "ouverture": "18h30",
         "fermeture": "19h00",
         "remarque": "Centre"
@@ -606,7 +606,7 @@
         "type": "Musée",
         "billet": "Oui",
         "prix": 25,
-        "city_card": null,
+        "city_card": 0,
         "ouverture": "09h30",
         "fermeture": "10h00",
         "remarque": "Museumplein"
@@ -629,7 +629,7 @@
         "type": "Musée",
         "billet": "Oui",
         "prix": 24,
-        "city_card": null,
+        "city_card": 0,
         "ouverture": "10h00",
         "fermeture": "11h00",
         "remarque": "Museumplein"
@@ -652,7 +652,7 @@
         "type": "Musée",
         "billet": "Oui",
         "prix": 22.5,
-        "city_card": null,
+        "city_card": 0,
         "ouverture": "14h00",
         "fermeture": "15h00",
         "remarque": "Museumplein"
@@ -675,7 +675,7 @@
         "type": "Balade",
         "billet": "Oui",
         "prix": null,
-        "city_card": null,
+        "city_card": 0,
         "ouverture": "15h00",
         "fermeture": "17h00",
         "remarque": "Centrum"
@@ -790,7 +790,7 @@
         "type": "Musée",
         "billet": "Oui",
         "prix": 21.5,
-        "city_card": null,
+        "city_card": 0,
         "ouverture": "10h00",
         "fermeture": "10h30",
         "remarque": "Jodenbuurt"
@@ -813,7 +813,7 @@
         "type": "Musée",
         "billet": "Oui",
         "prix": 30,
-        "city_card": null,
+        "city_card": 0,
         "ouverture": "10h30",
         "fermeture": "11h00",
         "remarque": "Plantage"
@@ -836,7 +836,7 @@
         "type": "Musée",
         "billet": "Oui",
         "prix": 30,
-        "city_card": null,
+        "city_card": 0,
         "ouverture": "11h00",
         "fermeture": "12h00",
         "remarque": "Plantage"
@@ -859,7 +859,7 @@
         "type": "Musée",
         "billet": "Oui",
         "prix": 20,
-        "city_card": null,
+        "city_card": 0,
         "ouverture": "14h00",
         "fermeture": "14h30",
         "remarque": "Centrum"
@@ -882,7 +882,7 @@
         "type": "Jardin",
         "billet": "Oui",
         "prix": 13.5,
-        "city_card": null,
+        "city_card": 0,
         "ouverture": "14h30",
         "fermeture": "15h00",
         "remarque": "Plantage"
@@ -905,7 +905,7 @@
         "type": "Musée",
         "billet": "Oui",
         "prix": 20,
-        "city_card": null,
+        "city_card": 0,
         "ouverture": "15h00",
         "fermeture": "15h30",
         "remarque": "Oost"
@@ -928,7 +928,7 @@
         "type": "Musée",
         "billet": "Oui",
         "prix": 17.5,
-        "city_card": null,
+        "city_card": "?",
         "ouverture": "15h30",
         "fermeture": "16h00",
         "remarque": "Plantage"
@@ -951,7 +951,7 @@
         "type": "Musée",
         "billet": "Oui",
         "prix": 16,
-        "city_card": null,
+        "city_card": 0,
         "ouverture": "16h00",
         "fermeture": "16h30",
         "remarque": "Plantage"
@@ -974,7 +974,7 @@
         "type": "Musée",
         "billet": "Oui",
         "prix": 18.5,
-        "city_card": null,
+        "city_card": 0,
         "ouverture": "16h30",
         "fermeture": "17h00",
         "remarque": "Oost"
@@ -1066,7 +1066,7 @@
         "type": "Point de vue",
         "billet": "Oui",
         "prix": 18.5,
-        "city_card": null,
+        "city_card": "Réduit",
         "ouverture": "10h00",
         "fermeture": "11h00",
         "remarque": "Noord / IJ"

@@ -87,6 +87,7 @@ def main() -> None:
         run_step(
             "Verification du classeur",
             "outils/verify_planning_workbook.py",
+            *excel_args,
         )
 
     if not args.skip_geocode:
@@ -106,7 +107,16 @@ def main() -> None:
         stats_args.append("--no-osrm")
     run_step("Statistiques", "site_web/build_stats.py", *stats_args)
 
-    run_step("Controle de coherence", "site_web/build_inspect.py")
+    if args.skip_overview:
+        run_step(
+            "Snapshot overview.json",
+            "site_web/build_overview.py",
+            "--snapshot-only",
+            *excel_args,
+        )
+
+    inspect_args = list(excel_args)
+    run_step("Controle de coherence", "site_web/build_inspect.py", *inspect_args)
 
     print("\nSite genere en local.", flush=True)
     print(f"  Carte    : {ROOT / 'web' / 'index.html'}", flush=True)

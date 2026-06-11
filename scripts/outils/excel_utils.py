@@ -13,7 +13,8 @@ from openpyxl.worksheet.worksheet import Worksheet
 DEFAULT_EXCEL_NAME = "Voyage Aout 2026.xlsx"
 
 OVERVIEW_SHEET = "Vue d'ensemble"
-IGNORE_SHEETS = {OVERVIEW_SHEET, "Listes"}
+LINKS_SHEET = "Liens"
+IGNORE_SHEETS = {OVERVIEW_SHEET, LINKS_SHEET, "Listes"}
 DAY_HEADER_ROW = 2
 DATA_START_ROW = 3
 
@@ -32,6 +33,7 @@ PLANNING_COLUMNS = {
 }
 
 MAP_EXTRA_COLUMNS = ["Latitude", "Longitude", "Lien"]
+OPTIONAL_COLUMNS = ["City Card"]
 SKIP_LIEU = {"", "Journée à planifier"}
 
 DAY_COLORS = [
@@ -125,7 +127,7 @@ def build_planning_col_index(header_row: tuple[Any, ...]) -> dict[str, int]:
             internal = excel_to_internal[name]
             if internal not in index:
                 index[internal] = col_idx
-        elif name in MAP_EXTRA_COLUMNS and name not in index:
+        elif name in MAP_EXTRA_COLUMNS + OPTIONAL_COLUMNS and name not in index:
             index[name] = col_idx
 
     return index

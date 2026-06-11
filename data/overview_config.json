@@ -1,44 +1,12 @@
 {
-  "title": "Voyage été 2026",
   "start_date": "2026-08-03",
+  "domicile": "Strasbourg",
   "sheet_name": "Vue d'ensemble",
-  "intro": "Strasbourg → Cologne → Amsterdam → retour Nord",
-  "route": "",
-  "notes": [
-    "Phase retour : 11 au 14 août 2026"
-  ],
-  "sections": {
-    "phases": true,
-    "by_day": true,
-    "by_ville": true,
-    "totals": true
-  },
   "verify_markers": [
     "Strasbourg",
     "Cologne",
     "Amsterdam",
-    "Lille",
-    "11 au 14 août 2026"
-  ],
-  "phases": [
-    {
-      "label": "Départ & Cologne",
-      "ville": "Cologne",
-      "from_jour": 1,
-      "to_jour": 2
-    },
-    {
-      "label": "Amsterdam",
-      "ville": "Amsterdam",
-      "from_jour": 3,
-      "to_jour": 8
-    },
-    {
-      "label": "Retour Nord",
-      "ville": "Lille",
-      "from_jour": 9,
-      "to_jour": 12
-    }
+    "Lille"
   ],
   "day_resume_limit": 3,
   "write_snapshot": true

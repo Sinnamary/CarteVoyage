@@ -1,11 +1,11 @@
 {
-  "generated_at": "11/06/2026 06:32 UTC",
-  "overall_status": "warn",
-  "has_overview": false,
+  "generated_at": "11/06/2026 10:21 UTC",
+  "overall_status": "ok",
+  "has_overview": true,
   "summary": {
-    "title": "Voyage été 2026",
-    "period": "",
-    "route": "",
+    "title": "Strasbourg → Cologne → Amsterdam → Lille → Ennevelin → Lille → Bergues → Ennevelin → Côte d'Opale → Ennevelin → Cap Gris-Nez → Ennevelin",
+    "period": "3 au 14 août 2026",
+    "route": "Strasbourg → Cologne → Amsterdam → Lille → Ennevelin → Lille → Bergues → Ennevelin → Côte d'Opale → Ennevelin → Cap Gris-Nez → Ennevelin",
     "activities": 70,
     "on_map": 62,
     "budget": 335.5,
@@ -15,50 +15,50 @@
     "overview_config": {
       "path": "data/overview_config.json",
       "present": true,
-      "mtime": "11/06/2026 06:20 UTC",
-      "size": 907
+      "mtime": "11/06/2026 10:06 UTC",
+      "size": 248
     },
     "overview": {
       "path": "data/overview.json",
-      "present": false,
-      "mtime": null,
-      "size": 0
+      "present": true,
+      "mtime": "11/06/2026 10:20 UTC",
+      "size": 9690
     },
     "voyages": {
       "path": "data/voyages.json",
       "present": true,
-      "mtime": "11/06/2026 06:32 UTC",
-      "size": 34428
+      "mtime": "11/06/2026 10:21 UTC",
+      "size": 34382
     },
     "stats": {
       "path": "data/stats.json",
       "present": true,
-      "mtime": "11/06/2026 06:32 UTC",
-      "size": 28891
+      "mtime": "11/06/2026 10:21 UTC",
+      "size": 28899
     },
     "geocode_cache": {
       "path": "data/geocode_cache.json",
       "present": true,
-      "mtime": "10/06/2026 16:45 UTC",
+      "mtime": "11/06/2026 10:21 UTC",
       "size": 10358
     },
     "route_stats_cache": {
       "path": "data/route_stats_cache.json",
       "present": true,
-      "mtime": "11/06/2026 06:32 UTC",
+      "mtime": "11/06/2026 10:21 UTC",
       "size": 5542
     },
     "geocode_errors": {
       "path": "data/geocode_errors.csv",
       "present": true,
-      "mtime": "10/06/2026 16:45 UTC",
+      "mtime": "11/06/2026 10:21 UTC",
       "size": 39
     },
     "missing_coords": {
       "path": "data/lignes_sans_coords.csv",
       "present": true,
-      "mtime": "11/06/2026 06:32 UTC",
-      "size": 421
+      "mtime": "11/06/2026 10:21 UTC",
+      "size": 425
     }
   },
   "checks": [
@@ -82,8 +82,8 @@
     },
     {
       "id": "source_overview",
-      "status": "warn",
-      "message": "overview.json absent — lancer build_overview.py",
+      "status": "ok",
+      "message": "Synthèse (overview.json) présente",
       "details": ""
     },
     {
@@ -111,9 +111,21 @@
       "details": ""
     },
     {
+      "id": "overview_days",
+      "status": "ok",
+      "message": "Jours overview alignés avec stats",
+      "details": ""
+    },
+    {
+      "id": "budget_align",
+      "status": "ok",
+      "message": "Budget cohérent (335.50 €)",
+      "details": ""
+    },
+    {
       "id": "verify_markers",
-      "status": "warn",
-      "message": "Marqueurs non vérifiables (overview.json absent)",
+      "status": "ok",
+      "message": "Marqueurs de vérification présents",
       "details": ""
     },
     {
@@ -133,165 +145,165 @@
     {
       "jour": 1,
       "date": "2026-08-03",
-      "ville": "",
-      "resume": "",
+      "ville": "Cologne",
+      "resume": "Museum Ludwig, Köln, Cathédrale de Cologne (Kölner Dom)",
       "activities": 7,
       "geocoded": 7,
       "prix": 0.0,
       "foot_km": 4.1,
       "car_km": 364.34,
       "couleur": "#e74c3c",
-      "in_overview": false
+      "in_overview": true
     },
     {
       "jour": 2,
       "date": "2026-08-04",
-      "ville": "",
-      "resume": "",
+      "ville": "Cologne",
+      "resume": "Römisch-Germanisches Museum, Köln, Kolumba Kunstmuseum, Köln",
       "activities": 4,
       "geocoded": 4,
       "prix": 0.0,
       "foot_km": 3.69,
       "car_km": 0.0,
       "couleur": "#27ae60",
-      "in_overview": false
+      "in_overview": true
     },
     {
       "jour": 3,
       "date": "2026-08-05",
-      "ville": "",
-      "resume": "",
+      "ville": "Amsterdam",
+      "resume": "Begijnhof, Amsterdam, Allard Pierson Museum, Amsterdam, Het Grachtenhuis, Amsterdam (+2)",
       "activities": 13,
       "geocoded": 12,
       "prix": 58.5,
       "foot_km": 10.02,
       "car_km": 0.0,
       "couleur": "#3498db",
-      "in_overview": false
+      "in_overview": true
     },
     {
       "jour": 4,
       "date": "2026-08-06",
-      "ville": "",
-      "resume": "",
+      "ville": "Amsterdam",
+      "resume": "Rijksmuseum, Amsterdam, Van Gogh Museum, Amsterdam, Stedelijk Museum, Amsterdam",
       "activities": 8,
       "geocoded": 8,
       "prix": 71.5,
       "foot_km": 13.42,
       "car_km": 0.0,
       "couleur": "#9b59b6",
-      "in_overview": false
+      "in_overview": true
     },
     {
       "jour": 5,
       "date": "2026-08-07",
-      "ville": "",
-      "resume": "",
+      "ville": "Amsterdam",
+      "resume": "Museum Rembrandthuis, Amsterdam, Joods Historisch Museum, Amsterdam, National Holocaust Museum, Amsterdam (+6)",
       "activities": 13,
       "geocoded": 13,
       "prix": 187.0,
       "foot_km": 14.16,
       "car_km": 0.0,
       "couleur": "#e67e22",
-      "in_overview": false
+      "in_overview": true
     },
     {
       "jour": 6,
       "date": "2026-08-08",
-      "ville": "",
-      "resume": "",
+      "ville": "Amsterdam",
+      "resume": "Tour A'DAM",
       "activities": 3,
       "geocoded": 3,
       "prix": 18.5,
       "foot_km": 9.2,
       "car_km": 0.0,
       "couleur": "#1abc9c",
-      "in_overview": false
+      "in_overview": true
     },
     {
       "jour": 7,
       "date": "2026-08-09",
-      "ville": "",
-      "resume": "",
+      "ville": "Amsterdam",
+      "resume": "2 hébergement",
       "activities": 2,
       "geocoded": 2,
       "prix": 0.0,
       "foot_km": 0.0,
       "car_km": 0.0,
       "couleur": "#f39c12",
-      "in_overview": false
+      "in_overview": true
     },
     {
       "jour": 8,
       "date": "2026-08-10",
-      "ville": "",
-      "resume": "",
+      "ville": "Amsterdam",
+      "resume": "2 hébergement",
       "activities": 4,
       "geocoded": 2,
       "prix": 0.0,
       "foot_km": 0.0,
       "car_km": 0.0,
       "couleur": "#2c3e50",
-      "in_overview": false
+      "in_overview": true
     },
     {
       "jour": 9,
       "date": "2026-08-11",
-      "ville": "",
-      "resume": "",
+      "ville": "Ennevelin",
+      "resume": "2 hébergement, 1 balade, 1 activité",
       "activities": 4,
       "geocoded": 4,
       "prix": 0.0,
       "foot_km": 0.0,
       "car_km": 163.97,
       "couleur": "#d35400",
-      "in_overview": false
+      "in_overview": true
     },
     {
       "jour": 10,
       "date": "2026-08-12",
-      "ville": "",
-      "resume": "",
+      "ville": "Ennevelin",
+      "resume": "Côte d'Opale",
       "activities": 5,
       "geocoded": 3,
       "prix": 0.0,
       "foot_km": 0.0,
       "car_km": 0.0,
       "couleur": "#16a085",
-      "in_overview": false
+      "in_overview": true
     },
     {
       "jour": 11,
       "date": "2026-08-13",
-      "ville": "",
-      "resume": "",
+      "ville": "Ennevelin",
+      "resume": "Cap Gris-Nez",
       "activities": 5,
       "geocoded": 3,
       "prix": 0.0,
       "foot_km": 0.0,
       "car_km": 0.0,
       "couleur": "#e74c3c",
-      "in_overview": false
+      "in_overview": true
     },
     {
       "jour": 12,
       "date": "2026-08-14",
-      "ville": "",
-      "resume": "",
+      "ville": "Ennevelin",
+      "resume": "1 hébergement",
       "activities": 2,
       "geocoded": 1,
       "prix": 0.0,
       "foot_km": 0.0,
       "car_km": 0.0,
       "couleur": "#27ae60",
-      "in_overview": false
+      "in_overview": true
     }
   ],
   "activities": [
     {
-      "key": "1:1.1",
+      "key": "1:1.2",
       "jour": 1,
-      "ordre": "1.1",
+      "ordre": "1.2",
       "nom": "Départ Strasbourg",
       "ville": "Strasbourg",
       "action": "Transport",
@@ -299,12 +311,12 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
-      "key": "1:1.2",
+      "key": "1:1.3",
       "jour": 1,
-      "ordre": "1.2",
+      "ordre": "1.3",
       "nom": "Brauhaus Päffgen Friesenstraße 64–66, 50670 Köln",
       "ville": "Cologne",
       "action": "Repas",
@@ -312,12 +324,12 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
-      "key": "1:1.3",
+      "key": "1:1.4",
       "jour": 1,
-      "ordre": "1.3",
+      "ordre": "1.4",
       "nom": "Museum Ludwig, Köln",
       "ville": "Cologne",
       "action": "Visite",
@@ -325,12 +337,12 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
-      "key": "1:1.4",
+      "key": "1:1.5",
       "jour": 1,
-      "ordre": "1.4",
+      "ordre": "1.5",
       "nom": "Cathédrale de Cologne (Kölner Dom)",
       "ville": "Cologne",
       "action": "Visite",
@@ -338,12 +350,12 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
-      "key": "1:1.5",
+      "key": "1:1.6",
       "jour": 1,
-      "ordre": "1.5",
+      "ordre": "1.6",
       "nom": "Peters Brauhaus Mühlengasse 1 · 50667 Cologne",
       "ville": "Cologne",
       "action": "Repas",
@@ -351,20 +363,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
-    },
-    {
-      "key": "1:1.6",
-      "jour": 1,
-      "ordre": "1.6",
-      "nom": "Hotel Pullman Cologne",
-      "ville": "Cologne",
-      "action": "Bar",
-      "prix": null,
-      "on_map": true,
-      "in_stats": true,
-      "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "1:1.7",
@@ -372,12 +371,25 @@
       "ordre": "1.7",
       "nom": "Hotel Pullman Cologne",
       "ville": "Cologne",
+      "action": "Bar",
+      "prix": null,
+      "on_map": true,
+      "in_stats": true,
+      "is_trajet": false,
+      "in_overview": true
+    },
+    {
+      "key": "1:1.8",
+      "jour": 1,
+      "ordre": "1.8",
+      "nom": "Hotel Pullman Cologne",
+      "ville": "Cologne",
       "action": "Hébergement",
       "prix": 0,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "2:2.1",
@@ -390,7 +402,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "2:2.2",
@@ -403,7 +415,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "2:2.3",
@@ -416,7 +428,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "2:2.4",
@@ -429,7 +441,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "3:3.1",
@@ -442,7 +454,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "3:3.10",
@@ -455,7 +467,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "3:3.11",
@@ -468,7 +480,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "3:3.12",
@@ -481,7 +493,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "3:3.13",
@@ -494,7 +506,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "3:3.14",
@@ -507,7 +519,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "3:3.2",
@@ -520,7 +532,7 @@
       "on_map": false,
       "in_stats": true,
       "is_trajet": true,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "3:3.4",
@@ -533,7 +545,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "3:3.5",
@@ -546,7 +558,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "3:3.6",
@@ -559,7 +571,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "3:3.7",
@@ -572,7 +584,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "3:3.8",
@@ -585,7 +597,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "3:3.9",
@@ -598,7 +610,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "4:4.1",
@@ -611,7 +623,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "4:4.10",
@@ -624,7 +636,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "4:4.2",
@@ -637,7 +649,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "4:4.3",
@@ -650,7 +662,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "4:4.4",
@@ -663,7 +675,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "4:4.6",
@@ -676,7 +688,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "4:4.7",
@@ -689,7 +701,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "4:4.8",
@@ -702,7 +714,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "5:5.1",
@@ -715,7 +727,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "5:5.10",
@@ -728,7 +740,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "5:5.11",
@@ -741,7 +753,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "5:5.12",
@@ -754,7 +766,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "5:5.13",
@@ -767,7 +779,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "5:5.15",
@@ -780,7 +792,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "5:5.2",
@@ -793,7 +805,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "5:5.3",
@@ -806,7 +818,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "5:5.4",
@@ -819,7 +831,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "5:5.5",
@@ -832,7 +844,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "5:5.7",
@@ -845,7 +857,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "5:5.8",
@@ -858,7 +870,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "5:5.9",
@@ -871,7 +883,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "6:6.1",
@@ -884,7 +896,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "6:6.2",
@@ -897,7 +909,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "6:6.5",
@@ -910,7 +922,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "7:7.1",
@@ -923,7 +935,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "7:7.4",
@@ -936,7 +948,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "8:8.1",
@@ -949,7 +961,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "8:8.2",
@@ -962,7 +974,7 @@
       "on_map": false,
       "in_stats": true,
       "is_trajet": true,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "8:8.4",
@@ -975,7 +987,7 @@
       "on_map": false,
       "in_stats": true,
       "is_trajet": true,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "8:8.5",
@@ -988,7 +1000,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "9:9.1",
@@ -1001,7 +1013,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "9:9.3",
@@ -1014,7 +1026,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "9:9.4",
@@ -1027,7 +1039,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "9:9.5",
@@ -1040,7 +1052,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "10:10.1",
@@ -1053,7 +1065,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "10:10.2",
@@ -1066,7 +1078,7 @@
       "on_map": false,
       "in_stats": true,
       "is_trajet": true,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "10:10.4",
@@ -1079,7 +1091,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "10:10.5",
@@ -1092,7 +1104,7 @@
       "on_map": false,
       "in_stats": true,
       "is_trajet": true,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "10:10.7",
@@ -1105,7 +1117,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "11:11.1",
@@ -1118,7 +1130,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "11:11.2",
@@ -1131,7 +1143,7 @@
       "on_map": false,
       "in_stats": true,
       "is_trajet": true,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "11:11.4",
@@ -1144,7 +1156,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "11:11.5",
@@ -1157,7 +1169,7 @@
       "on_map": false,
       "in_stats": true,
       "is_trajet": true,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "11:11.7",
@@ -1170,7 +1182,7 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "12:12.1",
@@ -1183,86 +1195,75 @@
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
-      "in_overview": false
+      "in_overview": true
     },
     {
       "key": "12:12.2",
       "jour": 12,
       "ordre": "12.2",
-      "nom": "Retour Lille → Strasbourg",
+      "nom": "Retour Ennevelin → Strasbourg",
       "ville": "Strasbourg",
       "action": "Transport",
       "prix": null,
       "on_map": false,
       "in_stats": true,
       "is_trajet": true,
-      "in_overview": false
+      "in_overview": true
     }
   ],
   "coverage": [
     {
       "jour": 1,
-      "ordre": "1.1",
+      "ordre": "1.2",
       "nom": "Départ Strasbourg",
       "ville": "Strasbourg",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
-      "is_trajet": false,
-      "status": "ok"
-    },
-    {
-      "jour": 1,
-      "ordre": "1.2",
-      "nom": "Brauhaus Päffgen Friesenstraße 64–66, 50670 Köln",
-      "ville": "Cologne",
-      "in_stats": true,
-      "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
     {
       "jour": 1,
       "ordre": "1.3",
-      "nom": "Museum Ludwig, Köln",
+      "nom": "Brauhaus Päffgen Friesenstraße 64–66, 50670 Köln",
       "ville": "Cologne",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
     {
       "jour": 1,
       "ordre": "1.4",
-      "nom": "Cathédrale de Cologne (Kölner Dom)",
+      "nom": "Museum Ludwig, Köln",
       "ville": "Cologne",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
     {
       "jour": 1,
       "ordre": "1.5",
-      "nom": "Peters Brauhaus Mühlengasse 1 · 50667 Cologne",
+      "nom": "Cathédrale de Cologne (Kölner Dom)",
       "ville": "Cologne",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
     {
       "jour": 1,
       "ordre": "1.6",
-      "nom": "Hotel Pullman Cologne",
+      "nom": "Peters Brauhaus Mühlengasse 1 · 50667 Cologne",
       "ville": "Cologne",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1273,7 +1274,18 @@
       "ville": "Cologne",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
+      "is_trajet": false,
+      "status": "ok"
+    },
+    {
+      "jour": 1,
+      "ordre": "1.8",
+      "nom": "Hotel Pullman Cologne",
+      "ville": "Cologne",
+      "in_stats": true,
+      "on_map": true,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1284,7 +1296,7 @@
       "ville": "Cologne",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1295,7 +1307,7 @@
       "ville": "Cologne",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1306,7 +1318,7 @@
       "ville": "Cologne",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1317,7 +1329,7 @@
       "ville": "Cologne",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1328,7 +1340,7 @@
       "ville": "Cologne",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1339,7 +1351,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1350,7 +1362,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1361,7 +1373,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1372,7 +1384,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1383,7 +1395,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1394,7 +1406,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": false,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": true,
       "status": "ok"
     },
@@ -1405,7 +1417,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1416,7 +1428,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1427,7 +1439,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1438,7 +1450,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1449,7 +1461,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1460,7 +1472,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1471,7 +1483,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1482,7 +1494,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1493,7 +1505,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1504,7 +1516,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1515,7 +1527,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1526,7 +1538,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1537,7 +1549,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1548,7 +1560,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1559,7 +1571,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1570,7 +1582,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1581,7 +1593,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1592,7 +1604,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1603,7 +1615,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1614,7 +1626,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1625,7 +1637,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1636,7 +1648,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1647,7 +1659,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1658,7 +1670,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1669,7 +1681,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1680,7 +1692,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1691,7 +1703,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1702,7 +1714,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1713,7 +1725,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1724,7 +1736,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1735,7 +1747,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1746,7 +1758,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1757,7 +1769,7 @@
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1768,7 +1780,7 @@
       "ville": "Autre",
       "in_stats": true,
       "on_map": false,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": true,
       "status": "ok"
     },
@@ -1779,7 +1791,7 @@
       "ville": "Autre",
       "in_stats": true,
       "on_map": false,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": true,
       "status": "ok"
     },
@@ -1790,7 +1802,7 @@
       "ville": "Lille",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1801,7 +1813,7 @@
       "ville": "Ennevelin",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1812,7 +1824,7 @@
       "ville": "Lille",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1823,7 +1835,7 @@
       "ville": "Bergues",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1834,7 +1846,7 @@
       "ville": "Ennevelin",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1845,7 +1857,7 @@
       "ville": "Ennevelin",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1856,7 +1868,7 @@
       "ville": "",
       "in_stats": true,
       "on_map": false,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": true,
       "status": "ok"
     },
@@ -1867,7 +1879,7 @@
       "ville": "Côte d'Opale",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1878,7 +1890,7 @@
       "ville": "",
       "in_stats": true,
       "on_map": false,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": true,
       "status": "ok"
     },
@@ -1889,7 +1901,7 @@
       "ville": "Ennevelin",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1900,7 +1912,7 @@
       "ville": "Ennevelin",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1911,7 +1923,7 @@
       "ville": "",
       "in_stats": true,
       "on_map": false,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": true,
       "status": "ok"
     },
@@ -1922,7 +1934,7 @@
       "ville": "Cap Gris-Nez",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1933,7 +1945,7 @@
       "ville": "",
       "in_stats": true,
       "on_map": false,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": true,
       "status": "ok"
     },
@@ -1944,7 +1956,7 @@
       "ville": "Ennevelin",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
@@ -1955,18 +1967,18 @@
       "ville": "Ennevelin",
       "in_stats": true,
       "on_map": true,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": false,
       "status": "ok"
     },
     {
       "jour": 12,
       "ordre": "12.2",
-      "nom": "Retour Lille → Strasbourg",
+      "nom": "Retour Ennevelin → Strasbourg",
       "ville": "Strasbourg",
       "in_stats": true,
       "on_map": false,
-      "in_overview": null,
+      "in_overview": true,
       "is_trajet": true,
       "status": "ok"
     }
@@ -2027,45 +2039,23 @@
       "﻿jour": "12",
       "visite": "2",
       "ordre": "12.2",
-      "nom": "Retour Lille → Strasbourg",
+      "nom": "Retour Ennevelin → Strasbourg",
       "feuille": "Jour 12"
     }
   ],
   "config": {
-    "title": "Voyage été 2026",
     "start_date": "2026-08-03",
-    "phases": [
-      {
-        "label": "Départ & Cologne",
-        "ville": "Cologne",
-        "from_jour": 1,
-        "to_jour": 2
-      },
-      {
-        "label": "Amsterdam",
-        "ville": "Amsterdam",
-        "from_jour": 3,
-        "to_jour": 8
-      },
-      {
-        "label": "Retour Nord",
-        "ville": "Lille",
-        "from_jour": 9,
-        "to_jour": 12
-      }
-    ],
     "verify_markers": [
       "Strasbourg",
       "Cologne",
       "Amsterdam",
-      "Lille",
-      "11 au 14 août 2026"
+      "Lille"
     ]
   },
   "map_points": [
     {
       "jour": 1,
-      "ordre": "1.1",
+      "ordre": "1.2",
       "nom": "Départ Strasbourg",
       "ville": "Strasbourg",
       "lat": 48.5812769,
@@ -2074,7 +2064,7 @@
     },
     {
       "jour": 1,
-      "ordre": "1.2",
+      "ordre": "1.3",
       "nom": "Brauhaus Päffgen Friesenstraße 64–66, 50670 Köln",
       "ville": "Cologne",
       "lat": 50.9488,
@@ -2083,7 +2073,7 @@
     },
     {
       "jour": 1,
-      "ordre": "1.3",
+      "ordre": "1.4",
       "nom": "Museum Ludwig, Köln",
       "ville": "Cologne",
       "lat": 50.9408347,
@@ -2092,7 +2082,7 @@
     },
     {
       "jour": 1,
-      "ordre": "1.4",
+      "ordre": "1.5",
       "nom": "Cathédrale de Cologne (Kölner Dom)",
       "ville": "Cologne",
       "lat": 50.9413035,
@@ -2101,7 +2091,7 @@
     },
     {
       "jour": 1,
-      "ordre": "1.5",
+      "ordre": "1.6",
       "nom": "Peters Brauhaus Mühlengasse 1 · 50667 Cologne",
       "ville": "Cologne",
       "lat": 50.9393,
@@ -2110,7 +2100,7 @@
     },
     {
       "jour": 1,
-      "ordre": "1.6",
+      "ordre": "1.7",
       "nom": "Hotel Pullman Cologne",
       "ville": "Cologne",
       "lat": 50.9402013,
@@ -2119,7 +2109,7 @@
     },
     {
       "jour": 1,
-      "ordre": "1.7",
+      "ordre": "1.8",
       "nom": "Hotel Pullman Cologne",
       "ville": "Cologne",
       "lat": 50.9402013,
