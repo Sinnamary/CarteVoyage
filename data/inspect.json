@@ -1,5 +1,5 @@
 {
-  "generated_at": "11/06/2026 10:21 UTC",
+  "generated_at": "11/06/2026 10:25 UTC",
   "overall_status": "ok",
   "has_overview": true,
   "summary": {
@@ -21,43 +21,43 @@
     "overview": {
       "path": "data/overview.json",
       "present": true,
-      "mtime": "11/06/2026 10:20 UTC",
+      "mtime": "11/06/2026 10:25 UTC",
       "size": 9690
     },
     "voyages": {
       "path": "data/voyages.json",
       "present": true,
-      "mtime": "11/06/2026 10:21 UTC",
+      "mtime": "11/06/2026 10:25 UTC",
       "size": 34382
     },
     "stats": {
       "path": "data/stats.json",
       "present": true,
-      "mtime": "11/06/2026 10:21 UTC",
+      "mtime": "11/06/2026 10:25 UTC",
       "size": 28899
     },
     "geocode_cache": {
       "path": "data/geocode_cache.json",
       "present": true,
-      "mtime": "11/06/2026 10:21 UTC",
+      "mtime": "11/06/2026 10:25 UTC",
       "size": 10358
     },
     "route_stats_cache": {
       "path": "data/route_stats_cache.json",
       "present": true,
-      "mtime": "11/06/2026 10:21 UTC",
+      "mtime": "11/06/2026 10:25 UTC",
       "size": 5542
     },
     "geocode_errors": {
       "path": "data/geocode_errors.csv",
       "present": true,
-      "mtime": "11/06/2026 10:21 UTC",
+      "mtime": "11/06/2026 10:25 UTC",
       "size": 39
     },
     "missing_coords": {
       "path": "data/lignes_sans_coords.csv",
       "present": true,
-      "mtime": "11/06/2026 10:21 UTC",
+      "mtime": "11/06/2026 10:25 UTC",
       "size": 425
     }
   },
