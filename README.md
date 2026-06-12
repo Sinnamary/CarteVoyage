@@ -25,6 +25,7 @@ python -m venv .venv
 pip install -r scripts/requirements.txt
 
 # Placer le fichier Excel dans excel/ (par défaut : Voyage Aout 2026.xlsx)
+# — ou le synchroniser depuis Google Drive (voir ci-dessous)
 
 python generer_site.py
 
@@ -47,6 +48,30 @@ python generer_site.py --geocode-force  # re-géocoder même les lieux déjà re
 
 Lors d'un `generer_site.py` normal, `geocode_excel.py` ne contacte **Nominatim que pour les lieux sans Latitude/Longitude** dans Excel. Les points déjà géolocalisés sont ignorés (sauf avec `--geocode-force`). Les lignes « Trajet … » / « Retour … » ne sont jamais géocodées.
 
+## Synchronisation Google Drive
+
+Si le classeur est partagé sur Google Drive et monté comme disque local (Google Drive pour ordinateur) :
+
+1. Copier `data/drive_config.example.json` vers `data/drive_config.json`
+2. Renseigner `source_path` avec le chemin complet sur le disque Google Drive (ex. `G:/Mon Drive/Voyages/Voyage Aout 2026.xlsx`)
+3. Lancer la chaîne complète :
+
+```powershell
+.\sync_excel.ps1
+```
+
+Étapes séparées :
+
+```powershell
+python scripts/outils/sync_excel_from_drive.py   # copie + backup horodaté
+python generer_site.py
+.\publier.ps1
+```
+
+L'ancienne version locale est sauvegardée dans `excel/backups/` avant chaque remplacement (`*.backup.YYYYMMDD-HHMMSS.xlsx`).
+
+**Note :** le fichier source doit être un vrai `.xlsx` sur le disque. Un Google Sheet natif (fichier `.gsheet`) n'est pas copiable directement — enregistrez-le au format Excel sur Drive ou travaillez avec une copie `.xlsx` synchronisée.
+
 ## Publication (étape séparée)
 
 `generer_site.py` ne pousse rien sur Git. Une fois le site vérifié en local :
@@ -63,6 +88,7 @@ Lors d'un `generer_site.py` normal, `geocode_excel.py` ne contacte **Nominatim q
 ```
 CarteVoyage/
 ├── generer_site.py     # Génération locale (point d'entrée)
+├── sync_excel.ps1      # Sync Drive → generer_site → publier
 ├── publier.ps1         # Publication Git uniquement
 ├── excel/              # Classeur source (non versionné)
 ├── data/               # JSON et rapports générés

@@ -13,6 +13,8 @@ from openpyxl.worksheet.worksheet import Worksheet
 DEFAULT_EXCEL_NAME = "Voyage Aout 2026.xlsx"
 
 OVERVIEW_SHEET = "Vue d'ensemble"
+# Ancien nom sans apostrophe (fichiers Google Drive / Excel en ligne).
+OVERVIEW_SHEET_LEGACY = "Vue densemble"
 LINKS_SHEET = "Liens"
 IGNORE_SHEETS = {OVERVIEW_SHEET, LINKS_SHEET, "Listes"}
 DAY_HEADER_ROW = 2
@@ -184,6 +186,20 @@ def backup_excel(excel_path: Path) -> Path:
     backup_dir = excel_path.parent / "backups"
     backup_dir.mkdir(exist_ok=True)
     backup_path = backup_dir / (excel_path.stem + ".backup" + excel_path.suffix)
+    shutil.copy2(excel_path, backup_path)
+    return backup_path
+
+
+def backup_excel_timestamped(excel_path: Path) -> Path | None:
+    """Copie horodatee avant remplacement (ex. telechargement Drive)."""
+    if not excel_path.exists():
+        return None
+    from datetime import datetime
+
+    backup_dir = excel_path.parent / "backups"
+    backup_dir.mkdir(exist_ok=True)
+    stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    backup_path = backup_dir / f"{excel_path.stem}.backup.{stamp}{excel_path.suffix}"
     shutil.copy2(excel_path, backup_path)
     return backup_path
 

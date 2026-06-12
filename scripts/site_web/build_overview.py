@@ -21,6 +21,7 @@ from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.worksheet import Worksheet
 
 from outils.excel_utils import (
+    OVERVIEW_SHEET_LEGACY,
     backup_excel,
     cell_value,
     data_dir,
@@ -755,8 +756,20 @@ def clear_sheet(ws: Worksheet) -> None:
 
 
 def ensure_overview_sheet(wb: openpyxl.Workbook, sheet_name: str) -> Worksheet:
+    legacy_names = [OVERVIEW_SHEET_LEGACY]
+
     if sheet_name in wb.sheetnames:
+        for legacy in legacy_names:
+            if legacy in wb.sheetnames and legacy != sheet_name:
+                del wb[legacy]
         return wb[sheet_name]
+
+    for legacy in legacy_names:
+        if legacy in wb.sheetnames:
+            ws = wb[legacy]
+            ws.title = sheet_name
+            return ws
+
     return wb.create_sheet(sheet_name, 0)
 
 

@@ -33,6 +33,7 @@ Tous les scripts acceptent un chemin Excel en argument ; le défaut est `excel/V
 | `sync_listes_validations.py` | Resynchronise les plages de validation des feuilles Jour avec la feuille masquée `Listes` | `generer_site.py` (étape 1) |
 | `verify_planning_workbook.py` | Contrôle la structure du classeur (feuilles, colonnes, ordres, combos) | `generer_site.py` (étape 3) |
 | `geocode_excel.py` | Géocode via Nominatim les lieux sans Latitude/Longitude ; ignore les trajets déjà géolocalisés | `generer_site.py` (étape 4) |
+| `sync_excel_from_drive.py` | Copie le `.xlsx` depuis le disque Google Drive local vers `excel/` (backup horodaté) | `sync_excel.ps1` (avant génération) |
 
 ## Utilisation directe
 
@@ -51,7 +52,14 @@ python scripts/outils/verify_planning_workbook.py "excel/Mon voyage.xlsx"
 python scripts/outils/geocode_excel.py
 python scripts/outils/geocode_excel.py --dry-run
 python scripts/outils/geocode_excel.py --force
+
+# Synchroniser depuis Google Drive (disque local)
+python scripts/outils/sync_excel_from_drive.py
+python scripts/outils/sync_excel_from_drive.py --dry-run
+python scripts/outils/sync_excel_from_drive.py --source "G:/Mon Drive/Voyage Aout 2026.xlsx"
 ```
+
+Configuration Drive : `data/drive_config.json` (voir `data/drive_config.example.json`).
 
 Les scripts ajoutent `scripts/` au `sys.path` pour importer `outils.*` ; lancez-les depuis la racine du dépôt ou via `generer_site.py`.
 
@@ -73,6 +81,7 @@ Colonnes principales des feuilles Jour (ligne 2) : voir `PLANNING_COLUMNS` dans 
 | `data/geocode_cache.json` | `geocode_excel.py` |
 | `data/geocode_errors.csv` | `geocode_excel.py` |
 | `excel/backups/*.backup.xlsx` | `backup_excel()` avant toute écriture Excel |
+| `excel/backups/*.backup.YYYYMMDD-HHMMSS.xlsx` | `sync_excel_from_drive.py` avant remplacement depuis Drive |
 | `data/overview_config.json` | configuration utilisateur (lu par `overview_config.py`) |
 
 ## Dépendances

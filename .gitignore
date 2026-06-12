@@ -20,6 +20,7 @@ Desktop.ini
 # Secrets et config locale
 .env
 .env.*
+data/drive_config.json
 
 # Fichiers Excel source (souvent volumineux ou personnels)
 *.xlsx
