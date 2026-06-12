@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Copie le classeur Excel depuis le disque Google Drive local vers excel/."""
+"""Copie le classeur Excel enrichi (excel/) vers le fichier de base sur Google Drive."""
 
 from __future__ import annotations
 
@@ -11,25 +11,25 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from outils.drive_config import default_drive_config_path, resolve_source_path
 from outils.excel_utils import default_excel_path
-from outils.excel_workbook_sync import run_workbook_copy
+from outils.excel_workbook_sync import backup_drive_source, run_workbook_copy
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(
         description=(
-            "Copie le classeur Excel depuis le disque Google Drive local "
-            "vers excel/ (avec sauvegarde horodatee de l'ancienne version)."
+            "Ecrit le classeur Excel local (vue d'ensemble, geolocalisation…) "
+            "vers le fichier de base sur Google Drive (source_path)."
         ),
     )
     parser.add_argument(
-        "dest",
+        "source",
         nargs="?",
         default=str(default_excel_path()),
-        help="Chemin de destination (defaut: excel/Voyage Aout 2026.xlsx).",
+        help="Classeur local a envoyer (defaut: excel/Voyage Aout 2026.xlsx).",
     )
     parser.add_argument(
-        "--source",
-        help="Chemin source sur le disque Google Drive (sinon data/drive_config.json).",
+        "--dest",
+        help="Chemin cible sur le disque Google Drive (sinon data/drive_config.json).",
     )
     parser.add_argument(
         "--config",
@@ -44,13 +44,15 @@ def main() -> None:
     parser.add_argument(
         "--no-backup",
         action="store_true",
-        help="Ne pas sauvegarder l'ancien fichier local avant remplacement.",
+        help="Ne pas sauvegarder l'ancien fichier Drive avant remplacement.",
     )
     args = parser.parse_args()
 
+    source_path = Path(args.source).resolve()
     config_path = Path(args.config).resolve()
-    if args.source:
-        source_path = Path(args.source).expanduser().resolve()
+
+    if args.dest:
+        dest_path = Path(args.dest).expanduser().resolve()
     else:
         if not config_path.exists():
             raise SystemExit(
@@ -58,15 +60,15 @@ def main() -> None:
                 f"Copiez data/drive_config.example.json vers data/drive_config.json "
                 "et renseignez source_path (chemin sur le disque Google Drive)."
             )
-        source_path = resolve_source_path(config_path)
+        dest_path = resolve_source_path(config_path)
 
-    dest_path = Path(args.dest).resolve()
     run_workbook_copy(
         source_path,
         dest_path,
         dry_run=args.dry_run,
         skip_backup=args.no_backup,
-        action_label="Excel synchronise depuis Google Drive",
+        backup_dest=backup_drive_source,
+        action_label="Excel ecrit sur Google Drive",
     )
 
 

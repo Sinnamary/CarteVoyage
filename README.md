@@ -11,10 +11,141 @@ Carte interactive et statistiques de voyage, générées à partir d'un fichier 
 ## Principe
 
 ```
-Excel → generer_site.py → JSON + HTML statique → navigateur (Leaflet)
+Google Drive (.xlsx)  →  preparer_excel  →  corrections sur Drive  →  generer_site  →  web/  →  publier.ps1  →  GitHub Pages
 ```
 
-Une seule source de vérité : le classeur Excel. Pas de serveur applicatif — le site est entièrement statique.
+**Fichier de base** : le classeur `.xlsx` sur Google Drive (`data/drive_config.json`). Les enrichissements automatiques (vue d'ensemble, géolocalisation) y sont réécrits. C'est ce fichier qui sert à générer le site.
+
+**Git** : le programme complet vit dans le dépôt Git ; la **publication** (`publier.ps1`) n'envoie que le dossier `web/` sur GitHub Pages.
+
+## Workflow : Drive → site → publication
+
+Le processus est volontairement découpé en **deux phases** séparées, avec des pauses pour corriger sur Google Drive et vérifier le site en local.
+
+**Convention :** lancer un script **sans argument** exécute l'étape complète du workflow. Les paramètres (`--skip-*`, `-WebOnly`, etc.) ne servent qu'à **contourner ponctuellement** une étape.
+
+### Schéma
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  PHASE 1 — preparer_excel.ps1                                   │
+│  Lire Drive + backup → enrichissements → vérifications          │
+│  → écriture sur Google Drive                                    │
+└───────────────────────────┬─────────────────────────────────────┘
+                            │
+              ┌─────────────▼─────────────┐
+              │  Erreurs de vérification ? │
+              └─────────────┬─────────────┘
+                    oui     │     non
+              ┌─────────────▼─────────────┐
+              │ Corriger sur Google Drive  │◄────┐
+              │ Relancer phase 1             │     │
+              └─────────────┬───────────────┘     │
+                            │ non                 │
+┌───────────────────────────▼─────────────────────────────────────┐
+│  PHASE 2 — generer_site.ps1                                     │
+│  Générer carte, stats, contrôle dans web/                       │
+└───────────────────────────┬─────────────────────────────────────┘
+                            │
+              ┌─────────────▼─────────────┐
+              │  Contrôle local OK ?       │
+              │  (web/index.html…)         │
+              └─────────────┬─────────────┘
+                    non     │     oui
+              ┌─────────────┘             │
+              │ Corriger sur Google Drive │
+              │ Phases 1 + 2              ├──────┘
+              └───────────────────────────┘
+                            │ oui
+┌───────────────────────────▼─────────────────────────────────────┐
+│  PHASE 3 — publier.ps1                                          │
+│  Commit + push GitHub Pages (site uniquement, pas l'Excel)      │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Commandes
+
+| Phase | Action | Commande |
+|-------|--------|----------|
+| **1** | Lire Drive, backup, vérifier, enrichir, réécrire sur Drive | `.\preparer_excel.ps1` |
+| | *Si erreurs : corriger le `.xlsx` sur Google Drive, puis relancer la phase 1* | |
+| **2** | Générer le site web local | `.\generer_site.ps1` |
+| | *Contrôler dans le navigateur* | `start web/index.html` |
+| | *Si le site ne convient pas : corriger sur Drive, relancer phases 1 et 2* | |
+| **3** | Publier en ligne | `.\publier.ps1` |
+
+Équivalent Python :
+
+```powershell
+python preparer_excel.py
+python generer_site.py
+.\publier.ps1
+```
+
+Raccourci phases 1 + 2 (comportement par défaut de `sync_excel.ps1`) :
+
+```powershell
+.\sync_excel.ps1
+start web/index.html
+.\publier.ps1
+```
+
+**Sans argument, chaque script exécute son étape du workflow.** Les paramètres ne servent qu'à contourner ponctuellement une étape (voir `python preparer_excel.py --help` ou `python generer_site.py --help`).
+
+Contournements de `sync_excel.ps1` :
+
+| Option | Effet |
+|--------|-------|
+| `-Publish` | Enchaîne aussi la phase 3 (après votre contrôle local) |
+| `-PrepareOnly` | Phase 1 seulement |
+| `-WebOnly` | Phase 2 seulement |
+
+### Prérequis Google Drive
+
+1. Google Drive pour ordinateur installé et le classeur synchronisé localement (fichier `.xlsx`, pas un raccourci `.gsheet`).
+2. Copier `data/drive_config.example.json` vers `data/drive_config.json`.
+3. Renseigner `source_path` avec le chemin complet sur le disque (ex. `G:/Mon Drive/Voyages/Voyage Aout 2026.xlsx`).
+
+La phase 1 copie le fichier Drive vers `excel/` (copie de travail + backup horodaté dans `excel/backups/`), enrichit ce classeur, vérifie la structure, puis **réécrit le fichier de base sur Google Drive**. La phase 2 lit ce fichier Drive pour produire `web/`.
+
+### Phase 1 — ce que fait `preparer_excel.py`
+
+```
+preparer_excel.py
+  ├── sync_excel_from_drive.py     → lecture Drive + backup local
+  ├── sync_listes_validations.py   → listes déroulantes alignées sur Listes
+  ├── build_overview.py            → feuille Vue d'ensemble régénérée
+  ├── verify_planning_workbook.py  → contrôle structure (arrêt si erreur)
+  ├── geocode_excel.py             → Latitude / Longitude (Nominatim)
+  └── sync_excel_to_drive.py       → écriture du classeur enrichi sur Drive
+```
+
+| Modification Excel | Détail |
+|--------------------|--------|
+| **Vue d'ensemble** | Recalculée depuis les feuilles `Jour N` ; ne pas l'éditer à la main ; config dans `data/overview_config.json` |
+| **Géolocalisation** | Colonnes `Latitude`, `Longitude`, `Lien` pour les nouveaux lieux (sauf `--geocode-force`) |
+| **Listes déroulantes** | Validations remises en phase avec la feuille masquée `Listes` |
+
+Si `verify_planning_workbook.py` signale des erreurs, le script s'arrête **avant** l'écriture sur Drive et **avant** toute génération web. Corrigez les feuilles `Jour N` sur Google Drive, puis relancez la phase 1.
+
+### Phase 2 — ce que fait `generer_site.py`
+
+```
+generer_site.py
+  ├── build_map.py                 → data/voyages.json + web/index.html (lit le fichier Drive)
+  ├── build_stats.py               → data/stats.json + web/stats.html
+  └── build_inspect.py             → data/inspect.json + web/inspect.html
+```
+
+Par défaut, lit directement le fichier de base sur Google Drive (sans re-téléchargement). Aucune modification du classeur Excel.
+
+### Sauvegardes
+
+Dans `excel/backups/` :
+
+- `*.backup.xlsx` — avant chaque écriture locale
+- `*.backup.YYYYMMDD-HHMMSS.xlsx` — avant chaque téléchargement depuis Drive
+- `*.drive.backup.YYYYMMDD-HHMMSS.xlsx` — avant chaque écriture sur Drive
 
 ## Démarrage rapide
 
@@ -24,120 +155,129 @@ python -m venv .venv
 .venv\Scripts\activate          # Windows
 pip install -r scripts/requirements.txt
 
-# Placer le fichier Excel dans excel/ (par défaut : Voyage Aout 2026.xlsx)
-# — ou le synchroniser depuis Google Drive (voir ci-dessous)
-
-python generer_site.py
-
-# Vérification locale
+# Workflow complet (Google Drive configuré dans data/drive_config.json)
+.\preparer_excel.ps1
+.\generer_site.ps1
 start web/index.html
-start web/stats.html
-start web/inspect.html
+.\publier.ps1
 ```
 
-### Options utiles
+Sans `data/drive_config.json`, les phases 1 et 2 travaillent automatiquement sur `excel/` (aucun paramètre requis).
+
+### Contournements ponctuels
+
+À n'utiliser qu'en exception — le comportement par défaut suit le workflow :
 
 ```bash
-python generer_site.py --skip-geocode   # saute toute l'étape geocodage
-python generer_site.py --skip-verify    # sans contrôle du classeur
-python generer_site.py --no-osrm        # stats sans OSRM
-python generer_site.py --geocode-force  # re-géocoder même les lieux déjà renseignés
+python preparer_excel.py --help    # ex. --skip-geocode, --geocode-force
+python generer_site.py --help      # ex. --drive-pull, --no-osrm
 ```
 
 ### Géocodage
 
-Lors d'un `generer_site.py` normal, `geocode_excel.py` ne contacte **Nominatim que pour les lieux sans Latitude/Longitude** dans Excel. Les points déjà géolocalisés sont ignorés (sauf avec `--geocode-force`). Les lignes « Trajet … » / « Retour … » ne sont jamais géocodées.
+Lors d'un `preparer_excel.py` normal, `geocode_excel.py` ne contacte **Nominatim que pour les lieux sans Latitude/Longitude**. Les points déjà géolocalisés sont ignorés (sauf `--geocode-force`). Les lignes « Trajet … » / « Retour … » ne sont jamais géocodées.
 
-## Synchronisation Google Drive
-
-Si le classeur est partagé sur Google Drive et monté comme disque local (Google Drive pour ordinateur) :
-
-1. Copier `data/drive_config.example.json` vers `data/drive_config.json`
-2. Renseigner `source_path` avec le chemin complet sur le disque Google Drive (ex. `G:/Mon Drive/Voyages/Voyage Aout 2026.xlsx`)
-3. Lancer la chaîne complète :
+## Synchronisation Google Drive (détail)
 
 ```powershell
-.\sync_excel.ps1
+python scripts/outils/sync_excel_from_drive.py   # Drive → excel/ (backup horodaté)
+python scripts/outils/sync_excel_to_drive.py     # excel/ → Drive (intégré à preparer_excel)
+python scripts/outils/sync_excel_from_drive.py --dry-run
 ```
 
-Étapes séparées :
+**Note :** le fichier source doit être un vrai `.xlsx` sur le disque. Un Google Sheet natif (fichier `.gsheet`) n'est pas copiable directement — enregistrez-le au format Excel sur Drive.
+
+## Versionnement Git
+
+Deux usages distincts :
+
+| Quoi | Où | Comment |
+|------|-----|---------|
+| **Programme complet** | dépôt Git (local ou distant) | scripts, docs, `data/`, configuration d'exemple… |
+| **Site en ligne** | GitHub Pages | dossier `web/` uniquement |
+
+### Sauvegarder le programme
+
+Le dépôt Git contient tout le code et la doc. Fichiers **exclus** par `.gitignore` :
+
+- `excel/*.xlsx` — classeur et backups (reste sur Google Drive)
+- `data/drive_config.json` — chemin personnel vers votre Drive
+- `.venv/` — environnement Python
+
+Sauvegarde manuelle du programme (quand vous modifiez scripts ou doc) :
 
 ```powershell
-python scripts/outils/sync_excel_from_drive.py   # copie + backup horodaté
-python generer_site.py
+git add -A
+git commit -m "Evolution du pipeline"
+git push          # optionnel : vers votre dépôt distant
+```
+
+Un dépôt **uniquement local** (`git init` sans `remote`) convient aussi : le programme y est versionné ; seul `publier.ps1` pousse vers GitHub.
+
+### Publier le site
+
+`publier.ps1` ne commit et n'envoie **que `web/`** (HTML, CSS, JS, données embarquées). GitHub Pages déploie ce dossier ; le reste du dépôt n'est pas mis en ligne comme site.
+
+Après vérification locale de `web/index.html` :
+
+```powershell
 .\publier.ps1
+.\publier.ps1 "Mise à jour carte jour 5"
 ```
-
-L'ancienne version locale est sauvegardée dans `excel/backups/` avant chaque remplacement (`*.backup.YYYYMMDD-HHMMSS.xlsx`).
-
-**Note :** le fichier source doit être un vrai `.xlsx` sur le disque. Un Google Sheet natif (fichier `.gsheet`) n'est pas copiable directement — enregistrez-le au format Excel sur Drive ou travaillez avec une copie `.xlsx` synchronisée.
-
-## Publication (étape séparée)
-
-`generer_site.py` ne pousse rien sur Git. Une fois le site vérifié en local :
-
-```powershell
-.\publier.ps1
-.\publier.ps1 "Message de commit"
-```
-
-`publier.ps1` enregistre et envoie les fichiers déjà générés (`web/`, `data/`, etc.) sur GitHub Pages.
 
 ## Structure
 
 ```
 CarteVoyage/
-├── generer_site.py     # Génération locale (point d'entrée)
-├── sync_excel.ps1      # Sync Drive → generer_site → publier
-├── publier.ps1         # Publication Git uniquement
-├── excel/              # Classeur source (non versionné)
+├── preparer_excel.py   # Phase 1 : Excel (Drive)
+├── preparer_excel.ps1
+├── generer_site.py     # Phase 2 : site web local
+├── generer_site.ps1
+├── sync_excel.ps1      # Orchestrateur (phases 1 + 2 + optionnel 3)
+├── publier.ps1         # Phase 3 : publication Git
+├── excel/              # Copie de travail (non versionnée)
 ├── data/               # JSON et rapports générés
 ├── scripts/
-│   ├── site_web/       # Génération du site web
-│   └── outils/         # Excel, géocodage, vérification
+│   ├── pipeline_common.py
+│   ├── site_web/
+│   └── outils/
 ├── web/                # Site statique
-└── docs/               # Documentation détaillée
+└── docs/
 ```
 
 ## Scripts
 
 ### Racine
 
-| Script | Rôle |
-|--------|------|
-| `generer_site.py` | Pipeline local Excel → site web |
-| `publier.ps1` | Commit + push GitHub (après vérif. locale) |
+| Script | Phase | Rôle |
+|--------|-------|------|
+| `preparer_excel.ps1` | 1 | Lecture Drive, vérifications, enrichissements, écriture Drive |
+| `generer_site.ps1` | 2 | Génération `web/` depuis le fichier de base |
+| `publier.ps1` | 3 | Commit + push du dossier `web/` (GitHub Pages) |
+| `sync_excel.ps1` | 1–2 | Par défaut : phases 1 + 2 ; `-Publish` pour la phase 3 |
 
 ### `scripts/site_web/` — site web
 
 | Script | Rôle |
 |--------|------|
-| `build_overview.py` | Régénère la feuille Excel `Vue d'ensemble` |
+| `build_overview.py` | Régénère la feuille Excel `Vue d'ensemble` (phase 1) |
 | `build_map.py` | Génère `voyages.json` et `web/index.html` |
 | `build_stats.py` | Génère `stats.json` et `web/stats.html` |
 | `build_inspect.py` | Génère `inspect.json` et `web/inspect.html` |
 
 ### `scripts/outils/` — utilitaires
 
-Voir [scripts/outils/README.md](scripts/outils/README.md) pour le détail.
-
-| Script / module | Rôle |
-|-----------------|------|
-| `excel_utils.py` | Bibliothèque partagée (colonnes, feuilles Jour, JSON carte) |
-| `overview_config.py` | Chargement de `data/overview_config.json` |
-| `geocode_excel.py` | Géocode les lieux sans coordonnées (Nominatim) |
-| `sync_listes_validations.py` | Resynchronise les listes déroulantes Excel |
-| `verify_planning_workbook.py` | Vérifie la structure du classeur |
+Voir [scripts/outils/README.md](scripts/outils/README.md).
 
 ## Configuration vue d'ensemble
 
-La feuille Excel **Vue d'ensemble** est **générée automatiquement** à chaque exécution de `generer_site.py` (via `build_overview.py`). Ne pas la modifier à la main : les changements seront écrasés à la prochaine génération.
+La feuille Excel **Vue d'ensemble** est **générée automatiquement** par `preparer_excel.py` (via `build_overview.py`). Ne pas la modifier à la main.
 
-Fichier `data/overview_config.json` : titre, date de départ, domicile et marqueurs de vérification. Produit aussi `data/overview.json` (snapshot calculé).
+Fichier `data/overview_config.json` : titre, date de départ, domicile et marqueurs de vérification.
 
 ## Fichier Excel
 
-- Feuilles : **`Vue d'ensemble`** (générée automatiquement), `Listes` (masquée), `Jour 1` … `Jour N`
+- Feuilles : **`Vue d'ensemble`** (générée), `Listes` (masquée), `Jour 1` … `Jour N`
 - Colonnes principales : `N° étape`, `Lieu`, `Nature`, `Catégorie`, `Quartier`, `Ville`, `Prix (€)`, horaires…
 - Colonnes carte (auto) : `Latitude`, `Longitude`, `Lien`
 - Saisir les étapes `.10` en **format texte** (`@`) pour éviter les collisions d'ordre

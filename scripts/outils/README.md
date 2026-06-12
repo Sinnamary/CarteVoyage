@@ -4,15 +4,26 @@ Modules et scripts Python partagés par `generer_site.py` et les générateurs d
 
 ## Rôle dans le pipeline
 
+**Phase 1 — `preparer_excel.py`**
+
 ```
-generer_site.py
+preparer_excel.py
+  ├── sync_excel_from_drive.py
   ├── sync_listes_validations.py   (optionnel : --skip-sync)
   ├── site_web/build_overview.py   (optionnel : --skip-overview)
   ├── verify_planning_workbook.py  (optionnel : --skip-verify)
   ├── geocode_excel.py             (optionnel : --skip-geocode)
-  ├── site_web/build_map.py
+  └── sync_excel_to_drive.py
+```
+
+**Phase 2 — `generer_site.py`**
+
+```
+generer_site.py
+  ├── site_web/build_map.py        (lit le fichier Drive de base)
   ├── site_web/build_stats.py
   └── site_web/build_inspect.py
+  └── sync_excel_from_drive.py     (contournement : --drive-pull)
 ```
 
 Tous les scripts acceptent un chemin Excel en argument ; le défaut est `excel/Voyage Aout 2026.xlsx` (constante `DEFAULT_EXCEL_NAME` dans `excel_utils.py`).
@@ -33,7 +44,9 @@ Tous les scripts acceptent un chemin Excel en argument ; le défaut est `excel/V
 | `sync_listes_validations.py` | Resynchronise les plages de validation des feuilles Jour avec la feuille masquée `Listes` | `generer_site.py` (étape 1) |
 | `verify_planning_workbook.py` | Contrôle la structure du classeur (feuilles, colonnes, ordres, combos) | `generer_site.py` (étape 3) |
 | `geocode_excel.py` | Géocode via Nominatim les lieux sans Latitude/Longitude ; ignore les trajets déjà géolocalisés | `generer_site.py` (étape 4) |
-| `sync_excel_from_drive.py` | Copie le `.xlsx` depuis le disque Google Drive local vers `excel/` (backup horodaté) | `sync_excel.ps1` (avant génération) |
+| `sync_excel_from_drive.py` | Copie le `.xlsx` depuis Google Drive vers `excel/` (backup horodaté) | `preparer_excel.py`, `generer_site.py` |
+| `sync_excel_to_drive.py` | Réécrit le classeur enrichi sur Google Drive (fichier de base) | `preparer_excel.py` (après géocodage) |
+| `excel_workbook_sync.py` | Copie sécurisée partagée (validation, backup, écriture atomique) | modules ci-dessus |
 
 ## Utilisation directe
 
@@ -53,8 +66,9 @@ python scripts/outils/geocode_excel.py
 python scripts/outils/geocode_excel.py --dry-run
 python scripts/outils/geocode_excel.py --force
 
-# Synchroniser depuis Google Drive (disque local)
+# Synchroniser depuis / vers Google Drive (disque local)
 python scripts/outils/sync_excel_from_drive.py
+python scripts/outils/sync_excel_to_drive.py
 python scripts/outils/sync_excel_from_drive.py --dry-run
 python scripts/outils/sync_excel_from_drive.py --source "G:/Mon Drive/Voyage Aout 2026.xlsx"
 ```
@@ -81,7 +95,8 @@ Colonnes principales des feuilles Jour (ligne 2) : voir `PLANNING_COLUMNS` dans 
 | `data/geocode_cache.json` | `geocode_excel.py` |
 | `data/geocode_errors.csv` | `geocode_excel.py` |
 | `excel/backups/*.backup.xlsx` | `backup_excel()` avant toute écriture Excel |
-| `excel/backups/*.backup.YYYYMMDD-HHMMSS.xlsx` | `sync_excel_from_drive.py` avant remplacement depuis Drive |
+| `excel/backups/*.backup.YYYYMMDD-HHMMSS.xlsx` | `sync_excel_from_drive.py` avant remplacement local |
+| `excel/backups/*.drive.backup.YYYYMMDD-HHMMSS.xlsx` | `sync_excel_to_drive.py` avant écrasement du fichier Drive |
 | `data/overview_config.json` | configuration utilisateur (lu par `overview_config.py`) |
 
 ## Dépendances

@@ -34,11 +34,22 @@ def load_drive_config(path: Path | None = None) -> dict[str, Any]:
 
 
 def resolve_source_path(path: Path | None = None) -> Path:
-    config = load_drive_config(path)
-    source = str(config.get("source_path", "")).strip()
-    if not source:
+    resolved = try_resolve_source_path(path)
+    if resolved is None:
+        config_path = path or default_drive_config_path()
         raise ValueError(
-            "source_path manquant dans data/drive_config.json "
+            f"source_path manquant dans {config_path} "
             "(copiez data/drive_config.example.json et indiquez le chemin sur le disque Google Drive)."
         )
+    return resolved
+
+
+def try_resolve_source_path(path: Path | None = None) -> Path | None:
+    config_path = path or default_drive_config_path()
+    if not config_path.exists():
+        return None
+    config = load_drive_config(config_path)
+    source = str(config.get("source_path", "")).strip()
+    if not source:
+        return None
     return Path(source).expanduser().resolve()
