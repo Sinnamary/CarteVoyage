@@ -16,6 +16,8 @@ Google Drive (.xlsx)  →  preparer_excel  →  corrections sur Drive  →  gene
 
 **Fichier de base** : le classeur `.xlsx` sur Google Drive (`data/drive_config.json`). Les enrichissements automatiques (vue d'ensemble, géolocalisation) y sont réécrits. C'est ce fichier qui sert à générer le site.
 
+**Copie locale** : `excel/Voyage Aout 2026.xlsx` est la copie de travail utilisée pendant la phase 1 (téléchargement Drive → enrichissements → renvoi sur Drive). Elle n'est pas versionnée dans Git (voir [Fichiers Excel et sauvegardes](#fichiers-excel-et-sauvegardes-locales)).
+
 **Git** : le programme complet vit dans le dépôt Git ; la **publication** (`publier.ps1`) n'envoie que le dossier `web/` sur GitHub Pages.
 
 ## Workflow : Drive → site → publication
@@ -82,7 +84,19 @@ python generer_site.py
 .\publier.ps1
 ```
 
-Raccourci phases 1 + 2 (comportement par défaut de `sync_excel.ps1`) :
+### `sync_excel.ps1` — orchestrateur
+
+Raccourci qui enchaîne les phases sans logique métier propre : il appelle `preparer_excel.py`, puis `generer_site.py`, et éventuellement `publier.ps1`.
+
+```powershell
+.\sync_excel.ps1                  # phases 1 + 2 (défaut)
+.\sync_excel.ps1 -Publish          # phases 1 + 2 + 3
+.\sync_excel.ps1 -PrepareOnly      # phase 1 seulement
+.\sync_excel.ps1 -WebOnly          # phase 2 seulement
+.\sync_excel.ps1 -Publish -Message "Mise à jour carte jour 5"
+```
+
+Équivalent manuel du comportement par défaut :
 
 ```powershell
 .\sync_excel.ps1
@@ -90,15 +104,14 @@ start web/index.html
 .\publier.ps1
 ```
 
+| Option | Effet | Sauvegardes locales (`excel/backups/`) |
+|--------|-------|----------------------------------------|
+| *(aucune)* | Phases 1 + 2 | **Oui** — via la phase 1 |
+| `-PrepareOnly` | Phase 1 seulement | **Oui** |
+| `-WebOnly` | Phase 2 seulement | **Non** — la phase 1 est ignorée |
+| `-Publish` | Phases 1 + 2 + `publier.ps1` | **Oui** — sauvegardes Excel avant publication |
+
 **Sans argument, chaque script exécute son étape du workflow.** Les paramètres ne servent qu'à contourner ponctuellement une étape (voir `python preparer_excel.py --help` ou `python generer_site.py --help`).
-
-Contournements de `sync_excel.ps1` :
-
-| Option | Effet |
-|--------|-------|
-| `-Publish` | Enchaîne aussi la phase 3 (après votre contrôle local) |
-| `-PrepareOnly` | Phase 1 seulement |
-| `-WebOnly` | Phase 2 seulement |
 
 ### Prérequis Google Drive
 
@@ -137,15 +150,38 @@ generer_site.py
   └── build_inspect.py             → data/inspect.json + web/inspect.html
 ```
 
-Par défaut, lit directement le fichier de base sur Google Drive (sans re-téléchargement). Aucune modification du classeur Excel.
+Par défaut, lit directement le fichier de base sur Google Drive (sans re-téléchargement). Aucune modification du classeur Excel, donc **aucune sauvegarde** dans `excel/backups/` à cette étape. Avec `--drive-pull`, un téléchargement Drive → `excel/` est effectué avant la génération (backup horodaté inclus).
 
-### Sauvegardes
+### Fichiers Excel et sauvegardes locales
 
-Dans `excel/backups/` :
+#### Deux emplacements du classeur
 
-- `*.backup.xlsx` — avant chaque écriture locale
-- `*.backup.YYYYMMDD-HHMMSS.xlsx` — avant chaque téléchargement depuis Drive
-- `*.drive.backup.YYYYMMDD-HHMMSS.xlsx` — avant chaque écriture sur Drive
+| Emplacement | Rôle |
+|-------------|------|
+| **Google Drive** (`source_path` dans `data/drive_config.json`) | Fichier de référence : celui que vous éditez et partagez. Source pour la phase 2. |
+| **`excel/Voyage Aout 2026.xlsx`** | Copie de travail locale (nom par défaut, constante `DEFAULT_EXCEL_NAME`). Utilisée pendant la phase 1 pour les enrichissements avant réécriture sur Drive. |
+
+Sans `data/drive_config.json`, les phases 1 et 2 travaillent uniquement sur `excel/Voyage Aout 2026.xlsx` (pas de sync Drive).
+
+La copie dans `excel/` peut être **légèrement en retard** par rapport à Drive si vous avez modifié le fichier sur Drive sans relancer `preparer_excel.ps1`. C'est normal : relancez la phase 1 pour resynchroniser.
+
+#### Sauvegardes dans `excel/backups/`
+
+Les sauvegardes sont des **copies de sécurité locales** (pas sur un autre disque). Elles sont créées automatiquement par la phase 1 ; `sync_excel.ps1` ne fait rien lui-même, il délègue à `preparer_excel.py`.
+
+| Fichier produit | Quand | Script |
+|---------------|-------|--------|
+| `*.backup.YYYYMMDD-HHMMSS.xlsx` | Avant de remplacer `excel/Voyage Aout 2026.xlsx` par la version Drive | `sync_excel_from_drive.py` |
+| `*.backup.xlsx` | Avant chaque écriture du classeur local (listes, vue d'ensemble, géocodage) — **écrasé** à chaque nouvelle écriture | `sync_listes_validations.py`, `build_overview.py`, `geocode_excel.py` |
+| `*.drive.backup.YYYYMMDD-HHMMSS.xlsx` | Avant d'écraser le fichier sur Google Drive | `sync_excel_to_drive.py` |
+
+Exemples concrets :
+
+- `Voyage Aout 2026.backup.20260612-073756.xlsx` — ancienne copie locale avant téléchargement Drive
+- `Voyage Aout 2026.backup.xlsx` — état juste avant la dernière modification locale
+- `Voyage Aout 2026.drive.backup.20260612-075928.xlsx` — ancienne version Drive avant push
+
+**Nettoyage :** vous pouvez supprimer les anciens `.xlsx` dans `excel/backups/` pour libérer de l'espace ; le pipeline en recréera au prochain run. Conservez `.gitkeep` (dossier versionné vide). Les backups ne sont pas dans Git (`.gitignore` : `*.xlsx`).
 
 ## Démarrage rapide
 
@@ -236,6 +272,8 @@ CarteVoyage/
 ├── sync_excel.ps1      # Orchestrateur (phases 1 + 2 + optionnel 3)
 ├── publier.ps1         # Phase 3 : publication Git
 ├── excel/              # Copie de travail (non versionnée)
+│   ├── Voyage Aout 2026.xlsx   # Copie locale phase 1
+│   └── backups/                # Sauvegardes automatiques avant écrasement
 ├── data/               # JSON et rapports générés
 ├── scripts/
 │   ├── pipeline_common.py
@@ -254,7 +292,7 @@ CarteVoyage/
 | `preparer_excel.ps1` | 1 | Lecture Drive, vérifications, enrichissements, écriture Drive |
 | `generer_site.ps1` | 2 | Génération `web/` depuis le fichier de base |
 | `publier.ps1` | 3 | Commit + push du dossier `web/` (GitHub Pages) |
-| `sync_excel.ps1` | 1–2 | Par défaut : phases 1 + 2 ; `-Publish` pour la phase 3 |
+| `sync_excel.ps1` | 1–2 | Orchestrateur : enchaîne `preparer_excel` + `generer_site` ; sauvegardes locales via phase 1 ; `-Publish` pour la phase 3 |
 
 ### `scripts/site_web/` — site web
 
@@ -277,6 +315,8 @@ Fichier `data/overview_config.json` : titre, date de départ, domicile et marque
 
 ## Fichier Excel
 
+- **Où le modifier :** sur Google Drive (fichier pointé par `data/drive_config.json`), pas dans `excel/` sauf en mode sans Drive
+- **Copie locale :** `excel/Voyage Aout 2026.xlsx` — voir [Fichiers Excel et sauvegardes](#fichiers-excel-et-sauvegardes-locales)
 - Feuilles : **`Vue d'ensemble`** (générée), `Listes` (masquée), `Jour 1` … `Jour N`
 - Colonnes principales : `N° étape`, `Lieu`, `Nature`, `Catégorie`, `Quartier`, `Ville`, `Prix (€)`, horaires…
 - Colonnes carte (auto) : `Latitude`, `Longitude`, `Lien`
