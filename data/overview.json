@@ -1,5 +1,5 @@
 {
-  "generated_at": "12/06/2026 05:49 UTC",
+  "generated_at": "12/06/2026 10:06 UTC",
   "config": {
     "start_date": "2026-08-03",
     "sheet_name": "Vue d'ensemble",
@@ -7,7 +7,7 @@
   },
   "summary": {
     "period": "3 au 14 août 2026",
-    "route": "Strasbourg → Cologne → Amsterdam → Lille → Ennevelin → Lille → Bergues → Ennevelin → Côte d'Opale → Ennevelin → Cap Gris-Nez → Ennevelin",
+    "route": "Strasbourg → Cologne → Amsterdam → Ennevelin → Lille → Bergues → Ennevelin → Côte d'Opale → Ennevelin → Cap Gris-Nez → Ennevelin",
     "jours_count": 12,
     "activities_total": 62,
     "visites_total": 24,
@@ -43,7 +43,7 @@
     {
       "ville": "Cologne",
       "dates": "3 au 4 août 2026",
-      "description": "Départ Strasbourg … Römisch-Germanisches Museum, Köln"
+      "description": "Départ Strasbourg  → Cologne … Römisch-Germanisches Museum, Köln"
     },
     {
       "ville": "Amsterdam",
@@ -90,10 +90,10 @@
       ],
       "activities": 7,
       "visites": 2,
-      "prix": 0.0,
+      "prix": 0,
       "resume": "Museum Ludwig, Köln, Cathédrale de Cologne (Kölner Dom)",
       "couleur": "#e74c3c",
-      "theme": "Départ Strasbourg",
+      "theme": "Départ Strasbourg  → Cologne",
       "lodging_villes_label": "Strasbourg → Cologne",
       "highlight": false,
       "nuit": {
@@ -228,7 +228,7 @@
       "ville": "Amsterdam",
       "villes": [
         "Amsterdam",
-        "Lille"
+        "Ennevelin"
       ],
       "activities": 2,
       "visites": 0,
@@ -348,18 +348,18 @@
       "jours": 6
     },
     {
-      "ville": "Lille",
-      "activities": 2,
+      "ville": "Ennevelin",
+      "activities": 8,
       "visites": 0,
       "prix": 0.0,
-      "jours": 2
+      "jours": 5
     },
     {
-      "ville": "Ennevelin",
-      "activities": 7,
+      "ville": "Lille",
+      "activities": 1,
       "visites": 0,
       "prix": 0.0,
-      "jours": 4
+      "jours": 1
     },
     {
       "ville": "Bergues",

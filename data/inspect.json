@@ -1,12 +1,12 @@
 {
-  "generated_at": "12/06/2026 05:49 UTC",
+  "generated_at": "12/06/2026 10:07 UTC",
   "overall_status": "ok",
   "has_overview": true,
   "summary": {
-    "title": "Strasbourg → Cologne → Amsterdam → Lille → Ennevelin → Lille → Bergues → Ennevelin → Côte d'Opale → Ennevelin → Cap Gris-Nez → Ennevelin",
+    "title": "Strasbourg → Cologne → Amsterdam → Ennevelin → Lille → Bergues → Ennevelin → Côte d'Opale → Ennevelin → Cap Gris-Nez → Ennevelin",
     "period": "3 au 14 août 2026",
-    "route": "Strasbourg → Cologne → Amsterdam → Lille → Ennevelin → Lille → Bergues → Ennevelin → Côte d'Opale → Ennevelin → Cap Gris-Nez → Ennevelin",
-    "activities": 70,
+    "route": "Strasbourg → Cologne → Amsterdam → Ennevelin → Lille → Bergues → Ennevelin → Côte d'Opale → Ennevelin → Cap Gris-Nez → Ennevelin",
+    "activities": 69,
     "on_map": 62,
     "budget": 335.5,
     "jours": 12
@@ -21,44 +21,44 @@
     "overview": {
       "path": "data/overview.json",
       "present": true,
-      "mtime": "12/06/2026 05:49 UTC",
-      "size": 9690
+      "mtime": "12/06/2026 10:06 UTC",
+      "size": 9708
     },
     "voyages": {
       "path": "data/voyages.json",
       "present": true,
-      "mtime": "12/06/2026 05:49 UTC",
-      "size": 34382
+      "mtime": "12/06/2026 10:07 UTC",
+      "size": 34409
     },
     "stats": {
       "path": "data/stats.json",
       "present": true,
-      "mtime": "12/06/2026 05:49 UTC",
-      "size": 28899
+      "mtime": "12/06/2026 10:07 UTC",
+      "size": 28466
     },
     "geocode_cache": {
       "path": "data/geocode_cache.json",
       "present": true,
-      "mtime": "12/06/2026 05:49 UTC",
+      "mtime": "12/06/2026 10:06 UTC",
       "size": 10358
     },
     "route_stats_cache": {
       "path": "data/route_stats_cache.json",
       "present": true,
-      "mtime": "12/06/2026 05:49 UTC",
+      "mtime": "12/06/2026 10:07 UTC",
       "size": 5542
     },
     "geocode_errors": {
       "path": "data/geocode_errors.csv",
       "present": true,
-      "mtime": "12/06/2026 05:49 UTC",
+      "mtime": "12/06/2026 10:06 UTC",
       "size": 39
     },
     "missing_coords": {
       "path": "data/lignes_sans_coords.csv",
       "present": true,
-      "mtime": "12/06/2026 05:49 UTC",
-      "size": 425
+      "mtime": "12/06/2026 10:07 UTC",
+      "size": 386
     }
   },
   "checks": [
@@ -101,7 +101,7 @@
     {
       "id": "activities_inventory",
       "status": "ok",
-      "message": "70 activités recensées",
+      "message": "69 activités recensées",
       "details": ""
     },
     {
@@ -238,7 +238,7 @@
       "date": "2026-08-10",
       "ville": "Amsterdam",
       "resume": "2 hébergement",
-      "activities": 4,
+      "activities": 3,
       "geocoded": 2,
       "prix": 0.0,
       "foot_km": 0.0,
@@ -304,7 +304,7 @@
       "key": "1:1.2",
       "jour": 1,
       "ordre": "1.2",
-      "nom": "Départ Strasbourg",
+      "nom": "Départ Strasbourg  → Cologne",
       "ville": "Strasbourg",
       "action": "Transport",
       "prix": null,
@@ -385,7 +385,7 @@
       "nom": "Hotel Pullman Cologne",
       "ville": "Cologne",
       "action": "Hébergement",
-      "prix": 0,
+      "prix": null,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -967,20 +967,7 @@
       "key": "8:8.2",
       "jour": 8,
       "ordre": "8.2",
-      "nom": "Trajet Amsterdam → Lille",
-      "ville": "Autre",
-      "action": "Transport",
-      "prix": null,
-      "on_map": false,
-      "in_stats": true,
-      "is_trajet": true,
-      "in_overview": true
-    },
-    {
-      "key": "8:8.4",
-      "jour": 8,
-      "ordre": "8.4",
-      "nom": "Trajet Amsterdam → Lille",
+      "nom": "Trajet Amsterdam → Ennevelin",
       "ville": "Autre",
       "action": "Transport",
       "prix": null,
@@ -994,7 +981,7 @@
       "jour": 8,
       "ordre": "8.5",
       "nom": "17 Rue des Trois Bourdons, Ennevelin",
-      "ville": "Lille",
+      "ville": "Ennevelin",
       "action": "Hébergement",
       "prix": null,
       "on_map": true,
@@ -1215,7 +1202,7 @@
     {
       "jour": 1,
       "ordre": "1.2",
-      "nom": "Départ Strasbourg",
+      "nom": "Départ Strasbourg  → Cologne",
       "ville": "Strasbourg",
       "in_stats": true,
       "on_map": true,
@@ -1776,18 +1763,7 @@
     {
       "jour": 8,
       "ordre": "8.2",
-      "nom": "Trajet Amsterdam → Lille",
-      "ville": "Autre",
-      "in_stats": true,
-      "on_map": false,
-      "in_overview": true,
-      "is_trajet": true,
-      "status": "ok"
-    },
-    {
-      "jour": 8,
-      "ordre": "8.4",
-      "nom": "Trajet Amsterdam → Lille",
+      "nom": "Trajet Amsterdam → Ennevelin",
       "ville": "Autre",
       "in_stats": true,
       "on_map": false,
@@ -1799,7 +1775,7 @@
       "jour": 8,
       "ordre": "8.5",
       "nom": "17 Rue des Trois Bourdons, Ennevelin",
-      "ville": "Lille",
+      "ville": "Ennevelin",
       "in_stats": true,
       "on_map": true,
       "in_overview": true,
@@ -1997,14 +1973,7 @@
       "﻿jour": "8",
       "visite": "2",
       "ordre": "8.2",
-      "nom": "Trajet Amsterdam → Lille",
-      "feuille": "Jour 8"
-    },
-    {
-      "﻿jour": "8",
-      "visite": "4",
-      "ordre": "8.4",
-      "nom": "Trajet Amsterdam → Lille",
+      "nom": "Trajet Amsterdam → Ennevelin",
       "feuille": "Jour 8"
     },
     {
@@ -2056,7 +2025,7 @@
     {
       "jour": 1,
       "ordre": "1.2",
-      "nom": "Départ Strasbourg",
+      "nom": "Départ Strasbourg  → Cologne",
       "ville": "Strasbourg",
       "lat": 48.5812769,
       "lon": 7.7505253,
@@ -2507,7 +2476,7 @@
       "jour": 8,
       "ordre": "8.5",
       "nom": "17 Rue des Trois Bourdons, Ennevelin",
-      "ville": "Lille",
+      "ville": "Ennevelin",
       "lat": 50.5397188,
       "lon": 3.1258883,
       "couleur": "#2c3e50"

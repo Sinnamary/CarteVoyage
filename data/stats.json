@@ -1,20 +1,20 @@
 {
-  "generated_at": "12/06/2026 05:49 UTC",
+  "generated_at": "12/06/2026 10:07 UTC",
   "summary": {
     "jours": 12,
-    "activities": 70,
+    "activities": 69,
     "geocoded": 62,
     "on_map": 62,
-    "trajet_lines": 8,
+    "trajet_lines": 7,
     "missing_coords": 0,
     "villes": 8,
-    "segments_total": 58,
+    "segments_total": 57,
     "segments_calculable": 44,
     "segments_foot": 40,
     "segments_car": 4,
     "segments_foot_mode": 40,
-    "segments_car_mode": 18,
-    "segments_non_calculable": 14
+    "segments_car_mode": 17,
+    "segments_non_calculable": 13
   },
   "distances": {
     "foot_m": 54577,
@@ -27,7 +27,7 @@
   },
   "budget": {
     "total": 335.5,
-    "entries": 25,
+    "entries": 24,
     "visits_total": 335.5,
     "visits_entries": 18
   },
@@ -103,7 +103,7 @@
       "couleur": "#f39c12"
     },
     "8": {
-      "activities": 4,
+      "activities": 3,
       "geocoded": 2,
       "foot_km": 0.0,
       "car_km": 0.0,
@@ -180,12 +180,12 @@
       "car_km": 0.0
     },
     "Ennevelin": {
-      "activities": 7,
+      "activities": 8,
       "foot_km": 0.0,
       "car_km": 17.81
     },
     "Lille": {
-      "activities": 2,
+      "activities": 1,
       "foot_km": 0.0,
       "car_km": 65.61
     },
@@ -198,7 +198,7 @@
   "by_action": {
     "Visite": 24,
     "Hébergement": 22,
-    "Transport": 9,
+    "Transport": 8,
     "Balade": 5,
     "Repas": 3,
     "Pause": 3,
@@ -208,20 +208,21 @@
     "Non renseignee": 1
   },
   "by_type": {
-    "Non renseignee": 23,
+    "Non renseignee": 19,
     "Musée": 18,
-    "Hôtel": 9,
+    "Hôtel": 10,
     "Balade": 9,
-    "Route": 3,
+    "Route": 4,
     "Restaurant": 2,
     "Salon de thé": 2,
     "Monument": 1,
     "Gourmandise": 1,
     "Jardin": 1,
-    "Point de vue": 1
+    "Point de vue": 1,
+    "Autre": 1
   },
   "by_billet": {
-    "Non renseignee": 29,
+    "Non renseignee": 28,
     "Oui": 22,
     "Non": 17,
     "À faire": 2
@@ -239,16 +240,7 @@
     {
       "jour": 8,
       "ordre": "8.2",
-      "nom": "Trajet Amsterdam → Lille",
-      "ville": "Autre",
-      "ouverture": "10h00",
-      "fermeture": "16h00",
-      "billet": ""
-    },
-    {
-      "jour": 8,
-      "ordre": "8.4",
-      "nom": "Trajet Amsterdam → Lille",
+      "nom": "Trajet Amsterdam → Ennevelin",
       "ville": "Autre",
       "ouverture": "10h00",
       "fermeture": "16h00",
@@ -313,7 +305,7 @@
       "jour": 1,
       "label": "1.2 -> 1.3",
       "distance_m": 364343,
-      "from_nom": "Départ Strasbourg",
+      "from_nom": "Départ Strasbourg  → Cologne",
       "to_nom": "Brauhaus Päffgen Friesenstraße 64–66, 50670 Köln"
     },
     "most_walked_day": {
@@ -326,7 +318,7 @@
       "jour": 1,
       "from_ordre": "1.2",
       "to_ordre": "1.3",
-      "from_nom": "Départ Strasbourg",
+      "from_nom": "Départ Strasbourg  → Cologne",
       "to_nom": "Brauhaus Päffgen Friesenstraße 64–66, 50670 Köln",
       "from_ville": "Strasbourg",
       "to_ville": "Cologne",
@@ -964,7 +956,7 @@
       "from_ordre": "8.1",
       "to_ordre": "8.2",
       "from_nom": "Bob W Amsterdam Noord, Amsterdam",
-      "to_nom": "Trajet Amsterdam → Lille",
+      "to_nom": "Trajet Amsterdam → Ennevelin",
       "from_ville": "Amsterdam",
       "to_ville": "Autre",
       "mode": "car",
@@ -973,22 +965,11 @@
     {
       "jour": 8,
       "from_ordre": "8.2",
-      "to_ordre": "8.4",
-      "from_nom": "Trajet Amsterdam → Lille",
-      "to_nom": "Trajet Amsterdam → Lille",
-      "from_ville": "Autre",
-      "to_ville": "Autre",
-      "mode": "car",
-      "calculable": false
-    },
-    {
-      "jour": 8,
-      "from_ordre": "8.4",
       "to_ordre": "8.5",
-      "from_nom": "Trajet Amsterdam → Lille",
+      "from_nom": "Trajet Amsterdam → Ennevelin",
       "to_nom": "17 Rue des Trois Bourdons, Ennevelin",
       "from_ville": "Autre",
-      "to_ville": "Lille",
+      "to_ville": "Ennevelin",
       "mode": "car",
       "calculable": false
     },
