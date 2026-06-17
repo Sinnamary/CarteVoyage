@@ -1,5 +1,5 @@
 {
-  "generated_at": "12/06/2026 10:06 UTC",
+  "generated_at": "17/06/2026 05:31 UTC",
   "config": {
     "start_date": "2026-08-03",
     "sheet_name": "Vue d'ensemble",
@@ -9,8 +9,8 @@
     "period": "3 au 14 août 2026",
     "route": "Strasbourg → Cologne → Amsterdam → Ennevelin → Lille → Bergues → Ennevelin → Côte d'Opale → Ennevelin → Cap Gris-Nez → Ennevelin",
     "jours_count": 12,
-    "activities_total": 62,
-    "visites_total": 24,
+    "activities_total": 60,
+    "visites_total": 23,
     "prix_total": 335.5
   },
   "phases": [
@@ -43,7 +43,7 @@
     {
       "ville": "Cologne",
       "dates": "3 au 4 août 2026",
-      "description": "Départ Strasbourg  → Cologne … Römisch-Germanisches Museum, Köln"
+      "description": "Strasbourg  → Cologne (4h) + 1h sandwich … Musée Wallraf Richartz"
     },
     {
       "ville": "Amsterdam",
@@ -88,12 +88,12 @@
         "Strasbourg",
         "Cologne"
       ],
-      "activities": 7,
+      "activities": 5,
       "visites": 2,
       "prix": 0,
-      "resume": "Museum Ludwig, Köln, Cathédrale de Cologne (Kölner Dom)",
+      "resume": "Römisch-Germanisches Museum, Köln, Musée du parfum",
       "couleur": "#e74c3c",
-      "theme": "Départ Strasbourg  → Cologne",
+      "theme": "Strasbourg  → Cologne (4h) + 1h sandwich",
       "lodging_villes_label": "Strasbourg → Cologne",
       "highlight": false,
       "nuit": {
@@ -109,11 +109,11 @@
         "Cologne"
       ],
       "activities": 4,
-      "visites": 2,
+      "visites": 1,
       "prix": 0.0,
-      "resume": "Römisch-Germanisches Museum, Köln, Kolumba Kunstmuseum, Köln",
+      "resume": "Musée Wallraf Richartz",
       "couleur": "#27ae60",
-      "theme": "Römisch-Germanisches Museum, Köln",
+      "theme": "Musée Wallraf Richartz",
       "lodging_villes_label": "Cologne",
       "highlight": false,
       "nuit": {
@@ -335,8 +335,8 @@
     },
     {
       "ville": "Cologne",
-      "activities": 11,
-      "visites": 4,
+      "activities": 9,
+      "visites": 3,
       "prix": 0.0,
       "jours": 3
     },

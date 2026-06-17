@@ -1,28 +1,28 @@
 {
-  "generated_at": "12/06/2026 10:07 UTC",
+  "generated_at": "17/06/2026 05:31 UTC",
   "summary": {
     "jours": 12,
-    "activities": 69,
-    "geocoded": 62,
-    "on_map": 62,
+    "activities": 67,
+    "geocoded": 58,
+    "on_map": 58,
     "trajet_lines": 7,
-    "missing_coords": 0,
+    "missing_coords": 2,
     "villes": 8,
-    "segments_total": 57,
-    "segments_calculable": 44,
-    "segments_foot": 40,
+    "segments_total": 55,
+    "segments_calculable": 38,
+    "segments_foot": 34,
     "segments_car": 4,
-    "segments_foot_mode": 40,
+    "segments_foot_mode": 38,
     "segments_car_mode": 17,
-    "segments_non_calculable": 13
+    "segments_non_calculable": 17
   },
   "distances": {
-    "foot_m": 54577,
-    "car_m": 528311,
-    "total_m": 582888,
-    "foot_duration_s": 43866,
-    "car_duration_s": 22453,
-    "osrm_routes": 44,
+    "foot_m": 49293,
+    "car_m": 520742,
+    "total_m": 570035,
+    "foot_duration_s": 39669,
+    "car_duration_s": 22442,
+    "osrm_routes": 38,
     "air_fallback": 0
   },
   "budget": {
@@ -33,21 +33,21 @@
   },
   "by_day": {
     "1": {
-      "activities": 7,
-      "geocoded": 7,
-      "foot_km": 4.1,
-      "car_km": 364.34,
-      "foot_min": 55,
+      "activities": 5,
+      "geocoded": 4,
+      "foot_km": 1.36,
+      "car_km": 356.77,
+      "foot_min": 18,
       "car_min": 237,
       "prix": 0.0,
       "couleur": "#e74c3c"
     },
     "2": {
       "activities": 4,
-      "geocoded": 4,
-      "foot_km": 3.69,
+      "geocoded": 3,
+      "foot_km": 1.14,
       "car_km": 0.0,
-      "foot_min": 49,
+      "foot_min": 15,
       "car_min": 0,
       "prix": 0.0,
       "couleur": "#27ae60"
@@ -170,8 +170,8 @@
       "car_km": 0.0
     },
     "Cologne": {
-      "activities": 11,
-      "foot_km": 7.78,
+      "activities": 9,
+      "foot_km": 2.5,
       "car_km": 0.0
     },
     "Côte d'Opale": {
@@ -192,17 +192,16 @@
     "Strasbourg": {
       "activities": 1,
       "foot_km": 0.0,
-      "car_km": 364.34
+      "car_km": 356.77
     }
   },
   "by_action": {
-    "Visite": 24,
+    "Visite": 23,
     "Hébergement": 22,
     "Transport": 8,
-    "Balade": 5,
-    "Repas": 3,
+    "Balade": 6,
     "Pause": 3,
-    "Bar": 1,
+    "Repas": 2,
     "Parc": 1,
     "Croisière": 1,
     "Non renseignee": 1
@@ -210,12 +209,11 @@
   "by_type": {
     "Non renseignee": 19,
     "Musée": 18,
-    "Hôtel": 10,
-    "Balade": 9,
+    "Balade": 10,
+    "Hôtel": 9,
     "Route": 4,
-    "Restaurant": 2,
     "Salon de thé": 2,
-    "Monument": 1,
+    "Restaurant": 1,
     "Gourmandise": 1,
     "Jardin": 1,
     "Point de vue": 1,
@@ -223,9 +221,10 @@
   },
   "by_billet": {
     "Non renseignee": 28,
-    "Oui": 22,
-    "Non": 17,
-    "À faire": 2
+    "Oui": 19,
+    "Non": 13,
+    "À faire": 4,
+    "Réservé": 3
   },
   "trajet_lines": [
     {
@@ -292,7 +291,18 @@
       "billet": "Non"
     }
   ],
-  "missing_coords": [],
+  "missing_coords": [
+    {
+      "jour": 1,
+      "ordre": "1.5",
+      "nom": "Musée du parfum"
+    },
+    {
+      "jour": 2,
+      "ordre": "2.6",
+      "nom": "Balade en ville"
+    }
+  ],
   "highlights": {
     "longest_foot": {
       "jour": 4,
@@ -303,10 +313,10 @@
     },
     "longest_car": {
       "jour": 1,
-      "label": "1.2 -> 1.3",
-      "distance_m": 364343,
-      "from_nom": "Départ Strasbourg  → Cologne",
-      "to_nom": "Brauhaus Päffgen Friesenstraße 64–66, 50670 Köln"
+      "label": "1.1 -> 1.2",
+      "distance_m": 356774,
+      "from_nom": "Strasbourg  → Cologne (4h) + 1h sandwich",
+      "to_nom": "Römisch-Germanisches Museum, Köln"
     },
     "most_walked_day": {
       "jour": 5,
@@ -316,69 +326,46 @@
   "segments": [
     {
       "jour": 1,
-      "from_ordre": "1.2",
-      "to_ordre": "1.3",
-      "from_nom": "Départ Strasbourg  → Cologne",
-      "to_nom": "Brauhaus Päffgen Friesenstraße 64–66, 50670 Köln",
+      "from_ordre": "1.1",
+      "to_ordre": "1.2",
+      "from_nom": "Strasbourg  → Cologne (4h) + 1h sandwich",
+      "to_nom": "Römisch-Germanisches Museum, Köln",
       "from_ville": "Strasbourg",
       "to_ville": "Cologne",
       "mode": "car",
       "calculable": true,
-      "distance_m": 364343,
-      "duration_s": 14228,
+      "distance_m": 356774,
+      "duration_s": 14217,
       "source": "osrm",
-      "air_m": 269576
+      "air_m": 268026
     },
     {
       "jour": 1,
-      "from_ordre": "1.3",
-      "to_ordre": "1.4",
-      "from_nom": "Brauhaus Päffgen Friesenstraße 64–66, 50670 Köln",
-      "to_nom": "Museum Ludwig, Köln",
-      "from_ville": "Cologne",
-      "to_ville": "Cologne",
-      "mode": "foot",
-      "calculable": true,
-      "distance_m": 1991,
-      "duration_s": 1595,
-      "source": "osrm",
-      "air_m": 1525
-    },
-    {
-      "jour": 1,
-      "from_ordre": "1.4",
+      "from_ordre": "1.2",
       "to_ordre": "1.5",
-      "from_nom": "Museum Ludwig, Köln",
-      "to_nom": "Cathédrale de Cologne (Kölner Dom)",
+      "from_nom": "Römisch-Germanisches Museum, Köln",
+      "to_nom": "Musée du parfum",
       "from_ville": "Cologne",
       "to_ville": "Cologne",
       "mode": "foot",
-      "calculable": true,
-      "distance_m": 260,
-      "duration_s": 208,
-      "source": "osrm",
-      "air_m": 142
+      "calculable": false
     },
     {
       "jour": 1,
       "from_ordre": "1.5",
       "to_ordre": "1.6",
-      "from_nom": "Cathédrale de Cologne (Kölner Dom)",
-      "to_nom": "Peters Brauhaus Mühlengasse 1 · 50667 Cologne",
+      "from_nom": "Musée du parfum",
+      "to_nom": "Peters Brauhaus",
       "from_ville": "Cologne",
       "to_ville": "Cologne",
       "mode": "foot",
-      "calculable": true,
-      "distance_m": 481,
-      "duration_s": 385,
-      "source": "osrm",
-      "air_m": 273
+      "calculable": false
     },
     {
       "jour": 1,
       "from_ordre": "1.6",
       "to_ordre": "1.7",
-      "from_nom": "Peters Brauhaus Mühlengasse 1 · 50667 Cologne",
+      "from_nom": "Peters Brauhaus",
       "to_nom": "Hotel Pullman Cologne",
       "from_ville": "Cologne",
       "to_ville": "Cologne",
@@ -390,64 +377,41 @@
       "air_m": 1044
     },
     {
-      "jour": 1,
-      "from_ordre": "1.7",
-      "to_ordre": "1.8",
-      "from_nom": "Hotel Pullman Cologne",
-      "to_nom": "Hotel Pullman Cologne",
-      "from_ville": "Cologne",
-      "to_ville": "Cologne",
-      "mode": "foot",
-      "calculable": true,
-      "distance_m": 0,
-      "duration_s": 0,
-      "source": "osrm",
-      "air_m": 0
-    },
-    {
       "jour": 2,
       "from_ordre": "2.1",
-      "to_ordre": "2.2",
-      "from_nom": "Hotel Pullman Cologne",
-      "to_nom": "Römisch-Germanisches Museum, Köln",
-      "from_ville": "Cologne",
-      "to_ville": "Cologne",
-      "mode": "foot",
-      "calculable": true,
-      "distance_m": 1492,
-      "duration_s": 1158,
-      "source": "osrm",
-      "air_m": 1262
-    },
-    {
-      "jour": 2,
-      "from_ordre": "2.2",
-      "to_ordre": "2.3",
-      "from_nom": "Römisch-Germanisches Museum, Köln",
-      "to_nom": "Kolumba Kunstmuseum, Köln",
-      "from_ville": "Cologne",
-      "to_ville": "Cologne",
-      "mode": "foot",
-      "calculable": true,
-      "distance_m": 1122,
-      "duration_s": 900,
-      "source": "osrm",
-      "air_m": 841
-    },
-    {
-      "jour": 2,
-      "from_ordre": "2.3",
       "to_ordre": "2.4",
-      "from_nom": "Kolumba Kunstmuseum, Köln",
+      "from_nom": "Hotel Pullman Cologne",
+      "to_nom": "Musée Wallraf Richartz",
+      "from_ville": "Cologne",
+      "to_ville": "Cologne",
+      "mode": "foot",
+      "calculable": true,
+      "distance_m": 1135,
+      "duration_s": 908,
+      "source": "osrm",
+      "air_m": 954
+    },
+    {
+      "jour": 2,
+      "from_ordre": "2.4",
+      "to_ordre": "2.6",
+      "from_nom": "Musée Wallraf Richartz",
+      "to_nom": "Balade en ville",
+      "from_ville": "Cologne",
+      "to_ville": "Cologne",
+      "mode": "foot",
+      "calculable": false
+    },
+    {
+      "jour": 2,
+      "from_ordre": "2.6",
+      "to_ordre": "2.8",
+      "from_nom": "Balade en ville",
       "to_nom": "Hotel Pullman Cologne",
       "from_ville": "Cologne",
       "to_ville": "Cologne",
       "mode": "foot",
-      "calculable": true,
-      "distance_m": 1073,
-      "duration_s": 859,
-      "source": "osrm",
-      "air_m": 820
+      "calculable": false
     },
     {
       "jour": 3,

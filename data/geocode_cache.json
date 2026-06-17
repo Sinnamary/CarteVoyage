@@ -426,5 +426,16 @@
     "lon": 4.9284135,
     "source": "nominatim",
     "query": "Bob W Amsterdam Noord Amsterdam"
+  },
+  "query|de|Musée Wallraf Richartz": {
+    "lat": 50.9374105,
+    "lon": 6.9584434,
+    "source": "nominatim"
+  },
+  "de|Musée Wallraf Richartz|Centre": {
+    "lat": 50.9374105,
+    "lon": 6.9584434,
+    "source": "nominatim",
+    "query": "Musée Wallraf Richartz"
   }
 }

@@ -213,5 +213,15 @@
     "distance_m": 80552,
     "duration_s": 3886,
     "source": "osrm"
+  },
+  "car:48.581277,7.750525->50.936400,6.955600": {
+    "distance_m": 356774,
+    "duration_s": 14217,
+    "source": "osrm"
+  },
+  "foot:50.940201,6.945564->50.937410,6.958443": {
+    "distance_m": 1135,
+    "duration_s": 908,
+    "source": "osrm"
   }
 }
