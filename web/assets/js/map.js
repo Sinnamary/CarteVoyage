@@ -43,6 +43,84 @@
   ];
   const DEFAULT_DAY_COLOR = "#2c3e50";
 
+  /* ---------- Hébergements (base chaque soir/matin) ---------- */
+
+  // Couleur et symbole SVG propre à chaque hébergement, identifié par la ville.
+  // Le contenu SVG est dessiné dans un cercle blanc (cx=22 cy=21 r=13) au sein
+  // d'une épingle 44×54 (viewBox 0 0 44 54).
+  const LODGING_CONFIGS = {
+    Cologne: {
+      color: "#922b21",
+      label: "Hôtel · Cologne",
+      // Icône lit double
+      svgSymbol:
+        '<rect x="11" y="14" width="22" height="4" rx="2" fill="#922b21"/>' +
+        '<rect x="11" y="18" width="22" height="8" rx="1" fill="#922b21"/>' +
+        '<rect x="12" y="19" width="8" height="4" rx="1" fill="white" opacity="0.5"/>' +
+        '<rect x="24" y="19" width="8" height="4" rx="1" fill="white" opacity="0.5"/>' +
+        '<rect x="11" y="26" width="3" height="3" rx="1" fill="#922b21"/>' +
+        '<rect x="30" y="26" width="3" height="3" rx="1" fill="#922b21"/>',
+    },
+    Amsterdam: {
+      color: "#1a5276",
+      label: "Hôtel · Amsterdam",
+      // Icône maison néerlandaise à pignon en escalier (grachtenpand)
+      svgSymbol:
+        '<rect x="13" y="22" width="18" height="10" fill="#1a5276"/>' +
+        '<rect x="13" y="19" width="18" height="4" fill="#1a5276"/>' +
+        '<rect x="15" y="16" width="14" height="4" fill="#1a5276"/>' +
+        '<rect x="17" y="13" width="10" height="4" fill="#1a5276"/>' +
+        '<rect x="19" y="10" width="6" height="4" fill="#1a5276"/>' +
+        '<rect x="19" y="26" width="6" height="6" rx="1" fill="white" opacity="0.75"/>',
+    },
+    Ennevelin: {
+      color: "#145a32",
+      label: "Maison · Ennevelin",
+      // Icône maison de campagne avec cheminée
+      svgSymbol:
+        '<rect x="13" y="22" width="18" height="10" fill="#145a32"/>' +
+        '<path d="M22,10 L32,22 L12,22 Z" fill="#145a32"/>' +
+        '<rect x="25" y="10" width="4" height="8" fill="#145a32"/>' +
+        '<rect x="14" y="23" width="5" height="5" rx="0.5" fill="white" opacity="0.7"/>' +
+        '<rect x="19" y="26" width="6" height="6" rx="1" fill="white" opacity="0.75"/>',
+    },
+  };
+
+  function isLodgingPoint(point) {
+    const action = point.popup && point.popup.action;
+    return action != null && String(action).trim().toLowerCase() === "hébergement";
+  }
+
+  function lodgingConfig(point) {
+    return LODGING_CONFIGS[point.ville] || {
+      color: "#6c3483",
+      label: "Hébergement",
+      svgSymbol:
+        '<path d="M22,12 L30,22 L14,22 Z" fill="#6c3483"/>' +
+        '<rect x="15" y="22" width="14" height="9" fill="#6c3483"/>' +
+        '<rect x="19" y="25" width="6" height="6" rx="1" fill="white" opacity="0.75"/>',
+    };
+  }
+
+  function createLodgingIcon(point) {
+    const cfg = lodgingConfig(point);
+    const ariaLabel = escapeHtml("Hébergement — " + point.nom);
+    const svg =
+      `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 54" width="44" height="54">` +
+      `<path d="M22,3 C12,3 4,11 4,21 C4,32 22,51 22,51 C22,51 40,32 40,21 C40,11 32,3 22,3 Z"` +
+      ` fill="${cfg.color}" stroke="white" stroke-width="2.5"/>` +
+      `<circle cx="22" cy="21" r="13" fill="white" opacity="0.95"/>` +
+      cfg.svgSymbol +
+      `</svg>`;
+    return L.divIcon({
+      className: "lodging-marker",
+      html: `<div role="img" aria-label="${ariaLabel}">${svg}</div>`,
+      iconSize: [44, 54],
+      iconAnchor: [22, 51],
+      popupAnchor: [0, -54],
+    });
+  }
+
   if (!data || !data.points) {
     console.error("VOYAGE_DATA manquant");
     return;
@@ -147,7 +225,102 @@
     });
   });
 
+  /* ---------- Registre fusionné des hébergements ---------- */
+  // Regroupe les points Hébergement par (jour × nom) → un seul marqueur par base.
+  // first  = départ le matin  (visite à l'index le plus bas)
+  // last   = arrivée le soir  (visite à l'index le plus haut)
+  // Utilise la POSITION (visite), pas les horaires, pour éviter les erreurs de saisie.
+  const lodgingRegistry = new Map(); // key "jour:nom"
+
+  data.points.forEach(function (point) {
+    if (!isLodgingPoint(point)) return;
+    const key = point.jour + ":" + point.nom;
+    if (!lodgingRegistry.has(key)) {
+      lodgingRegistry.set(key, { first: null, last: null, ids: [], marker: null });
+    }
+    const entry = lodgingRegistry.get(key);
+    entry.ids.push(point.id);
+    if (!entry.first || point.visite < entry.first.visite) entry.first = point;
+    if (!entry.last || point.visite > entry.last.visite) entry.last = point;
+  });
+
   /* ---------- Popups et marqueurs ---------- */
+
+  function buildMergedLodgingPopup(entry, point) {
+    const cfg = lodgingConfig(point);
+    const first = entry.first;   // départ matin
+    const last = entry.last;     // arrivée soir
+
+    const svgIcon =
+      `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 54" width="28" height="34" class="lodging-popup-icon">` +
+      `<path d="M22,3 C12,3 4,11 4,21 C4,32 22,51 22,51 C22,51 40,32 40,21 C40,11 32,3 22,3 Z"` +
+      ` fill="${cfg.color}" stroke="white" stroke-width="2.5"/>` +
+      `<circle cx="22" cy="21" r="13" fill="white" opacity="0.95"/>` +
+      cfg.svgSymbol +
+      `</svg>`;
+
+    const parts = [
+      `<div class="popup-content">`,
+      `<span class="badge">Jour ${escapeHtml(point.jour)} · Base nuitée</span>`,
+      `<div class="lodging-popup-header">`,
+      svgIcon,
+      `<h3 class="lodging-popup-title">${escapeHtml(point.nom)}</h3>`,
+      `</div>`,
+      `<p class="meta lodging-base-label">${escapeHtml(cfg.label)}</p>`,
+    ];
+
+    // Heure de départ (matin) et arrivée (soir)
+    if (first && last && first.id !== last.id) {
+      // Deux entrées : matin + soir
+      const departHeure = (first.popup && first.popup.fermeture) || "";
+      const arriveeHeure = (last.popup && last.popup.ouverture) || "";
+      if (departHeure) {
+        parts.push(`<p class="meta">&#9728; Départ : ${escapeHtml(departHeure)}</p>`);
+      }
+      if (arriveeHeure) {
+        parts.push(`<p class="meta">&#9790; Arrivée : ${escapeHtml(arriveeHeure)}</p>`);
+      }
+    } else {
+      // Une seule entrée
+      const p = point.popup || {};
+      if (p.ouverture || p.fermeture) {
+        parts.push(`<p class="meta">Horaires : ${escapeHtml(p.ouverture || "?")} – ${escapeHtml(p.fermeture || "?")}</p>`);
+      }
+    }
+
+    // Lien réservation
+    const lien = (last && last.lien) || (first && first.lien) || null;
+    if (lien) {
+      parts.push(`<p class="meta"><a href="${escapeHtml(lien)}" target="_blank" rel="noopener">Réservation</a></p>`);
+    }
+
+    // Navigation vers la première / dernière visite du jour
+    const neighborsFirst = first ? (neighborsById.get(first.id) || {}) : {};
+    const neighborsLast = last ? (neighborsById.get(last.id) || {}) : {};
+    const firstVisit = neighborsFirst.next && !isLodgingPoint(neighborsFirst.next) ? neighborsFirst.next : null;
+    const lastVisit = neighborsLast.prev && !isLodgingPoint(neighborsLast.prev) ? neighborsLast.prev : null;
+    if (firstVisit || lastVisit) {
+      parts.push(`<div class="popup-nav">`);
+      if (firstVisit) {
+        parts.push(
+          `<button type="button" class="popup-nav-btn" data-goto="${escapeHtml(firstVisit.id)}" ` +
+          `title="${escapeHtml(firstVisit.nom)}">1ère visite &rarr;</button>`
+        );
+      } else {
+        parts.push(`<span></span>`);
+      }
+      if (lastVisit) {
+        parts.push(
+          `<button type="button" class="popup-nav-btn" data-goto="${escapeHtml(lastVisit.id)}" ` +
+          `title="${escapeHtml(lastVisit.nom)}">&larr; Dernière visite</button>`
+        );
+      }
+      parts.push(`</div>`);
+    }
+
+    parts.push(`</div>`);
+    return parts.join("");
+  }
 
   function buildPopup(point) {
     const p = point.popup || {};
@@ -204,6 +377,9 @@
   }
 
   function createNumberIcon(point) {
+    if (isLodgingPoint(point)) {
+      return createLodgingIcon(point);
+    }
     const label = markerLabel(point);
     const text = escapeHtml(label);
     const ariaLabel = escapeHtml(label + " — " + point.nom);
@@ -243,6 +419,34 @@
     const jourKey = String(point.jour);
     const group = layerGroups[jourKey];
     if (!group) return;
+
+    if (isLodgingPoint(point)) {
+      const lodgingKey = point.jour + ":" + point.nom;
+      const entry = lodgingRegistry.get(lodgingKey);
+      if (!entry) return;
+
+      if (entry.marker) {
+        // Marqueur déjà créé pour cet hébergement ce jour : on enregistre juste l'id.
+        markersByPointId.set(point.id, entry.marker);
+        return;
+      }
+
+      // Créer le marqueur fusionné (coordonnées exactes, sans décalage).
+      const displayPoint = entry.last || entry.first || point;
+      const marker = L.marker([displayPoint.lat, displayPoint.lon], {
+        icon: createLodgingIcon(displayPoint),
+        zIndexOffset: 500, // au-dessus des marqueurs normaux
+      });
+      marker.bindTooltip(displayPoint.nom, { direction: "top", offset: [0, -24], opacity: 0.92 });
+      marker.bindPopup(buildMergedLodgingPopup(entry, displayPoint));
+      marker.pointData = displayPoint;
+
+      group.addLayer(marker);
+      markers.push(marker);
+      entry.marker = marker;
+      entry.ids.forEach(function (id) { markersByPointId.set(id, marker); });
+      return;
+    }
 
     const marker = L.marker(displayLatLng(point), {
       icon: createNumberIcon(point),
@@ -997,7 +1201,17 @@
       swatch.style.backgroundColor = dayColor(jour);
       swatch.title = "Couleur des marqueurs du jour " + jour;
 
-      const count = (pointsByDay[jour] || []).length;
+      const dayPoints = pointsByDay[jour] || [];
+      const count = dayPoints.length;
+      // Trouver l'hébergement du soir pour ce jour depuis le registry.
+      let lodging = null;
+      let lodgingCfg = null;
+      lodgingRegistry.forEach(function (entry, key) {
+        if (key.startsWith(jour + ":") && entry.last) {
+          lodging = entry.last;
+          lodgingCfg = lodgingConfig(entry.last);
+        }
+      });
 
       wrap.appendChild(input);
       wrap.appendChild(swatch);
@@ -1007,6 +1221,18 @@
       countEl.className = "filter-day-count";
       countEl.textContent = count + (count > 1 ? " visites" : " visite");
       wrap.appendChild(countEl);
+
+      if (lodging && lodgingCfg) {
+        const lodgingEl = document.createElement("span");
+        lodgingEl.className = "filter-day-lodging";
+        lodgingEl.title = "Nuit : " + lodging.nom;
+        const dot = document.createElement("span");
+        dot.className = "filter-day-lodging-dot";
+        dot.style.backgroundColor = lodgingCfg.color;
+        lodgingEl.appendChild(dot);
+        lodgingEl.appendChild(document.createTextNode(shortName(lodging.nom)));
+        row.appendChild(lodgingEl);
+      }
 
       const onlyBtn = document.createElement("button");
       onlyBtn.type = "button";
@@ -1047,17 +1273,40 @@
         const list = document.createElement("div");
         list.className = "visites-items";
 
+        const shownLodgingKeys = new Set();
+
         pointsByDay[jourKey].forEach(function (point) {
+          const isLodging = isLodgingPoint(point);
+
+          if (isLodging) {
+            // Ne montrer qu'un seul bouton par hébergement fusionné.
+            const lodgingKey = point.jour + ":" + point.nom;
+            if (shownLodgingKeys.has(lodgingKey)) return;
+            shownLodgingKeys.add(lodgingKey);
+          }
+
           const btn = document.createElement("button");
           btn.type = "button";
-          btn.className = "visite-item";
           btn.dataset.pointId = point.id;
           btn.title = "Centrer la carte sur " + point.nom;
+          btn.className = isLodging ? "visite-item visite-item--lodging" : "visite-item";
 
           const num = document.createElement("span");
-          num.className = "visite-num";
-          num.style.backgroundColor = point.couleur;
-          num.textContent = markerLabel(point);
+          if (isLodging) {
+            const cfg = lodgingConfig(point);
+            num.className = "visite-num visite-num--lodging";
+            num.innerHTML =
+              `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 54" width="16" height="20">` +
+              `<path d="M22,3 C12,3 4,11 4,21 C4,32 22,51 22,51 C22,51 40,32 40,21 C40,11 32,3 22,3 Z"` +
+              ` fill="${cfg.color}" stroke="white" stroke-width="3"/>` +
+              `<circle cx="22" cy="21" r="13" fill="white" opacity="0.9"/>` +
+              cfg.svgSymbol +
+              `</svg>`;
+          } else {
+            num.className = "visite-num";
+            num.style.backgroundColor = point.couleur;
+            num.textContent = markerLabel(point);
+          }
 
           const name = document.createElement("span");
           name.className = "visite-name";

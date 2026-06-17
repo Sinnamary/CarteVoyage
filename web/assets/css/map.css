@@ -130,6 +130,7 @@ summary:focus-visible {
 
 .filter-day-row {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.4rem;
 }
@@ -144,6 +145,31 @@ summary:focus-visible {
   font-size: 0.72rem;
   color: #6b7c8f;
   white-space: nowrap;
+}
+
+/* Badge hébergement dans le filtre des jours */
+.filter-day-lodging {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  width: 100%;
+  padding: 0.1rem 0.3rem 0.2rem 0.3rem;
+  font-size: 0.7rem;
+  color: #5d4037;
+  background: #fdf3e3;
+  border-radius: 4px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.filter-day-lodging-dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.7);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
 .filter-day-only {
@@ -232,6 +258,19 @@ summary:focus-visible {
   background: transparent;
 }
 
+/* Ligne hébergement dans la liste des visites */
+.visite-item--lodging {
+  border-top: 1px solid #d5d8dc;
+  border-bottom: 1px solid #d5d8dc;
+  margin: 2px 0;
+  background: #f8f9fa;
+  font-weight: 600;
+}
+
+.visite-item--lodging:hover {
+  background: #eaf2ff;
+}
+
 .visite-num {
   flex-shrink: 0;
   display: inline-flex;
@@ -244,6 +283,23 @@ summary:focus-visible {
   color: #fff;
   font-weight: 700;
   font-size: 0.7rem;
+}
+
+/* Badge hébergement dans la liste des visites */
+.visite-num--lodging {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  padding: 0;
+  border-radius: 0;
+  background: transparent !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.visite-num--lodging svg {
+  display: block;
 }
 
 .visite-name {
@@ -498,6 +554,20 @@ summary:focus-visible {
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25), 0 2px 6px rgba(0, 0, 0, 0.35);
 }
 
+/* --- Marqueurs hébergement --- */
+
+.lodging-marker {
+  background: transparent;
+  border: none;
+  /* Légère ombre portée pour que l'épingle ressorte sur la carte */
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4));
+}
+
+.lodging-marker > div {
+  display: block;
+  line-height: 0;
+}
+
 .numbered-marker {
   background: transparent;
   border: none;
@@ -518,6 +588,39 @@ summary:focus-visible {
   white-space: nowrap;
   border: 2px solid #fff;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+/* --- Popups hébergement --- */
+
+.lodging-popup-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.lodging-popup-icon {
+  flex-shrink: 0;
+}
+
+.lodging-popup-title {
+  margin: 0;
+  font-size: 1rem;
+  color: #1a5276;
+  flex: 1;
+}
+
+.lodging-base-label {
+  font-size: 0.78rem !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #7d6608 !important;
+  background: #fef9e7;
+  border-left: 3px solid #f1c40f;
+  padding: 0.2rem 0.5rem;
+  margin: 0.25rem 0 0.5rem !important;
+  border-radius: 0 3px 3px 0;
 }
 
 /* --- Popups --- */
