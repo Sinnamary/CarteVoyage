@@ -1,7 +1,7 @@
 # CarteVoyage — Cahier des charges
 
-**Version :** 2.0  
-**Date :** 11 juin 2026  
+**Version :** 2.1  
+**Date :** 17 juin 2026  
 **Projet :** CarteVoyage — Carte interactive et statistiques de voyage à partir d'un fichier Excel
 
 **Site en ligne :** [https://sinnamary.github.io/CarteVoyage/web/](https://sinnamary.github.io/CarteVoyage/web/)
@@ -22,7 +22,7 @@
 10. [Architecture technique](#10-architecture-technique)
 11. [Structure du projet](#11-structure-du-projet)
 12. [Guide d'utilisation](#12-guide-dutilisation)
-13. [Publication sur GitHub Pages](#13-publication-sur-github-pages)
+13. [Hébergement et publication](#13-hébergement-et-publication)
 14. [Critères d'acceptation](#14-critères-dacceptation)
 15. [Contraintes, limites et risques](#15-contraintes-limites-et-risques)
 16. [Évolutions envisageables](#16-évolutions-envisageables)
@@ -42,7 +42,13 @@ Le projet repose sur une chaîne simple :
 Excel (source) → Scripts Python (sync, géocodage, build, stats) → JSON + HTML statique → Navigateur (Leaflet)
 ```
 
-Il n'y a **pas de serveur applicatif** : le site web est entièrement statique et peut être ouvert localement ou hébergé sur GitHub Pages (ou tout hébergeur de fichiers statiques).
+Il n'y a **pas de serveur applicatif** : le site web est entièrement statique. Il peut être ouvert localement (`web/index.html`) ou **hébergé en ligne** sur GitHub Pages après génération et publication du dossier `web/`.
+
+**Chaîne complète (avec Google Drive) :**
+
+```
+Google Drive (.xlsx) → preparer_excel → generer_site → web/ → publier.ps1 → GitHub Pages
+```
 
 **Voyage de référence :** Strasbourg → Cologne → Amsterdam → Lille (12 jours, août 2026).
 
@@ -70,6 +76,7 @@ L'utilisateur planifie un voyage multi-villes dans un tableur Excel structuré p
 | **Naviguer** | Filtres par jour, liste des visites, trajets piétons/voiture |
 | **Analyser** | Statistiques agrégées (distances, budget, répartitions) |
 | **Rester simple** | Pas de base de données, pas de backend, déploiement minimal |
+| **Publier** | Héberger la carte et les statistiques en ligne (GitHub Pages), sans exposer le fichier Excel |
 
 ### 2.3 Hors périmètre
 
@@ -193,14 +200,30 @@ L'utilisateur planifie un voyage multi-villes dans un tableur Excel structuré p
 | F8.5 | Liste des trajets logistiques et lieux sans coordonnées | Obligatoire |
 | F8.6 | Navigation commune avec la carte (en-tête partagé) | Obligatoire |
 
+#### F9 — Hébergement et publication
+
+| ID | Exigence | Priorité |
+|----|----------|----------|
+| F9.1 | Héberger le site comme fichiers statiques sur **GitHub Pages** (dossier `web/` uniquement) | Obligatoire |
+| F9.2 | Séparer le **programme** (dépôt Git complet) du **site publié** (HTML, CSS, JS, données embarquées) | Obligatoire |
+| F9.3 | Ne jamais publier le fichier Excel ni `data/drive_config.json` sur le site en ligne | Obligatoire |
+| F9.4 | Workflow en **3 phases** : préparation Excel → génération locale → publication après contrôle navigateur | Obligatoire |
+| F9.5 | Script `publier.ps1` : commit et push **uniquement** `web/` ; message de commit personnalisable | Obligatoire |
+| F9.6 | `publier.ps1` sans modification dans `web/` : message explicite, pas de commit vide | Obligatoire |
+| F9.7 | Déploiement automatique via GitHub Actions (`.github/workflows/pages.yml`) à chaque push sur `master` | Obligatoire |
+| F9.8 | Orchestrateur `sync_excel.ps1 -Publish` pour enchaîner phases 1 + 2 + 3 en une commande | Souhaité |
+| F9.9 | URL publique stable : `https://sinnamary.github.io/CarteVoyage/web/` (carte, stats, contrôle) | Obligatoire |
+| F9.10 | Déploiement manuel possible via `workflow_dispatch` sur GitHub Actions | Souhaité |
+
 ---
 
 ## 4. Acteurs et utilisateurs
 
 | Acteur | Rôle |
 |--------|------|
-| **Planificateur** | Maintient le fichier Excel, lance les scripts (sync, géocodage, build, stats, vérification) |
-| **Voyageur** | Consulte la carte et les statistiques dans un navigateur (desktop ou mobile) |
+| **Planificateur** | Maintient le fichier Excel (Google Drive ou local), lance les phases de préparation, génération et publication |
+| **Voyageur** | Consulte la carte et les statistiques dans un navigateur (local ou site hébergé) |
+| **Hébergeur** | GitHub Pages + GitHub Actions — sert le dossier `web/` sans exécuter de code serveur |
 | **Services externes** | Nominatim (géocodage), OSRM (routage pied/voiture), OpenStreetMap (tuiles) |
 
 ---
@@ -356,34 +379,69 @@ Contrôle structure, colonnes, validations, collisions. Code de sortie 1 si erre
 
 ### 6.6 Workflow recommandé
 
+Le pipeline est découpé en **trois phases** distinctes. La publication (phase 3) n'intervient qu'après vérification locale du site.
+
+```mermaid
+flowchart TB
+    subgraph phase1 [Phase 1 — preparer_excel]
+        D[Google Drive .xlsx] --> P1[preparer_excel.py]
+        P1 --> D
+    end
+    subgraph phase2 [Phase 2 — generer_site]
+        P1 --> P2[generer_site.py]
+        P2 --> W[web/ + data/*.json]
+    end
+    subgraph phase3 [Phase 3 — publier]
+        W --> V{Contrôle local OK ?}
+        V -->|non| D
+        V -->|oui| P3[publier.ps1]
+        P3 --> GH[Git push web/]
+        GH --> GP[GitHub Pages]
+    end
+```
+
+**Commandes (PowerShell, à la racine du projet) :**
+
+```powershell
+# Phase 1 — enrichir le classeur Excel (Drive ou local)
+.\preparer_excel.ps1
+
+# Phase 2 — générer carte, stats et page de contrôle
+.\generer_site.ps1
+start web/index.html          # vérification dans le navigateur
+
+# Phase 3 — publier en ligne (dossier web/ uniquement)
+.\publier.ps1
+.\publier.ps1 "Mise à jour carte jour 5"
+```
+
+**Orchestrateur (phases 1 + 2, optionnellement 3) :**
+
+```powershell
+.\sync_excel.ps1                  # phases 1 + 2
+.\sync_excel.ps1 -Publish          # phases 1 + 2 + publication
+.\sync_excel.ps1 -WebOnly          # phase 2 seulement
+.\sync_excel.ps1 -PrepareOnly      # phase 1 seulement
+```
+
+**Équivalent Python :**
+
 ```bash
-# 1. Environnement Python
+python preparer_excel.py
+python generer_site.py
+.\publier.ps1
+```
+
+**Première installation :**
+
+```bash
 cd CarteVoyage
 python -m venv .venv
 .venv\Scripts\activate        # Windows
 pip install -r scripts/requirements.txt
-
-# 2. Placer le fichier Excel dans excel/
-
-# 3. Synchroniser les listes déroulantes (si modifiées)
-python scripts/sync_listes_validations.py
-
-# 4. Vérifier le classeur
-python scripts/verify_planning_workbook.py
-
-# 5. Géocoder
-python scripts/geocode_excel.py
-
-# 6. Corriger manuellement les erreurs dans Excel si nécessaire
-
-# 7. Générer carte et statistiques
-python scripts/build_map.py
-python scripts/build_stats.py
-
-# 8. Ouvrir localement
-start web/index.html          # Windows
-start web/stats.html
 ```
+
+Configurer Google Drive (optionnel) : copier `data/drive_config.example.json` vers `data/drive_config.json` et renseigner `source_path`.
 
 ---
 
@@ -553,7 +611,9 @@ Les données brutes sont aussi disponibles dans `data/stats.json`.
 ### 10.3 Sécurité
 
 - Pas de secrets dans le code
-- Données de voyage stockées localement / déployées en statique
+- Données de voyage stockées localement ; seul le dossier `web/` est publié en ligne
+- `data/drive_config.json` et `excel/*.xlsx` exclus du dépôt (`.gitignore`)
+- `publier.ps1` limite le commit à `web/` — le fichier Excel n'est jamais poussé vers GitHub Pages
 - Échappement HTML dans les popups et pages stats
 - Liens externes avec `rel="noopener"`
 
@@ -565,35 +625,52 @@ Les données brutes sont aussi disponibles dans `data/stats.json`.
 CarteVoyage/
 ├── docs/
 │   └── CAHIER_DES_CHARGES.md       # Ce document
+├── preparer_excel.py               # Phase 1 : Excel (Drive ou local)
+├── preparer_excel.ps1
+├── generer_site.py                 # Phase 2 : génération web/
+├── generer_site.ps1
+├── sync_excel.ps1                  # Orchestrateur (phases 1 + 2 + option -Publish)
+├── publier.ps1                     # Phase 3 : publication GitHub Pages
 ├── excel/
-│   ├── Voyage Aout 2026.xlsx       # Source (local, non versionnée)
+│   ├── Voyage Aout 2026.xlsx       # Copie de travail (local, non versionnée)
 │   └── backups/                    # Sauvegardes automatiques
 ├── data/
+│   ├── drive_config.json           # Chemin Google Drive (local, non versionné)
+│   ├── drive_config.example.json   # Modèle de configuration Drive
+│   ├── overview_config.json        # Config feuille Vue d'ensemble
 │   ├── voyages.json                # Données carte
 │   ├── stats.json                  # Données statistiques
+│   ├── inspect.json                # Données page de contrôle
 │   ├── geocode_cache.json          # Cache géocodage
 │   ├── route_stats_cache.json      # Cache routage OSRM (stats)
 │   ├── geocode_errors.csv
 │   └── lignes_sans_coords.csv
 ├── scripts/
+│   ├── pipeline_common.py          # Utilitaires partagés des phases 1 et 2
 │   ├── excel_utils.py              # Bibliothèque partagée Excel/JSON
-│   ├── geocode_excel.py            # Géocodage Nominatim
-│   ├── build_map.py                # Génération carte
-│   ├── build_stats.py              # Génération statistiques
-│   ├── sync_listes_validations.py  # Sync listes déroulantes Excel
-│   ├── verify_planning_workbook.py # Vérification classeur
 │   ├── site_nav.py                 # En-tête HTML partagé
-│   └── requirements.txt
-├── web/
+│   ├── requirements.txt
+│   ├── site_web/                   # Génération du site
+│   │   ├── build_overview.py       # Feuille Vue d'ensemble (phase 1)
+│   │   ├── build_map.py            # Carte interactive
+│   │   ├── build_stats.py          # Statistiques
+│   │   └── build_inspect.py        # Page de contrôle
+│   └── outils/                     # Utilitaires Excel
+│       ├── sync_excel_from_drive.py
+│       ├── sync_excel_to_drive.py
+│       ├── sync_listes_validations.py
+│       ├── geocode_excel.py
+│       └── verify_planning_workbook.py
+├── web/                            # Site statique (publié sur GitHub Pages)
 │   ├── index.html                  # Carte (générée)
 │   ├── stats.html                  # Statistiques (générée)
+│   ├── inspect.html                # Contrôle cohérence (générée)
 │   └── assets/
 │       ├── css/map.css, stats.css
 │       ├── js/map.js
 │       └── img/logo-cartevoyage.svg, .png
 ├── logos/                          # Logos sources (SVG)
 ├── .github/workflows/pages.yml     # Déploiement GitHub Pages
-├── publier.ps1                     # Script de publication
 └── .venv/                          # Environnement Python (local)
 ```
 
@@ -613,47 +690,186 @@ CarteVoyage/
 
 ### 12.2 Mettre à jour après modification de l'Excel
 
-```bash
-python scripts/sync_listes_validations.py   # Si listes déroulantes modifiées
-python scripts/verify_planning_workbook.py  # Contrôle (recommandé)
-python scripts/geocode_excel.py             # Si nouveaux lieux
-python scripts/build_map.py                 # Toujours
-python scripts/build_stats.py               # Toujours
+```powershell
+.\preparer_excel.ps1    # Phase 1 : listes, vue d'ensemble, géocodage, vérif.
+.\generer_site.ps1      # Phase 2 : régénère web/
+start web/index.html    # Contrôle local
+.\publier.ps1           # Phase 3 : publication en ligne
 ```
 
 ### 12.3 Consulter le site
 
-- **Carte** : filtres jour, visites, trajets ; clic marqueurs pour détails
-- **Statistiques** : synthèse distances et budget
+- **Local** : ouvrir `web/index.html`, `web/stats.html` ou `web/inspect.html`
+- **En ligne** : [Carte](https://sinnamary.github.io/CarteVoyage/web/index.html), [Statistiques](https://sinnamary.github.io/CarteVoyage/web/stats.html), [Contrôle](https://sinnamary.github.io/CarteVoyage/web/inspect.html)
+
+### 12.4 Publier le site en ligne
+
+La publication est une étape **distincte** de la génération. `publier.ps1` ne régénère pas le site : lancer `generer_site.ps1` (ou `sync_excel.ps1`) au préalable.
+
+```powershell
+.\publier.ps1
+.\publier.ps1 "Ajout de la ville de Rome"
+```
+
+Le site est à jour sous **1 à 2 minutes** après le push.
 
 ---
 
-## 13. Publication sur GitHub Pages
+## 13. Hébergement et publication
 
-### 13.1 Script `publier.ps1`
+### 13.1 Principe
 
-Automatise la régénération et le push vers GitHub :
+CarteVoyage repose sur un **hébergement statique** : aucun serveur applicatif n'exécute de code côté backend. GitHub Pages sert les fichiers du dossier `web/` (HTML, CSS, JavaScript, images). Les données du voyage sont **embarquées** dans les pages générées (`window.VOYAGE_DATA`, etc.) ; le fichier Excel source n'est jamais exposé en ligne.
+
+Deux usages Git coexistent :
+
+| Usage | Contenu versionné / poussé | Destination |
+|-------|---------------------------|-------------|
+| **Programme** | Scripts, documentation, `data/*.json` de référence, configuration d'exemple | Dépôt Git (local ou distant) |
+| **Site hébergé** | Dossier `web/` uniquement | GitHub Pages |
+
+Fichiers **exclus** du dépôt (`.gitignore`) et donc absents du site : `excel/*.xlsx`, `data/drive_config.json`, `.venv/`.
+
+### 13.2 Architecture d'hébergement
+
+```mermaid
+flowchart LR
+    subgraph local [Poste local]
+        GEN[generer_site.py] --> WEB[web/]
+        PUB[publier.ps1] --> GIT[git commit web/]
+    end
+    GIT -->|git push master| REPO[Dépôt GitHub]
+    REPO -->|push déclencheur| GHA[GitHub Actions pages.yml]
+    GHA -->|deploy-pages| GP[GitHub Pages]
+    GP --> URL[sinnamary.github.io/CarteVoyage/web/]
+    NAV[Navigateur voyageur] --> URL
+    NAV --> OSRM[OSRM API]
+    NAV --> OSM[Tuiles OSM]
+```
+
+Le navigateur charge la page statique depuis GitHub Pages, puis appelle OSRM et OpenStreetMap **depuis le client** (routage et tuiles). Le géocodage (Nominatim) reste exclusivement côté scripts Python, en local.
+
+### 13.3 URLs publiques
+
+| Page | URL |
+|------|-----|
+| Accueil carte | [https://sinnamary.github.io/CarteVoyage/web/](https://sinnamary.github.io/CarteVoyage/web/) |
+| Carte | [https://sinnamary.github.io/CarteVoyage/web/index.html](https://sinnamary.github.io/CarteVoyage/web/index.html) |
+| Statistiques | [https://sinnamary.github.io/CarteVoyage/web/stats.html](https://sinnamary.github.io/CarteVoyage/web/stats.html) |
+| Contrôle | [https://sinnamary.github.io/CarteVoyage/web/inspect.html](https://sinnamary.github.io/CarteVoyage/web/inspect.html) |
+
+Le préfixe `/web/` correspond à la structure du dépôt : GitHub Pages publie la racine du dépôt ; le site généré vit dans le sous-dossier `web/`.
+
+### 13.4 Phase 3 — Script `publier.ps1`
+
+Automatise le commit et le push **du seul dossier `web/`** vers le dépôt distant. Il ne régénère pas le site ni ne modifie l'Excel.
 
 ```powershell
 .\publier.ps1
 .\publier.ps1 "Message de commit personnalisé"
 ```
 
-Étapes exécutées :
+**Comportement :**
 
-1. `python scripts/sync_listes_validations.py`
-2. `python scripts/build_map.py`
-3. `python scripts/build_stats.py`
-4. `git add -A` → commit → push
+1. `git add web/` — seuls les fichiers du site sont indexés
+2. Si aucune modification dans `web/` : message « Aucune modification web à publier » et arrêt (pas de commit vide)
+3. `git commit -m "<message>"` — message par défaut : `Mise a jour du site`
+4. `git push` — envoi vers le dépôt distant
+5. GitHub Actions déploie automatiquement sur GitHub Pages (délai habituel : 1 à 2 minutes)
 
-Le site est disponible sous **1 à 2 minutes** à :  
-[https://sinnamary.github.io/CarteVoyage/web/](https://sinnamary.github.io/CarteVoyage/web/)
+**Prérequis :** dépôt Git initialisé, remote configuré, droits d'écriture sur la branche `master`, site déjà généré localement et validé dans le navigateur.
 
-### 13.2 GitHub Actions (`.github/workflows/pages.yml`)
+### 13.5 GitHub Actions — `.github/workflows/pages.yml`
 
-- Déclenché sur push vers `master` ou manuellement
-- Publie le dossier `web/` sur GitHub Pages
-- Les fichiers `data/*.json` versionnés servent de référence ; le HTML embarque les données pour la carte
+Workflow **Publier la page web sur GitHub Pages** :
+
+| Paramètre | Valeur |
+|-----------|--------|
+| Déclencheurs | Push sur `master`, ou déclenchement manuel (`workflow_dispatch`) |
+| Artefact déployé | Dossier `web/` (racine du site Pages) |
+| Concurrence | Un seul déploiement à la fois (`cancel-in-progress`) |
+| Permissions | `pages: write`, `id-token: write` (OIDC) |
+
+Étapes : checkout → configuration Pages → upload de l'artefact `web` → `deploy-pages@v4`.
+
+Le workflow **ne régénère pas** le site : il déploie l'état actuel de `web/` tel que commité. La génération reste une opération locale (`generer_site.ps1`).
+
+### 13.6 Workflow complet Drive → hébergement
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  PHASE 1 — preparer_excel.ps1                                   │
+│  Lire Drive + backup → enrichissements → vérifications          │
+│  → écriture sur Google Drive                                    │
+└───────────────────────────┬─────────────────────────────────────┘
+                            │
+              ┌─────────────▼─────────────┐
+              │  Erreurs de vérification ? │
+              └─────────────┬─────────────┘
+                    oui     │     non
+              ┌─────────────▼─────────────┐
+              │ Corriger sur Google Drive  │
+              │ Relancer phase 1             │
+              └─────────────┬───────────────┘
+                            │ non
+┌───────────────────────────▼─────────────────────────────────────┐
+│  PHASE 2 — generer_site.ps1                                     │
+│  build_map + build_stats + build_inspect → web/                 │
+└───────────────────────────┬─────────────────────────────────────┘
+                            │
+              ┌─────────────▼─────────────┐
+              │  Contrôle local OK ?       │
+              │  (web/index.html…)         │
+              └─────────────┬─────────────┘
+                    non     │     oui
+              ┌─────────────┘             │
+              │ Corriger sur Drive        │
+              │ Phases 1 + 2              ├──────┘
+              └───────────────────────────┘
+                            │ oui
+┌───────────────────────────▼─────────────────────────────────────┐
+│  PHASE 3 — publier.ps1                                          │
+│  git add web/ → commit → push → GitHub Pages                    │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+Sans Google Drive (`data/drive_config.json` absent), les phases 1 et 2 travaillent sur `excel/Voyage Aout 2026.xlsx` ; la phase 3 reste identique.
+
+### 13.7 Orchestrateur `sync_excel.ps1`
+
+Enchaîne les phases sans logique métier propre :
+
+```powershell
+.\sync_excel.ps1                  # phases 1 + 2 (défaut)
+.\sync_excel.ps1 -Publish          # phases 1 + 2 + publier.ps1
+.\sync_excel.ps1 -PrepareOnly      # phase 1 seulement
+.\sync_excel.ps1 -WebOnly          # phase 2 seulement
+.\sync_excel.ps1 -Publish -Message "Mise à jour carte jour 5"
+```
+
+Recommandation : utiliser `-Publish` seulement après avoir vérifié le site en local lors d'un run précédent, sauf en cas de confiance totale sur le pipeline.
+
+### 13.8 Contraintes et bonnes pratiques
+
+| Sujet | Règle |
+|-------|-------|
+| Protocole `file://` | APIs OSRM parfois bloquées en local ; GitHub Pages (`https://`) fonctionne correctement |
+| Données sensibles | Ne pas committer `drive_config.json` ni les `.xlsx` ; le site public ne contient que les données de voyage déjà dans `web/` |
+| Regénération | Toute modification Excel exige phases 1 + 2 avant `publier.ps1` |
+| Excel absent en CI | Le workflow GitHub Actions ne possède pas le classeur ; seul `web/` pré-généré est déployé |
+| Dépôt local seul | Un `git init` sans remote convient pour versionner le programme ; seul `publier.ps1` nécessite un remote pour l'hébergement |
+
+### 13.9 Sauvegarde du programme (hors hébergement)
+
+Les évolutions de scripts ou de documentation se commitent séparément :
+
+```powershell
+git add -A
+git commit -m "Evolution du pipeline"
+git push    # optionnel : vers le dépôt distant
+```
+
+Ces commits peuvent inclure `data/*.json` de référence mais **ne remplacent pas** `publier.ps1` pour mettre à jour le site en ligne : seul un push contenant des modifications dans `web/` (via `publier.ps1`) déclenche un nouveau déploiement Pages.
 
 ---
 
@@ -680,6 +896,15 @@ Le site est disponible sous **1 à 2 minutes** à :
 - [ ] Tableaux par jour et par ville
 - [ ] Budget et répartitions affichés
 
+### Hébergement et publication
+
+- [ ] `generer_site.ps1` produit `web/index.html`, `web/stats.html`, `web/inspect.html`
+- [ ] Contrôle local du site validé avant `publier.ps1`
+- [ ] `publier.ps1` ne commit que `web/` ; pas de commit si aucun changement
+- [ ] Site accessible sur GitHub Pages sous `/web/` (carte, stats, contrôle)
+- [ ] Fichier Excel et `drive_config.json` absents du site public
+- [ ] GitHub Actions déploie `web/` après push sur `master`
+
 ---
 
 ## 15. Contraintes, limites et risques
@@ -689,11 +914,12 @@ Le site est disponible sous **1 à 2 minutes** à :
 | Villes inconnues dans `COUNTRY_BY_VILLE` | Géocodage avec pays `nl` par défaut | Ajouter la ville au dictionnaire |
 | Politique Nominatim (1 req/s) | Géocodage lent | Cache, alias, coords manuelles |
 | APIs OSRM publiques | Indisponibilité ou imprécision | Fallback ligne droite / vol d'oiseau |
-| Données embarquées dans HTML | Regénération à chaque changement | Relancer `build_map.py` / `publier.ps1` |
-| Protocole `file://` | APIs parfois bloquées | GitHub Pages ou serveur local |
+| Données embarquées dans HTML | Regénération à chaque changement | `generer_site.ps1` puis `publier.ps1` |
+| Protocole `file://` | APIs parfois bloquées | GitHub Pages (`https://`) ou serveur local |
 | Ordre `X.10` en nombre Excel | Devient `X.1` | Format texte `@` ; vérification automatique |
 | Listes déroulantes désynchronisées | Combos Excel tronquées | `sync_listes_validations.py` |
-| Fichier Excel non versionné | CI ne peut pas regénérer seule | Données JSON/HTML commitées après build local |
+| Fichier Excel non versionné | CI ne peut pas regénérer le site | Génération locale ; `publier.ps1` pousse uniquement `web/` |
+| Publication partielle | Risque d'exposer l'Excel via `git add -A` | `publier.ps1` limite l'indexation à `web/` |
 
 ---
 
@@ -750,7 +976,10 @@ requests>=2.31.0
 | **Géocodage** | Conversion d'un nom de lieu en coordonnées GPS |
 | **Nominatim** | Service de géocodage OpenStreetMap |
 | **OSRM** | Open Source Routing Machine — calcul d'itinéraires |
+| **GitHub Pages** | Hébergement gratuit de sites statiques depuis un dépôt GitHub |
+| **Publication** | Phase 3 : commit et push du dossier `web/` via `publier.ps1` |
+| **Fichier de base** | Classeur Excel sur Google Drive (`source_path`) ou copie locale `excel/` |
 
 ---
 
-*Document mis à jour à partir de l'analyse du code source du projet CarteVoyage (juin 2026).*
+*Document mis à jour à partir de l'analyse du code source du projet CarteVoyage (juin 2026). Section hébergement alignée sur le workflow phases 1–3 et `publier.ps1`.*

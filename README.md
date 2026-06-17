@@ -22,7 +22,7 @@ Google Drive (.xlsx)  →  preparer_excel  →  corrections sur Drive  →  gene
 
 ## Workflow : Drive → site → publication
 
-Le processus est volontairement découpé en **deux phases** séparées, avec des pauses pour corriger sur Google Drive et vérifier le site en local.
+Le processus est volontairement découpé en **trois phases** séparées, avec des pauses pour corriger sur Google Drive et vérifier le site en local avant publication.
 
 **Convention :** lancer un script **sans argument** exécute l'étape complète du workflow. Les paramètres (`--skip-*`, `-WebOnly`, etc.) ne servent qu'à **contourner ponctuellement** une étape.
 
@@ -125,12 +125,12 @@ La phase 1 copie le fichier Drive vers `excel/` (copie de travail + backup horod
 
 ```
 preparer_excel.py
-  ├── sync_excel_from_drive.py     → lecture Drive + backup local
-  ├── sync_listes_validations.py   → listes déroulantes alignées sur Listes
-  ├── build_overview.py            → feuille Vue d'ensemble régénérée
-  ├── verify_planning_workbook.py  → contrôle structure (arrêt si erreur)
-  ├── geocode_excel.py             → Latitude / Longitude (Nominatim)
-  └── sync_excel_to_drive.py       → écriture du classeur enrichi sur Drive
+  ├── outils/sync_excel_from_drive.py   → lecture Drive + backup local
+  ├── outils/sync_listes_validations.py → listes déroulantes alignées sur Listes
+  ├── site_web/build_overview.py        → feuille Vue d'ensemble régénérée
+  ├── outils/verify_planning_workbook.py → contrôle structure (arrêt si erreur)
+  ├── outils/geocode_excel.py           → Latitude / Longitude (Nominatim)
+  └── outils/sync_excel_to_drive.py     → écriture du classeur enrichi sur Drive
 ```
 
 | Modification Excel | Détail |
@@ -145,9 +145,9 @@ Si `verify_planning_workbook.py` signale des erreurs, le script s'arrête **avan
 
 ```
 generer_site.py
-  ├── build_map.py                 → data/voyages.json + web/index.html (lit le fichier Drive)
-  ├── build_stats.py               → data/stats.json + web/stats.html
-  └── build_inspect.py             → data/inspect.json + web/inspect.html
+  ├── site_web/build_map.py      → data/voyages.json + web/index.html (lit le fichier Drive)
+  ├── site_web/build_stats.py    → data/stats.json + web/stats.html
+  └── site_web/build_inspect.py  → data/inspect.json + web/inspect.html
 ```
 
 Par défaut, lit directement le fichier de base sur Google Drive (sans re-téléchargement). Aucune modification du classeur Excel, donc **aucune sauvegarde** dans `excel/backups/` à cette étape. Avec `--drive-pull`, un téléchargement Drive → `excel/` est effectué avant la génération (backup horodaté inclus).
@@ -185,7 +185,7 @@ Exemples concrets :
 
 ## Démarrage rapide
 
-```bash
+```powershell
 # Environnement
 python -m venv .venv
 .venv\Scripts\activate          # Windows
@@ -194,6 +194,11 @@ pip install -r scripts/requirements.txt
 # Workflow complet (Google Drive configuré dans data/drive_config.json)
 .\preparer_excel.ps1
 .\generer_site.ps1
+start web/index.html            # contrôle local avant publication
+.\publier.ps1
+
+# Raccourci : phases 1 + 2 en une commande
+.\sync_excel.ps1
 start web/index.html
 .\publier.ps1
 ```
@@ -223,6 +228,48 @@ python scripts/outils/sync_excel_from_drive.py --dry-run
 
 **Note :** le fichier source doit être un vrai `.xlsx` sur le disque. Un Google Sheet natif (fichier `.gsheet`) n'est pas copiable directement — enregistrez-le au format Excel sur Drive.
 
+## Hébergement (GitHub Pages)
+
+Le site est **entièrement statique** : GitHub Pages sert le dossier `web/` sans exécuter de code serveur. Les données du voyage sont embarquées dans les pages HTML ; le fichier Excel n'est jamais exposé en ligne.
+
+```
+generer_site.py  →  web/  →  publier.ps1  →  git push  →  GitHub Actions  →  GitHub Pages
+```
+
+| Page | URL |
+|------|-----|
+| Carte | [sinnamary.github.io/CarteVoyage/web/index.html](https://sinnamary.github.io/CarteVoyage/web/index.html) |
+| Statistiques | [sinnamary.github.io/CarteVoyage/web/stats.html](https://sinnamary.github.io/CarteVoyage/web/stats.html) |
+| Contrôle | [sinnamary.github.io/CarteVoyage/web/inspect.html](https://sinnamary.github.io/CarteVoyage/web/inspect.html) |
+
+Le préfixe `/web/` vient de la structure du dépôt : le site généré vit dans le sous-dossier `web/`.
+
+### `publier.ps1`
+
+Ne régénère **pas** le site : lancer `generer_site.ps1` (ou `sync_excel.ps1`) au préalable, puis vérifier dans le navigateur.
+
+```powershell
+.\publier.ps1
+.\publier.ps1 "Mise à jour carte jour 5"
+```
+
+Comportement :
+
+1. `git add web/` — seuls les fichiers du site sont indexés
+2. Si aucune modification dans `web/` : message d'avertissement, pas de commit
+3. `git commit` puis `git push` vers le dépôt distant
+4. GitHub Actions (`.github/workflows/pages.yml`) déploie `web/` sur Pages (délai habituel : 1 à 2 minutes)
+
+**Prérequis :** dépôt Git avec remote configuré, droits d'écriture sur `master`, site déjà généré et validé localement.
+
+### GitHub Actions
+
+Workflow **Publier la page web sur GitHub Pages** :
+
+- Déclenché à chaque push sur `master`, ou manuellement (`workflow_dispatch`)
+- Déploie le dossier `web/` tel que commité — **ne régénère pas** le site
+- Un seul déploiement à la fois (`cancel-in-progress`)
+
 ## Versionnement Git
 
 Deux usages distincts :
@@ -248,38 +295,37 @@ git commit -m "Evolution du pipeline"
 git push          # optionnel : vers votre dépôt distant
 ```
 
-Un dépôt **uniquement local** (`git init` sans `remote`) convient aussi : le programme y est versionné ; seul `publier.ps1` pousse vers GitHub.
+Un dépôt **uniquement local** (`git init` sans `remote`) convient aussi : le programme y est versionné ; seul `publier.ps1` nécessite un remote pour l'hébergement en ligne.
 
-### Publier le site
-
-`publier.ps1` ne commit et n'envoie **que `web/`** (HTML, CSS, JS, données embarquées). GitHub Pages déploie ce dossier ; le reste du dépôt n'est pas mis en ligne comme site.
-
-Après vérification locale de `web/index.html` :
-
-```powershell
-.\publier.ps1
-.\publier.ps1 "Mise à jour carte jour 5"
-```
+> Voir aussi la section [Hébergement (GitHub Pages)](#hébergement-github-pages) pour le détail de `publier.ps1` et GitHub Actions.
 
 ## Structure
 
 ```
 CarteVoyage/
-├── preparer_excel.py   # Phase 1 : Excel (Drive)
-├── preparer_excel.ps1
-├── generer_site.py     # Phase 2 : site web local
-├── generer_site.ps1
-├── sync_excel.ps1      # Orchestrateur (phases 1 + 2 + optionnel 3)
-├── publier.ps1         # Phase 3 : publication Git
-├── excel/              # Copie de travail (non versionnée)
-│   ├── Voyage Aout 2026.xlsx   # Copie locale phase 1
-│   └── backups/                # Sauvegardes automatiques avant écrasement
-├── data/               # JSON et rapports générés
+├── preparer_excel.py / .ps1    # Phase 1 : Excel (Drive ou local)
+├── generer_site.py / .ps1      # Phase 2 : génération web/
+├── sync_excel.ps1              # Orchestrateur (phases 1 + 2 + option -Publish)
+├── publier.ps1                 # Phase 3 : publication GitHub Pages
+├── excel/                      # Copie de travail (non versionnée)
+│   ├── Voyage Aout 2026.xlsx
+│   └── backups/
+├── data/
+│   ├── drive_config.json       # Chemin Google Drive (local, non versionné)
+│   ├── drive_config.example.json
+│   ├── overview_config.json
+│   ├── voyages.json, stats.json, inspect.json
+│   └── geocode_cache.json, route_stats_cache.json, …
 ├── scripts/
 │   ├── pipeline_common.py
-│   ├── site_web/
-│   └── outils/
-├── web/                # Site statique
+│   ├── requirements.txt
+│   ├── site_web/               # build_map, build_stats, build_inspect, build_overview
+│   └── outils/                 # géocodage, sync Drive, vérifications Excel
+├── web/                        # Site statique (publié sur GitHub Pages)
+│   ├── index.html, stats.html, inspect.html
+│   └── assets/
+├── .github/workflows/pages.yml # Déploiement GitHub Pages
+├── logos/
 └── docs/
 ```
 
@@ -292,7 +338,7 @@ CarteVoyage/
 | `preparer_excel.ps1` | 1 | Lecture Drive, vérifications, enrichissements, écriture Drive |
 | `generer_site.ps1` | 2 | Génération `web/` depuis le fichier de base |
 | `publier.ps1` | 3 | Commit + push du dossier `web/` (GitHub Pages) |
-| `sync_excel.ps1` | 1–2 | Orchestrateur : enchaîne `preparer_excel` + `generer_site` ; sauvegardes locales via phase 1 ; `-Publish` pour la phase 3 |
+| `sync_excel.ps1` | 1–3 | Orchestrateur : enchaîne `preparer_excel` + `generer_site` ; `-Publish` pour la phase 3 |
 
 ### `scripts/site_web/` — site web
 
