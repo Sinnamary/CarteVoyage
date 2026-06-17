@@ -130,7 +130,6 @@ summary:focus-visible {
 
 .filter-day-row {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   gap: 0.4rem;
 }
@@ -147,30 +146,6 @@ summary:focus-visible {
   white-space: nowrap;
 }
 
-/* Badge hébergement dans le filtre des jours */
-.filter-day-lodging {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  width: 100%;
-  padding: 0.1rem 0.3rem 0.2rem 0.3rem;
-  font-size: 0.7rem;
-  color: #5d4037;
-  background: #fdf3e3;
-  border-radius: 4px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.filter-day-lodging-dot {
-  flex-shrink: 0;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(255,255,255,0.7);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-}
 
 .filter-day-only {
   flex-shrink: 0;

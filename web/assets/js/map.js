@@ -1203,15 +1203,6 @@
 
       const dayPoints = pointsByDay[jour] || [];
       const count = dayPoints.length;
-      // Trouver l'hébergement du soir pour ce jour depuis le registry.
-      let lodging = null;
-      let lodgingCfg = null;
-      lodgingRegistry.forEach(function (entry, key) {
-        if (key.startsWith(jour + ":") && entry.last) {
-          lodging = entry.last;
-          lodgingCfg = lodgingConfig(entry.last);
-        }
-      });
 
       wrap.appendChild(input);
       wrap.appendChild(swatch);
@@ -1221,18 +1212,6 @@
       countEl.className = "filter-day-count";
       countEl.textContent = count + (count > 1 ? " visites" : " visite");
       wrap.appendChild(countEl);
-
-      if (lodging && lodgingCfg) {
-        const lodgingEl = document.createElement("span");
-        lodgingEl.className = "filter-day-lodging";
-        lodgingEl.title = "Nuit : " + lodging.nom;
-        const dot = document.createElement("span");
-        dot.className = "filter-day-lodging-dot";
-        dot.style.backgroundColor = lodgingCfg.color;
-        lodgingEl.appendChild(dot);
-        lodgingEl.appendChild(document.createTextNode(shortName(lodging.nom)));
-        row.appendChild(lodgingEl);
-      }
 
       const onlyBtn = document.createElement("button");
       onlyBtn.type = "button";
