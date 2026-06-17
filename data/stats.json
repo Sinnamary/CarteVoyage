@@ -1,28 +1,28 @@
 {
-  "generated_at": "17/06/2026 05:31 UTC",
+  "generated_at": "17/06/2026 15:19 UTC",
   "summary": {
     "jours": 12,
     "activities": 67,
-    "geocoded": 58,
-    "on_map": 58,
+    "geocoded": 59,
+    "on_map": 59,
     "trajet_lines": 7,
-    "missing_coords": 2,
+    "missing_coords": 1,
     "villes": 8,
     "segments_total": 55,
-    "segments_calculable": 38,
-    "segments_foot": 34,
+    "segments_calculable": 40,
+    "segments_foot": 36,
     "segments_car": 4,
     "segments_foot_mode": 38,
     "segments_car_mode": 17,
-    "segments_non_calculable": 17
+    "segments_non_calculable": 15
   },
   "distances": {
-    "foot_m": 49293,
+    "foot_m": 49965,
     "car_m": 520742,
-    "total_m": 570035,
-    "foot_duration_s": 39669,
+    "total_m": 570707,
+    "foot_duration_s": 40206,
     "car_duration_s": 22442,
-    "osrm_routes": 38,
+    "osrm_routes": 40,
     "air_fallback": 0
   },
   "budget": {
@@ -34,10 +34,10 @@
   "by_day": {
     "1": {
       "activities": 5,
-      "geocoded": 4,
-      "foot_km": 1.36,
+      "geocoded": 5,
+      "foot_km": 2.04,
       "car_km": 356.77,
-      "foot_min": 18,
+      "foot_min": 27,
       "car_min": 237,
       "prix": 0.0,
       "couleur": "#e74c3c"
@@ -171,7 +171,7 @@
     },
     "Cologne": {
       "activities": 9,
-      "foot_km": 2.5,
+      "foot_km": 3.17,
       "car_km": 0.0
     },
     "Côte d'Opale": {
@@ -293,11 +293,6 @@
   ],
   "missing_coords": [
     {
-      "jour": 1,
-      "ordre": "1.5",
-      "nom": "Musée du parfum"
-    },
-    {
       "jour": 2,
       "ordre": "2.6",
       "nom": "Balade en ville"
@@ -344,22 +339,30 @@
       "from_ordre": "1.2",
       "to_ordre": "1.5",
       "from_nom": "Römisch-Germanisches Museum, Köln",
-      "to_nom": "Musée du parfum",
+      "to_nom": "Farina Fragance Museum and Atelier",
       "from_ville": "Cologne",
       "to_ville": "Cologne",
       "mode": "foot",
-      "calculable": false
+      "calculable": true,
+      "distance_m": 298,
+      "duration_s": 238,
+      "source": "osrm",
+      "air_m": 222
     },
     {
       "jour": 1,
       "from_ordre": "1.5",
       "to_ordre": "1.6",
-      "from_nom": "Musée du parfum",
+      "from_nom": "Farina Fragance Museum and Atelier",
       "to_nom": "Peters Brauhaus",
       "from_ville": "Cologne",
       "to_ville": "Cologne",
       "mode": "foot",
-      "calculable": false
+      "calculable": true,
+      "distance_m": 374,
+      "duration_s": 299,
+      "source": "osrm",
+      "air_m": 244
     },
     {
       "jour": 1,

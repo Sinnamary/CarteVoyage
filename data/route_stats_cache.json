@@ -223,5 +223,15 @@
     "distance_m": 1135,
     "duration_s": 908,
     "source": "osrm"
+  },
+  "foot:50.936400,6.955600->50.937750,6.957930": {
+    "distance_m": 298,
+    "duration_s": 238,
+    "source": "osrm"
+  },
+  "foot:50.937750,6.957930->50.939300,6.960402": {
+    "distance_m": 374,
+    "duration_s": 299,
+    "source": "osrm"
   }
 }

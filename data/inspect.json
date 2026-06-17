@@ -1,5 +1,5 @@
 {
-  "generated_at": "17/06/2026 05:31 UTC",
+  "generated_at": "17/06/2026 15:19 UTC",
   "overall_status": "warn",
   "has_overview": true,
   "summary": {
@@ -7,7 +7,7 @@
     "period": "3 au 14 août 2026",
     "route": "Strasbourg → Cologne → Amsterdam → Ennevelin → Lille → Bergues → Ennevelin → Côte d'Opale → Ennevelin → Cap Gris-Nez → Ennevelin",
     "activities": 67,
-    "on_map": 58,
+    "on_map": 59,
     "budget": 335.5,
     "jours": 12
   },
@@ -21,44 +21,44 @@
     "overview": {
       "path": "data/overview.json",
       "present": true,
-      "mtime": "17/06/2026 05:31 UTC",
-      "size": 9660
+      "mtime": "17/06/2026 15:19 UTC",
+      "size": 9678
     },
     "voyages": {
       "path": "data/voyages.json",
       "present": true,
-      "mtime": "17/06/2026 05:31 UTC",
-      "size": 34655
+      "mtime": "17/06/2026 15:19 UTC",
+      "size": 33161
     },
     "stats": {
       "path": "data/stats.json",
       "present": true,
-      "mtime": "17/06/2026 05:31 UTC",
-      "size": 27298
+      "mtime": "17/06/2026 15:19 UTC",
+      "size": 27440
     },
     "geocode_cache": {
       "path": "data/geocode_cache.json",
       "present": true,
-      "mtime": "17/06/2026 05:31 UTC",
+      "mtime": "17/06/2026 15:19 UTC",
       "size": 10642
     },
     "route_stats_cache": {
       "path": "data/route_stats_cache.json",
       "present": true,
-      "mtime": "17/06/2026 05:31 UTC",
-      "size": 5803
+      "mtime": "17/06/2026 15:19 UTC",
+      "size": 6059
     },
     "geocode_errors": {
       "path": "data/geocode_errors.csv",
       "present": true,
-      "mtime": "17/06/2026 05:31 UTC",
-      "size": 139
+      "mtime": "17/06/2026 15:19 UTC",
+      "size": 89
     },
     "missing_coords": {
       "path": "data/lignes_sans_coords.csv",
       "present": true,
-      "mtime": "17/06/2026 05:31 UTC",
-      "size": 451
+      "mtime": "17/06/2026 15:19 UTC",
+      "size": 418
     }
   },
   "checks": [
@@ -95,7 +95,7 @@
     {
       "id": "geocoded_map",
       "status": "ok",
-      "message": "58 points carte = activités géolocalisées",
+      "message": "59 points carte = activités géolocalisées",
       "details": ""
     },
     {
@@ -107,7 +107,7 @@
     {
       "id": "missing_coords",
       "status": "warn",
-      "message": "2 activité(s) sans coordonnées (CSV cohérent)",
+      "message": "1 activité(s) sans coordonnées (CSV cohérent)",
       "details": ""
     },
     {
@@ -137,7 +137,7 @@
     {
       "id": "geocode_errors",
       "status": "warn",
-      "message": "2 erreur(s) de géocodage",
+      "message": "1 erreur(s) de géocodage",
       "details": ""
     }
   ],
@@ -146,11 +146,11 @@
       "jour": 1,
       "date": "2026-08-03",
       "ville": "Cologne",
-      "resume": "Römisch-Germanisches Museum, Köln, Musée du parfum",
+      "resume": "Römisch-Germanisches Museum, Köln, Farina Fragance Museum and Atelier",
       "activities": 5,
-      "geocoded": 4,
+      "geocoded": 5,
       "prix": 0.0,
-      "foot_km": 1.36,
+      "foot_km": 2.04,
       "car_km": 356.77,
       "couleur": "#e74c3c",
       "in_overview": true
@@ -330,11 +330,11 @@
       "key": "1:1.5",
       "jour": 1,
       "ordre": "1.5",
-      "nom": "Musée du parfum",
-      "ville": "",
-      "action": "",
+      "nom": "Farina Fragance Museum and Atelier",
+      "ville": "Cologne",
+      "action": "Visite",
       "prix": null,
-      "on_map": false,
+      "on_map": true,
       "in_stats": true,
       "is_trajet": false,
       "in_overview": true
@@ -1198,13 +1198,13 @@
     {
       "jour": 1,
       "ordre": "1.5",
-      "nom": "Musée du parfum",
-      "ville": "",
+      "nom": "Farina Fragance Museum and Atelier",
+      "ville": "Cologne",
       "in_stats": true,
-      "on_map": false,
+      "on_map": true,
       "in_overview": true,
       "is_trajet": false,
-      "status": "warn"
+      "status": "ok"
     },
     {
       "jour": 1,
@@ -1913,17 +1913,6 @@
   ],
   "anomalies": [
     {
-      "jour": 1,
-      "ordre": "1.5",
-      "nom": "Musée du parfum",
-      "ville": "",
-      "in_stats": true,
-      "on_map": false,
-      "in_overview": true,
-      "is_trajet": false,
-      "status": "warn"
-    },
-    {
       "jour": 2,
       "ordre": "2.6",
       "nom": "Balade en ville",
@@ -1937,14 +1926,6 @@
   ],
   "geocode_errors": [
     {
-      "﻿jour": "1",
-      "visite": "5",
-      "nom": "Musée du parfum",
-      "ville": "Cologne",
-      "pays": "de",
-      "requete": "Musée du parfum"
-    },
-    {
       "﻿jour": "2",
       "visite": "6",
       "nom": "Balade en ville",
@@ -1954,13 +1935,6 @@
     }
   ],
   "missing_coords": [
-    {
-      "﻿jour": "1",
-      "visite": "5",
-      "ordre": "1.5",
-      "nom": "Musée du parfum",
-      "feuille": "Jour 1"
-    },
     {
       "﻿jour": "2",
       "visite": "6",
@@ -2044,6 +2018,15 @@
       "ville": "Cologne",
       "lat": 50.9364,
       "lon": 6.9556,
+      "couleur": "#e74c3c"
+    },
+    {
+      "jour": 1,
+      "ordre": "1.5",
+      "nom": "Farina Fragance Museum and Atelier",
+      "ville": "Cologne",
+      "lat": 50.93775,
+      "lon": 6.95793,
       "couleur": "#e74c3c"
     },
     {
