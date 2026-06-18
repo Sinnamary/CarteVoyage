@@ -1,0 +1,1402 @@
+﻿c:\pa\CursorAI\CarteVoyage\generer_site.py
+  c:\pa\CursorAI\CarteVoyage\generer_site.py:34:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\generer_site.py:39:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\generer_site.py:44:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\generer_site.py:51:57 - warning: Type of "excel" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\generer_site.py:51:57 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "explicit_excel" in function "resolve_workbook_paths" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\generer_site.py:53:23 - warning: Type of "drive_pull" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\generer_site.py:59:59 - warning: Type of "excel" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\generer_site.py:59:59 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "explicit_excel" in function "source_excel_args" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\generer_site.py:64:8 - warning: Type of "no_osrm" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\generer_site.py:71:27 - warning: Type of "excel" is Any (reportAny)
+c:\pa\CursorAI\CarteVoyage\preparer_excel.py
+  c:\pa\CursorAI\CarteVoyage\preparer_excel.py:38:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\preparer_excel.py:39:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\preparer_excel.py:40:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\preparer_excel.py:41:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\preparer_excel.py:42:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\preparer_excel.py:43:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\preparer_excel.py:44:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\preparer_excel.py:45:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\preparer_excel.py:48:56 - warning: Type of "excel" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\preparer_excel.py:48:56 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "explicit_excel" in function "resolve_workbook_paths" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\preparer_excel.py:50:27 - warning: Type of "skip_drive_pull" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\preparer_excel.py:56:12 - warning: Type of "skip_sync" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\preparer_excel.py:63:12 - warning: Type of "skip_overview" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\preparer_excel.py:70:12 - warning: Type of "skip_verify" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\preparer_excel.py:77:12 - warning: Type of "skip_geocode" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\preparer_excel.py:79:12 - warning: Type of "geocode_force" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\preparer_excel.py:87:27 - warning: Type of "skip_drive_push" is Any (reportAny)
+c:\pa\CursorAI\CarteVoyage\qualite.py
+  c:\pa\CursorAI\CarteVoyage\qualite.py:116:12 - warning: Type of "fix" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:122:52 - warning: Type of "fix" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:127:8 - warning: Type of "fix" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:252:8 - warning: Type of "verbose" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:423:8 - warning: Type of "only" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:424:19 - warning: Type of "strip" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:424:33 - warning: Type of "x" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:424:38 - warning: Type of "only" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:424:38 - warning: Type of "split" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:424:62 - warning: Type of "strip" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:429:8 - warning: Type of "skip" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:430:20 - warning: Type of "strip" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:430:34 - warning: Type of "x" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:430:39 - warning: Type of "skip" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:430:39 - warning: Type of "split" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:430:63 - warning: Type of "strip" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:450:46 - warning: Type of "strict" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:460:38 - warning: Type of "strict" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:480:21 - warning: Type of "strict" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:494:13 - warning: Type of "append" is partially unknown
+  ┬á┬áType of "append" is "(object: Unknown, /) -> None" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:496:13 - warning: Type of "append" is partially unknown
+  ┬á┬áType of "append" is "(object: Unknown, /) -> None" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:497:33 - warning: Argument type is partially unknown
+  ┬á┬áArgument corresponds to parameter "iterable" in function "join"
+  ┬á┬áArgument type is "list[Unknown]" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:523:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:528:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:533:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:538:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:543:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:548:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:553:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:566:8 - warning: Type of "install" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\qualite.py:569:8 - warning: Type of "list" is Any (reportAny)
+c:\pa\CursorAI\CarteVoyage\scripts\outils\drive_config.py
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\drive_config.py:12:33 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\drive_config.py:21:62 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\drive_config.py:27:5 - warning: Type of "raw" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\drive_config.py:31:9 - warning: Type of "key" is unknown (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\drive_config.py:31:14 - warning: Type of "value" is unknown (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\drive_config.py:41:13 - warning: Implicit string concatenation not allowed (reportImplicitStringConcatenation)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\drive_config.py:53:18 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "object" in function "__new__" (reportAny)
+c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:84:20 - warning: Type of parameter "value" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:84:27 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:87:16 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "object" in function "__new__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:106:48 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:106:73 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:108:51 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "action" in function "is_lodging_action" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:109:30 - warning: Return type of lambda is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:114:27 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:118:16 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:131:26 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:142:31 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "nom" in function "lodging_ville" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:142:48 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "ville" in function "lodging_ville" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:143:31 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "nom" in function "lodging_ville" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:143:49 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "ville" in function "lodging_ville" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:192:74 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:194:26 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:204:52 - error: Argument of type "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" cannot be assigned to parameter "row" of type "tuple[Any, ...]" in function "cell_value"
+  ┬á┬áType "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" is not assignable to type "tuple[Any, ...]"
+  ┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "tuple[Any, ...]" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:204:57 - error: Argument of type "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" cannot be assigned to parameter "col_index" of type "dict[str, int]" in function "cell_value"
+  ┬á┬áType "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" is not assignable to type "dict[str, int]"
+  ┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "dict[str, int]" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:205:53 - error: Argument of type "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" cannot be assigned to parameter "row" of type "tuple[Any, ...]" in function "cell_value"
+  ┬á┬áType "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" is not assignable to type "tuple[Any, ...]"
+  ┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "tuple[Any, ...]" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:205:58 - error: Argument of type "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" cannot be assigned to parameter "col_index" of type "dict[str, int]" in function "cell_value"
+  ┬á┬áType "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" is not assignable to type "dict[str, int]"
+  ┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "dict[str, int]" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:212:26 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:216:42 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:217:16 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:220:29 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "x" in function "__new__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:224:39 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:226:32 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "x" in function "__new__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:239:30 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:241:64 - warning: Return type of lambda is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:250:39 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:259:52 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "nom" in function "lodging_ville" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:259:65 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "ville" in function "lodging_ville" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:266:26 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:273:40 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "nom" in function "lodging_ville" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:273:60 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "ville" in function "lodging_ville" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:296:39 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "nom" in function "lodging_ville" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:296:57 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "ville" in function "lodging_ville" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:302:39 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "nom" in function "lodging_ville" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:302:57 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "ville" in function "lodging_ville" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:307:67 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "action" in function "is_lodging_action" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:309:17 - warning: Implicit string concatenation not allowed (reportImplicitStringConcatenation)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:323:19 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:324:21 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:326:49 - warning: Type of "lower" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:333:21 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:335:21 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:373:17 - warning: Type of parameter "value" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:373:24 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:404:48 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:408:18 - warning: Type of "value" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:434:13 - warning: Result of call expression is of type "Cell" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:441:5 - warning: Return type is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:441:27 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:441:81 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:447:12 - warning: Return type is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:450:17 - warning: Type of parameter "value" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:450:24 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:454:22 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "x" in function "__new__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:459:16 - warning: Type of parameter "value" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:459:23 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:463:32 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:473:5 - warning: Result of call expression is of type "Path | str" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:486:5 - warning: Result of call expression is of type "Path | str" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:530:13 - warning: Type of "dv" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:530:19 - warning: Type of "dataValidation" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:531:27 - warning: Type of "formula1" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:546:30 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:568:13 - warning: Type of "ordre_raw" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:592:34 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:592:53 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:593:5 - warning: Type of "row" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:594:5 - warning: Type of "col_index" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:596:34 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:596:39 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "col_index" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:597:34 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:597:39 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "col_index" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:601:38 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:601:43 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "col_index" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:602:38 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:602:43 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "col_index" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:605:9 - warning: Return type is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:605:29 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:606:9 - warning: Type of "value" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:606:28 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:606:33 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "col_index" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:609:16 - warning: Return type is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:611:5 - warning: Type of "jour" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:612:5 - warning: Type of "visite" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:624:31 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "jour" in function "jour_color" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:641:25 - error: Argument of type "tuple[int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike, int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike]" cannot be assigned to parameter "key" of type "tuple[int, int]" in function "setdefault"
+  ┬á┬áType "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" is not assignable to type "int"
+  ┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "int"
+  ┬á┬áType "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" is not assignable to type "int"
+  ┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "int" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:641:68 - error: Argument of type "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" cannot be assigned to parameter "object" of type "str" in function "append"
+  ┬á┬áType "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" is not assignable to type "str"
+  ┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "str" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:649:25 - error: Argument of type "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" cannot be assigned to parameter "key" of type "str" in function "setdefault"
+  ┬á┬áType "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" is not assignable to type "str"
+  ┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "str" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:653:59 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:654:28 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_utils.py:658:19 - error: Argument of type "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" cannot be assigned to parameter "element" of type "int" in function "add"
+  ┬á┬áType "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" is not assignable to type "int"
+  ┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "int" (reportArgumentType)
+c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_workbook_sync.py
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_workbook_sync.py:26:13 - warning: Implicit string concatenation not allowed (reportImplicitStringConcatenation)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_workbook_sync.py:32:13 - warning: Implicit string concatenation not allowed (reportImplicitStringConcatenation)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_workbook_sync.py:55:9 - warning: Result of call expression is of type "Path | str" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_workbook_sync.py:57:9 - warning: Result of call expression is of type "Path" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\excel_workbook_sync.py:71:5 - warning: Result of call expression is of type "Path | str" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:14:5 - warning: Type of "reconfigure" is partially unknown
+  ┬á┬áType of "reconfigure" is "Unknown | Any" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:14:16 - error: Cannot access attribute "reconfigure" for class "TextIO"
+  ┬á┬áAttribute "reconfigure" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:190:5 - warning: Return type, "dict[Unknown, Unknown]", is partially unknown (reportUnknownParameterType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:190:37 - error: Expected type arguments for generic class "dict" (reportMissingTypeArgument)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:192:16 - warning: Return type is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:193:12 - warning: Return type, "dict[Unknown, Unknown]", is partially unknown (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:196:34 - warning: Type of parameter "cache" is partially unknown
+  ┬á┬áParameter type is "dict[Unknown, Unknown]" (reportUnknownParameterType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:196:41 - error: Expected type arguments for generic class "dict" (reportMissingTypeArgument)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:197:5 - warning: Result of call expression is of type "int" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:259:5 - warning: Type of "results" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:262:18 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "x" in function "__new__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:262:44 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "x" in function "__new__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:275:5 - warning: Type of parameter "cache" is partially unknown
+  ┬á┬áParameter type is "dict[Unknown, Unknown]" (reportUnknownParameterType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:275:12 - error: Expected type arguments for generic class "dict" (reportMissingTypeArgument)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:287:9 - warning: Type of "entry" is unknown (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:288:16 - warning: Return type, "tuple[Unknown, Unknown]", is partially unknown (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:293:13 - warning: Type of "entry" is unknown (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:294:13 - warning: Type of "coords" is partially unknown
+  ┬á┬áType of "coords" is "tuple[Unknown, Unknown]" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:296:20 - warning: Return type, "tuple[Unknown, Unknown]", is partially unknown (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:326:30 - error: Argument of type "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" cannot be assigned to parameter "nom" of type "str" in function "normalize_lieu"
+  ┬á┬áType "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" is not assignable to type "str"
+  ┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "str" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:330:9 - warning: Type of "row" is unknown (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:330:20 - warning: Type of "iter_rows" is partially unknown
+  ┬á┬áType of "iter_rows" is "Unknown | Overload[(min_row: int | None, max_row: int | None, min_col: int | None, max_col: int | None, values_only: Literal[True]) -> Generator[tuple[bool | float | Decimal | str | CellRichText | datetime | date | time | timedelta | DataTableFormula | ArrayFormula | None, ...], None, None], (min_row: int | None = None, max_row: int | None = None, min_col: int | None = None, max_col: int | None = None, *, values_only: Literal[True]) -> Generator[tuple[bool | float | Decimal | str | CellRichText | datetime | date | time | timedelta | DataTableFormula | ArrayFormula | None, ...], None, None], (min_row: int | None = None, max_row: int | None = None, min_col: int | None = None, max_col: int | None = None, values_only: Literal[False] = False) -> Generator[tuple[Cell | MergedCell, ...], None, None], (min_row: int | None, max_row: int | None, min_col: int | None, max_col: int | None, values_only: bool) -> (Generator[tuple[Cell | MergedCell, ...], None, None] | Generator[tuple[bool | float | Decimal | str | CellRichText | datetime | date | time | timedelta | DataTableFormula | ArrayFormula | None, ...], None, None]), (min_row: int | None = None, max_row: int | None = None, min_col: int | None = None, max_col: int | None = None, *, values_only: bool) -> (Generator[tuple[Cell | MergedCell, ...], None, None] | Generator[tuple[bool | float | Decimal | str | CellRichText | datetime | date | time | timedelta | DataTableFormula | ArrayFormula | None, ...], None, None])]" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:330:20 - error: No overloads for "iter_rows" match the provided arguments (reportCallIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:330:20 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "i" in function "next" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:330:23 - error: Cannot access attribute "iter_rows" for class "int"
+  ┬á┬áAttribute "iter_rows" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:330:23 - error: Cannot access attribute "iter_rows" for class "str"
+  ┬á┬áAttribute "iter_rows" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:330:23 - error: Cannot access attribute "iter_rows" for class "dict[str, int]"
+  ┬á┬áAttribute "iter_rows" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:330:23 - error: Cannot access attribute "iter_rows" for class "tuple[_CellGetValue, ...]"
+  ┬á┬áAttribute "iter_rows" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:330:41 - error: Argument of type "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" cannot be assigned to parameter "min_row" of type "int | None" in function "iter_rows"
+  ┬á┬áType "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" is not assignable to type "int | None"
+  ┬á┬á┬á┬áType "_WorksheetOrChartsheetLike" is not assignable to type "int | None"
+  ┬á┬á┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "int"
+  ┬á┬á┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "None" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:330:58 - error: Argument of type "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" cannot be assigned to parameter "max_row" of type "int | None" in function "iter_rows"
+  ┬á┬áType "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" is not assignable to type "int | None"
+  ┬á┬á┬á┬áType "_WorksheetOrChartsheetLike" is not assignable to type "int | None"
+  ┬á┬á┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "int"
+  ┬á┬á┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "None" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:334:13 - warning: Type of "cell" is partially unknown
+  ┬á┬áType of "cell" is "Unknown | Overload[(row: int, column: int, value: None = None) -> (Cell | MergedCell), (row: int, column: int, value: bool | float | Decimal | str | CellRichText | datetime | date | time | timedelta | DataTableFormula | ArrayFormula | bytes | None = None) -> Cell]" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:334:13 - error: No overloads for "cell" match the provided arguments (reportCallIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:334:16 - error: Cannot access attribute "cell" for class "int"
+  ┬á┬áAttribute "cell" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:334:16 - error: Cannot access attribute "cell" for class "str"
+  ┬á┬áAttribute "cell" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:334:16 - error: Cannot access attribute "cell" for class "dict[str, int]"
+  ┬á┬áAttribute "cell" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:334:16 - error: Cannot access attribute "cell" for class "tuple[_CellGetValue, ...]"
+  ┬á┬áAttribute "cell" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:334:25 - error: Argument of type "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" cannot be assigned to parameter "row" of type "int" in function "cell"
+  ┬á┬áType "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" is not assignable to type "int"
+  ┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "int" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:334:41 - error: "__getitem__" method not defined on type "int" (reportIndexIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:334:41 - error: Argument of type "Literal['Nom']" cannot be assigned to parameter "key" of type "SupportsIndex | slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None]" in function "__getitem__"
+  ┬á┬áType "Literal['Nom']" is not assignable to type "SupportsIndex | slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None]"
+  ┬á┬á┬á┬á"Literal['Nom']" is incompatible with protocol "SupportsIndex"
+  ┬á┬á┬á┬á┬á┬á"__index__" is not present
+  ┬á┬á┬á┬á"Literal['Nom']" is not assignable to "slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None]" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:334:41 - error: No overloads for "__getitem__" match the provided arguments (reportCallIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:334:41 - error: Argument of type "Literal['Nom']" cannot be assigned to parameter "key" of type "slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None]" in function "__getitem__"
+  ┬á┬á"Literal['Nom']" is not assignable to "slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None]" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:334:41 - error: Operator "+" not supported for types "Unknown | str | int | Any" and "Literal[1]"
+  ┬á┬áOperator "+" not supported for types "str" and "Literal[1]" (reportOperatorIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:338:12 - error: Operator "in" not supported for types "Literal['Ville']" and "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike"
+  ┬á┬áOperator "in" not supported for types "Literal['Ville']" and "int"
+  ┬á┬áOperator "in" not supported for types "Literal['Ville']" and "_WorksheetOrChartsheetLike" (reportOperatorIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:339:47 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:339:52 - error: Argument of type "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" cannot be assigned to parameter "col_index" of type "dict[str, int]" in function "cell_value"
+  ┬á┬áType "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" is not assignable to type "dict[str, int]"
+  ┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "dict[str, int]" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:341:17 - warning: Type of "cell" is partially unknown
+  ┬á┬áType of "cell" is "Unknown | Overload[(row: int, column: int, value: None = None) -> (Cell | MergedCell), (row: int, column: int, value: bool | float | Decimal | str | CellRichText | datetime | date | time | timedelta | DataTableFormula | ArrayFormula | bytes | None = None) -> Cell]" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:341:17 - error: No overloads for "cell" match the provided arguments (reportCallIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:341:20 - error: Cannot access attribute "cell" for class "int"
+  ┬á┬áAttribute "cell" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:341:20 - error: Cannot access attribute "cell" for class "str"
+  ┬á┬áAttribute "cell" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:341:20 - error: Cannot access attribute "cell" for class "dict[str, int]"
+  ┬á┬áAttribute "cell" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:341:20 - error: Cannot access attribute "cell" for class "tuple[_CellGetValue, ...]"
+  ┬á┬áAttribute "cell" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:341:29 - error: Argument of type "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" cannot be assigned to parameter "row" of type "int" in function "cell"
+  ┬á┬áType "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" is not assignable to type "int"
+  ┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "int" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:341:45 - error: "__getitem__" method not defined on type "int" (reportIndexIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:341:45 - error: Argument of type "Literal['Ville']" cannot be assigned to parameter "key" of type "SupportsIndex | slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None]" in function "__getitem__"
+  ┬á┬áType "Literal['Ville']" is not assignable to type "SupportsIndex | slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None]"
+  ┬á┬á┬á┬á"Literal['Ville']" is incompatible with protocol "SupportsIndex"
+  ┬á┬á┬á┬á┬á┬á"__index__" is not present
+  ┬á┬á┬á┬á"Literal['Ville']" is not assignable to "slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None]" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:341:45 - error: No overloads for "__getitem__" match the provided arguments (reportCallIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:341:45 - error: Argument of type "Literal['Ville']" cannot be assigned to parameter "key" of type "slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None]" in function "__getitem__"
+  ┬á┬á"Literal['Ville']" is not assignable to "slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None]" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:341:45 - error: Operator "+" not supported for types "Unknown | str | int | Any" and "Literal[1]"
+  ┬á┬áOperator "+" not supported for types "str" and "Literal[1]" (reportOperatorIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:349:9 - warning: Result of call expression is of type "dict[str, int]" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:363:5 - warning: Type of "cache" is partially unknown
+  ┬á┬áType of "cache" is "dict[Unknown, Unknown]" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:373:9 - warning: Type of "row" is unknown (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:373:20 - warning: Type of "iter_rows" is partially unknown
+  ┬á┬áType of "iter_rows" is "Unknown | Overload[(min_row: int | None, max_row: int | None, min_col: int | None, max_col: int | None, values_only: Literal[True]) -> Generator[tuple[bool | float | Decimal | str | CellRichText | datetime | date | time | timedelta | DataTableFormula | ArrayFormula | None, ...], None, None], (min_row: int | None = None, max_row: int | None = None, min_col: int | None = None, max_col: int | None = None, *, values_only: Literal[True]) -> Generator[tuple[bool | float | Decimal | str | CellRichText | datetime | date | time | timedelta | DataTableFormula | ArrayFormula | None, ...], None, None], (min_row: int | None = None, max_row: int | None = None, min_col: int | None = None, max_col: int | None = None, values_only: Literal[False] = False) -> Generator[tuple[Cell | MergedCell, ...], None, None], (min_row: int | None, max_row: int | None, min_col: int | None, max_col: int | None, values_only: bool) -> (Generator[tuple[Cell | MergedCell, ...], None, None] | Generator[tuple[bool | float | Decimal | str | CellRichText | datetime | date | time | timedelta | DataTableFormula | ArrayFormula | None, ...], None, None]), (min_row: int | None = None, max_row: int | None = None, min_col: int | None = None, max_col: int | None = None, *, values_only: bool) -> (Generator[tuple[Cell | MergedCell, ...], None, None] | Generator[tuple[bool | float | Decimal | str | CellRichText | datetime | date | time | timedelta | DataTableFormula | ArrayFormula | None, ...], None, None])]" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:373:20 - error: No overloads for "iter_rows" match the provided arguments (reportCallIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:373:20 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "i" in function "next" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:373:23 - error: Cannot access attribute "iter_rows" for class "int"
+  ┬á┬áAttribute "iter_rows" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:373:23 - error: Cannot access attribute "iter_rows" for class "str"
+  ┬á┬áAttribute "iter_rows" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:373:23 - error: Cannot access attribute "iter_rows" for class "dict[str, int]"
+  ┬á┬áAttribute "iter_rows" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:373:23 - error: Cannot access attribute "iter_rows" for class "tuple[_CellGetValue, ...]"
+  ┬á┬áAttribute "iter_rows" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:373:41 - error: Argument of type "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" cannot be assigned to parameter "min_row" of type "int | None" in function "iter_rows"
+  ┬á┬áType "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" is not assignable to type "int | None"
+  ┬á┬á┬á┬áType "_WorksheetOrChartsheetLike" is not assignable to type "int | None"
+  ┬á┬á┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "int"
+  ┬á┬á┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "None" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:373:58 - error: Argument of type "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" cannot be assigned to parameter "max_row" of type "int | None" in function "iter_rows"
+  ┬á┬áType "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" is not assignable to type "int | None"
+  ┬á┬á┬á┬áType "_WorksheetOrChartsheetLike" is not assignable to type "int | None"
+  ┬á┬á┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "int"
+  ┬á┬á┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "None" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:375:41 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:375:46 - error: Argument of type "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" cannot be assigned to parameter "col_index" of type "dict[str, int]" in function "cell_value"
+  ┬á┬áType "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" is not assignable to type "dict[str, int]"
+  ┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "dict[str, int]" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:381:28 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "row" in function "has_coordinates" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:381:33 - error: Argument of type "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" cannot be assigned to parameter "col_index" of type "dict[str, int]" in function "has_coordinates"
+  ┬á┬áType "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" is not assignable to type "dict[str, int]"
+  ┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "dict[str, int]" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:384:46 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:384:51 - error: Argument of type "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" cannot be assigned to parameter "col_index" of type "dict[str, int]" in function "cell_value"
+  ┬á┬áType "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" is not assignable to type "dict[str, int]"
+  ┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "dict[str, int]" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:385:44 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:385:49 - error: Argument of type "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" cannot be assigned to parameter "col_index" of type "dict[str, int]" in function "cell_value"
+  ┬á┬áType "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" is not assignable to type "dict[str, int]"
+  ┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "dict[str, int]" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:386:31 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "row" in function "ville_for_row" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:386:36 - error: Argument of type "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" cannot be assigned to parameter "col_index" of type "dict[str, int]" in function "ville_for_row"
+  ┬á┬áType "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" is not assignable to type "dict[str, int]"
+  ┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "dict[str, int]" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:402:17 - warning: Type of "cell" is partially unknown
+  ┬á┬áType of "cell" is "Unknown | Overload[(row: int, column: int, value: None = None) -> (Cell | MergedCell), (row: int, column: int, value: bool | float | Decimal | str | CellRichText | datetime | date | time | timedelta | DataTableFormula | ArrayFormula | bytes | None = None) -> Cell]" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:402:17 - error: No overloads for "cell" match the provided arguments (reportCallIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:402:20 - error: Cannot access attribute "cell" for class "int"
+  ┬á┬áAttribute "cell" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:402:20 - error: Cannot access attribute "cell" for class "str"
+  ┬á┬áAttribute "cell" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:402:20 - error: Cannot access attribute "cell" for class "dict[str, int]"
+  ┬á┬áAttribute "cell" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:402:20 - error: Cannot access attribute "cell" for class "tuple[_CellGetValue, ...]"
+  ┬á┬áAttribute "cell" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:402:29 - error: Argument of type "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" cannot be assigned to parameter "row" of type "int" in function "cell"
+  ┬á┬áType "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" is not assignable to type "int"
+  ┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "int" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:402:45 - error: "__getitem__" method not defined on type "int" (reportIndexIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:402:45 - error: Argument of type "Literal['Latitude']" cannot be assigned to parameter "key" of type "SupportsIndex | slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None]" in function "__getitem__"
+  ┬á┬áType "Literal['Latitude']" is not assignable to type "SupportsIndex | slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None]"
+  ┬á┬á┬á┬á"Literal['Latitude']" is incompatible with protocol "SupportsIndex"
+  ┬á┬á┬á┬á┬á┬á"__index__" is not present
+  ┬á┬á┬á┬á"Literal['Latitude']" is not assignable to "slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None]" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:402:45 - error: No overloads for "__getitem__" match the provided arguments (reportCallIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:402:45 - error: Argument of type "Literal['Latitude']" cannot be assigned to parameter "key" of type "slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None]" in function "__getitem__"
+  ┬á┬á"Literal['Latitude']" is not assignable to "slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None]" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:402:45 - error: Operator "+" not supported for types "Unknown | str | int | Any" and "Literal[1]"
+  ┬á┬áOperator "+" not supported for types "str" and "Literal[1]" (reportOperatorIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:403:17 - warning: Type of "cell" is partially unknown
+  ┬á┬áType of "cell" is "Unknown | Overload[(row: int, column: int, value: None = None) -> (Cell | MergedCell), (row: int, column: int, value: bool | float | Decimal | str | CellRichText | datetime | date | time | timedelta | DataTableFormula | ArrayFormula | bytes | None = None) -> Cell]" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:403:17 - error: No overloads for "cell" match the provided arguments (reportCallIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:403:20 - error: Cannot access attribute "cell" for class "int"
+  ┬á┬áAttribute "cell" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:403:20 - error: Cannot access attribute "cell" for class "str"
+  ┬á┬áAttribute "cell" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:403:20 - error: Cannot access attribute "cell" for class "dict[str, int]"
+  ┬á┬áAttribute "cell" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:403:20 - error: Cannot access attribute "cell" for class "tuple[_CellGetValue, ...]"
+  ┬á┬áAttribute "cell" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:403:29 - error: Argument of type "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" cannot be assigned to parameter "row" of type "int" in function "cell"
+  ┬á┬áType "int | str | dict[str, int] | tuple[_CellGetValue, ...] | _WorksheetOrChartsheetLike" is not assignable to type "int"
+  ┬á┬á┬á┬á"_WorksheetOrChartsheetLike" is not assignable to "int" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:403:45 - error: "__getitem__" method not defined on type "int" (reportIndexIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:403:45 - error: Argument of type "Literal['Longitude']" cannot be assigned to parameter "key" of type "SupportsIndex | slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None]" in function "__getitem__"
+  ┬á┬áType "Literal['Longitude']" is not assignable to type "SupportsIndex | slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None]"
+  ┬á┬á┬á┬á"Literal['Longitude']" is incompatible with protocol "SupportsIndex"
+  ┬á┬á┬á┬á┬á┬á"__index__" is not present
+  ┬á┬á┬á┬á"Literal['Longitude']" is not assignable to "slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None]" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:403:45 - error: No overloads for "__getitem__" match the provided arguments (reportCallIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:403:45 - error: Argument of type "Literal['Longitude']" cannot be assigned to parameter "key" of type "slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None]" in function "__getitem__"
+  ┬á┬á"Literal['Longitude']" is not assignable to "slice[SupportsIndex | None, SupportsIndex | None, SupportsIndex | None]" (reportArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:403:45 - error: Operator "+" not supported for types "Unknown | str | int | Any" and "Literal[1]"
+  ┬á┬áOperator "+" not supported for types "str" and "Literal[1]" (reportOperatorIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:433:9 - warning: Implicit string concatenation not allowed (reportImplicitStringConcatenation)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:446:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:447:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:448:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:453:23 - warning: Type of "excel" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:453:23 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "args" in function "__init__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:457:39 - warning: Type of "dry_run" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:457:39 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "dry_run" in function "run_geocoding" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:457:59 - warning: Type of "force" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\geocode_excel.py:457:59 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "force" in function "run_geocoding" (reportAny)
+c:\pa\CursorAI\CarteVoyage\scripts\outils\overview_config.py
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\overview_config.py:12:36 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\overview_config.py:25:33 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\overview_config.py:25:59 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\overview_config.py:25:78 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\overview_config.py:27:14 - warning: Type of "value" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\overview_config.py:29:39 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "base" in function "_deep_merge" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\overview_config.py:29:52 - warning: Argument type is partially unknown
+  ┬á┬áArgument corresponds to parameter "override" in function "_deep_merge"
+  ┬á┬áArgument type is "dict[Unknown, Unknown]" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\overview_config.py:35:65 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\overview_config.py:41:5 - warning: Type of "raw" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\overview_config.py:45:32 - warning: Argument type is partially unknown
+  ┬á┬áArgument corresponds to parameter "override" in function "_deep_merge"
+  ┬á┬áArgument type is "dict[Unknown, Unknown]" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\overview_config.py:52:16 - warning: Type `Any` is not allowed (reportExplicitAny)
+c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_from_drive.py
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_from_drive.py:24:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_from_drive.py:30:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_from_drive.py:34:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_from_drive.py:39:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_from_drive.py:44:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_from_drive.py:51:24 - warning: Type of "config" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_from_drive.py:51:24 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "args" in function "__init__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_from_drive.py:52:8 - warning: Type of "source" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_from_drive.py:53:28 - warning: Type of "source" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_from_drive.py:53:28 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "args" in function "__init__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_from_drive.py:57:17 - warning: Implicit string concatenation not allowed (reportImplicitStringConcatenation)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_from_drive.py:63:22 - warning: Type of "dest" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_from_drive.py:63:22 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "args" in function "__init__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_from_drive.py:64:5 - warning: Result of call expression is of type "Path | None" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_from_drive.py:67:17 - warning: Type of "dry_run" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_from_drive.py:67:17 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "dry_run" in function "run_workbook_copy" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_from_drive.py:68:21 - warning: Type of "no_backup" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_from_drive.py:68:21 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "skip_backup" in function "run_workbook_copy" (reportAny)
+c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_to_drive.py
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_to_drive.py:24:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_to_drive.py:30:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_to_drive.py:34:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_to_drive.py:39:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_to_drive.py:44:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_to_drive.py:51:24 - warning: Type of "source" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_to_drive.py:51:24 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "args" in function "__init__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_to_drive.py:52:24 - warning: Type of "config" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_to_drive.py:52:24 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "args" in function "__init__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_to_drive.py:54:8 - warning: Type of "dest" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_to_drive.py:55:26 - warning: Type of "dest" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_to_drive.py:55:26 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "args" in function "__init__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_to_drive.py:59:17 - warning: Implicit string concatenation not allowed (reportImplicitStringConcatenation)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_to_drive.py:65:5 - warning: Result of call expression is of type "Path | None" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_to_drive.py:68:17 - warning: Type of "dry_run" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_to_drive.py:68:17 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "dry_run" in function "run_workbook_copy" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_to_drive.py:69:21 - warning: Type of "no_backup" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_excel_to_drive.py:69:21 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "skip_backup" in function "run_workbook_copy" (reportAny)
+c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_listes_validations.py
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_listes_validations.py:27:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_listes_validations.py:28:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_listes_validations.py:31:23 - warning: Type of "excel" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_listes_validations.py:31:23 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "args" in function "__init__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\sync_listes_validations.py:54:8 - warning: Type of "dry_run" is Any (reportAny)
+c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:46:21 - warning: Implicit string concatenation not allowed (reportImplicitStringConcatenation)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:56:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:59:17 - warning: Type of "excel" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:59:17 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "args" in function "__init__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:65:5 - warning: Type of "verify_markers" is partially unknown
+  ┬á┬áType of "verify_markers" is "Any | list[Unknown]" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:84:17 - warning: Implicit string concatenation not allowed (reportImplicitStringConcatenation)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:97:13 - warning: Implicit string concatenation not allowed (reportImplicitStringConcatenation)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:111:17 - warning: Type of "marker" is partially unknown
+  ┬á┬áType of "marker" is "Any | Unknown" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:133:16 - warning: Type of "startswith" is partially unknown
+  ┬á┬áType of "startswith" is "Unknown | ((prefix: str | tuple[str, ...], start: SupportsIndex | None = None, end: SupportsIndex | None = None, /) -> bool)" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:133:23 - error: Cannot access attribute "startswith" for class "float"
+  ┬á┬áAttribute "startswith" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:133:23 - error: Cannot access attribute "startswith" for class "Decimal"
+  ┬á┬áAttribute "startswith" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:133:23 - error: Cannot access attribute "startswith" for class "CellRichText"
+  ┬á┬áAttribute "startswith" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:133:23 - error: Cannot access attribute "startswith" for class "datetime"
+  ┬á┬áAttribute "startswith" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:133:23 - error: Cannot access attribute "startswith" for class "date"
+  ┬á┬áAttribute "startswith" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:133:23 - error: Cannot access attribute "startswith" for class "time"
+  ┬á┬áAttribute "startswith" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:133:23 - error: Cannot access attribute "startswith" for class "timedelta"
+  ┬á┬áAttribute "startswith" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:133:23 - error: Cannot access attribute "startswith" for class "DataTableFormula"
+  ┬á┬áAttribute "startswith" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:133:23 - error: Cannot access attribute "startswith" for class "ArrayFormula"
+  ┬á┬áAttribute "startswith" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:133:23 - error: Cannot access attribute "startswith" for class "Literal[True]"
+  ┬á┬áAttribute "startswith" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:134:67 - error: "__getitem__" method not defined on type "float" (reportIndexIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:134:67 - error: "__getitem__" method not defined on type "Decimal" (reportIndexIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:134:67 - error: "__getitem__" method not defined on type "datetime" (reportIndexIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:134:67 - error: "__getitem__" method not defined on type "date" (reportIndexIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:134:67 - error: "__getitem__" method not defined on type "time" (reportIndexIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:134:67 - error: "__getitem__" method not defined on type "timedelta" (reportIndexIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:134:67 - error: "__getitem__" method not defined on type "DataTableFormula" (reportIndexIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:134:67 - error: "__getitem__" method not defined on type "ArrayFormula" (reportIndexIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\outils\verify_planning_workbook.py:134:67 - error: "__getitem__" method not defined on type "Literal[True]" (reportIndexIssue)
+c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:84:45 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:87:12 - warning: Return type is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:90:47 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:107:28 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:125:24 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:126:22 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:127:21 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:128:32 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:130:9 - warning: Type of "point" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:131:28 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "jour" in function "activity_key" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:131:43 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "ordre" in function "activity_key" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:132:9 - warning: Type of "popup" is partially unknown
+  ┬á┬áType of "popup" is "Any | dict[Unknown, Unknown]" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:132:17 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:138:22 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:139:23 - warning: Type of "get" is partially unknown
+  ┬á┬áType of "get" is "Any | Overload[(key: Unknown, default: None = None, /) -> (Unknown | None), (key: Unknown, default: Unknown, /) -> Unknown, (key: Unknown, default: _T@get, /) -> (Unknown | _T@get)]" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:140:21 - warning: Type of "get" is partially unknown
+  ┬á┬áType of "get" is "Any | Overload[(key: Unknown, default: None = None, /) -> (Unknown | None), (key: Unknown, default: Unknown, /) -> Unknown, (key: Unknown, default: _T@get, /) -> (Unknown | _T@get)]" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:146:9 - warning: Type of "row" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:147:28 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "jour" in function "activity_key" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:147:41 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "ordre" in function "activity_key" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:161:9 - warning: Type of "row" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:162:28 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "jour" in function "activity_key" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:162:41 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "ordre" in function "activity_key" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:168:22 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:179:44 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:179:80 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:182:32 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:183:9 - warning: Type of "row" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:184:19 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "x" in function "__new__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:193:22 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:194:25 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:195:23 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:196:21 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:200:28 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "value" in function "parse_iso_date" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:202:26 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:204:9 - warning: Type of "jour" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:205:9 - warning: Type of "day_stats" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:205:21 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:205:53 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "object" in function "__new__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:206:42 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "key" in function "get" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:209:13 - warning: Type of "day_date" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:211:45 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "jour" in function "date_for_jour" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:219:31 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:220:29 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:221:25 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:222:28 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:223:27 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:224:28 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:232:44 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:232:75 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:235:26 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "object" in function "__new__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:236:22 - warning: Argument type is partially unknown
+  ┬á┬áArgument corresponds to parameter "object" in function "__new__"
+  ┬á┬áArgument type is "Any | Unknown" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:236:32 - warning: Type of "note" is partially unknown
+  ┬á┬áType of "note" is "Any | Unknown" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:240:5 - warning: Type of "summary" is partially unknown
+  ┬á┬áType of "summary" is "Any | dict[Unknown, Unknown]" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:241:22 - warning: Argument type is partially unknown
+  ┬á┬áArgument corresponds to parameter "object" in function "__new__"
+  ┬á┬áArgument type is "Unknown | Any" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:241:33 - warning: Type of "value" is partially unknown
+  ┬á┬áType of "value" is "Unknown | Any" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:242:9 - warning: Type of "row" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:243:26 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "object" in function "__new__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:243:37 - warning: Type of "value" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:243:46 - warning: Type of "values" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:244:9 - warning: Type of "row" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:245:26 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "object" in function "__new__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:245:37 - warning: Type of "value" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:245:46 - warning: Type of "values" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:246:9 - warning: Type of "phase" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:247:26 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "object" in function "__new__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:247:37 - warning: Type of "value" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:247:46 - warning: Type of "values" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:252:28 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:254:23 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:255:25 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:256:24 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:257:22 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:258:32 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:261:34 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:285:24 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "iterable" in function "__init__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:286:24 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "iterable" in function "__init__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:303:9 - warning: Type of "geocoded_stats" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:303:26 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:304:26 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "obj" in function "len" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:321:9 - warning: Type of "stats_activities" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:321:28 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:338:9 - warning: Type of "missing_stats" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:338:25 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:365:13 - warning: Type of "overview_days" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:365:29 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:382:13 - warning: Type of "stats_budget" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:382:34 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:382:34 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "number" in function "round" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:383:13 - warning: Type of "overview_budget" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:383:37 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:383:37 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "number" in function "round" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:384:20 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "x" in function "abs" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:400:5 - warning: Type of "markers" is partially unknown
+  ┬á┬áType of "markers" is "Any | list[Unknown]" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:403:9 - warning: Type of "missing" is partially unknown
+  ┬á┬áType of "missing" is "list[Any | Unknown]" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:403:31 - warning: Type of "marker" is partially unknown
+  ┬á┬áType of "marker" is "Any | Unknown" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:418:24 - warning: Argument type is partially unknown
+  ┬á┬áArgument corresponds to parameter "obj" in function "len"
+  ┬á┬áArgument type is "list[Any | Unknown]" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:419:35 - warning: Argument type is partially unknown
+  ┬á┬áArgument corresponds to parameter "iterable" in function "join"
+  ┬á┬áArgument type is "list[Any | Unknown]" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:422:5 - warning: Type of "phases" is partially unknown
+  ┬á┬áType of "phases" is "Any | list[Unknown]" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:426:17 - warning: Type of "jour" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:427:28 - warning: Argument type is partially unknown
+  ┬á┬áArgument corresponds to parameter "x" in function "__new__"
+  ┬á┬áArgument type is "Any | Unknown" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:427:59 - warning: Argument type is partially unknown
+  ┬á┬áArgument corresponds to parameter "x" in function "__new__"
+  ┬á┬áArgument type is "Any | Unknown" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:427:77 - warning: Type of "p" is partially unknown
+  ┬á┬áType of "p" is "Any | Unknown" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:451:32 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:452:25 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:453:21 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:456:26 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:458:9 - warning: Type of "jour" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:477:21 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:496:23 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:497:25 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:498:22 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:499:16 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:518:16 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:545:28 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:560:29 - warning: Type of "d" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:560:59 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:567:55 - warning: Type of "d" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:587:18 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:588:19 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:589:18 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:590:23 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:591:23 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "obj" in function "len" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:592:19 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:593:22 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "obj" in function "len" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:601:22 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:604:24 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:606:13 - warning: Type of "p" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:632:36 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:653:5 - warning: Result of call expression is of type "Path | None" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:660:5 - warning: Result of call expression is of type "bool" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:677:5 - warning: Result of call expression is of type "int" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:680:5 - warning: Result of call expression is of type "int" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:682:20 - warning: Type of "c" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:683:22 - warning: Type of "c" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:684:21 - warning: Type of "c" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:686:32 - warning: Type of "upper" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:688:32 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "obj" in function "len" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:688:75 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "obj" in function "len" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:695:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:701:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:707:18 - warning: Type of "excel" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:707:18 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "args" in function "__init__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:707:43 - warning: Type of "excel" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:708:20 - warning: Type of "config" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:708:20 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "args" in function "__init__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_inspect.py:708:70 - error: "exists" is not a known attribute of "None" (reportOptionalMemberAccess)
+c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:122:31 - warning: Type of parameter "voyage_data" is partially unknown
+  ┬á┬áParameter type is "dict[Unknown, Unknown]" (reportUnknownParameterType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:122:44 - error: Expected type arguments for generic class "dict" (reportMissingTypeArgument)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:131:5 - warning: Type of "by_day" is partially unknown
+  ┬á┬áType of "by_day" is "dict[int, list[dict[Unknown, Unknown]]]" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:131:28 - error: Expected type arguments for generic class "dict" (reportMissingTypeArgument)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:132:9 - warning: Type of "pt" is unknown (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:132:15 - warning: Type of "get" is partially unknown
+  ┬á┬áType of "get" is "Overload[(key: Unknown, default: None = None, /) -> (Unknown | None), (key: Unknown, default: Unknown, /) -> Unknown, (key: Unknown, default: _T@get, /) -> (Unknown | _T@get)]" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:133:9 - warning: Type of "action" is partially unknown
+  ┬á┬áType of "action" is "Unknown | Literal['']" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:133:18 - warning: Type of "get" is partially unknown
+  ┬á┬áType of "get" is "Unknown | Overload[(key: Unknown, default: None = None, /) -> (Unknown | None), (key: Unknown, default: Unknown, /) -> Unknown, (key: Unknown, default: _T@get, /) -> (Unknown | _T@get)]" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:133:19 - warning: Type of "get" is unknown (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:134:16 - warning: Argument type is partially unknown
+  ┬á┬áArgument corresponds to parameter "object" in function "__new__"
+  ┬á┬áArgument type is "Unknown | Literal['']" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:135:13 - warning: Type of "jour" is unknown (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:136:13 - warning: Type of "setdefault" is partially unknown
+  ┬á┬áType of "setdefault" is "(key: int, default: list[dict[Unknown, Unknown]], /) -> list[dict[Unknown, Unknown]]" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:136:13 - warning: Type of "append" is partially unknown
+  ┬á┬áType of "append" is "(object: dict[Unknown, Unknown], /) -> None" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:136:31 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "key" in function "setdefault" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:136:48 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "object" in function "append" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:138:15 - warning: Type of "pts" is partially unknown
+  ┬á┬áType of "pts" is "list[dict[Unknown, Unknown]]" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:138:29 - warning: Argument type is partially unknown
+  ┬á┬áArgument corresponds to parameter "iterable" in function "sorted"
+  ┬á┬áArgument type is "dict_items[int, list[dict[Unknown, Unknown]]]" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:139:9 - warning: Type of "by_nom" is partially unknown
+  ┬á┬áType of "by_nom" is "dict[str, list[dict[Unknown, Unknown]]]" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:139:32 - error: Expected type arguments for generic class "dict" (reportMissingTypeArgument)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:140:13 - warning: Type of "pt" is partially unknown
+  ┬á┬áType of "pt" is "dict[Unknown, Unknown]" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:141:13 - warning: Type of "setdefault" is partially unknown
+  ┬á┬áType of "setdefault" is "(key: str, default: list[dict[Unknown, Unknown]], /) -> list[dict[Unknown, Unknown]]" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:141:13 - warning: Type of "append" is partially unknown
+  ┬á┬áType of "append" is "(object: dict[Unknown, Unknown], /) -> None" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:141:31 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "key" in function "setdefault" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:143:18 - warning: Type of "entries" is partially unknown
+  ┬á┬áType of "entries" is "list[dict[Unknown, Unknown]]" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:144:13 - warning: Type of "lats" is partially unknown
+  ┬á┬áType of "lats" is "set[Unknown]" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:144:27 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "number" in function "round" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:144:44 - warning: Type of "e" is partially unknown
+  ┬á┬áType of "e" is "dict[Unknown, Unknown]" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:145:13 - warning: Type of "lons" is partially unknown
+  ┬á┬áType of "lons" is "set[Unknown]" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:145:27 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "number" in function "round" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:145:44 - warning: Type of "e" is partially unknown
+  ┬á┬áType of "e" is "dict[Unknown, Unknown]" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:146:20 - warning: Argument type is partially unknown
+  ┬á┬áArgument corresponds to parameter "obj" in function "len"
+  ┬á┬áArgument type is "set[Unknown]" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:146:37 - warning: Argument type is partially unknown
+  ┬á┬áArgument corresponds to parameter "obj" in function "len"
+  ┬á┬áArgument type is "set[Unknown]" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:154:22 - warning: Type of parameter "voyage_data" is partially unknown
+  ┬á┬áParameter type is "dict[Unknown, Unknown]" (reportUnknownParameterType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:154:35 - error: Expected type arguments for generic class "dict" (reportMissingTypeArgument)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:156:5 - warning: Result of call expression is of type "int" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:177:5 - warning: Result of call expression is of type "int" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:189:39 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "obj" in function "len" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:199:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:202:23 - warning: Type of "excel" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_map.py:202:23 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "args" in function "__init__" (reportAny)
+c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:123:31 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:123:50 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:124:5 - warning: Type of "row" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:125:5 - warning: Type of "ci" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:126:5 - warning: Type of "nom" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:131:44 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:131:49 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "col_index" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:132:45 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:132:50 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "col_index" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:133:43 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:133:48 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "col_index" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:134:39 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:134:44 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "col_index" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:135:47 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:135:52 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "col_index" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:136:48 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:136:53 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "col_index" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:137:48 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:137:53 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "col_index" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:138:39 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:138:44 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "col_index" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:139:39 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:139:44 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "col_index" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:140:43 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:140:48 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "col_index" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:141:43 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:141:48 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "col_index" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:142:42 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "nom" in function "is_trajet_line" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:181:26 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:185:39 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:187:30 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "action" in function "is_lodging_action" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:192:34 - warning: Return type of lambda is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:197:31 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "nom" in function "lodging_ville" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:197:47 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "ville" in function "lodging_ville" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:212:42 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:216:45 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:216:71 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:222:49 - warning: Return type of lambda is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:223:30 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "action" in function "is_lodging_action" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:226:20 - warning: Return type is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:230:45 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:231:12 - warning: Return type is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:234:40 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:242:28 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:243:35 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:244:21 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:246:27 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:264:47 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "start" in function "format_date_range_fr" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:264:63 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "end" in function "format_date_range_fr" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:271:57 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:275:13 - warning: Type of "last_ville" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:281:13 - warning: Type of "next_ville" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:286:79 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:318:26 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:321:26 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:322:39 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:324:30 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "action" in function "is_lodging_action" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:327:35 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:329:34 - warning: Return type of lambda is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:333:31 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "nom" in function "lodging_ville" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:333:47 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "ville" in function "lodging_ville" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:349:9 - warning: Type of "add" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:351:36 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:353:24 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "iterable" in function "sorted" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:354:43 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "jour" in function "date_for_jour" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:355:41 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "jour" in function "date_for_jour" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:362:21 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "nom" in function "google_maps_url" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:364:21 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "lat" in function "google_maps_url" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:365:21 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "lon" in function "google_maps_url" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:366:26 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "existing" in function "google_maps_url" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:374:26 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:377:21 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:379:59 - warning: Return type of lambda is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:382:44 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:392:40 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:399:9 - warning: Result of call expression is of type "int" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:399:32 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "key" in function "setdefault" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:399:46 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "default" in function "setdefault" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:405:41 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:407:43 - warning: Return type of lambda is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:408:9 - warning: Type of "ville" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:411:21 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "object" in function "append" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:415:37 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:418:47 - warning: Return type of lambda is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:419:42 - warning: Type of "lower" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:431:53 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:431:78 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:432:28 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:437:5 - warning: Type of "prev_ville" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:453:13 - warning: Type of "prev_ville" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:471:23 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:472:16 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:473:35 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "value" in function "parse_start_date" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:477:39 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:484:35 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:496:45 - warning: Type of "lower" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:523:39 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "key" in function "get" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:528:35 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:536:9 - warning: Type of "add" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:537:12 - warning: Type of "lower" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:543:53 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "iterable" in function "min" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:545:9 - warning: Type of "append" is partially unknown
+  ┬á┬áType of "append" is "(object: Unknown, /) -> None" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:551:30 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "obj" in function "len" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:556:44 - warning: Type of "lower" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:561:39 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "jour" in function "date_for_jour" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:562:39 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "jour" in function "date_for_jour" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:588:5 - warning: Return type is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:588:18 - warning: Type of parameter "value" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:588:25 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:588:33 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:591:52 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "o" in function "__init__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:594:45 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:594:69 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:617:5 - warning: Result of call expression is of type "int" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:628:5 - warning: Type of parameter "value" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:628:12 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:635:47 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "value" in function "cell" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:699:9 - warning: Type of "merged" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:699:24 - warning: Type of "ranges" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:699:24 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "iterable" in function "__init__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:700:30 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "object" in function "__new__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:720:12 - warning: Return type is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:726:24 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:729:5 - warning: Type of "jour" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:730:54 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "jour" in function "jour_color" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:737:24 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "d" in function "format_date_fr" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:741:28 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "prix" in function "format_budget_cell" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:741:45 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "activities" in function "format_budget_cell" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:796:85 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:869:17 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "url" in function "set_link_cell" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:888:63 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:926:58 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:965:9 - warning: Type of "summary" is partially unknown
+  ┬á┬áType of "summary" is "Any | Unknown" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:966:32 - warning: Argument type is partially unknown
+  ┬á┬áArgument corresponds to parameter "summary" in function "write_day_row"
+  ┬á┬áArgument type is "Any | Unknown" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:981:67 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:992:23 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:1004:28 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "obj" in function "len" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:1013:5 - warning: Type of "sheet_name" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:1020:24 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "obj" in function "len" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:1023:36 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "sheet_name" in function "ensure_overview_sheet" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:1045:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:1046:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:1051:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:1056:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:1057:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:1064:23 - warning: Type of "excel" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:1064:23 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "args" in function "__init__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:1068:24 - warning: Type of "config" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:1068:24 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "args" in function "__init__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:1072:24 - warning: Type of "start_date" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:1072:24 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "start_date" in function "resolve_overview_config" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:1074:9 - warning: Result of call expression is of type "date" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:1074:26 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "value" in function "parse_start_date" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:1082:17 - warning: Type of "dry_run" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:1082:17 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "dry_run" in function "run_build" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:1083:23 - warning: Type of "snapshot_only" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_overview.py:1083:23 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "snapshot_only" in function "run_build" (reportAny)
+c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:17:5 - warning: Type of "reconfigure" is partially unknown
+  ┬á┬áType of "reconfigure" is "Unknown | Any" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:17:16 - error: Cannot access attribute "reconfigure" for class "TextIO"
+  ┬á┬áAttribute "reconfigure" is unknown (reportAttributeAccessIssue)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:87:31 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:87:50 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:88:5 - warning: Type of "row" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:89:5 - warning: Type of "ci" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:91:5 - warning: Type of "nom" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:97:44 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:97:49 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "col_index" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:98:45 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:98:50 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "col_index" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:99:43 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:99:48 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "col_index" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:100:45 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:100:50 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "col_index" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:101:39 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:101:44 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "col_index" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:102:33 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:102:38 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "col_index" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:103:33 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:103:38 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "col_index" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:104:47 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "row" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:104:52 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "col_index" in function "cell_value" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:108:31 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "jour" in function "jour_color" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:109:42 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "nom" in function "is_trajet_line" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:113:25 - warning: Type of parameter "from_r" is partially unknown
+  ┬á┬áParameter type is "dict[Unknown, Unknown]" (reportUnknownParameterType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:113:33 - error: Expected type arguments for generic class "dict" (reportMissingTypeArgument)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:113:39 - warning: Type of parameter "to_r" is partially unknown
+  ┬á┬áParameter type is "dict[Unknown, Unknown]" (reportUnknownParameterType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:113:45 - error: Expected type arguments for generic class "dict" (reportMissingTypeArgument)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:114:21 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "action" in function "is_transport" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:114:55 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "action" in function "is_transport" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:116:5 - warning: Type of "ville_from" is unknown (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:116:18 - warning: Type of "strip" is unknown (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:116:18 - warning: Type of "lower" is unknown (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:117:5 - warning: Type of "ville_to" is unknown (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:117:16 - warning: Type of "strip" is unknown (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:117:16 - warning: Type of "lower" is unknown (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:121:28 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "lat1" in function "haversine_m" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:121:43 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "lon1" in function "haversine_m" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:121:58 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "lat2" in function "haversine_m" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:121:71 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "lon2" in function "haversine_m" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:127:47 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:129:16 - warning: Return type is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:133:51 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:134:5 - warning: Result of call expression is of type "int" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:143:16 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:151:13 - warning: Type of "payload" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:152:16 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:152:51 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:154:13 - warning: Type of "route" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:156:37 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "number" in function "round" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:157:37 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "number" in function "round" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:166:5 - warning: Type of parameter "from_r" is partially unknown
+  ┬á┬áParameter type is "dict[Unknown, Unknown]" (reportUnknownParameterType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:166:13 - error: Expected type arguments for generic class "dict" (reportMissingTypeArgument)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:167:5 - warning: Type of parameter "to_r" is partially unknown
+  ┬á┬áParameter type is "dict[Unknown, Unknown]" (reportUnknownParameterType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:167:11 - error: Expected type arguments for generic class "dict" (reportMissingTypeArgument)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:169:22 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:171:16 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:172:25 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "lat1" in function "haversine_m" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:172:40 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "lon1" in function "haversine_m" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:172:55 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "lat2" in function "haversine_m" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:172:68 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "lon2" in function "haversine_m" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:173:33 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "lat1" in function "route_cache_key" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:173:48 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "lon1" in function "route_cache_key" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:173:63 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "lat2" in function "route_cache_key" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:173:76 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "lon2" in function "route_cache_key" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:176:23 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "map" in function "__init__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:180:23 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:188:33 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "lat1" in function "fetch_osrm_route" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:188:48 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "lon1" in function "fetch_osrm_route" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:188:63 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "lat2" in function "fetch_osrm_route" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:188:76 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "lon2" in function "fetch_osrm_route" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:208:26 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:209:22 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:211:21 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:212:5 - warning: Type of "by_day" is partially unknown
+  ┬á┬áType of "by_day" is "defaultdict[int, list[Unknown]]" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:212:28 - error: Expected type arguments for generic class "dict" (reportMissingTypeArgument)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:214:9 - warning: Type of "append" is partially unknown
+  ┬á┬áType of "append" is "(object: Unknown, /) -> None" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:215:9 - warning: Type of "day_rows" is partially unknown
+  ┬á┬áType of "day_rows" is "list[Unknown]" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:216:9 - warning: Type of "sort" is partially unknown
+  ┬á┬áType of "sort" is "Overload[(*, key: None = None, reverse: bool = False) -> None, (*, key: (Unknown) -> (SupportsDunderLT[Any] | SupportsDunderGT[Any]), reverse: bool = False) -> None]" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:216:34 - warning: Type of parameter "x" is unknown (reportUnknownLambdaType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:216:37 - warning: Return type of lambda is unknown (reportUnknownLambdaType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:218:30 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:219:15 - warning: Type of "day_rows" is partially unknown
+  ┬á┬áType of "day_rows" is "list[Unknown]" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:219:34 - warning: Argument type is partially unknown
+  ┬á┬áArgument corresponds to parameter "iterable" in function "sorted"
+  ┬á┬áArgument type is "dict_items[int, list[Unknown]]" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:220:28 - warning: Argument type is partially unknown
+  ┬á┬áArgument corresponds to parameter "obj" in function "len"
+  ┬á┬áArgument type is "list[Unknown]" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:221:13 - warning: Type of "from_r" is unknown (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:221:21 - warning: Type of "to_r" is unknown (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:222:40 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "from_r" in function "segment_travel_mode" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:222:48 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "to_r" in function "segment_travel_mode" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:223:28 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:235:39 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "from_r" in function "resolve_route" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:235:47 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "to_r" in function "resolve_route" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:240:33 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "lat1" in function "haversine_m" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:240:48 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "lon1" in function "haversine_m" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:240:63 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "lat2" in function "haversine_m" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:240:76 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "lon2" in function "haversine_m" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:246:18 - warning: Type of parameter "counter" is partially unknown
+  ┬á┬áParameter type is "Counter[Unknown]" (reportUnknownParameterType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:246:27 - error: Expected type arguments for generic class "Counter" (reportMissingTypeArgument)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:247:17 - warning: Argument type is partially unknown
+  ┬á┬áArgument corresponds to parameter "iterable" in function "__init__"
+  ┬á┬áArgument type is "list[tuple[Unknown, int]]" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:278:17 - warning: Type of parameter "text" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:278:23 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:281:13 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "object" in function "__new__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:288:9 - warning: Type of "append" is partially unknown
+  ┬á┬áType of "append" is "(object: Unknown, /) -> None" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:289:13 - warning: Implicit string concatenation not allowed (reportImplicitStringConcatenation)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:295:52 - warning: Argument type is partially unknown
+  ┬á┬áArgument corresponds to parameter "iterable" in function "join"
+  ┬á┬áArgument type is "list[Unknown]" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:298:54 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:302:58 - warning: Type of "c" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:303:9 - warning: Type of "append" is partially unknown
+  ┬á┬áType of "append" is "(object: Unknown, /) -> None" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:307:27 - warning: Argument type is partially unknown
+  ┬á┬áArgument corresponds to parameter "iterable" in function "join"
+  ┬á┬áArgument type is "list[Unknown]" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:319:9 - warning: Type of "append" is partially unknown
+  ┬á┬áType of "append" is "(object: Unknown, /) -> None" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:320:13 - warning: Implicit string concatenation not allowed (reportImplicitStringConcatenation)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:328:47 - warning: Argument type is partially unknown
+  ┬á┬áArgument corresponds to parameter "iterable" in function "join"
+  ┬á┬áArgument type is "list[Unknown]" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:335:74 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:358:33 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:388:5 - warning: Type of "by_ville_activities" is partially unknown
+  ┬á┬áType of "by_ville_activities" is "Counter[Unknown]" (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:388:26 - error: Expected type arguments for generic class "Counter" (reportMissingTypeArgument)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:402:16 - error: Expected type arguments for generic class "Counter" (reportMissingTypeArgument)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:403:14 - error: Expected type arguments for generic class "Counter" (reportMissingTypeArgument)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:404:16 - error: Expected type arguments for generic class "Counter" (reportMissingTypeArgument)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:409:33 - warning: Type of "lower" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:416:53 - warning: Return type of lambda is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:417:51 - warning: Return type of lambda is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:420:20 - warning: Type of parameter "j" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:420:23 - warning: Return type of lambda is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:461:17 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "object" in function "__new__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:464:34 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "number" in function "round" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:465:33 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "number" in function "round" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:466:35 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "number" in function "round" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:467:34 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "number" in function "round" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:468:31 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "number" in function "round" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:469:39 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "jour" in function "jour_color" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:471:17 - warning: Type of "j" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:476:52 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "key" in function "get" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:477:50 - warning: Argument type is unknown
+  ┬á┬áArgument corresponds to parameter "key" in function "get" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:479:17 - warning: Type of "ville" is unknown (reportUnknownVariableType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:479:33 - warning: Argument type is partially unknown
+  ┬á┬áArgument corresponds to parameter "iterable" in function "sorted"
+  ┬á┬áArgument type is "dict_keys[Unknown, int]" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:525:38 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "number" in function "round" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:537:34 - warning: Type `Any` is not allowed (reportExplicitAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:538:5 - warning: Type of "s" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:539:5 - warning: Type of "d" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:540:5 - warning: Type of "b" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:541:5 - warning: Type of "h" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:545:37 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "object" in function "__new__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:546:31 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "object" in function "__new__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:549:33 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "meters" in function "format_distance" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:550:33 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "seconds" in function "format_duration" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:554:33 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "meters" in function "format_distance" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:555:33 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "seconds" in function "format_duration" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:559:33 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "meters" in function "format_distance" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:567:29 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "amount" in function "format_euro" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:568:66 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "amount" in function "format_euro" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:575:9 - warning: Type of "lf" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:578:40 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "meters" in function "format_distance" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:582:9 - warning: Type of "lc" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:585:40 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "meters" in function "format_distance" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:589:9 - warning: Type of "mw" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:597:9 - warning: Type of "jour" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:598:9 - warning: Type of "dj" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:598:34 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "object" in function "__new__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:599:9 - warning: Type of "append" is partially unknown
+  ┬á┬áType of "append" is "(object: Unknown, /) -> None" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:608:29 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "amount" in function "format_euro" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:613:9 - warning: Type of "ville" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:613:16 - warning: Type of "dv" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:614:9 - warning: Type of "items" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:614:9 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "iterable" in function "sorted" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:615:20 - warning: Type of parameter "x" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:615:23 - warning: Return type of lambda is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:618:9 - warning: Type of "append" is partially unknown
+  ┬á┬áType of "append" is "(object: Unknown, /) -> None" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:635:13 - warning: Type of "t" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:639:9 - warning: Type of "seg" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:641:13 - warning: Type of "append" is partially unknown
+  ┬á┬áType of "append" is "(object: Unknown, /) -> None" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:652:9 - warning: Type of "append" is partially unknown
+  ┬á┬áType of "append" is "(object: Unknown, /) -> None" (reportUnknownMemberType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:657:33 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "meters" in function "format_distance" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:658:33 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:658:33 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "seconds" in function "format_duration" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:659:17 - warning: Type of "get" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:663:66 - warning: Type of "m" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:665:25 - warning: Type of "values" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:665:25 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "iterable" in function "sum" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:666:23 - warning: Type of "values" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:666:23 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "iterable" in function "sum" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:673:13 - warning: Implicit string concatenation not allowed (reportImplicitStringConcatenation)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:692:17 - warning: Argument type is partially unknown
+  ┬á┬áArgument corresponds to parameter "rows" in function "render_table"
+  ┬á┬áArgument type is "list[Unknown]" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:697:69 - warning: Argument type is partially unknown
+  ┬á┬áArgument corresponds to parameter "rows" in function "render_table"
+  ┬á┬áArgument type is "list[Unknown]" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:702:22 - warning: Type of "items" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:702:22 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "iterable" in function "__init__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:709:22 - warning: Type of "items" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:709:22 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "iterable" in function "__init__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:716:22 - warning: Type of "items" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:716:22 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "iterable" in function "__init__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:717:21 - warning: Type of "values" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:717:21 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "iterable" in function "sum" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:731:17 - warning: Argument type is partially unknown
+  ┬á┬áArgument corresponds to parameter "rows" in function "render_table"
+  ┬á┬áArgument type is "list[Unknown]" (reportUnknownArgumentType)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:754:5 - warning: Result of call expression is of type "int" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:757:5 - warning: Result of call expression is of type "int" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:759:5 - warning: Type of "d" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:760:5 - warning: Type of "s" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:761:42 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "obj" in function "len" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:763:41 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "meters" in function "format_distance" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:763:73 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "seconds" in function "format_duration" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:764:42 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "meters" in function "format_distance" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:764:73 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "seconds" in function "format_duration" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:771:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:772:5 - warning: Result of call expression is of type "Action" and is not used; assign to variable "_" if this is intentional (reportUnusedCallResult)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:779:23 - warning: Type of "excel" is Any (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:779:23 - warning: Argument type is Any
+  ┬á┬áArgument corresponds to parameter "args" in function "__init__" (reportAny)
+  c:\pa\CursorAI\CarteVoyage\scripts\site_web\build_stats.py:783:40 - warning: Type of "no_osrm" is Any (reportAny)
+113 errors, 795 warnings, 0 notes

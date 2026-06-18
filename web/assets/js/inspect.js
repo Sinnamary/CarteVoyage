@@ -187,6 +187,137 @@
     return '<section class="inspect-section"><h2>Carte de contrôle</h2><div id="inspect-map" class="inspect-map"></div></section>';
   }
 
+  function renderLodgingAudit() {
+    var audit = data.lodging_audit;
+    if (!audit || !audit.days || !audit.days.length) {
+      return (
+        '<section class="inspect-section inspect-lodging">' +
+        "<h2>Détermination des hébergements</h2>" +
+        '<p class="stats-note">Audit indisponible (classeur Excel non relu lors de la génération).</p>' +
+        "</section>"
+      );
+    }
+
+    var html =
+      '<section class="inspect-section inspect-lodging">' +
+      "<h2>Détermination des hébergements</h2>" +
+      '<p class="inspect-lodging-rule">' + esc(audit.rule) + "</p>";
+
+    if (audit.domicile) {
+      html +=
+        '<p class="stats-note">Domicile : <strong>' +
+        esc(audit.domicile) +
+        "</strong> · dernier jour = J" +
+        esc(audit.last_jour) +
+        "</p>";
+    }
+
+    html +=
+      '<div class="stats-table-wrap"><table class="stats-table inspect-lodging-table"><thead><tr>' +
+      "<th>Jour</th><th>Lignes Hébergement (N° étape)</th><th>Nuit retenue</th>" +
+      "<th>Villes du jour</th><th>Overview « Nuit à »</th><th>OK</th>" +
+      "</tr></thead><tbody>";
+
+    audit.days.forEach(function (day) {
+      var flags = day.flags || [];
+      var flagParts = [];
+      if (flags.indexOf("premier_jour") >= 0) {
+        flagParts.push("1er jour");
+      }
+      if (flags.indexOf("dernier_jour") >= 0) {
+        flagParts.push("dernier jour");
+      }
+
+      var linesText = "—";
+      if (day.lodging_lines && day.lodging_lines.length) {
+        linesText = day.lodging_lines
+          .map(function (line) {
+            return line.ordre + " " + line.role_label + " : " + line.nom;
+          })
+          .join(" · ");
+      }
+
+      var nightText = day.night
+        ? day.night.ordre + " — " + day.night.nom + " (" + day.night.ville + ")"
+        : "—";
+
+      var matchCell = "—";
+      if (day.match_overview_nuit === true) {
+        matchCell = '<span class="inspect-lodging-ok">✓</span>';
+      } else if (day.match_overview_nuit === false) {
+        matchCell = '<span class="inspect-lodging-warn">≠</span>';
+      }
+
+      html +=
+        "<tr>" +
+        "<td><strong>J" +
+        esc(day.jour) +
+        "</strong>" +
+        (flagParts.length
+          ? '<br><span class="inspect-lodging-flags">' + esc(flagParts.join(" · ")) + "</span>"
+          : "") +
+        "</td>" +
+        "<td>" +
+        esc(linesText) +
+        "</td>" +
+        "<td>" +
+        esc(nightText) +
+        "</td>" +
+        "<td>" +
+        esc(day.villes_label) +
+        "</td>" +
+        "<td>" +
+        esc(day.overview_nuit || "—") +
+        "</td>" +
+        "<td>" +
+        matchCell +
+        "</td>" +
+        "</tr>";
+
+      var detailParts = [];
+      if (day.night_reason) {
+        detailParts.push(day.night_reason);
+      }
+      if (day.steps && day.steps.length) {
+        detailParts.push("Étapes : " + day.steps.join(" → "));
+      }
+      if (day.first_activity && flags.indexOf("premier_jour") >= 0) {
+        detailParts.push(
+          "1re activité du jour : " +
+            day.first_activity.ordre +
+            " " +
+            day.first_activity.nom +
+            " (" +
+            (day.first_activity.action || "—") +
+            ")"
+        );
+      }
+      if (day.notes && day.notes.length) {
+        day.notes.forEach(function (note) {
+          detailParts.push(note);
+        });
+      }
+      if (day.overview_villes_label && day.overview_villes_label !== day.villes_label) {
+        detailParts.push("Overview « Villes du jour » : " + day.overview_villes_label);
+      }
+
+      if (detailParts.length) {
+        html +=
+          '<tr class="inspect-lodging-detail"><td colspan="6">' +
+          "<details><summary>Détail du calcul</summary><ul>" +
+          detailParts
+            .map(function (part) {
+              return "<li>" + esc(part) + "</li>";
+            })
+            .join("") +
+          "</ul></details></td></tr>";
+      }
+    });
+
+    html += "</tbody></table></div></section>";
+    return html;
+  }
+
   function renderJsonExplorer() {
     return (
       '<section class="inspect-section inspect-json">' +
@@ -277,6 +408,7 @@
       renderMap() +
       renderCoverage() +
       renderSources() +
+      renderLodgingAudit() +
       renderJsonExplorer();
     bindTimeline();
     initMap();

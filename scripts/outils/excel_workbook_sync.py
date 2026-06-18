@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import shutil
 import tempfile
-from datetime import datetime
 from collections.abc import Callable
+from datetime import datetime
 from pathlib import Path
 
 import openpyxl
@@ -24,8 +24,8 @@ def validate_excel_path(path: Path, *, label: str = "Fichier") -> None:
     if suffix in GOOGLE_SHORTCUT_SUFFIXES:
         raise SystemExit(
             f"Le fichier {path.name} est un raccourci Google Sheets, pas un .xlsx.\n"
-            "Sur Drive, enregistrez le fichier au format Excel (.xlsx) "
-            "ou placez une copie .xlsx dans un dossier synchronise."
+            + "Sur Drive, enregistrez le fichier au format Excel (.xlsx) "
+            + "ou placez une copie .xlsx dans un dossier synchronise."
         )
     if suffix not in EXCEL_SUFFIXES:
         raise SystemExit(

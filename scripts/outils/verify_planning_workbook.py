@@ -43,13 +43,16 @@ def check_ordre_text_format(excel_path: Path, wb: openpyxl.Workbook) -> list[str
             text = str(etape)
             if ".10" in text and cell.number_format != "@":
                 issues.append(
-                    f"{sheet_name} L{r}: {text!r} doit être en texte (@), format={cell.number_format!r}"
+                    f"{sheet_name} L{r}: {text!r} doit être en texte (@), "
+                    + f"format={cell.number_format!r}"
                 )
     return issues
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Verifie la structure du classeur Excel de voyage.")
+    parser = argparse.ArgumentParser(
+        description="Verifie la structure du classeur Excel de voyage."
+    )
     parser.add_argument("excel", nargs="?", default=str(default_excel_path()))
     args = parser.parse_args()
 
@@ -79,7 +82,7 @@ def main() -> None:
         if links_idx != listes_idx - 1:
             errors.append(
                 f"La feuille {LINKS_SHEET!r} doit etre placee juste avant Listes "
-                f"(ordre actuel: {wb.sheetnames})"
+                + f"(ordre actuel: {wb.sheetnames})"
             )
 
     listes = wb["Listes"]
@@ -91,8 +94,9 @@ def main() -> None:
     pending = sync_listes_validations(wb_validations)
     if pending:
         warnings.append(
-            "Listes deroulantes desynchronisees: lancer generer_site.py ou scripts/outils/sync_listes_validations.py "
-            f"(ex. Ville attendue {expected_ranges.get('E', '?')})"
+            "Listes deroulantes desynchronisees: lancer preparer_excel.py "
+            + "ou scripts/outils/sync_listes_validations.py "
+            + f"(ex. Ville attendue {expected_ranges.get('E', '?')})"
         )
 
     if overview_sheet not in wb.sheetnames:
@@ -102,9 +106,11 @@ def main() -> None:
         overview_text = " ".join(
             str(cell.value) for row in overview.iter_rows() for cell in row if cell.value
         )
-        for marker in verify_markers:
-            if marker not in overview_text:
-                warnings.append(f"{overview_sheet}: '{marker}' absent")
+        warnings.extend(
+            f"{overview_sheet}: '{marker}' absent"
+            for marker in verify_markers
+            if marker not in overview_text
+        )
 
     for sheet_name in day_sheets(wb):
         ws = wb[sheet_name]
@@ -123,7 +129,7 @@ def main() -> None:
                 f"{sheet_name}: {', '.join(missing_map)} absentes (ajoutées par geocode_excel.py)"
             )
 
-        banner = ws.cell(1, 1).value or ""
+        banner = normalize_text(ws.cell(1, 1).value)
         if not banner.startswith(sheet_name):
             warnings.append(f"{sheet_name}: bannière inattendue ({banner[:50]}...)")
 

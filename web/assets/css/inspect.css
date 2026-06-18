@@ -281,6 +281,58 @@
   line-height: 1.4;
 }
 
+.inspect-lodging-rule {
+  margin: 0 0 0.75rem;
+  padding: 0.75rem 0.9rem;
+  background: #f0f7fc;
+  border: 1px solid #d6e4f0;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: #2c3e50;
+  line-height: 1.5;
+}
+
+.inspect-lodging-table td {
+  font-size: 0.82rem;
+  vertical-align: top;
+}
+
+.inspect-lodging-flags {
+  font-size: 0.72rem;
+  color: #1a5276;
+  font-weight: 600;
+}
+
+.inspect-lodging-ok {
+  color: #1e8449;
+  font-weight: 700;
+}
+
+.inspect-lodging-warn {
+  color: #9a7d0a;
+  font-weight: 700;
+}
+
+.inspect-lodging-detail td {
+  background: #f8fafb;
+  border-top: none;
+  padding-top: 0;
+}
+
+.inspect-lodging-detail details {
+  font-size: 0.8rem;
+  color: #51606f;
+}
+
+.inspect-lodging-detail ul {
+  margin: 0.5rem 0 0.75rem 1.1rem;
+  padding: 0;
+}
+
+.inspect-lodging-detail li {
+  margin-bottom: 0.35rem;
+}
+
 @media (max-width: 900px) {
   .inspect-layout {
     grid-template-columns: 1fr;

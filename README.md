@@ -314,7 +314,7 @@ CarteVoyage/
 │   ├── drive_config.json       # Chemin Google Drive (local, non versionné)
 │   ├── drive_config.example.json
 │   ├── overview_config.json
-│   ├── voyages.json, stats.json, inspect.json
+│   ├── voyages.json, stats.json, inspect.json, overview.json
 │   └── geocode_cache.json, route_stats_cache.json, …
 ├── scripts/
 │   ├── pipeline_common.py
@@ -357,16 +357,29 @@ Voir [scripts/outils/README.md](scripts/outils/README.md).
 
 La feuille Excel **Vue d'ensemble** est **générée automatiquement** par `preparer_excel.py` (via `build_overview.py`). Ne pas la modifier à la main.
 
-Fichier `data/overview_config.json` : titre, date de départ, domicile et marqueurs de vérification.
+Fichier `data/overview_config.json` : date de départ (`start_date`), domicile (`domicile`), nom de la feuille (`sheet_name`) et marqueurs de vérification (`verify_markers`). Le titre du bandeau est calculé automatiquement depuis les villes du parcours.
 
 ## Fichier Excel
 
 - **Où le modifier :** sur Google Drive (fichier pointé par `data/drive_config.json`), pas dans `excel/` sauf en mode sans Drive
 - **Copie locale :** `excel/Voyage Aout 2026.xlsx` — voir [Fichiers Excel et sauvegardes](#fichiers-excel-et-sauvegardes-locales)
-- Feuilles : **`Vue d'ensemble`** (générée), `Listes` (masquée), `Jour 1` … `Jour N`
+- Feuilles : **`Vue d'ensemble`** (générée), **`Liens`** (manuelle, jamais modifiée par le pipeline), `Listes` (masquée), `Jour 1` … `Jour N`
 - Colonnes principales : `N° étape`, `Lieu`, `Nature`, `Catégorie`, `Quartier`, `Ville`, `Prix (€)`, horaires…
 - Colonnes carte (auto) : `Latitude`, `Longitude`, `Lien`
+- Colonne optionnelle : `City Card`
 - Saisir les étapes `.10` en **format texte** (`@`) pour éviter les collisions d'ordre
+
+### Hébergements (Nature = Hébergement)
+
+Règle simple, identique sur la carte (`map.js`), la vue d'ensemble et les stats :
+
+| Position dans le jour | Règle |
+|----------------------|--------|
+| **Départ matin** | Première ligne `Hébergement` du jour (N° étape le plus bas) |
+| **Arrivée soir / nuit** | Dernière ligne `Hébergement` du jour (N° étape le plus haut) |
+| **Dernier jour** | Une seule ligne = check-out matinal (pas de nuit sur place) |
+
+Deux lignes le même jour au **même lieu** fusionnent en un seul marqueur sur la carte. Le domicile (`domicile` dans `overview_config.json`) complète l'itinéraire affiché le jour 1 (départ) et le dernier jour (retour).
 
 ## Documentation
 

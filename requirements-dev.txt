@@ -1,0 +1,29 @@
+# Dependances pour qualite.py
+#
+# NE PAS utiliser : pip install requirements-dev.txt
+# Utiliser plutot :
+#   python qualite.py --install
+#   pip install -r requirements-dev.txt
+-r scripts/requirements.txt
+
+# Lint & format
+ruff>=0.15.0
+
+# Analyse statique
+vulture>=2.14
+bandit[toml]>=1.8
+mypy>=1.15.0
+basedpyright>=1.28.0
+
+# Tests
+pytest>=8.0
+pytest-cov>=6.0
+coverage>=7.0
+
+# Metriques & documentation
+radon>=6.0
+interrogate>=1.7
+
+# Dependances & securite
+pip-audit>=2.9
+deptry>=0.23

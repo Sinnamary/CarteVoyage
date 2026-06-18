@@ -215,6 +215,23 @@ L'utilisateur planifie un voyage multi-villes dans un tableur Excel structuré p
 | F9.9 | URL publique stable : `https://sinnamary.github.io/CarteVoyage/web/` (carte, stats, contrôle) | Obligatoire |
 | F9.10 | Déploiement manuel possible via `workflow_dispatch` sur GitHub Actions | Souhaité |
 
+#### F10 — Vue d'ensemble Excel (`build_overview.py`, phase 1)
+
+| ID | Exigence | Priorité |
+|----|----------|----------|
+| F10.1 | Régénérer la feuille `Vue d'ensemble` depuis les feuilles `Jour N` | Obligatoire |
+| F10.2 | Lire `data/overview_config.json` (`start_date`, `domicile`, marqueurs…) | Obligatoire |
+| F10.3 | Produire `data/overview.json` (snapshot pour la page Contrôle) | Obligatoire |
+| F10.4 | Colonne « Nuit à » : dernière ligne Hébergement du jour (ordre N° étape) | Obligatoire |
+
+#### F11 — Page de contrôle (`build_inspect.py`, phase 2)
+
+| ID | Exigence | Priorité |
+|----|----------|----------|
+| F11.1 | Fusionner `voyages.json`, `stats.json`, `overview.json` en `inspect.json` | Obligatoire |
+| F11.2 | Générer `web/inspect.html` avec checks de cohérence | Obligatoire |
+| F11.3 | Frise chronologique, carte de contrôle et couverture des activités | Obligatoire |
+
 ---
 
 ## 4. Acteurs et utilisateurs
@@ -241,7 +258,8 @@ L'utilisateur planifie un voyage multi-villes dans un tableur Excel structuré p
 
 | Type de feuille | Exemple | Traitement |
 |-----------------|---------|------------|
-| **Vue d'ensemble** | `Vue d'ensemble` | Ignorée (synthèse du voyage) |
+| **Vue d'ensemble** | `Vue d'ensemble` | Régénérée par `build_overview.py` (phase 1) |
+| **Liens** | `Liens` | Manuelle — jamais modifiée par le pipeline |
 | **Listes** | `Listes` | Feuille masquée — listes déroulantes (colonnes A–E) |
 | **Jours** | `Jour 1` … `Jour 12` | Lues et traitées |
 
@@ -250,7 +268,7 @@ Chaque feuille `Jour N` a une bannière en ligne 1, les en-têtes en ligne 2, le
 Structure attendue par `verify_planning_workbook.py` :
 
 ```
-Vue d'ensemble, Listes, Jour 1, Jour 2, …, Jour 12
+Vue d'ensemble, Liens, Listes, Jour 1, Jour 2, …, Jour 12
 ```
 
 ### 5.3 Colonnes du planning
@@ -269,6 +287,20 @@ Mapping interne (`PLANNING_COLUMNS` dans `excel_utils.py`) :
 | `Prix (€)` | `Prix` | Non | Prix en euros |
 | `Heure début` / `Heure fin` | `Ouverture` / `Fermeture` | Non | Horaires |
 | `Site web` | `Site` | Non | URL |
+
+Colonne optionnelle : `City Card` (réductions city card, affichée dans les popups carte).
+
+#### Hébergements (Nature = Hébergement)
+
+Règle unique dans tout le pipeline (carte, vue d'ensemble, stats) :
+
+| Rôle | Règle |
+|------|--------|
+| **Départ matin** | Première ligne `Hébergement` du jour (N° étape le plus bas) |
+| **Arrivée soir / nuit** | Dernière ligne `Hébergement` du jour (N° étape le plus haut) |
+| **Dernier jour** | Une seule ligne = check-out matinal (pas de nuit sur place) |
+
+Le domicile (`domicile` dans `data/overview_config.json`) complète l'affichage le jour 1 (départ) et le dernier jour (retour). Implémentation partagée : `excel_utils.lodging_*` (Python), registre par visite dans `map.js` (carte).
 
 Lignes ignorées : `Lieu` vide, « Journée à planifier », sans `N° étape` valide.
 
@@ -291,7 +323,7 @@ Lignes ignorées : `Lieu` vide, « Journée à planifier », sans `N° étape` v
 La feuille `Listes` (masquée) alimente les listes déroulantes des feuilles jour. Lorsque des valeurs sont ajoutées ou supprimées, lancer :
 
 ```bash
-python scripts/sync_listes_validations.py
+python scripts/outils/sync_listes_validations.py
 ```
 
 Le script recalcule les plages `Listes!$A$2:$A$N` … `Listes!$E$2:$E$N` et met à jour les validations Excel.
@@ -303,21 +335,20 @@ Le script recalcule les plages `Listes!$A$2:$A$N` … `Listes!$E$2:$E$N` et met 
 ### 6.1 Schéma du flux
 
 ```mermaid
-flowchart LR
-    A[Excel Voyage] --> B[sync_listes_validations.py]
-    B --> A
-    A --> C[geocode_excel.py]
-    C --> D[Nominatim API]
-    D --> C
-    C --> E[Excel + geocode_cache]
-    E --> F[build_map.py]
-    E --> G[build_stats.py]
-    F --> H[voyages.json + index.html]
-    G --> I[stats.json + stats.html]
-    H --> J[Navigateur map.js]
-    I --> K[Navigateur stats.html]
-    J --> L[OSRM API]
-    G --> L
+flowchart TB
+    subgraph phase1 [Phase 1 — preparer_excel.py]
+        D[Google Drive / excel/] --> P1[sync_listes + build_overview + verify + geocode]
+        P1 --> D
+    end
+    subgraph phase2 [Phase 2 — generer_site.py]
+        D --> P2[build_map + build_stats + build_inspect]
+        P2 --> W[web/ + data/*.json]
+    end
+    subgraph phase3 [Phase 3 — publier.ps1]
+        W --> GP[GitHub Pages]
+    end
+    W --> NAV[Navigateur]
+    NAV --> OSRM[OSRM API]
 ```
 
 ### 6.2 Script `geocode_excel.py`
@@ -338,10 +369,10 @@ flowchart LR
 **Commandes :**
 
 ```bash
-python scripts/geocode_excel.py
-python scripts/geocode_excel.py "excel/MonVoyage.xlsx"
-python scripts/geocode_excel.py --dry-run
-python scripts/geocode_excel.py --force
+python scripts/outils/geocode_excel.py
+python scripts/outils/geocode_excel.py "excel/MonVoyage.xlsx"
+python scripts/outils/geocode_excel.py --dry-run
+python scripts/outils/geocode_excel.py --force
 ```
 
 **Fichiers produits :** `data/geocode_cache.json`, `data/geocode_errors.csv`, `excel/backups/*.backup.xlsx`
@@ -349,8 +380,8 @@ python scripts/geocode_excel.py --force
 ### 6.3 Script `build_map.py`
 
 ```bash
-python scripts/build_map.py
-python scripts/build_map.py "excel/MonVoyage.xlsx"
+python scripts/site_web/build_map.py
+python scripts/site_web/build_map.py "excel/MonVoyage.xlsx"
 ```
 
 **Fichiers produits :** `data/voyages.json`, `web/index.html`, `data/lignes_sans_coords.csv`
@@ -358,8 +389,8 @@ python scripts/build_map.py "excel/MonVoyage.xlsx"
 ### 6.4 Script `build_stats.py`
 
 ```bash
-python scripts/build_stats.py
-python scripts/build_stats.py --no-osrm    # distances à vol d'oiseau uniquement
+python scripts/site_web/build_stats.py
+python scripts/site_web/build_stats.py --no-osrm    # distances à vol d'oiseau uniquement
 ```
 
 **Fichiers produits :** `data/stats.json`, `data/route_stats_cache.json`, `web/stats.html`
@@ -372,7 +403,7 @@ python scripts/build_stats.py --no-osrm    # distances à vol d'oiseau uniquemen
 ### 6.5 Script `verify_planning_workbook.py`
 
 ```bash
-python scripts/verify_planning_workbook.py
+python scripts/outils/verify_planning_workbook.py
 ```
 
 Contrôle structure, colonnes, validations, collisions. Code de sortie 1 si erreur bloquante.
@@ -456,11 +487,11 @@ Configurer Google Drive (optionnel) : copier `data/drive_config.example.json` ve
 | Routage | OSRM (profils `foot` et `car`) |
 | Styles | `assets/css/map.css` |
 | Logique | JavaScript vanilla ES5 (`assets/js/map.js`) |
-| Navigation | En-tête généré par `scripts/site_nav.py` |
+| Navigation | En-tête généré par `scripts/site_web/site_nav.py` |
 
 ### 7.2 Interface
 
-- **En-tête** : logo CarteVoyage, liens Carte / Statistiques
+- **En-tête** : logo CarteVoyage, liens Carte / Statistiques / Contrôle
 - **Panneau latéral** (280 px) :
   - Filtres par jour
   - Option « Centrer sur les activités du jour »
@@ -641,26 +672,29 @@ CarteVoyage/
 │   ├── voyages.json                # Données carte
 │   ├── stats.json                  # Données statistiques
 │   ├── inspect.json                # Données page de contrôle
+│   ├── overview.json               # Synthèse vue d'ensemble (snapshot JSON)
 │   ├── geocode_cache.json          # Cache géocodage
 │   ├── route_stats_cache.json      # Cache routage OSRM (stats)
 │   ├── geocode_errors.csv
 │   └── lignes_sans_coords.csv
 ├── scripts/
 │   ├── pipeline_common.py          # Utilitaires partagés des phases 1 et 2
-│   ├── excel_utils.py              # Bibliothèque partagée Excel/JSON
-│   ├── site_nav.py                 # En-tête HTML partagé
 │   ├── requirements.txt
 │   ├── site_web/                   # Génération du site
 │   │   ├── build_overview.py       # Feuille Vue d'ensemble (phase 1)
 │   │   ├── build_map.py            # Carte interactive
 │   │   ├── build_stats.py          # Statistiques
-│   │   └── build_inspect.py        # Page de contrôle
+│   │   ├── build_inspect.py        # Page de contrôle
+│   │   └── site_nav.py             # En-tête HTML partagé
 │   └── outils/                     # Utilitaires Excel
+│       ├── excel_utils.py          # Bibliothèque partagée Excel/JSON
+│       ├── overview_config.py
 │       ├── sync_excel_from_drive.py
 │       ├── sync_excel_to_drive.py
 │       ├── sync_listes_validations.py
 │       ├── geocode_excel.py
-│       └── verify_planning_workbook.py
+│       ├── verify_planning_workbook.py
+│       └── excel_workbook_sync.py
 ├── web/                            # Site statique (publié sur GitHub Pages)
 │   ├── index.html                  # Carte (générée)
 │   ├── stats.html                  # Statistiques (générée)

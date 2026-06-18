@@ -6,9 +6,9 @@ from __future__ import annotations
 import argparse
 import csv
 import json
-import re
 import sys
 from pathlib import Path
+from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
@@ -53,7 +53,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
               <input type="checkbox" id="toggle-exclude-car" checked>
               Centrer sur les activites du jour
             </label>
-            <p class="filter-hint">Masque les trajets voiture et les points de transport inter-villes.</p>
+            <p class="filter-hint">
+              Masque les trajets voiture et les points de transport inter-villes.
+            </p>
           </section>
           <section class="filter-section">
             <h3>Visites</h3>
@@ -62,15 +64,22 @@ HTML_TEMPLATE = """<!DOCTYPE html>
           </section>
           <section class="filter-section filter-section-trajets">
             <h3>Trajets</h3>
-            <p class="filter-hint">Cochez un ou plusieurs trajets entre visites consecutives du meme jour (a pied en ville, en voiture si changement de ville, transport ou plus de 5 km).</p>
+            <p class="filter-hint">
+              Cochez un ou plusieurs trajets entre visites consecutives du meme jour
+              (a pied en ville, en voiture si changement de ville, transport ou plus de 5 km).
+            </p>
             <div class="trajets-actions">
-              <button type="button" id="btn-trajets-clear" class="btn-secondary">Effacer les trajets</button>
+              <button type="button" id="btn-trajets-clear" class="btn-secondary">
+                Effacer les trajets
+              </button>
             </div>
             <div id="filter-trajets" class="filter-trajets-list"></div>
             <p id="trajets-status" class="filter-hint" hidden></p>
           </section>
           <button type="button" id="btn-reset" class="btn-reset">Tout afficher</button>
-          <button type="button" id="btn-close-filters" class="btn-close-filters">Voir la carte</button>
+          <button type="button" id="btn-close-filters" class="btn-close-filters">
+            Voir la carte
+          </button>
         </div>
       </details>
     </aside>
@@ -91,114 +100,59 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
 def write_missing_coords_report(wb: openpyxl.Workbook) -> tuple[Path, int]:
     report_path = data_dir() / "lignes_sans_coords.csv"
-    rows: list[dict[str, str]] = []
-
-    for item in iter_activity_rows(wb):
-        if row_to_point(item) is None:
-            rows.append(
-                {
-                    "jour": str(item["jour"]),
-                    "visite": str(item["visite"]),
-                    "ordre": item["ordre_label"],
-                    "nom": item["nom"],
-                    "feuille": item["sheet_name"],
-                }
-            )
+    rows = [
+        {
+            "jour": str(item["jour"]),
+            "visite": str(item["visite"]),
+            "ordre": item["ordre_label"],
+            "nom": item["nom"],
+            "feuille": item["sheet_name"],
+        }
+        for item in iter_activity_rows(wb)
+        if row_to_point(item) is None
+    ]
 
     with report_path.open("w", encoding="utf-8-sig", newline="") as f:
-        writer = csv.DictWriter(
-            f, fieldnames=["jour", "visite", "ordre", "nom", "feuille"]
-        )
+        writer = csv.DictWriter(f, fieldnames=["jour", "visite", "ordre", "nom", "feuille"])
         writer.writeheader()
         writer.writerows(rows)
 
     return report_path, len(rows)
 
 
-def check_lodging_consistency(voyage_data: dict) -> list[str]:
+def check_lodging_consistency(voyage_data: dict[str, Any]) -> list[str]:
     """Vérifie la cohérence des hébergements dans les données de voyage.
 
-    Règles attendues par jour :
-    - Chaque jour possède au plus UN hébergement unique (même nom, mêmes coords).
-    - Si un jour a 2 lignes hébergement (matin + soir), la première doit avoir une
-      heure de début <= 10h (ou "00h00") et la dernière une heure de début >= 17h.
-    - Si un jour n'a qu'une seule ligne hébergement, c'est acceptable (premier ou
-      dernier jour du séjour à cet hébergement).
-    - Toutes les lignes hébergement d'un même jour doivent pointer vers les mêmes
-      coordonnées GPS (lat/lon identiques).
-
-    Retourne la liste des avertissements (vide si tout est correct).
+    Règle simple : par jour et par nom, les lignes Hébergement sont ordonnées par
+    N° étape (visite) — la première = départ matin, la dernière = arrivée soir.
+    Toutes les lignes d'un même hébergement doivent partager les mêmes coordonnées.
     """
     warnings: list[str] = []
 
-    def parse_hour(heure: str | None) -> int | None:
-        """Extrait l'heure depuis "HHhMM" ou "HH:MM". Retourne None si invalide."""
-        if not heure:
-            return None
-        m = re.match(r"(\d{1,2})[h:H]", str(heure))
-        return int(m.group(1)) if m else None
-
-    # Grouper par jour → liste de points hébergement
-    by_day: dict[int, list[dict]] = {}
+    by_day: dict[int, list[dict[str, Any]]] = {}
     for pt in voyage_data.get("points", []):
-        action = ((pt.get("popup") or {}).get("action") or "")
+        action = (pt.get("popup") or {}).get("action") or ""
         if str(action).strip().lower() == "hébergement":
             jour = pt["jour"]
             by_day.setdefault(jour, []).append(pt)
 
     for jour, pts in sorted(by_day.items()):
-        # Regrouper par nom (un même hébergement peut avoir 2 lignes : matin + soir)
-        by_nom: dict[str, list[dict]] = {}
+        by_nom: dict[str, list[dict[str, Any]]] = {}
         for pt in pts:
             by_nom.setdefault(pt["nom"], []).append(pt)
 
         for nom, entries in by_nom.items():
-            # Vérifier cohérence des coordonnées
             lats = {round(e["lat"], 6) for e in entries}
             lons = {round(e["lon"], 6) for e in entries}
             if len(lats) > 1 or len(lons) > 1:
                 warnings.append(
-                    f"J{jour} - {nom!r} : coordonnees GPS incoherentes"
-                    f" lat={lats} lon={lons}"
-                )
-
-            if len(entries) < 2:
-                continue  # Une seule entrée = acceptable (1er ou dernier jour)
-
-            # Trier par numéro de visite
-            entries.sort(key=lambda e: e["visite"])
-            first, last = entries[0], entries[-1]
-
-            # Entrée du matin : ouverture devrait être 00h00 ou fermeture <= 12h
-            ouv_first = parse_hour(first["popup"].get("ouverture"))
-            fer_first = parse_hour(first["popup"].get("fermeture"))
-            is_morning = (
-                (first["popup"].get("ouverture") or "").strip() == "00h00"
-                or (fer_first is not None and 0 < fer_first <= 12)
-            )
-            if not is_morning:
-                warnings.append(
-                    f"J{jour} - {nom!r} - visite {first['visite']} : entree de"
-                    f" depart (matin) horaires suspects"
-                    f" ({first['popup'].get('ouverture')} -> {first['popup'].get('fermeture')})"
-                    f" -- attendu ouverture 00h00 ou fermeture <= 12h"
-                )
-
-            # Entrée du soir : ouverture devrait être >= 17h
-            ouv_last = parse_hour(last["popup"].get("ouverture"))
-            is_evening = ouv_last is not None and ouv_last >= 17
-            if not is_evening:
-                warnings.append(
-                    f"J{jour} - {nom!r} - visite {last['visite']} : entree"
-                    f" d'arrivee (soir) horaires suspects"
-                    f" ({last['popup'].get('ouverture')} -> {last['popup'].get('fermeture')})"
-                    f" -- attendu ouverture >= 17h"
+                    f"J{jour} - {nom!r} : coordonnees GPS incoherentes lat={lats} lon={lons}"
                 )
 
     return warnings
 
 
-def build_html_pages(voyage_data: dict) -> None:
+def build_html_pages(voyage_data: dict[str, Any]) -> None:
     voyage_json = json.dumps(voyage_data, ensure_ascii=False)
     (web_dir() / "index.html").write_text(
         HTML_TEMPLATE.format(
@@ -221,9 +175,7 @@ def run_build(excel_path: Path) -> None:
 
     voyage_data = build_voyage_data(wb)
     json_path = data_dir() / "voyages.json"
-    json_path.write_text(
-        json.dumps(voyage_data, ensure_ascii=False, indent=2), encoding="utf-8"
-    )
+    json_path.write_text(json.dumps(voyage_data, ensure_ascii=False, indent=2), encoding="utf-8")
 
     # Vérification cohérence des hébergements (base nuitée matin/soir).
     lodging_warnings = check_lodging_consistency(voyage_data)

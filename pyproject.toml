@@ -1,0 +1,98 @@
+[project]
+name = "cartevoyage"
+version = "0.0.0"
+requires-python = ">=3.11"
+dependencies = [
+    "openpyxl>=3.1.0",
+    "requests>=2.31.0",
+]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+src = [".", "scripts"]
+extend-exclude = [
+    "web",
+    "data",
+    ".venv",
+    "venv",
+    "__pycache__",
+]
+
+[tool.ruff.lint]
+select = [
+    "E", "W", "F", "I", "N", "UP", "B", "A", "C4", "SIM", "PIE", "RET",
+    "PTH", "RUF", "PL", "PERF", "FURB", "LOG", "T20",
+]
+ignore = [
+    "PLR0913",  # trop d'arguments — scripts CLI / collecteurs de donnees
+    "PLR0912",  # trop de branches — logique metier Excel
+    "PLR0915",  # trop de lignes — modules de generation HTML
+    "PLR2004",  # comparaisons magiques — constantes metier dans le code
+    "T201",     # print — scripts CLI intentionnels
+    "LOG015",   # root logger — scripts CLI
+]
+
+[tool.ruff.lint.per-file-ignores]
+"generer_site.py" = ["E402"]
+"preparer_excel.py" = ["E402"]
+"tests/**" = ["S101", "PLR2004"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+
+[tool.mypy]
+python_version = "3.13"
+files = ["scripts", "generer_site.py", "preparer_excel.py", "qualite.py"]
+mypy_path = "scripts"
+namespace_packages = true
+explicit_package_bases = true
+warn_return_any = true
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+no_implicit_optional = true
+check_untyped_defs = true
+disallow_incomplete_defs = false
+disallow_untyped_defs = false
+ignore_missing_imports = true
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv", "venv", "web", "data"]
+skips = ["B404", "B603"]
+
+[tool.vulture]
+paths = ["scripts", "generer_site.py", "preparer_excel.py", "qualite.py"]
+min_confidence = 80
+exclude = ["tests/", ".venv/", "venv/", "__pycache__/"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["scripts", "."]
+addopts = "-ra --strict-markers --strict-config"
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.coverage.run]
+branch = true
+source = ["scripts", "generer_site.py", "preparer_excel.py", "qualite.py"]
+omit = ["tests/*", "*/__pycache__/*"]
+
+[tool.coverage.report]
+fail_under = 0
+show_missing = true
+skip_empty = true
+
+[tool.interrogate]
+ignore-init-method = true
+ignore-init-module = true
+ignore-magic = true
+ignore-semiprivate = true
+ignore-private = true
+fail-under = 30
+exclude = ["tests", ".venv", "venv", "web", "data"]
+
+[tool.radon]
+cc_min = "C"
+mi_min = "B"

@@ -20,7 +20,7 @@ def run_step(label: str, script: str, *args: str) -> None:
 
     print(f"\n=== {label} ===", flush=True)
     cmd = [sys.executable, str(path), *args]
-    result = subprocess.run(cmd, cwd=ROOT)
+    result = subprocess.run(cmd, cwd=ROOT, check=False)
     if result.returncode != 0:
         raise SystemExit(result.returncode)
 

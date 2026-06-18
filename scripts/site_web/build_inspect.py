@@ -7,24 +7,36 @@ import argparse
 import csv
 import json
 import sys
-from datetime import date, datetime, timedelta, timezone
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from outils.excel_utils import data_dir, default_excel_path, normalize_text, project_root, web_dir
-from outils.overview_config import default_overview_config_path, load_overview_config, resolve_overview_config
+import openpyxl
+
+from outils.excel_utils import (
+    activity_rows_from_workbook,
+    build_lodging_audit,
+    data_dir,
+    default_excel_path,
+    is_trajet_line,
+    normalize_text,
+    project_root,
+    web_dir,
+)
+from outils.overview_config import (
+    default_overview_config_path,
+    load_overview_config,
+    resolve_overview_config,
+)
+from site_web.build_overview import write_snapshot_from_excel
 from site_web.site_nav import render_header
 
 STATUS_OK = "ok"
 STATUS_WARN = "warn"
 STATUS_ERROR = "error"
 
-
-def is_trajet_line(nom: str) -> bool:
-    lower = normalize_text(nom).lower()
-    return lower.startswith(("trajet ", "retour "))
 
 INSPECT_HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="fr">
@@ -80,7 +92,7 @@ def file_source_meta(path: Path) -> dict[str, Any]:
     if not path.exists():
         return {"path": rel, "present": False, "mtime": None, "size": 0}
     stat = path.stat()
-    mtime = datetime.fromtimestamp(stat.st_mtime, tz=timezone.utc).strftime("%d/%m/%Y %H:%M UTC")
+    mtime = datetime.fromtimestamp(stat.st_mtime, tz=UTC).strftime("%d/%m/%Y %H:%M UTC")
     return {"path": rel, "present": True, "mtime": mtime, "size": stat.st_size}
 
 
@@ -221,27 +233,18 @@ def overview_text_blob(overview: dict[str, Any] | None, config: dict[str, Any]) 
     parts: list[str] = []
     if config.get("intro"):
         parts.append(str(config["intro"]))
-    for note in config.get("notes") or []:
-        parts.append(str(note))
+    parts.extend(str(note) for note in config.get("notes") or [])
     if not overview:
         return " ".join(parts)
 
     summary = overview.get("summary") or {}
-    for value in summary.values():
-        if value is not None:
-            parts.append(str(value))
+    parts.extend(str(value) for value in summary.values() if value is not None)
     for row in overview.get("by_day", []):
-        for value in row.values():
-            if value is not None:
-                parts.append(str(value))
+        parts.extend(str(value) for value in row.values() if value is not None)
     for row in overview.get("by_ville", []):
-        for value in row.values():
-            if value is not None:
-                parts.append(str(value))
+        parts.extend(str(value) for value in row.values() if value is not None)
     for phase in overview.get("phases", []):
-        for value in phase.values():
-            if value is not None:
-                parts.append(str(value))
+        parts.extend(str(value) for value in phase.values() if value is not None)
     return " ".join(parts)
 
 
@@ -273,7 +276,7 @@ def run_checks(
             checks,
             "source_overview",
             STATUS_WARN,
-            "overview.json absent — lancer generer_site.py ou build_overview.py --snapshot-only",
+            "overview.json absent — lancer preparer_excel.py ou build_overview.py --snapshot-only",
         )
     else:
         add_check(checks, "source_overview", STATUS_OK, "Synthèse (overview.json) présente")
@@ -418,10 +421,11 @@ def run_checks(
 
     phases = (overview or {}).get("phases") or []
     if phases and stats:
-        uncovered = []
-        for jour in stats.get("jours", []):
-            if not any(int(p["from_jour"]) <= jour <= int(p["to_jour"]) for p in phases):
-                uncovered.append(jour)
+        uncovered = [
+            jour
+            for jour in stats.get("jours", [])
+            if not any(int(p["from_jour"]) <= jour <= int(p["to_jour"]) for p in phases)
+        ]
         if not uncovered:
             add_check(checks, "phases_cover", STATUS_OK, "Tous les jours couverts par une phase")
         else:
@@ -487,7 +491,31 @@ def _coverage_status(
     return STATUS_WARN
 
 
-def build_inspect_data(paths: dict[str, Path]) -> dict[str, Any]:
+def build_lodging_audit_section(
+    excel_path: Path | None,
+    config: dict[str, Any],
+    overview: dict[str, Any] | None,
+    stats: dict[str, Any] | None,
+) -> dict[str, Any] | None:
+    if not excel_path or not excel_path.exists():
+        return None
+
+    wb = openpyxl.load_workbook(excel_path, data_only=True)
+    rows = activity_rows_from_workbook(wb)
+    jours = list((stats or {}).get("jours") or sorted({r["jour"] for r in rows}))
+    domicile = normalize_text(config.get("domicile"))
+    return build_lodging_audit(
+        rows,
+        domicile=domicile,
+        jours=jours,
+        overview_by_day=overview_day_index(overview),
+    )
+
+
+def build_inspect_data(
+    paths: dict[str, Path],
+    excel_path: Path | None = None,
+) -> dict[str, Any]:
     config = load_overview_config(paths["overview_config"])
     overview = load_json_file(paths["overview"])
     voyages = load_json_file(paths["voyages"])
@@ -527,6 +555,25 @@ def build_inspect_data(paths: dict[str, Path]) -> dict[str, Any]:
         sources=sources,
     )
 
+    lodging_audit = build_lodging_audit_section(excel_path, config, overview, stats)
+    if lodging_audit:
+        mismatches = [d for d in lodging_audit["days"] if d.get("match_overview_nuit") is False]
+        if mismatches:
+            add_check(
+                checks,
+                "lodging_audit",
+                STATUS_WARN,
+                f"{len(mismatches)} jour(s) : nuit calculée ≠ overview",
+                details=", ".join(f"J{d['jour']}" for d in mismatches),
+            )
+        elif overview:
+            add_check(
+                checks,
+                "lodging_audit",
+                STATUS_OK,
+                "Hébergements recalculés cohérents avec overview.json",
+            )
+
     anomalies = [row for row in coverage if row["status"] != STATUS_OK]
     error_count = sum(1 for check in checks if check["status"] == STATUS_ERROR)
     warn_count = sum(1 for check in checks if check["status"] == STATUS_WARN)
@@ -560,7 +607,7 @@ def build_inspect_data(paths: dict[str, Path]) -> dict[str, Any]:
     ]
 
     return {
-        "generated_at": datetime.now(timezone.utc).strftime("%d/%m/%Y %H:%M UTC"),
+        "generated_at": datetime.now(UTC).strftime("%d/%m/%Y %H:%M UTC"),
         "overall_status": overall,
         "has_overview": overview is not None,
         "summary": summary,
@@ -574,8 +621,10 @@ def build_inspect_data(paths: dict[str, Path]) -> dict[str, Any]:
         "missing_coords": missing_csv[:50],
         "config": {
             "start_date": config.get("start_date"),
+            "domicile": config.get("domicile"),
             "verify_markers": config.get("verify_markers", []),
         },
+        "lodging_audit": lodging_audit,
         "map_points": map_points,
     }
 
@@ -601,8 +650,6 @@ def ensure_overview_snapshot(config_path: Path, excel_path: Path | None = None) 
     if not config.get("write_snapshot", True):
         return False
 
-    from site_web.build_overview import write_snapshot_from_excel
-
     write_snapshot_from_excel(path, config)
     print(f"overview.json genere : {overview_path}")
     return True
@@ -624,7 +671,7 @@ def run_build(config_path: Path | None = None, excel_path: Path | None = None) -
         "missing_coords": root / "lignes_sans_coords.csv",
     }
 
-    inspect = build_inspect_data(paths)
+    inspect = build_inspect_data(paths, excel_path=excel_path)
 
     json_path = root / "inspect.json"
     json_path.write_text(json.dumps(inspect, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -657,8 +704,12 @@ def main() -> None:
         help="Fichier overview_config.json",
     )
     args = parser.parse_args()
-    excel = Path(args.excel).resolve() if args.excel else None
-    run_build(Path(args.config).resolve(), excel_path=excel if excel.exists() else None)
+    excel_path: Path | None = None
+    if args.excel:
+        excel = Path(args.excel).resolve()
+        if excel.exists():
+            excel_path = excel
+    run_build(Path(args.config).resolve(), excel_path=excel_path)
 
 
 if __name__ == "__main__":

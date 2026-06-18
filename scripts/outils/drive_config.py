@@ -39,7 +39,8 @@ def resolve_source_path(path: Path | None = None) -> Path:
         config_path = path or default_drive_config_path()
         raise ValueError(
             f"source_path manquant dans {config_path} "
-            "(copiez data/drive_config.example.json et indiquez le chemin sur le disque Google Drive)."
+            + "(copiez data/drive_config.example.json et indiquez le chemin "
+            + "sur le disque Google Drive)."
         )
     return resolved
 

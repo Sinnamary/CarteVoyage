@@ -5,13 +5,15 @@ from __future__ import annotations
 
 import argparse
 import csv
+import io
 import json
 import sys
 import time
 from pathlib import Path
+from typing import Any, cast
 
 if hasattr(sys.stdout, "reconfigure"):
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    cast(io.TextIOWrapper, sys.stdout).reconfigure(encoding="utf-8", errors="replace")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
@@ -26,6 +28,7 @@ from outils.excel_utils import (
     default_excel_path,
     ensure_map_columns,
     has_coordinates,
+    is_trajet_line,
     iter_activity_rows,
     normalize_text,
     ville_for_row,
@@ -103,7 +106,7 @@ NAME_ALIASES: dict[str, str] = {
     "Départ Strasbourg": "Strasbourg Robertsau",
     "Cap Gris-Nez": "Cap Gris-Nez France",
     "Côte d'Opale": "Côte d'Opale Boulogne-sur-Mer France",
-    "Brauhaus Päffgen Friesenstraße 64–66, 50670 Köln": "Brauhaus Päffgen Köln",
+    "Brauhaus Päffgen Friesenstraße 64\u201366, 50670 Köln": "Brauhaus Päffgen Köln",
     # Noms Excel officiels -> requete Nominatim sans ambiguite
     "Allard Pierson Museum, Amsterdam": "Allard Pierson Museum Amsterdam",
     "Anne Frank Huis, Amsterdam": "Anne Frank House Amsterdam",
@@ -186,13 +189,13 @@ EXCEL_VILLE_BY_NOM: dict[str, str] = {
 }
 
 
-def load_cache(cache_path: Path) -> dict:
+def load_cache(cache_path: Path) -> dict[str, Any]:
     if cache_path.exists():
         return json.loads(cache_path.read_text(encoding="utf-8"))
     return {}
 
 
-def save_cache(cache_path: Path, cache: dict) -> None:
+def save_cache(cache_path: Path, cache: dict[str, Any]) -> None:
     cache_path.write_text(json.dumps(cache, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
@@ -215,12 +218,6 @@ def country_for_ville(ville: str) -> str:
     return COUNTRY_BY_VILLE.get(ville.strip().lower(), "nl")
 
 
-def is_non_geocodable_lieu(nom: str) -> bool:
-    """Trajets logistiques sans point sur la carte."""
-    lower = normalize_text(nom).lower()
-    return lower.startswith(("trajet ", "retour "))
-
-
 def build_queries(nom: str, remarque: str, action: str = "", ville: str = "") -> list[str]:
     search_name = resolve_nom(nom)
     queries: list[str] = []
@@ -239,11 +236,11 @@ def build_queries(nom: str, remarque: str, action: str = "", ville: str = "") ->
 
     seen: set[str] = set()
     unique: list[str] = []
-    for q in queries:
-        q = q.strip(" ,")
-        if q and q not in seen:
-            seen.add(q)
-            unique.append(q)
+    for query in queries:
+        cleaned = query.strip(" ,")
+        if cleaned and cleaned not in seen:
+            seen.add(cleaned)
+            unique.append(cleaned)
     return unique
 
 
@@ -267,24 +264,25 @@ def nominatim_search(query: str, country: str) -> tuple[float, float] | None:
     return float(results[0]["lat"]), float(results[0]["lon"])
 
 
+def _lookup_manual_coords(nom: str, search_nom: str) -> tuple[float, float] | None:
+    for key in (search_nom, nom, nom.lower(), search_nom.lower()):
+        if key in MANUAL_COORDS:
+            return MANUAL_COORDS[key]
+    return None
+
+
 def geocode_place(
     nom: str,
     remarque: str,
-    cache: dict,
+    cache: dict[str, Any],
     country: str,
     action: str = "",
     use_cache: bool = True,
     ville: str = "",
 ) -> tuple[float, float] | None:
     search_nom = resolve_nom_for_ville(nom, ville)
-    if search_nom in MANUAL_COORDS:
-        return MANUAL_COORDS[search_nom]
-    if nom in MANUAL_COORDS:
-        return MANUAL_COORDS[nom]
-    if nom.lower() in MANUAL_COORDS:
-        return MANUAL_COORDS[nom.lower()]
-    if search_nom.lower() in MANUAL_COORDS:
-        return MANUAL_COORDS[search_nom.lower()]
+    if manual := _lookup_manual_coords(nom, search_nom):
+        return manual
 
     cache_key = f"{country}|{search_nom}|{remarque}"
     if use_cache and cache_key in cache:
@@ -378,7 +376,7 @@ def run_geocoding(excel_path: Path, dry_run: bool = False, force: bool = False) 
 
         nom = normalize_text(cell_value(row, col_index, "Nom"))
 
-        if is_non_geocodable_lieu(nom):
+        if is_trajet_line(nom):
             skipped_trajet += 1
             continue
 
@@ -424,9 +422,7 @@ def run_geocoding(excel_path: Path, dry_run: bool = False, force: bool = False) 
 
     errors_path = data_dir() / "geocode_errors.csv"
     with errors_path.open("w", encoding="utf-8-sig", newline="") as f:
-        writer = csv.DictWriter(
-            f, fieldnames=["jour", "visite", "nom", "ville", "pays", "requete"]
-        )
+        writer = csv.DictWriter(f, fieldnames=["jour", "visite", "nom", "ville", "pays", "requete"])
         writer.writeheader()
         writer.writerows(errors)
 
@@ -437,19 +433,23 @@ def run_geocoding(excel_path: Path, dry_run: bool = False, force: bool = False) 
 
     print(
         f"\nTermine: {updated} nouveau(x) geocode(s), "
-        f"{skipped_geocoded} deja geocode(s) (ignores), "
-        f"{skipped_trajet} trajet(s) / logistique, "
-        f"{len(errors)} erreur(s)"
+        + f"{skipped_geocoded} deja geocode(s) (ignores), "
+        + f"{skipped_trajet} trajet(s) / logistique, "
+        + f"{len(errors)} erreur(s)"
     )
     print(f"Cache: {cache_path}")
     print(f"Erreurs: {errors_path}")
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Geocode les lieux dans le fichier Excel de voyage.")
+    parser = argparse.ArgumentParser(
+        description="Geocode les lieux dans le fichier Excel de voyage."
+    )
     parser.add_argument("excel", nargs="?", default=str(default_excel_path()))
     parser.add_argument("--dry-run", action="store_true", help="Simuler sans ecrire dans Excel")
-    parser.add_argument("--force", action="store_true", help="Re-geocoder meme si Lat/Lon presentes")
+    parser.add_argument(
+        "--force", action="store_true", help="Re-geocoder meme si Lat/Lon presentes"
+    )
     args = parser.parse_args()
 
     excel_path = Path(args.excel).resolve()

@@ -14,7 +14,7 @@ HEADER_NAV = """<header class="app-header">
 
 def render_header(active: str = "map") -> str:
     return HEADER_NAV.format(
-        active_map=' is-active' if active == "map" else "",
-        active_stats=' is-active' if active == "stats" else "",
-        active_inspect=' is-active' if active == "inspect" else "",
+        active_map=" is-active" if active == "map" else "",
+        active_stats=" is-active" if active == "stats" else "",
+        active_inspect=" is-active" if active == "inspect" else "",
     )

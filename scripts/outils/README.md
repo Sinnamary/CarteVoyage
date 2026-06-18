@@ -1,6 +1,6 @@
 # scripts/outils — utilitaires Excel
 
-Modules et scripts Python partagés par `generer_site.py` et les générateurs du dossier `scripts/site_web/`.
+Modules et scripts Python partagés par `preparer_excel.py`, `generer_site.py` et les générateurs du dossier `scripts/site_web/`.
 
 ## Rôle dans le pipeline
 
@@ -34,16 +34,16 @@ Tous les scripts acceptent un chemin Excel en argument ; le défaut est `excel/V
 
 | Fichier | Rôle |
 |---------|------|
-| `excel_utils.py` | Lecture/écriture du classeur : colonnes, feuilles Jour, listes déroulantes, export JSON carte (`build_voyage_data`), sauvegarde |
+| `excel_utils.py` | Lecture/écriture du classeur : colonnes, feuilles Jour, listes déroulantes, export JSON carte (`build_voyage_data`), helpers hébergement et trajets (`is_trajet_line`, `lodging_*`), sauvegarde |
 | `overview_config.py` | Chargement de `data/overview_config.json` (date de départ, feuille vue d'ensemble, marqueurs de vérif.) |
 
 ### Scripts exécutables
 
 | Script | Rôle | Appelé par |
 |--------|------|------------|
-| `sync_listes_validations.py` | Resynchronise les plages de validation des feuilles Jour avec la feuille masquée `Listes` | `generer_site.py` (étape 1) |
-| `verify_planning_workbook.py` | Contrôle la structure du classeur (feuilles, colonnes, ordres, combos) | `generer_site.py` (étape 3) |
-| `geocode_excel.py` | Géocode via Nominatim les lieux sans Latitude/Longitude ; ignore les trajets déjà géolocalisés | `generer_site.py` (étape 4) |
+| `sync_listes_validations.py` | Resynchronise les plages de validation des feuilles Jour avec la feuille masquée `Listes` | `preparer_excel.py` |
+| `verify_planning_workbook.py` | Contrôle la structure du classeur (feuilles, colonnes, ordres, combos) | `preparer_excel.py` |
+| `geocode_excel.py` | Géocode via Nominatim les lieux sans Latitude/Longitude ; ignore les trajets déjà géolocalisés | `preparer_excel.py` |
 | `sync_excel_from_drive.py` | Copie le `.xlsx` depuis Google Drive vers `excel/` (backup horodaté) | `preparer_excel.py`, `generer_site.py` |
 | `sync_excel_to_drive.py` | Réécrit le classeur enrichi sur Google Drive (fichier de base) | `preparer_excel.py` (après géocodage) |
 | `excel_workbook_sync.py` | Copie sécurisée partagée (validation, backup, écriture atomique) | modules ci-dessus |
@@ -75,7 +75,7 @@ python scripts/outils/sync_excel_from_drive.py --source "G:/Mon Drive/Voyage Aou
 
 Configuration Drive : `data/drive_config.json` (voir `data/drive_config.example.json`).
 
-Les scripts ajoutent `scripts/` au `sys.path` pour importer `outils.*` ; lancez-les depuis la racine du dépôt ou via `generer_site.py`.
+Les scripts ajoutent `scripts/` au `sys.path` pour importer `outils.*` ; lancez-les depuis la racine du dépôt ou via `preparer_excel.py` / `generer_site.py`.
 
 ## Structure Excel attendue
 

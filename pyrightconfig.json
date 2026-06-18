@@ -1,3 +1,10 @@
 {
-  "extraPaths": ["scripts"]
+  "extraPaths": ["scripts"],
+  "typeCheckingMode": "basic",
+  "reportAny": "none",
+  "reportExplicitAny": "none",
+  "reportUnknownArgumentType": "none",
+  "reportUnknownVariableType": "none",
+  "reportUnknownMemberType": "none",
+  "reportUnusedCallResult": "none"
 }

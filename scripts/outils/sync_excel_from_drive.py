@@ -55,8 +55,8 @@ def main() -> None:
         if not config_path.exists():
             raise SystemExit(
                 f"Configuration introuvable: {config_path}\n"
-                f"Copiez data/drive_config.example.json vers data/drive_config.json "
-                "et renseignez source_path (chemin sur le disque Google Drive)."
+                + "Copiez data/drive_config.example.json vers data/drive_config.json "
+                + "et renseignez source_path (chemin sur le disque Google Drive)."
             )
         source_path = resolve_source_path(config_path)
 

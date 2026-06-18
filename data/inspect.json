@@ -1,5 +1,5 @@
 {
-  "generated_at": "18/06/2026 05:14 UTC",
+  "generated_at": "18/06/2026 05:32 UTC",
   "overall_status": "warn",
   "has_overview": true,
   "summary": {
@@ -138,6 +138,12 @@
       "id": "geocode_errors",
       "status": "warn",
       "message": "1 erreur(s) de géocodage",
+      "details": ""
+    },
+    {
+      "id": "lodging_audit",
+      "status": "ok",
+      "message": "Hébergements recalculés cohérents avec overview.json",
       "details": ""
     }
   ],
@@ -2042,11 +2048,544 @@
   ],
   "config": {
     "start_date": "2026-08-03",
+    "domicile": "Strasbourg",
     "verify_markers": [
       "Strasbourg",
       "Cologne",
       "Amsterdam",
       "Ennevelin"
+    ]
+  },
+  "lodging_audit": {
+    "rule": "Les lignes Nature = Hébergement sont triées par N° étape (visite croissante). La première = point de départ le matin, la dernière = arrivée le soir et nuitée. Au dernier jour, une seule ligne = check-out matinal (pas de nuit sur place). Le domicile « Strasbourg » est ajouté au libellé « Villes du jour » le jour 1 (départ depuis le domicile) et le dernier jour (retour).",
+    "domicile": "Strasbourg",
+    "last_jour": 12,
+    "days": [
+      {
+        "jour": 1,
+        "flags": [
+          "premier_jour"
+        ],
+        "first_activity": {
+          "ordre": "1.1",
+          "nom": "Strasbourg  → Cologne (4h) + 1h sandwich",
+          "action": "Transport"
+        },
+        "lodging_lines": [
+          {
+            "ordre": "1.7",
+            "visite": 7,
+            "nom": "Hotel Pullman Cologne",
+            "ville": "Cologne",
+            "ville_display": "Cologne",
+            "role": "check_in",
+            "role_label": "Arrivée / nuit"
+          }
+        ],
+        "night": {
+          "ordre": "1.7",
+          "visite": 7,
+          "nom": "Hotel Pullman Cologne",
+          "ville": "Cologne"
+        },
+        "night_reason": "Dernière ligne Hébergement : 1.7 (visite 7) → nuit à Cologne",
+        "villes_label": "Strasbourg → Cologne",
+        "steps": [
+          "Arrivée / nuit : Hotel Pullman Cologne (1.7)",
+          "Domicile « Strasbourg » ajouté en tête (jour 1, nuit hors domicile)"
+        ],
+        "notes": [
+          "La 1re activité (1.1 Strasbourg  → Cologne (4h) + 1h sandwich, Transport) n'est pas un hébergement : le voyage précède l'enregistrement à l'hôtel."
+        ],
+        "overview_nuit": "Hotel Pullman Cologne",
+        "overview_villes_label": "Strasbourg → Cologne",
+        "match_overview_nuit": true
+      },
+      {
+        "jour": 2,
+        "flags": [],
+        "first_activity": {
+          "ordre": "2.1",
+          "nom": "Hotel Pullman Cologne",
+          "action": "Hébergement"
+        },
+        "lodging_lines": [
+          {
+            "ordre": "2.1",
+            "visite": 1,
+            "nom": "Hotel Pullman Cologne",
+            "ville": "Cologne",
+            "ville_display": "Cologne",
+            "role": "depart_matin",
+            "role_label": "Départ matin"
+          },
+          {
+            "ordre": "2.8",
+            "visite": 8,
+            "nom": "Hotel Pullman Cologne",
+            "ville": "Cologne",
+            "ville_display": "Cologne",
+            "role": "arrivee_soir",
+            "role_label": "Arrivée soir"
+          }
+        ],
+        "night": {
+          "ordre": "2.8",
+          "visite": 8,
+          "nom": "Hotel Pullman Cologne",
+          "ville": "Cologne"
+        },
+        "night_reason": "Dernière ligne Hébergement : 2.8 (visite 8) → nuit à Cologne",
+        "villes_label": "Cologne",
+        "steps": [
+          "Départ matin : Hotel Pullman Cologne (2.1)",
+          "Arrivée soir : Hotel Pullman Cologne (2.8)"
+        ],
+        "notes": [],
+        "overview_nuit": "Hotel Pullman Cologne",
+        "overview_villes_label": "Cologne",
+        "match_overview_nuit": true
+      },
+      {
+        "jour": 3,
+        "flags": [],
+        "first_activity": {
+          "ordre": "3.1",
+          "nom": "Hotel Pullman Cologne",
+          "action": "Hébergement"
+        },
+        "lodging_lines": [
+          {
+            "ordre": "3.1",
+            "visite": 1,
+            "nom": "Hotel Pullman Cologne",
+            "ville": "Cologne",
+            "ville_display": "Cologne",
+            "role": "depart_matin",
+            "role_label": "Départ matin"
+          },
+          {
+            "ordre": "3.14",
+            "visite": 14,
+            "nom": "Bob W Amsterdam Noord, Amsterdam",
+            "ville": "Amsterdam",
+            "ville_display": "Amsterdam",
+            "role": "arrivee_soir",
+            "role_label": "Arrivée soir"
+          }
+        ],
+        "night": {
+          "ordre": "3.14",
+          "visite": 14,
+          "nom": "Bob W Amsterdam Noord, Amsterdam",
+          "ville": "Amsterdam"
+        },
+        "night_reason": "Dernière ligne Hébergement : 3.14 (visite 14) → nuit à Amsterdam",
+        "villes_label": "Cologne → Amsterdam",
+        "steps": [
+          "Départ matin : Hotel Pullman Cologne (3.1)",
+          "Arrivée soir : Bob W Amsterdam Noord, Amsterdam (3.14)"
+        ],
+        "notes": [],
+        "overview_nuit": "Bob W Amsterdam Noord, Amsterdam",
+        "overview_villes_label": "Cologne → Amsterdam",
+        "match_overview_nuit": true
+      },
+      {
+        "jour": 4,
+        "flags": [],
+        "first_activity": {
+          "ordre": "4.1",
+          "nom": "Bob W Amsterdam Noord, Amsterdam",
+          "action": "Hébergement"
+        },
+        "lodging_lines": [
+          {
+            "ordre": "4.1",
+            "visite": 1,
+            "nom": "Bob W Amsterdam Noord, Amsterdam",
+            "ville": "Amsterdam",
+            "ville_display": "Amsterdam",
+            "role": "depart_matin",
+            "role_label": "Départ matin"
+          },
+          {
+            "ordre": "4.10",
+            "visite": 10,
+            "nom": "Bob W Amsterdam Noord, Amsterdam",
+            "ville": "Amsterdam",
+            "ville_display": "Amsterdam",
+            "role": "arrivee_soir",
+            "role_label": "Arrivée soir"
+          }
+        ],
+        "night": {
+          "ordre": "4.10",
+          "visite": 10,
+          "nom": "Bob W Amsterdam Noord, Amsterdam",
+          "ville": "Amsterdam"
+        },
+        "night_reason": "Dernière ligne Hébergement : 4.10 (visite 10) → nuit à Amsterdam",
+        "villes_label": "Amsterdam",
+        "steps": [
+          "Départ matin : Bob W Amsterdam Noord, Amsterdam (4.1)",
+          "Arrivée soir : Bob W Amsterdam Noord, Amsterdam (4.10)"
+        ],
+        "notes": [],
+        "overview_nuit": "Bob W Amsterdam Noord, Amsterdam",
+        "overview_villes_label": "Amsterdam",
+        "match_overview_nuit": true
+      },
+      {
+        "jour": 5,
+        "flags": [],
+        "first_activity": {
+          "ordre": "5.1",
+          "nom": "Bob W Amsterdam Noord, Amsterdam",
+          "action": "Hébergement"
+        },
+        "lodging_lines": [
+          {
+            "ordre": "5.1",
+            "visite": 1,
+            "nom": "Bob W Amsterdam Noord, Amsterdam",
+            "ville": "Amsterdam",
+            "ville_display": "Amsterdam",
+            "role": "depart_matin",
+            "role_label": "Départ matin"
+          },
+          {
+            "ordre": "5.15",
+            "visite": 15,
+            "nom": "Bob W Amsterdam Noord, Amsterdam",
+            "ville": "Amsterdam",
+            "ville_display": "Amsterdam",
+            "role": "arrivee_soir",
+            "role_label": "Arrivée soir"
+          }
+        ],
+        "night": {
+          "ordre": "5.15",
+          "visite": 15,
+          "nom": "Bob W Amsterdam Noord, Amsterdam",
+          "ville": "Amsterdam"
+        },
+        "night_reason": "Dernière ligne Hébergement : 5.15 (visite 15) → nuit à Amsterdam",
+        "villes_label": "Amsterdam",
+        "steps": [
+          "Départ matin : Bob W Amsterdam Noord, Amsterdam (5.1)",
+          "Arrivée soir : Bob W Amsterdam Noord, Amsterdam (5.15)"
+        ],
+        "notes": [],
+        "overview_nuit": "Bob W Amsterdam Noord, Amsterdam",
+        "overview_villes_label": "Amsterdam",
+        "match_overview_nuit": true
+      },
+      {
+        "jour": 6,
+        "flags": [],
+        "first_activity": {
+          "ordre": "6.1",
+          "nom": "Bob W Amsterdam Noord, Amsterdam",
+          "action": "Hébergement"
+        },
+        "lodging_lines": [
+          {
+            "ordre": "6.1",
+            "visite": 1,
+            "nom": "Bob W Amsterdam Noord, Amsterdam",
+            "ville": "Amsterdam",
+            "ville_display": "Amsterdam",
+            "role": "depart_matin",
+            "role_label": "Départ matin"
+          },
+          {
+            "ordre": "6.5",
+            "visite": 5,
+            "nom": "Bob W Amsterdam Noord, Amsterdam",
+            "ville": "Amsterdam",
+            "ville_display": "Amsterdam",
+            "role": "arrivee_soir",
+            "role_label": "Arrivée soir"
+          }
+        ],
+        "night": {
+          "ordre": "6.5",
+          "visite": 5,
+          "nom": "Bob W Amsterdam Noord, Amsterdam",
+          "ville": "Amsterdam"
+        },
+        "night_reason": "Dernière ligne Hébergement : 6.5 (visite 5) → nuit à Amsterdam",
+        "villes_label": "Amsterdam",
+        "steps": [
+          "Départ matin : Bob W Amsterdam Noord, Amsterdam (6.1)",
+          "Arrivée soir : Bob W Amsterdam Noord, Amsterdam (6.5)"
+        ],
+        "notes": [],
+        "overview_nuit": "Bob W Amsterdam Noord, Amsterdam",
+        "overview_villes_label": "Amsterdam",
+        "match_overview_nuit": true
+      },
+      {
+        "jour": 7,
+        "flags": [],
+        "first_activity": {
+          "ordre": "7.1",
+          "nom": "Bob W Amsterdam Noord, Amsterdam",
+          "action": "Hébergement"
+        },
+        "lodging_lines": [
+          {
+            "ordre": "7.1",
+            "visite": 1,
+            "nom": "Bob W Amsterdam Noord, Amsterdam",
+            "ville": "Amsterdam",
+            "ville_display": "Amsterdam",
+            "role": "depart_matin",
+            "role_label": "Départ matin"
+          },
+          {
+            "ordre": "7.4",
+            "visite": 4,
+            "nom": "Bob W Amsterdam Noord, Amsterdam",
+            "ville": "Amsterdam",
+            "ville_display": "Amsterdam",
+            "role": "arrivee_soir",
+            "role_label": "Arrivée soir"
+          }
+        ],
+        "night": {
+          "ordre": "7.4",
+          "visite": 4,
+          "nom": "Bob W Amsterdam Noord, Amsterdam",
+          "ville": "Amsterdam"
+        },
+        "night_reason": "Dernière ligne Hébergement : 7.4 (visite 4) → nuit à Amsterdam",
+        "villes_label": "Amsterdam",
+        "steps": [
+          "Départ matin : Bob W Amsterdam Noord, Amsterdam (7.1)",
+          "Arrivée soir : Bob W Amsterdam Noord, Amsterdam (7.4)"
+        ],
+        "notes": [],
+        "overview_nuit": "Bob W Amsterdam Noord, Amsterdam",
+        "overview_villes_label": "Amsterdam",
+        "match_overview_nuit": true
+      },
+      {
+        "jour": 8,
+        "flags": [],
+        "first_activity": {
+          "ordre": "8.1",
+          "nom": "Bob W Amsterdam Noord, Amsterdam",
+          "action": "Hébergement"
+        },
+        "lodging_lines": [
+          {
+            "ordre": "8.1",
+            "visite": 1,
+            "nom": "Bob W Amsterdam Noord, Amsterdam",
+            "ville": "Amsterdam",
+            "ville_display": "Amsterdam",
+            "role": "depart_matin",
+            "role_label": "Départ matin"
+          },
+          {
+            "ordre": "8.5",
+            "visite": 5,
+            "nom": "17 Rue des Trois Bourdons, Ennevelin",
+            "ville": "Ennevelin",
+            "ville_display": "Ennevelin",
+            "role": "arrivee_soir",
+            "role_label": "Arrivée soir"
+          }
+        ],
+        "night": {
+          "ordre": "8.5",
+          "visite": 5,
+          "nom": "17 Rue des Trois Bourdons, Ennevelin",
+          "ville": "Ennevelin"
+        },
+        "night_reason": "Dernière ligne Hébergement : 8.5 (visite 5) → nuit à Ennevelin",
+        "villes_label": "Amsterdam → Ennevelin",
+        "steps": [
+          "Départ matin : Bob W Amsterdam Noord, Amsterdam (8.1)",
+          "Arrivée soir : 17 Rue des Trois Bourdons, Ennevelin (8.5)"
+        ],
+        "notes": [],
+        "overview_nuit": "17 Rue des Trois Bourdons, Ennevelin",
+        "overview_villes_label": "Amsterdam → Ennevelin",
+        "match_overview_nuit": true
+      },
+      {
+        "jour": 9,
+        "flags": [],
+        "first_activity": {
+          "ordre": "9.1",
+          "nom": "17 Rue des Trois Bourdons, Ennevelin",
+          "action": "Hébergement"
+        },
+        "lodging_lines": [
+          {
+            "ordre": "9.1",
+            "visite": 1,
+            "nom": "17 Rue des Trois Bourdons, Ennevelin",
+            "ville": "Ennevelin",
+            "ville_display": "Ennevelin",
+            "role": "depart_matin",
+            "role_label": "Départ matin"
+          },
+          {
+            "ordre": "9.5",
+            "visite": 5,
+            "nom": "17 Rue des Trois Bourdons, Ennevelin",
+            "ville": "Ennevelin",
+            "ville_display": "Ennevelin",
+            "role": "arrivee_soir",
+            "role_label": "Arrivée soir"
+          }
+        ],
+        "night": {
+          "ordre": "9.5",
+          "visite": 5,
+          "nom": "17 Rue des Trois Bourdons, Ennevelin",
+          "ville": "Ennevelin"
+        },
+        "night_reason": "Dernière ligne Hébergement : 9.5 (visite 5) → nuit à Ennevelin",
+        "villes_label": "Ennevelin",
+        "steps": [
+          "Départ matin : 17 Rue des Trois Bourdons, Ennevelin (9.1)",
+          "Arrivée soir : 17 Rue des Trois Bourdons, Ennevelin (9.5)"
+        ],
+        "notes": [],
+        "overview_nuit": "17 Rue des Trois Bourdons, Ennevelin",
+        "overview_villes_label": "Ennevelin",
+        "match_overview_nuit": true
+      },
+      {
+        "jour": 10,
+        "flags": [],
+        "first_activity": {
+          "ordre": "10.1",
+          "nom": "17 Rue des Trois Bourdons, Ennevelin",
+          "action": "Hébergement"
+        },
+        "lodging_lines": [
+          {
+            "ordre": "10.1",
+            "visite": 1,
+            "nom": "17 Rue des Trois Bourdons, Ennevelin",
+            "ville": "Ennevelin",
+            "ville_display": "Ennevelin",
+            "role": "depart_matin",
+            "role_label": "Départ matin"
+          },
+          {
+            "ordre": "10.7",
+            "visite": 7,
+            "nom": "17 Rue des Trois Bourdons, Ennevelin",
+            "ville": "Ennevelin",
+            "ville_display": "Ennevelin",
+            "role": "arrivee_soir",
+            "role_label": "Arrivée soir"
+          }
+        ],
+        "night": {
+          "ordre": "10.7",
+          "visite": 7,
+          "nom": "17 Rue des Trois Bourdons, Ennevelin",
+          "ville": "Ennevelin"
+        },
+        "night_reason": "Dernière ligne Hébergement : 10.7 (visite 7) → nuit à Ennevelin",
+        "villes_label": "Ennevelin",
+        "steps": [
+          "Départ matin : 17 Rue des Trois Bourdons, Ennevelin (10.1)",
+          "Arrivée soir : 17 Rue des Trois Bourdons, Ennevelin (10.7)"
+        ],
+        "notes": [],
+        "overview_nuit": "17 Rue des Trois Bourdons, Ennevelin",
+        "overview_villes_label": "Ennevelin",
+        "match_overview_nuit": true
+      },
+      {
+        "jour": 11,
+        "flags": [],
+        "first_activity": {
+          "ordre": "11.1",
+          "nom": "17 Rue des Trois Bourdons, Ennevelin",
+          "action": "Hébergement"
+        },
+        "lodging_lines": [
+          {
+            "ordre": "11.1",
+            "visite": 1,
+            "nom": "17 Rue des Trois Bourdons, Ennevelin",
+            "ville": "Ennevelin",
+            "ville_display": "Ennevelin",
+            "role": "depart_matin",
+            "role_label": "Départ matin"
+          },
+          {
+            "ordre": "11.7",
+            "visite": 7,
+            "nom": "17 Rue des Trois Bourdons, Ennevelin",
+            "ville": "Ennevelin",
+            "ville_display": "Ennevelin",
+            "role": "arrivee_soir",
+            "role_label": "Arrivée soir"
+          }
+        ],
+        "night": {
+          "ordre": "11.7",
+          "visite": 7,
+          "nom": "17 Rue des Trois Bourdons, Ennevelin",
+          "ville": "Ennevelin"
+        },
+        "night_reason": "Dernière ligne Hébergement : 11.7 (visite 7) → nuit à Ennevelin",
+        "villes_label": "Ennevelin",
+        "steps": [
+          "Départ matin : 17 Rue des Trois Bourdons, Ennevelin (11.1)",
+          "Arrivée soir : 17 Rue des Trois Bourdons, Ennevelin (11.7)"
+        ],
+        "notes": [],
+        "overview_nuit": "17 Rue des Trois Bourdons, Ennevelin",
+        "overview_villes_label": "Ennevelin",
+        "match_overview_nuit": true
+      },
+      {
+        "jour": 12,
+        "flags": [
+          "dernier_jour"
+        ],
+        "first_activity": {
+          "ordre": "12.1",
+          "nom": "17 Rue des Trois Bourdons, Ennevelin",
+          "action": "Hébergement"
+        },
+        "lodging_lines": [
+          {
+            "ordre": "12.1",
+            "visite": 1,
+            "nom": "17 Rue des Trois Bourdons, Ennevelin",
+            "ville": "Ennevelin",
+            "ville_display": "Ennevelin",
+            "role": "check_out",
+            "role_label": "Check-out (matin)"
+          }
+        ],
+        "night": null,
+        "night_reason": "Une seule ligne Hébergement (12.1) au dernier jour = check-out matinal, pas de nuit sur place",
+        "villes_label": "Ennevelin → Strasbourg",
+        "steps": [
+          "Check-out (matin) : 17 Rue des Trois Bourdons, Ennevelin (12.1)",
+          "Domicile « Strasbourg » ajouté en fin (dernier jour, retour)"
+        ],
+        "notes": [
+          "Dernier jour : une seule ligne Hébergement = départ matin et retour au domicile."
+        ],
+        "overview_nuit": null,
+        "overview_villes_label": "Ennevelin → Strasbourg",
+        "match_overview_nuit": null
+      }
     ]
   },
   "map_points": [
