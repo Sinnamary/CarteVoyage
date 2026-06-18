@@ -10,7 +10,7 @@ import json
 import sys
 import time
 from pathlib import Path
-from typing import Any, cast
+from typing import cast
 
 if hasattr(sys.stdout, "reconfigure"):
     cast(io.TextIOWrapper, sys.stdout).reconfigure(encoding="utf-8", errors="replace")
@@ -20,6 +20,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import openpyxl
 import requests
 
+from outils.app_types import GeocodeCacheEntry
+from outils.cli_args import GeocodeArgs
 from outils.excel_utils import (
     backup_excel,
     cell_value,
@@ -189,14 +191,16 @@ EXCEL_VILLE_BY_NOM: dict[str, str] = {
 }
 
 
-def load_cache(cache_path: Path) -> dict[str, Any]:
+def load_cache(cache_path: Path) -> dict[str, GeocodeCacheEntry]:
     if cache_path.exists():
-        return json.loads(cache_path.read_text(encoding="utf-8"))
+        raw = cast(object, json.loads(cache_path.read_text(encoding="utf-8")))
+        if isinstance(raw, dict):
+            return cast(dict[str, GeocodeCacheEntry], raw)
     return {}
 
 
-def save_cache(cache_path: Path, cache: dict[str, Any]) -> None:
-    cache_path.write_text(json.dumps(cache, ensure_ascii=False, indent=2), encoding="utf-8")
+def save_cache(cache_path: Path, cache: dict[str, GeocodeCacheEntry]) -> None:
+    _ = cache_path.write_text(json.dumps(cache, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
 def resolve_nom(nom: str) -> str:
@@ -245,10 +249,10 @@ def build_queries(nom: str, remarque: str, action: str = "", ville: str = "") ->
 
 
 def nominatim_search(query: str, country: str) -> tuple[float, float] | None:
-    params = {
+    params: dict[str, str] = {
         "q": query,
         "format": "json",
-        "limit": 1,
+        "limit": "1",
         "countrycodes": country,
     }
     response = requests.get(
@@ -258,10 +262,17 @@ def nominatim_search(query: str, country: str) -> tuple[float, float] | None:
         timeout=30,
     )
     response.raise_for_status()
-    results = response.json()
-    if not results:
+    payload = cast(object, response.json())
+    if not isinstance(payload, list) or not payload:
         return None
-    return float(results[0]["lat"]), float(results[0]["lon"])
+    first = payload[0]
+    if not isinstance(first, dict):
+        return None
+    lat_raw = first.get("lat")
+    lon_raw = first.get("lon")
+    if not isinstance(lat_raw, (str, int, float)) or not isinstance(lon_raw, (str, int, float)):
+        return None
+    return float(lat_raw), float(lon_raw)
 
 
 def _lookup_manual_coords(nom: str, search_nom: str) -> tuple[float, float] | None:
@@ -274,7 +285,7 @@ def _lookup_manual_coords(nom: str, search_nom: str) -> tuple[float, float] | No
 def geocode_place(
     nom: str,
     remarque: str,
-    cache: dict[str, Any],
+    cache: dict[str, GeocodeCacheEntry],
     country: str,
     action: str = "",
     use_cache: bool = True,
@@ -287,32 +298,38 @@ def geocode_place(
     cache_key = f"{country}|{search_nom}|{remarque}"
     if use_cache and cache_key in cache:
         entry = cache[cache_key]
-        return entry["lat"], entry["lon"]
+        lat = entry.get("lat")
+        lon = entry.get("lon")
+        if lat is not None and lon is not None:
+            return float(lat), float(lon)
 
     for query in build_queries(search_nom, remarque, action, ville):
         query_key = f"query|{country}|{query}"
         if use_cache and query_key in cache:
             entry = cache[query_key]
-            coords = (entry["lat"], entry["lon"])
-            cache[cache_key] = {"lat": coords[0], "lon": coords[1], "source": "cache"}
-            return coords
+            lat = entry.get("lat")
+            lon = entry.get("lon")
+            if lat is not None and lon is not None:
+                coords = (float(lat), float(lon))
+                cache[cache_key] = {"lat": coords[0], "lon": coords[1], "source": "cache"}
+                return coords
 
         time.sleep(REQUEST_DELAY)
         try:
-            coords = nominatim_search(query, country)
+            found = nominatim_search(query, country)
         except requests.RequestException as exc:
             print(f"WARN requete Nominatim en echec pour '{query}': {exc}")
-            coords = None
+            found = None
 
-        if coords:
-            cache[query_key] = {"lat": coords[0], "lon": coords[1], "source": "nominatim"}
+        if found:
+            cache[query_key] = {"lat": found[0], "lon": found[1], "source": "nominatim"}
             cache[cache_key] = {
-                "lat": coords[0],
-                "lon": coords[1],
+                "lat": found[0],
+                "lon": found[1],
                 "source": "nominatim",
                 "query": query,
             }
-            return coords
+            return found
 
     return None
 
@@ -333,14 +350,18 @@ def apply_excel_lieu_renames(wb: openpyxl.Workbook) -> int:
 
         new_nom = EXCEL_LIEU_RENAMES.get(nom)
         if new_nom and new_nom != nom:
-            ws.cell(row=row_idx, column=col_index["Nom"] + 1, value=new_nom)
+            _ = ws.cell(row=row_idx, column=col_index["Nom"] + 1, value=new_nom)
             updated += 1
             nom = new_nom
 
         if "Ville" in col_index:
             ville = normalize_text(cell_value(row, col_index, "Ville"))
             if not ville and nom in EXCEL_VILLE_BY_NOM:
-                ws.cell(row=row_idx, column=col_index["Ville"] + 1, value=EXCEL_VILLE_BY_NOM[nom])
+                _ = ws.cell(
+                    row=row_idx,
+                    column=col_index["Ville"] + 1,
+                    value=EXCEL_VILLE_BY_NOM[nom],
+                )
                 updated += 1
 
     return updated
@@ -348,7 +369,7 @@ def apply_excel_lieu_renames(wb: openpyxl.Workbook) -> int:
 
 def ensure_columns(wb: openpyxl.Workbook) -> None:
     for sheet_name in day_sheets(wb):
-        ensure_map_columns(wb[sheet_name])
+        _ = ensure_map_columns(wb[sheet_name])
 
 
 def run_geocoding(excel_path: Path, dry_run: bool = False, force: bool = False) -> None:
@@ -401,8 +422,8 @@ def run_geocoding(excel_path: Path, dry_run: bool = False, force: bool = False) 
         label = item["ordre_label"]
         if coords:
             if not dry_run:
-                ws.cell(row=row_idx, column=col_index["Latitude"] + 1, value=coords[0])
-                ws.cell(row=row_idx, column=col_index["Longitude"] + 1, value=coords[1])
+                _ = ws.cell(row=row_idx, column=col_index["Latitude"] + 1, value=coords[0])
+                _ = ws.cell(row=row_idx, column=col_index["Longitude"] + 1, value=coords[1])
             updated += 1
             print(f"OK  [{label}] {nom} ({ville or country}) -> {coords[0]:.6f}, {coords[1]:.6f}")
         else:
@@ -445,12 +466,12 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Geocode les lieux dans le fichier Excel de voyage."
     )
-    parser.add_argument("excel", nargs="?", default=str(default_excel_path()))
-    parser.add_argument("--dry-run", action="store_true", help="Simuler sans ecrire dans Excel")
-    parser.add_argument(
+    _ = parser.add_argument("excel", nargs="?", default=str(default_excel_path()))
+    _ = parser.add_argument("--dry-run", action="store_true", help="Simuler sans ecrire dans Excel")
+    _ = parser.add_argument(
         "--force", action="store_true", help="Re-geocoder meme si Lat/Lon presentes"
     )
-    args = parser.parse_args()
+    args = parser.parse_args(namespace=GeocodeArgs())
 
     excel_path = Path(args.excel).resolve()
     if not excel_path.exists():

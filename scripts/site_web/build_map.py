@@ -8,12 +8,13 @@ import csv
 import json
 import sys
 from pathlib import Path
-from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import openpyxl
 
+from outils.app_types import MapPoint, VoyageData
+from outils.cli_args import BuildMapArgs
 from outils.excel_utils import (
     build_voyage_data,
     data_dir,
@@ -120,7 +121,7 @@ def write_missing_coords_report(wb: openpyxl.Workbook) -> tuple[Path, int]:
     return report_path, len(rows)
 
 
-def check_lodging_consistency(voyage_data: dict[str, Any]) -> list[str]:
+def check_lodging_consistency(voyage_data: VoyageData) -> list[str]:
     """Vérifie la cohérence des hébergements dans les données de voyage.
 
     Règle simple : par jour et par nom, les lignes Hébergement sont ordonnées par
@@ -129,15 +130,16 @@ def check_lodging_consistency(voyage_data: dict[str, Any]) -> list[str]:
     """
     warnings: list[str] = []
 
-    by_day: dict[int, list[dict[str, Any]]] = {}
-    for pt in voyage_data.get("points", []):
-        action = (pt.get("popup") or {}).get("action") or ""
+    by_day: dict[int, list[MapPoint]] = {}
+    for pt in voyage_data["points"]:
+        popup = pt.get("popup") or {}
+        action = popup.get("action") or ""
         if str(action).strip().lower() == "hébergement":
             jour = pt["jour"]
             by_day.setdefault(jour, []).append(pt)
 
     for jour, pts in sorted(by_day.items()):
-        by_nom: dict[str, list[dict[str, Any]]] = {}
+        by_nom: dict[str, list[MapPoint]] = {}
         for pt in pts:
             by_nom.setdefault(pt["nom"], []).append(pt)
 
@@ -152,9 +154,9 @@ def check_lodging_consistency(voyage_data: dict[str, Any]) -> list[str]:
     return warnings
 
 
-def build_html_pages(voyage_data: dict[str, Any]) -> None:
+def build_html_pages(voyage_data: VoyageData) -> None:
     voyage_json = json.dumps(voyage_data, ensure_ascii=False)
-    (web_dir() / "index.html").write_text(
+    _ = (web_dir() / "index.html").write_text(
         HTML_TEMPLATE.format(
             title="Carte du voyage",
             header=render_header("map"),
@@ -175,7 +177,10 @@ def run_build(excel_path: Path) -> None:
 
     voyage_data = build_voyage_data(wb)
     json_path = data_dir() / "voyages.json"
-    json_path.write_text(json.dumps(voyage_data, ensure_ascii=False, indent=2), encoding="utf-8")
+    _ = json_path.write_text(
+        json.dumps(voyage_data, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
 
     # Vérification cohérence des hébergements (base nuitée matin/soir).
     lodging_warnings = check_lodging_consistency(voyage_data)
@@ -197,8 +202,8 @@ def run_build(excel_path: Path) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Genere la carte HTML depuis le fichier Excel.")
-    parser.add_argument("excel", nargs="?", default=str(default_excel_path()))
-    args = parser.parse_args()
+    _ = parser.add_argument("excel", nargs="?", default=str(default_excel_path()))
+    args = parser.parse_args(namespace=BuildMapArgs())
 
     excel_path = Path(args.excel).resolve()
     if not excel_path.exists():

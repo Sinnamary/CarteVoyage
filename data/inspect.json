@@ -1,13 +1,13 @@
 {
-  "generated_at": "18/06/2026 05:32 UTC",
-  "overall_status": "warn",
+  "generated_at": "18/06/2026 16:40 UTC",
+  "overall_status": "ok",
   "has_overview": true,
   "summary": {
     "title": "Strasbourg → Cologne → Amsterdam → Ennevelin → Lille → Bergues → Ennevelin → Côte d'Opale → Ennevelin → Cap Gris-Nez → Ennevelin",
     "period": "3 au 14 août 2026",
     "route": "Strasbourg → Cologne → Amsterdam → Ennevelin → Lille → Bergues → Ennevelin → Côte d'Opale → Ennevelin → Cap Gris-Nez → Ennevelin",
     "activities": 69,
-    "on_map": 61,
+    "on_map": 62,
     "budget": 363.0,
     "jours": 12
   },
@@ -21,44 +21,44 @@
     "overview": {
       "path": "data/overview.json",
       "present": true,
-      "mtime": "18/06/2026 05:14 UTC",
-      "size": 9681
+      "mtime": "18/06/2026 16:40 UTC",
+      "size": 9675
     },
     "voyages": {
       "path": "data/voyages.json",
       "present": true,
-      "mtime": "18/06/2026 05:14 UTC",
-      "size": 34311
+      "mtime": "18/06/2026 16:40 UTC",
+      "size": 34913
     },
     "stats": {
       "path": "data/stats.json",
       "present": true,
-      "mtime": "18/06/2026 05:14 UTC",
-      "size": 28207
+      "mtime": "18/06/2026 16:40 UTC",
+      "size": 28311
     },
     "geocode_cache": {
       "path": "data/geocode_cache.json",
       "present": true,
-      "mtime": "18/06/2026 05:14 UTC",
+      "mtime": "18/06/2026 16:40 UTC",
       "size": 10642
     },
     "route_stats_cache": {
       "path": "data/route_stats_cache.json",
       "present": true,
-      "mtime": "18/06/2026 05:14 UTC",
-      "size": 6315
+      "mtime": "18/06/2026 16:40 UTC",
+      "size": 6572
     },
     "geocode_errors": {
       "path": "data/geocode_errors.csv",
       "present": true,
-      "mtime": "18/06/2026 05:14 UTC",
-      "size": 89
+      "mtime": "18/06/2026 16:40 UTC",
+      "size": 39
     },
     "missing_coords": {
       "path": "data/lignes_sans_coords.csv",
       "present": true,
-      "mtime": "18/06/2026 05:14 UTC",
-      "size": 418
+      "mtime": "18/06/2026 16:40 UTC",
+      "size": 386
     }
   },
   "checks": [
@@ -95,7 +95,7 @@
     {
       "id": "geocoded_map",
       "status": "ok",
-      "message": "61 points carte = activités géolocalisées",
+      "message": "62 points carte = activités géolocalisées",
       "details": ""
     },
     {
@@ -106,8 +106,8 @@
     },
     {
       "id": "missing_coords",
-      "status": "warn",
-      "message": "1 activité(s) sans coordonnées (CSV cohérent)",
+      "status": "ok",
+      "message": "Aucune activité hors carte",
       "details": ""
     },
     {
@@ -136,8 +136,8 @@
     },
     {
       "id": "geocode_errors",
-      "status": "warn",
-      "message": "1 erreur(s) de géocodage",
+      "status": "ok",
+      "message": "Aucune erreur de géocodage (CSV vide)",
       "details": ""
     },
     {
@@ -167,9 +167,9 @@
       "ville": "Cologne",
       "resume": "Musée Wallraf Richartz",
       "activities": 6,
-      "geocoded": 5,
+      "geocoded": 6,
       "prix": 27.5,
-      "foot_km": 2.88,
+      "foot_km": 4.63,
       "car_km": 0.0,
       "couleur": "#27ae60",
       "in_overview": true
@@ -378,7 +378,7 @@
       "nom": "Hotel Pullman Cologne",
       "ville": "Cologne",
       "action": "Hébergement",
-      "prix": 0,
+      "prix": 0.0,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -391,7 +391,7 @@
       "nom": "Musée Wallraf Richartz",
       "ville": "Cologne",
       "action": "Visite",
-      "prix": 10,
+      "prix": 10.0,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -415,10 +415,10 @@
       "jour": 2,
       "ordre": "2.6",
       "nom": "Balade en ville",
-      "ville": "",
-      "action": "",
-      "prix": null,
-      "on_map": false,
+      "ville": "Cologne",
+      "action": "Balade",
+      "prix": 0.0,
+      "on_map": true,
       "in_stats": true,
       "is_trajet": false,
       "in_overview": true
@@ -443,7 +443,7 @@
       "nom": "Hotel Pullman Cologne",
       "ville": "Cologne",
       "action": "Hébergement",
-      "prix": 0,
+      "prix": 0.0,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -456,7 +456,7 @@
       "nom": "Hotel Pullman Cologne",
       "ville": "Cologne",
       "action": "Hébergement",
-      "prix": 0,
+      "prix": 0.0,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -482,7 +482,7 @@
       "nom": "Anne Frank Huis, Amsterdam",
       "ville": "Amsterdam",
       "action": "Visite",
-      "prix": 16,
+      "prix": 16.0,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -547,7 +547,7 @@
       "nom": "Les grands canaux, Amsterdam",
       "ville": "Amsterdam",
       "action": "Balade",
-      "prix": 0,
+      "prix": 0.0,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -560,7 +560,7 @@
       "nom": "Jordaan, Amsterdam",
       "ville": "Amsterdam",
       "action": "Balade",
-      "prix": 0,
+      "prix": 0.0,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -599,7 +599,7 @@
       "nom": "Begijnhof, Amsterdam",
       "ville": "Amsterdam",
       "action": "Visite",
-      "prix": 0,
+      "prix": 0.0,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -664,7 +664,7 @@
       "nom": "Rijksmuseum, Amsterdam",
       "ville": "Amsterdam",
       "action": "Visite",
-      "prix": 25,
+      "prix": 25.0,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -677,7 +677,7 @@
       "nom": "Van Gogh Museum, Amsterdam",
       "ville": "Amsterdam",
       "action": "Visite",
-      "prix": 24,
+      "prix": 24.0,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -755,7 +755,7 @@
       "nom": "Verzetsmuseum, Amsterdam",
       "ville": "Amsterdam",
       "action": "Visite",
-      "prix": 16,
+      "prix": 16.0,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -833,7 +833,7 @@
       "nom": "Joods Historisch Museum, Amsterdam",
       "ville": "Amsterdam",
       "action": "Visite",
-      "prix": 30,
+      "prix": 30.0,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -846,7 +846,7 @@
       "nom": "National Holocaust Museum, Amsterdam",
       "ville": "Amsterdam",
       "action": "Visite",
-      "prix": 30,
+      "prix": 30.0,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -859,7 +859,7 @@
       "nom": "Amsterdam Museum, Amsterdam",
       "ville": "Amsterdam",
       "action": "Visite",
-      "prix": 20,
+      "prix": 20.0,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -885,7 +885,7 @@
       "nom": "Wereldmuseum, Amsterdam",
       "ville": "Amsterdam",
       "action": "Visite",
-      "prix": 20,
+      "prix": 20.0,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -1015,7 +1015,7 @@
       "nom": "Vieille Bourse de Lille",
       "ville": "Lille",
       "action": "Balade",
-      "prix": 0,
+      "prix": 0.0,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -1297,12 +1297,12 @@
       "jour": 2,
       "ordre": "2.6",
       "nom": "Balade en ville",
-      "ville": "",
+      "ville": "Cologne",
       "in_stats": true,
-      "on_map": false,
+      "on_map": true,
       "in_overview": true,
       "is_trajet": false,
-      "status": "warn"
+      "status": "ok"
     },
     {
       "jour": 2,
@@ -1965,37 +1965,9 @@
       "status": "ok"
     }
   ],
-  "anomalies": [
-    {
-      "jour": 2,
-      "ordre": "2.6",
-      "nom": "Balade en ville",
-      "ville": "",
-      "in_stats": true,
-      "on_map": false,
-      "in_overview": true,
-      "is_trajet": false,
-      "status": "warn"
-    }
-  ],
-  "geocode_errors": [
-    {
-      "﻿jour": "2",
-      "visite": "6",
-      "nom": "Balade en ville",
-      "ville": "Cologne",
-      "pays": "de",
-      "requete": "Centre, Cologne"
-    }
-  ],
+  "anomalies": [],
+  "geocode_errors": [],
   "missing_coords": [
-    {
-      "﻿jour": "2",
-      "visite": "6",
-      "ordre": "2.6",
-      "nom": "Balade en ville",
-      "feuille": "Jour 2"
-    },
     {
       "﻿jour": "3",
       "visite": "2",
@@ -2659,6 +2631,15 @@
       "ville": "Cologne",
       "lat": 50.9321835,
       "lon": 6.9623967,
+      "couleur": "#27ae60"
+    },
+    {
+      "jour": 2,
+      "ordre": "2.6",
+      "nom": "Balade en ville",
+      "ville": "Cologne",
+      "lat": 50.9402958,
+      "lon": 6.9623599,
       "couleur": "#27ae60"
     },
     {

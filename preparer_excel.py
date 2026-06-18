@@ -10,6 +10,7 @@ from pathlib import Path
 SCRIPTS = Path(__file__).resolve().parent / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
+from outils.cli_args import PreparerExcelArgs
 from pipeline_common import resolve_workbook_paths, run_step
 
 BYPASS_EPILOG = """
@@ -35,15 +36,15 @@ def main() -> None:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=BYPASS_EPILOG,
     )
-    parser.add_argument("excel", nargs="?", help=argparse.SUPPRESS)
-    parser.add_argument("--skip-drive-pull", action="store_true", help=argparse.SUPPRESS)
-    parser.add_argument("--skip-drive-push", action="store_true", help=argparse.SUPPRESS)
-    parser.add_argument("--skip-sync", action="store_true", help=argparse.SUPPRESS)
-    parser.add_argument("--skip-overview", action="store_true", help=argparse.SUPPRESS)
-    parser.add_argument("--skip-verify", action="store_true", help=argparse.SUPPRESS)
-    parser.add_argument("--skip-geocode", action="store_true", help=argparse.SUPPRESS)
-    parser.add_argument("--geocode-force", action="store_true", help=argparse.SUPPRESS)
-    args = parser.parse_args()
+    _ = parser.add_argument("excel", nargs="?", help=argparse.SUPPRESS)
+    _ = parser.add_argument("--skip-drive-pull", action="store_true", help=argparse.SUPPRESS)
+    _ = parser.add_argument("--skip-drive-push", action="store_true", help=argparse.SUPPRESS)
+    _ = parser.add_argument("--skip-sync", action="store_true", help=argparse.SUPPRESS)
+    _ = parser.add_argument("--skip-overview", action="store_true", help=argparse.SUPPRESS)
+    _ = parser.add_argument("--skip-verify", action="store_true", help=argparse.SUPPRESS)
+    _ = parser.add_argument("--skip-geocode", action="store_true", help=argparse.SUPPRESS)
+    _ = parser.add_argument("--geocode-force", action="store_true", help=argparse.SUPPRESS)
+    args = parser.parse_args(namespace=PreparerExcelArgs())
 
     _, drive_path, excel_args = resolve_workbook_paths(args.excel)
 

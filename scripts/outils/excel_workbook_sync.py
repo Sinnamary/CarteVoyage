@@ -30,7 +30,7 @@ def validate_excel_path(path: Path, *, label: str = "Fichier") -> None:
     if suffix not in EXCEL_SUFFIXES:
         raise SystemExit(
             f"Extension inattendue {suffix!r} pour {path.name}. "
-            f"Attendu: {', '.join(sorted(EXCEL_SUFFIXES))}."
+            + f"Attendu: {', '.join(sorted(EXCEL_SUFFIXES))}."
         )
 
 
@@ -52,9 +52,9 @@ def copy_workbook(source_path: Path, dest_path: Path) -> None:
     ) as tmp:
         tmp_path = Path(tmp.name)
     try:
-        shutil.copy2(source_path, tmp_path)
+        _ = shutil.copy2(source_path, tmp_path)
         validate_workbook(tmp_path)
-        tmp_path.replace(dest_path)
+        _ = tmp_path.replace(dest_path)
     except Exception:
         tmp_path.unlink(missing_ok=True)
         raise
@@ -68,7 +68,7 @@ def backup_drive_source(drive_path: Path) -> Path | None:
     backup_dir.mkdir(parents=True, exist_ok=True)
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     backup_path = backup_dir / f"{drive_path.stem}.drive.backup.{stamp}{drive_path.suffix}"
-    shutil.copy2(drive_path, backup_path)
+    _ = shutil.copy2(drive_path, backup_path)
     return backup_path
 
 

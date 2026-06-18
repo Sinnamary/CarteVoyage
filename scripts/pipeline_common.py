@@ -14,6 +14,7 @@ SCRIPTS = ROOT / "scripts"
 
 
 def run_step(label: str, script: str, *args: str) -> None:
+    """Execute un script du dossier scripts/ et propage son code de sortie."""
     path = SCRIPTS / script
     if not path.exists():
         raise SystemExit(f"Script introuvable: {path}")
@@ -28,6 +29,7 @@ def run_step(label: str, script: str, *args: str) -> None:
 def resolve_workbook_paths(
     explicit_excel: str | None,
 ) -> tuple[Path, Path | None, list[str]]:
+    """Resout le classeur local, la source Drive et les chemins passes aux scripts."""
     if explicit_excel:
         local = Path(explicit_excel).resolve()
         return local, None, [str(local)]
@@ -42,6 +44,7 @@ def source_excel_args(
     drive_path: Path | None,
     explicit_excel: str | None,
 ) -> list[str]:
+    """Retourne l'argument --excel a transmettre aux scripts enfants."""
     if explicit_excel:
         return [str(Path(explicit_excel).resolve())]
     if drive_path:

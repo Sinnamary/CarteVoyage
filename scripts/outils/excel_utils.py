@@ -4,13 +4,27 @@ from __future__ import annotations
 
 import re
 import shutil
-from collections.abc import Iterator
+from collections.abc import Iterable, Iterator, Sequence
 from datetime import datetime
 from pathlib import Path
-from typing import Any, TypedDict
+from typing import Protocol, TypedDict, cast
 
 import openpyxl
 from openpyxl.worksheet.worksheet import Worksheet
+
+from outils.app_types import (
+    ActivityFields,
+    ExcelCellValue,
+    ExcelRow,
+    LodgingFields,
+    MapPoint,
+    VoyageData,
+)
+
+
+class DataValidationLike(Protocol):
+    formula1: str | None
+
 
 DEFAULT_EXCEL_NAME = "Voyage Aout 2026.xlsx"
 
@@ -64,7 +78,7 @@ class ActivityRow(TypedDict):
     ordre_label: str
     nom: str
     col_index: dict[str, int]
-    row: tuple[Any, ...]
+    row: ExcelRow
     ws: Worksheet
     header_row_idx: int
     sheet_name: str
@@ -96,7 +110,7 @@ def default_excel_path() -> Path:
     return excel_dir() / DEFAULT_EXCEL_NAME
 
 
-def normalize_text(value: Any) -> str:
+def normalize_text(value: object) -> str:
     if value is None:
         return ""
     return str(value).strip()
@@ -118,19 +132,19 @@ def lodging_ville(nom: str, ville: str) -> str:
     return normalize_text(ville)
 
 
-def lodging_stays_for_day(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def lodging_stays_for_day(rows: Sequence[LodgingFields]) -> list[LodgingFields]:
     """Lignes Hébergement d'un jour, triées par N° étape (visite croissante)."""
     stays = [r for r in rows if is_lodging_action(r.get("action", ""))]
     stays.sort(key=lambda r: r["visite"])
     return stays
 
 
-def lodging_evening_stay(
-    stays: list[dict[str, Any]],
+def lodging_evening_stay[T: LodgingFields](
+    stays: list[T],
     *,
     jour: int,
     last_jour: int,
-) -> dict[str, Any] | None:
+) -> T | None:
     """Point de nuitée : dernière ligne Hébergement du jour (ordre de visite).
 
     Dernier jour avec une seule ligne = check-out matinal, pas de nuit sur place.
@@ -143,7 +157,7 @@ def lodging_evening_stay(
 
 
 def lodging_villes_label(
-    rows: list[dict[str, Any]],
+    rows: Sequence[LodgingFields],
     *,
     domicile: str = "",
     jour: int = 0,
@@ -204,9 +218,9 @@ def _lodging_line_role(*, index: int, count: int, jour: int, last_jour: int) -> 
     return "check_in"
 
 
-def activity_rows_from_workbook(wb: openpyxl.Workbook) -> list[dict[str, Any]]:
+def activity_rows_from_workbook(wb: openpyxl.Workbook) -> list[ActivityFields]:
     """Lignes activité du classeur (jour, visite, ordre, nom, ville, action)."""
-    rows: list[dict[str, Any]] = []
+    rows: list[ActivityFields] = []
     for item in iter_activity_rows(wb):
         ci = item["col_index"]
         row = item["row"]
@@ -224,19 +238,19 @@ def activity_rows_from_workbook(wb: openpyxl.Workbook) -> list[dict[str, Any]]:
 
 
 def build_lodging_audit(
-    rows: list[dict[str, Any]],
+    rows: Sequence[LodgingFields],
     *,
     domicile: str = "",
     jours: list[int] | None = None,
-    overview_by_day: dict[int, dict[str, Any]] | None = None,
-) -> dict[str, Any]:
+    overview_by_day: dict[int, dict[str, object]] | None = None,
+) -> dict[str, object]:
     """Trace détaillée de la détermination des hébergements par jour."""
     if not jours:
         jours = sorted({int(r["jour"]) for r in rows})
     last_jour = max(jours) if jours else 0
     home = normalize_text(domicile)
 
-    by_jour: dict[int, list[dict[str, Any]]] = {}
+    by_jour: dict[int, list[LodgingFields]] = {}
     for row in rows:
         by_jour.setdefault(int(row["jour"]), []).append(row)
 
@@ -251,7 +265,7 @@ def build_lodging_audit(
             "le jour 1 (départ depuis le domicile) et le dernier jour (retour)."
         )
 
-    days_out: list[dict[str, Any]] = []
+    days_out: list[dict[str, object]] = []
     for jour in jours:
         day_rows = sorted(by_jour.get(jour, []), key=lambda r: r["visite"])
         stays = lodging_stays_for_day(day_rows)
@@ -262,7 +276,7 @@ def build_lodging_audit(
             flags.append("dernier_jour")
 
         first_activity = day_rows[0] if day_rows else None
-        lodging_lines: list[dict[str, Any]] = []
+        lodging_lines: list[dict[str, object]] = []
         for index, stay in enumerate(stays):
             role = _lodging_line_role(index=index, count=len(stays), jour=jour, last_jour=last_jour)
             lodging_lines.append(
@@ -278,7 +292,7 @@ def build_lodging_audit(
             )
 
         evening_row = lodging_evening_stay(stays, jour=jour, last_jour=last_jour)
-        night: dict[str, Any] | None = None
+        night: dict[str, object] | None = None
         if evening_row:
             night = {
                 "ordre": evening_row.get("ordre")
@@ -322,7 +336,7 @@ def build_lodging_audit(
         if jour == 1 and first_activity and not is_lodging_action(first_activity.get("action", "")):
             notes.append(
                 f"La 1re activité ({first_activity.get('ordre')} {first_activity.get('nom')}, "
-                f"{first_activity.get('action') or '—'}) n'est pas un hébergement : "
+                + f"{first_activity.get('action') or '—'}) n'est pas un hébergement : "
                 + "le voyage précède l'enregistrement à l'hôtel."
             )
         if jour == last_jour and stays and len(stays) == 1:
@@ -330,13 +344,15 @@ def build_lodging_audit(
                 "Dernier jour : une seule ligne Hébergement = départ matin et retour au domicile."
             )
 
-        overview_day = (overview_by_day or {}).get(jour) or {}
-        overview_nuit = overview_day.get("nuit")
+        overview_day_raw = (overview_by_day or {}).get(jour)
+        overview_day = overview_day_raw if isinstance(overview_day_raw, dict) else {}
+        overview_nuit_raw = overview_day.get("nuit")
+        overview_nuit = overview_nuit_raw if isinstance(overview_nuit_raw, dict) else None
         overview_villes = overview_day.get("lodging_villes_label")
         overview_nuit_text = "—"
         if overview_nuit:
-            nom = overview_nuit.get("nom") or ""
-            ville = overview_nuit.get("ville") or ""
+            nom = str(overview_nuit.get("nom") or "")
+            ville = str(overview_nuit.get("ville") or "")
             overview_nuit_text = (
                 f"{nom} ({ville})" if ville and ville.lower() not in nom.lower() else (nom or ville)
             )
@@ -344,10 +360,10 @@ def build_lodging_audit(
         match_nuit = None
         if overview_nuit is not None:
             if night and overview_nuit:
-                match_nuit = normalize_text(night.get("nom")) == normalize_text(
-                    overview_nuit.get("nom")
-                ) and normalize_text(night.get("ville")) == normalize_text(
-                    overview_nuit.get("ville")
+                match_nuit = normalize_text(str(night.get("nom"))) == normalize_text(
+                    str(overview_nuit.get("nom"))
+                ) and normalize_text(str(night.get("ville"))) == normalize_text(
+                    str(overview_nuit.get("ville"))
                 )
             else:
                 match_nuit = night is None and overview_nuit is None
@@ -385,7 +401,7 @@ def build_lodging_audit(
     }
 
 
-def parse_ordre(value: Any) -> dict[str, int] | None:
+def parse_ordre(value: object) -> dict[str, int] | None:
     if value is None or value == "":
         return None
 
@@ -416,7 +432,7 @@ def day_sheets(wb: openpyxl.Workbook) -> list[str]:
     return [name for name in wb.sheetnames if is_day_sheet(name)]
 
 
-def build_planning_col_index(header_row: tuple[Any, ...]) -> dict[str, int]:
+def build_planning_col_index(header_row: ExcelRow) -> dict[str, int]:
     index: dict[str, int] = {}
     excel_to_internal = {excel: internal for internal, excel in PLANNING_COLUMNS.items()}
 
@@ -446,36 +462,43 @@ def ensure_map_columns(ws: Worksheet) -> dict[str, int]:
 
     for col_name in MAP_EXTRA_COLUMNS:
         if col_name not in col_index:
-            ws.cell(row=DAY_HEADER_ROW, column=next_col, value=col_name)
+            _ = ws.cell(row=DAY_HEADER_ROW, column=next_col, value=col_name)
             col_index[col_name] = next_col - 1
             next_col += 1
 
     return col_index
 
 
-def cell_value(row: tuple[Any, ...], col_index: dict[str, int], column: str) -> Any:
+def cell_value(row: ExcelRow, col_index: dict[str, int], column: str) -> ExcelCellValue:
     if column not in col_index:
         return None
     idx = col_index[column]
     if idx >= len(row):
         return None
-    return row[idx]
+    value = row[idx]
+    if isinstance(value, (str, int, float, bool, datetime)) or value is None:
+        return value
+    return str(value)
 
 
-def parse_float(value: Any) -> float | None:
+def parse_float(value: object) -> float | None:
     if value is None or value == "":
         return None
     try:
-        return float(value)
+        if isinstance(value, (int, float)):
+            return float(value)
+        if isinstance(value, str):
+            return float(value.strip().replace(",", "."))
     except (TypeError, ValueError):
         return None
+    return None
 
 
-def parse_prix(value: Any) -> float | None:
+def parse_prix(value: object) -> float | None:
     return parse_float(value)
 
 
-def has_coordinates(row: tuple[Any, ...], col_index: dict[str, int]) -> bool:
+def has_coordinates(row: ExcelRow, col_index: dict[str, int]) -> bool:
     lat = parse_float(cell_value(row, col_index, "Latitude"))
     lon = parse_float(cell_value(row, col_index, "Longitude"))
     return lat is not None and lon is not None
@@ -485,7 +508,7 @@ def backup_excel(excel_path: Path) -> Path:
     backup_dir = excel_path.parent / "backups"
     backup_dir.mkdir(exist_ok=True)
     backup_path = backup_dir / (excel_path.stem + ".backup" + excel_path.suffix)
-    shutil.copy2(excel_path, backup_path)
+    _ = shutil.copy2(excel_path, backup_path)
     return backup_path
 
 
@@ -498,7 +521,7 @@ def backup_excel_timestamped(excel_path: Path) -> Path | None:
     backup_dir.mkdir(exist_ok=True)
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     backup_path = backup_dir / f"{excel_path.stem}.backup.{stamp}{excel_path.suffix}"
-    shutil.copy2(excel_path, backup_path)
+    _ = shutil.copy2(excel_path, backup_path)
     return backup_path
 
 
@@ -542,7 +565,8 @@ def sync_listes_validations(wb: openpyxl.Workbook) -> list[str]:
 
     for sheet_name in day_sheets(wb):
         ws = wb[sheet_name]
-        for dv in ws.data_validations.dataValidation:
+        for raw_dv in cast(Iterable[object], ws.data_validations.dataValidation):
+            dv = cast(DataValidationLike, raw_dv)
             formula = str(dv.formula1 or "")
             if not formula.startswith("Listes!$"):
                 continue
@@ -558,7 +582,7 @@ def sync_listes_validations(wb: openpyxl.Workbook) -> list[str]:
     return changes
 
 
-def ville_for_row(row: tuple[Any, ...], col_index: dict[str, int]) -> str:
+def ville_for_row(row: ExcelRow, col_index: dict[str, int]) -> str:
     return normalize_text(cell_value(row, col_index, "Ville"))
 
 
@@ -604,7 +628,7 @@ def iter_activity_rows(wb: openpyxl.Workbook) -> Iterator[ActivityRow]:
             }
 
 
-def row_to_point(item: ActivityRow) -> dict[str, Any] | None:
+def row_to_point(item: ActivityRow) -> MapPoint | None:
     row = item["row"]
     col_index = item["col_index"]
 
@@ -617,11 +641,9 @@ def row_to_point(item: ActivityRow) -> dict[str, Any] | None:
     site = normalize_text(cell_value(row, col_index, "Site"))
     url = lien or site or None
 
-    def field(name: str) -> Any:
-        value = cell_value(row, col_index, name)
-        if value is None or value == "":
-            return None
-        return value
+    def popup_field(name: str) -> str | None:
+        value = normalize_text(cell_value(row, col_index, name))
+        return value or None
 
     jour = item["jour"]
     visite = item["visite"]
@@ -632,20 +654,20 @@ def row_to_point(item: ActivityRow) -> dict[str, Any] | None:
         "jour": jour,
         "visite": visite,
         "nom": item["nom"],
-        "ville": field("Ville"),
+        "ville": popup_field("Ville"),
         "lat": lat,
         "lon": lon,
         "lien": url,
         "couleur": jour_color(jour),
         "popup": {
-            "action": field("Action"),
-            "type": field("Type"),
-            "billet": field("Billet"),
-            "prix": field("Prix"),
-            "city_card": field("City Card"),
-            "ouverture": field("Ouverture"),
-            "fermeture": field("Fermeture"),
-            "remarque": field("Remarque"),
+            "action": popup_field("Action"),
+            "type": popup_field("Type"),
+            "billet": popup_field("Billet"),
+            "prix": parse_prix(cell_value(row, col_index, "Prix")),
+            "city_card": popup_field("City Card"),
+            "ouverture": popup_field("Ouverture"),
+            "fermeture": popup_field("Fermeture"),
+            "remarque": popup_field("Remarque"),
         },
     }
 
@@ -665,8 +687,8 @@ def find_duplicate_ordre_labels(wb: openpyxl.Workbook) -> dict[str, list[str]]:
     return {label: locs for label, locs in seen.items() if len(locs) > 1}
 
 
-def build_voyage_data(wb: openpyxl.Workbook) -> dict[str, Any]:
-    points: list[dict[str, Any]] = []
+def build_voyage_data(wb: openpyxl.Workbook) -> VoyageData:
+    points: list[MapPoint] = []
     jours: set[int] = set()
 
     for item in iter_activity_rows(wb):

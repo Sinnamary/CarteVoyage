@@ -1,28 +1,28 @@
 {
-  "generated_at": "18/06/2026 05:14 UTC",
+  "generated_at": "18/06/2026 16:40 UTC",
   "summary": {
     "jours": 12,
     "activities": 69,
-    "geocoded": 61,
-    "on_map": 61,
+    "geocoded": 62,
+    "on_map": 62,
     "trajet_lines": 7,
-    "missing_coords": 1,
+    "missing_coords": 0,
     "villes": 8,
     "segments_total": 57,
-    "segments_calculable": 42,
-    "segments_foot": 38,
+    "segments_calculable": 44,
+    "segments_foot": 40,
     "segments_car": 4,
     "segments_foot_mode": 40,
     "segments_car_mode": 17,
-    "segments_non_calculable": 15
+    "segments_non_calculable": 13
   },
   "distances": {
-    "foot_m": 51707,
+    "foot_m": 53457,
     "car_m": 520742,
-    "total_m": 572449,
-    "foot_duration_s": 41576,
+    "total_m": 574199,
+    "foot_duration_s": 42968,
     "car_duration_s": 22442,
-    "osrm_routes": 42,
+    "osrm_routes": 44,
     "air_fallback": 0
   },
   "budget": {
@@ -44,10 +44,10 @@
     },
     "2": {
       "activities": 6,
-      "geocoded": 5,
-      "foot_km": 2.88,
+      "geocoded": 6,
+      "foot_km": 4.63,
       "car_km": 0.0,
-      "foot_min": 38,
+      "foot_min": 61,
       "car_min": 0,
       "prix": 27.5,
       "couleur": "#27ae60"
@@ -171,7 +171,7 @@
     },
     "Cologne": {
       "activities": 11,
-      "foot_km": 4.91,
+      "foot_km": 6.66,
       "car_km": 0.0
     },
     "Côte d'Opale": {
@@ -291,13 +291,7 @@
       "billet": "Non"
     }
   ],
-  "missing_coords": [
-    {
-      "jour": 2,
-      "ordre": "2.6",
-      "nom": "Balade en ville"
-    }
-  ],
+  "missing_coords": [],
   "highlights": {
     "longest_foot": {
       "jour": 4,
@@ -418,7 +412,11 @@
       "from_ville": "Cologne",
       "to_ville": "Cologne",
       "mode": "foot",
-      "calculable": false
+      "calculable": true,
+      "distance_m": 1008,
+      "duration_s": 799,
+      "source": "osrm",
+      "air_m": 902
     },
     {
       "jour": 2,
@@ -429,7 +427,11 @@
       "from_ville": "Cologne",
       "to_ville": "Cologne",
       "mode": "foot",
-      "calculable": false
+      "calculable": true,
+      "distance_m": 742,
+      "duration_s": 593,
+      "source": "osrm",
+      "air_m": 591
     },
     {
       "jour": 2,

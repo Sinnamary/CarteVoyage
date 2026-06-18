@@ -91,7 +91,19 @@ ignore-magic = true
 ignore-semiprivate = true
 ignore-private = true
 fail-under = 30
-exclude = ["tests", ".venv", "venv", "web", "data"]
+exclude = [
+    "tests",
+    ".venv",
+    "venv",
+    "web",
+    "data",
+    "scripts/outils/app_types.py",
+    "scripts/outils/cli_args.py",
+    "scripts/site_web",
+]
+
+[tool.deptry]
+known_first_party = ["outils", "site_web", "pipeline_common"]
 
 [tool.radon]
 cc_min = "C"

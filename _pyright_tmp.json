@@ -1,5 +1,7 @@
 {
-  "extraPaths": ["scripts"],
+  "extraPaths": [
+    "scripts"
+  ],
   "typeCheckingMode": "basic",
   "reportAny": "warning",
   "reportExplicitAny": "warning",

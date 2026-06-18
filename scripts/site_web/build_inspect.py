@@ -9,12 +9,30 @@ import json
 import sys
 from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
-from typing import Any
+from typing import cast
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import openpyxl
 
+from outils.app_types import (
+    DayStatsPublic,
+    FileSourceMeta,
+    InspectActivity,
+    InspectCheck,
+    InspectCoverageRow,
+    InspectDayTimeline,
+    InspectMapPoint,
+    InspectPayload,
+    InspectSources,
+    InspectSummary,
+    OverviewConfig,
+    OverviewDaySnapshot,
+    OverviewPayload,
+    StatsPayload,
+    VoyageData,
+)
+from outils.cli_args import BuildInspectArgs
 from outils.excel_utils import (
     activity_rows_from_workbook,
     build_lodging_audit,
@@ -81,13 +99,31 @@ def activity_key(jour: int, ordre: str) -> str:
     return f"{jour}:{ordre}"
 
 
-def load_json_file(path: Path) -> dict[str, Any] | None:
+def load_json_file(path: Path) -> object | None:
     if not path.exists():
         return None
-    return json.loads(path.read_text(encoding="utf-8"))
+    return cast(object, json.loads(path.read_text(encoding="utf-8")))
 
 
-def file_source_meta(path: Path) -> dict[str, Any]:
+def parse_overview(raw: object | None) -> OverviewPayload | None:
+    if isinstance(raw, dict):
+        return cast(OverviewPayload, raw)
+    return None
+
+
+def parse_voyages(raw: object | None) -> VoyageData | None:
+    if isinstance(raw, dict):
+        return cast(VoyageData, raw)
+    return None
+
+
+def parse_stats(raw: object | None) -> StatsPayload | None:
+    if isinstance(raw, dict):
+        return cast(StatsPayload, raw)
+    return None
+
+
+def file_source_meta(path: Path) -> FileSourceMeta:
     rel = path.relative_to(project_root()).as_posix()
     if not path.exists():
         return {"path": rel, "present": False, "mtime": None, "size": 0}
@@ -104,7 +140,7 @@ def load_csv_rows(path: Path) -> list[dict[str, str]]:
 
 
 def add_check(
-    checks: list[dict[str, Any]],
+    checks: list[InspectCheck],
     check_id: str,
     status: str,
     message: str,
@@ -122,12 +158,12 @@ def add_check(
 
 
 def collect_activities(
-    voyages: dict[str, Any] | None,
-    stats: dict[str, Any] | None,
-) -> list[dict[str, Any]]:
-    items: dict[str, dict[str, Any]] = {}
+    voyages: VoyageData | None,
+    stats: StatsPayload | None,
+) -> list[InspectActivity]:
+    items: dict[str, InspectActivity] = {}
 
-    for point in (voyages or {}).get("points", []):
+    for point in voyages.get("points", []) if voyages else []:
         key = activity_key(point["jour"], point["ordre_label"])
         popup = point.get("popup") or {}
         items[key] = {
@@ -143,7 +179,7 @@ def collect_activities(
             "is_trajet": False,
         }
 
-    for row in (stats or {}).get("missing_coords", []):
+    for row in stats.get("missing_coords", []) if stats else []:
         key = activity_key(row["jour"], row["ordre"])
         items[key] = {
             "key": key,
@@ -158,7 +194,7 @@ def collect_activities(
             "is_trajet": False,
         }
 
-    for row in (stats or {}).get("trajet_lines", []):
+    for row in stats.get("trajet_lines", []) if stats else []:
         key = activity_key(row["jour"], row["ordre"])
         items[key] = {
             "key": key,
@@ -176,10 +212,10 @@ def collect_activities(
     return sorted(items.values(), key=lambda item: (item["jour"], item["ordre"]))
 
 
-def overview_day_index(overview: dict[str, Any] | None) -> dict[int, dict[str, Any]]:
+def overview_day_index(overview: OverviewPayload | None) -> dict[int, OverviewDaySnapshot]:
     if not overview:
         return {}
-    index: dict[int, dict[str, Any]] = {}
+    index: dict[int, OverviewDaySnapshot] = {}
     for row in overview.get("by_day", []):
         index[int(row["jour"])] = row
     return index
@@ -190,23 +226,33 @@ def date_for_jour(start: date, jour: int) -> date:
 
 
 def build_days_timeline(
-    stats: dict[str, Any] | None,
-    overview: dict[str, Any] | None,
-    config: dict[str, Any],
-) -> list[dict[str, Any]]:
+    stats: StatsPayload | None,
+    overview: OverviewPayload | None,
+    config: OverviewConfig,
+) -> list[InspectDayTimeline]:
     if not stats:
         return []
 
     start = parse_iso_date(config.get("start_date", ""))
     overview_days = overview_day_index(overview)
-    days: list[dict[str, Any]] = []
+    days: list[InspectDayTimeline] = []
 
+    empty_day_stats: DayStatsPublic = {
+        "activities": 0,
+        "geocoded": 0,
+        "foot_km": 0.0,
+        "car_km": 0.0,
+        "foot_min": 0,
+        "car_min": 0,
+        "prix": 0.0,
+        "couleur": "#2c3e50",
+    }
     for jour in stats.get("jours", []):
-        day_stats = stats.get("by_day", {}).get(str(jour), {})
+        day_stats = stats.get("by_day", {}).get(str(jour), empty_day_stats)
         overview_day = overview_days.get(jour)
         day_date = None
         if overview_day and overview_day.get("date"):
-            day_date = overview_day["date"]
+            day_date = overview_day.get("date")
         elif start:
             day_date = date_for_jour(start, jour).isoformat()
 
@@ -214,8 +260,8 @@ def build_days_timeline(
             {
                 "jour": jour,
                 "date": day_date,
-                "ville": (overview_day or {}).get("ville") or "",
-                "resume": (overview_day or {}).get("resume") or "",
+                "ville": overview_day.get("ville") or "" if overview_day else "",
+                "resume": overview_day.get("resume") or "" if overview_day else "",
                 "activities": day_stats.get("activities", 0),
                 "geocoded": day_stats.get("geocoded", 0),
                 "prix": day_stats.get("prix", 0),
@@ -229,43 +275,45 @@ def build_days_timeline(
     return days
 
 
-def overview_text_blob(overview: dict[str, Any] | None, config: dict[str, Any]) -> str:
+def overview_text_blob(overview: OverviewPayload | None, config: OverviewConfig) -> str:
     parts: list[str] = []
-    if config.get("intro"):
-        parts.append(str(config["intro"]))
+    intro = config.get("intro")
+    if intro:
+        parts.append(str(intro))
     parts.extend(str(note) for note in config.get("notes") or [])
     if not overview:
         return " ".join(parts)
 
     summary = overview.get("summary") or {}
     parts.extend(str(value) for value in summary.values() if value is not None)
-    for row in overview.get("by_day", []):
-        parts.extend(str(value) for value in row.values() if value is not None)
-    for row in overview.get("by_ville", []):
-        parts.extend(str(value) for value in row.values() if value is not None)
+    for day_row in overview.get("by_day", []):
+        parts.extend(str(value) for value in day_row.values() if value is not None)
+    for ville_row in overview.get("by_ville", []):
+        parts.extend(str(value) for value in ville_row.values() if value is not None)
     for phase in overview.get("phases", []):
         parts.extend(str(value) for value in phase.values() if value is not None)
     return " ".join(parts)
 
 
 def run_checks(
-    checks: list[dict[str, Any]],
+    checks: list[InspectCheck],
     *,
-    config: dict[str, Any],
-    overview: dict[str, Any] | None,
-    voyages: dict[str, Any] | None,
-    stats: dict[str, Any] | None,
-    activities: list[dict[str, Any]],
+    config: OverviewConfig,
+    overview: OverviewPayload | None,
+    voyages: VoyageData | None,
+    stats: StatsPayload | None,
+    activities: list[InspectActivity],
     geocode_errors: list[dict[str, str]],
     missing_csv: list[dict[str, str]],
-    sources: dict[str, dict[str, Any]],
+    sources: InspectSources,
 ) -> None:
-    required = {
+    required: dict[str, tuple[str, str]] = {
         "overview_config": ("Configuration", STATUS_ERROR),
         "voyages": ("Carte (voyages.json)", STATUS_ERROR),
         "stats": ("Statistiques (stats.json)", STATUS_ERROR),
     }
-    for key, (label, severity) in required.items():
+    for key in ("overview_config", "voyages", "stats"):
+        label, severity = required[key]
         if sources[key]["present"]:
             add_check(checks, f"source_{key}", STATUS_OK, f"{label} présent")
         else:
@@ -448,12 +496,12 @@ def run_checks(
 
 
 def build_coverage_rows(
-    activities: list[dict[str, Any]],
-    overview: dict[str, Any] | None,
-) -> list[dict[str, Any]]:
+    activities: list[InspectActivity],
+    overview: OverviewPayload | None,
+) -> list[InspectCoverageRow]:
     overview_days = overview_day_index(overview)
     has_overview = overview is not None
-    rows: list[dict[str, Any]] = []
+    rows: list[InspectCoverageRow] = []
     for item in activities:
         jour = item["jour"]
         in_overview = jour in overview_days if has_overview else None
@@ -474,7 +522,7 @@ def build_coverage_rows(
 
 
 def _coverage_status(
-    item: dict[str, Any],
+    item: InspectActivity,
     in_overview: bool | None,
     has_overview: bool,
 ) -> str:
@@ -493,38 +541,38 @@ def _coverage_status(
 
 def build_lodging_audit_section(
     excel_path: Path | None,
-    config: dict[str, Any],
-    overview: dict[str, Any] | None,
-    stats: dict[str, Any] | None,
-) -> dict[str, Any] | None:
+    config: OverviewConfig,
+    overview: OverviewPayload | None,
+    stats: StatsPayload | None,
+) -> dict[str, object] | None:
     if not excel_path or not excel_path.exists():
         return None
 
     wb = openpyxl.load_workbook(excel_path, data_only=True)
     rows = activity_rows_from_workbook(wb)
-    jours = list((stats or {}).get("jours") or sorted({r["jour"] for r in rows}))
+    jours = list(stats.get("jours") if stats else sorted({r["jour"] for r in rows}))
     domicile = normalize_text(config.get("domicile"))
     return build_lodging_audit(
         rows,
         domicile=domicile,
         jours=jours,
-        overview_by_day=overview_day_index(overview),
+        overview_by_day=cast(dict[int, dict[str, object]], overview_day_index(overview)),
     )
 
 
 def build_inspect_data(
     paths: dict[str, Path],
     excel_path: Path | None = None,
-) -> dict[str, Any]:
+) -> InspectPayload:
     config = load_overview_config(paths["overview_config"])
-    overview = load_json_file(paths["overview"])
-    voyages = load_json_file(paths["voyages"])
-    stats = load_json_file(paths["stats"])
+    overview = parse_overview(load_json_file(paths["overview"]))
+    voyages = parse_voyages(load_json_file(paths["voyages"]))
+    stats = parse_stats(load_json_file(paths["stats"]))
 
     geocode_errors = load_csv_rows(paths["geocode_errors"])
     missing_csv = load_csv_rows(paths["missing_coords"])
 
-    sources = {
+    sources: InspectSources = {
         "overview_config": file_source_meta(paths["overview_config"]),
         "overview": file_source_meta(paths["overview"]),
         "voyages": file_source_meta(paths["voyages"]),
@@ -542,7 +590,7 @@ def build_inspect_data(
     days = build_days_timeline(stats, overview, config)
     coverage = build_coverage_rows(activities, overview)
 
-    checks: list[dict[str, Any]] = []
+    checks: list[InspectCheck] = []
     run_checks(
         checks,
         config=config,
@@ -557,14 +605,19 @@ def build_inspect_data(
 
     lodging_audit = build_lodging_audit_section(excel_path, config, overview, stats)
     if lodging_audit:
-        mismatches = [d for d in lodging_audit["days"] if d.get("match_overview_nuit") is False]
+        audit_days = lodging_audit.get("days")
+        mismatches = [
+            d
+            for d in (audit_days if isinstance(audit_days, list) else [])
+            if isinstance(d, dict) and d.get("match_overview_nuit") is False
+        ]
         if mismatches:
             add_check(
                 checks,
                 "lodging_audit",
                 STATUS_WARN,
                 f"{len(mismatches)} jour(s) : nuit calculée ≠ overview",
-                details=", ".join(f"J{d['jour']}" for d in mismatches),
+                details=", ".join(f"J{d.get('jour', '?')}" for d in mismatches),
             )
         elif overview:
             add_check(
@@ -583,17 +636,20 @@ def build_inspect_data(
     elif warn_count:
         overall = STATUS_WARN
 
-    summary = {
-        "title": (overview or {}).get("summary", {}).get("route", "Voyage"),
-        "period": (overview or {}).get("summary", {}).get("period", ""),
-        "route": (overview or {}).get("summary", {}).get("route", ""),
-        "activities": (stats or {}).get("summary", {}).get("activities", len(activities)),
-        "on_map": len((voyages or {}).get("points", [])),
-        "budget": (stats or {}).get("budget", {}).get("total", 0),
-        "jours": len((stats or {}).get("jours", [])),
+    overview_summary = overview.get("summary", {}) if overview else {}
+    stats_summary = stats["summary"] if stats else None
+    stats_budget = stats["budget"] if stats else None
+    summary: InspectSummary = {
+        "title": overview_summary.get("route", "Voyage"),
+        "period": overview_summary.get("period", ""),
+        "route": overview_summary.get("route", ""),
+        "activities": stats_summary["activities"] if stats_summary else len(activities),
+        "on_map": len(voyages["points"]) if voyages else 0,
+        "budget": stats_budget["total"] if stats_budget else 0,
+        "jours": len(stats["jours"]) if stats else 0,
     }
 
-    map_points = [
+    map_points: list[InspectMapPoint] = [
         {
             "jour": p["jour"],
             "ordre": p["ordre_label"],
@@ -603,7 +659,7 @@ def build_inspect_data(
             "lon": p["lon"],
             "couleur": p.get("couleur", "#2c3e50"),
         }
-        for p in (voyages or {}).get("points", [])
+        for p in (voyages["points"] if voyages else [])
     ]
 
     return {
@@ -629,7 +685,7 @@ def build_inspect_data(
     }
 
 
-def render_html(inspect: dict[str, Any]) -> str:
+def render_html(inspect: InspectPayload) -> str:
     return INSPECT_HTML_TEMPLATE.format(
         header=render_header(active="inspect"),
         inspect_json=json.dumps(inspect, ensure_ascii=False),
@@ -650,14 +706,14 @@ def ensure_overview_snapshot(config_path: Path, excel_path: Path | None = None) 
     if not config.get("write_snapshot", True):
         return False
 
-    write_snapshot_from_excel(path, config)
+    _ = write_snapshot_from_excel(path, config)
     print(f"overview.json genere : {overview_path}")
     return True
 
 
 def run_build(config_path: Path | None = None, excel_path: Path | None = None) -> None:
     cfg_path = config_path or default_overview_config_path()
-    ensure_overview_snapshot(cfg_path, excel_path)
+    _ = ensure_overview_snapshot(cfg_path, excel_path)
 
     root = data_dir()
     paths = {
@@ -674,10 +730,10 @@ def run_build(config_path: Path | None = None, excel_path: Path | None = None) -
     inspect = build_inspect_data(paths, excel_path=excel_path)
 
     json_path = root / "inspect.json"
-    json_path.write_text(json.dumps(inspect, ensure_ascii=False, indent=2), encoding="utf-8")
+    _ = json_path.write_text(json.dumps(inspect, ensure_ascii=False, indent=2), encoding="utf-8")
 
     html_path = web_dir() / "inspect.html"
-    html_path.write_text(render_html(inspect), encoding="utf-8")
+    _ = html_path.write_text(render_html(inspect), encoding="utf-8")
 
     ok = sum(1 for c in inspect["checks"] if c["status"] == STATUS_OK)
     warn = sum(1 for c in inspect["checks"] if c["status"] == STATUS_WARN)
@@ -692,18 +748,18 @@ def run_build(config_path: Path | None = None, excel_path: Path | None = None) -
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Genere inspect.json et inspect.html.")
-    parser.add_argument(
+    _ = parser.add_argument(
         "excel",
         nargs="?",
         default=str(default_excel_path()),
         help="Classeur Excel pour generer overview.json si absent.",
     )
-    parser.add_argument(
+    _ = parser.add_argument(
         "--config",
         default=str(default_overview_config_path()),
         help="Fichier overview_config.json",
     )
-    args = parser.parse_args()
+    args = parser.parse_args(namespace=BuildInspectArgs())
     excel_path: Path | None = None
     if args.excel:
         excel = Path(args.excel).resolve()

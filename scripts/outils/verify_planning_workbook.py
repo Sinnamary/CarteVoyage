@@ -10,6 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import openpyxl
 
+from outils.cli_args import VerifyWorkbookArgs
 from outils.excel_utils import (
     LINKS_SHEET,
     OVERVIEW_SHEET,
@@ -53,8 +54,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Verifie la structure du classeur Excel de voyage."
     )
-    parser.add_argument("excel", nargs="?", default=str(default_excel_path()))
-    args = parser.parse_args()
+    _ = parser.add_argument("excel", nargs="?", default=str(default_excel_path()))
+    args = parser.parse_args(namespace=VerifyWorkbookArgs())
 
     path = Path(args.excel).resolve()
     if not path.exists():

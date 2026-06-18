@@ -25,6 +25,17 @@ from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
+
+class QualiteArgs(argparse.Namespace):
+    fix: bool
+    install: bool
+    list: bool
+    only: str | None
+    skip: str | None
+    strict: bool
+    verbose: bool
+
+
 ROOT = Path(__file__).resolve().parent
 PYTHON = sys.executable
 SOURCE_TARGETS = ("scripts", "generer_site.py", "preparer_excel.py", "qualite.py")
@@ -38,7 +49,7 @@ class Check:
     id: str
     label: str
     category: str
-    runner: Callable[[argparse.Namespace], tuple[bool, str]]
+    runner: Callable[[QualiteArgs], tuple[bool, str]]
     optional: bool = False
     warn_only: bool = False
 
@@ -84,7 +95,7 @@ def _source_args() -> list[str]:
     return [p for p in SOURCE_TARGETS if (ROOT / p).exists()]
 
 
-def _ensure_dev_tools(_: argparse.Namespace) -> tuple[bool, str]:
+def _ensure_dev_tools(_: QualiteArgs) -> tuple[bool, str]:
     missing = [
         mod
         for mod in (
@@ -103,7 +114,7 @@ def _ensure_dev_tools(_: argparse.Namespace) -> tuple[bool, str]:
     return True, "Outils principaux disponibles"
 
 
-def _check_compileall(_: argparse.Namespace) -> tuple[bool, str]:
+def _check_compileall(_: QualiteArgs) -> tuple[bool, str]:
     code, out = _run(
         [PYTHON, "-m", "compileall", "-q", "-j", "0", *_source_args()],
         allow_missing=True,
@@ -111,7 +122,7 @@ def _check_compileall(_: argparse.Namespace) -> tuple[bool, str]:
     return code == 0, out or "Syntaxe Python OK"
 
 
-def _check_ruff_format(args: argparse.Namespace) -> tuple[bool, str]:
+def _check_ruff_format(args: QualiteArgs) -> tuple[bool, str]:
     cmd = [PYTHON, "-m", "ruff", "format"]
     if not args.fix:
         cmd.append("--check")
@@ -122,7 +133,7 @@ def _check_ruff_format(args: argparse.Namespace) -> tuple[bool, str]:
     return code == 0, out or ("Format applique" if args.fix else "Format OK")
 
 
-def _check_ruff_lint(args: argparse.Namespace) -> tuple[bool, str]:
+def _check_ruff_lint(args: QualiteArgs) -> tuple[bool, str]:
     cmd = [PYTHON, "-m", "ruff", "check", *_source_args()]
     if args.fix:
         cmd.append("--fix")
@@ -132,7 +143,7 @@ def _check_ruff_lint(args: argparse.Namespace) -> tuple[bool, str]:
     return code == 0, out or "Lint OK"
 
 
-def _check_vulture(_: argparse.Namespace) -> tuple[bool, str]:
+def _check_vulture(_: QualiteArgs) -> tuple[bool, str]:
     if not _module_available("vulture"):
         return False, "vulture non installe"
     pyproject = ROOT / "pyproject.toml"
@@ -145,7 +156,7 @@ def _check_vulture(_: argparse.Namespace) -> tuple[bool, str]:
     return code == 0, out or "Aucun code mort detecte"
 
 
-def _check_bandit(_: argparse.Namespace) -> tuple[bool, str]:
+def _check_bandit(_: QualiteArgs) -> tuple[bool, str]:
     if not _module_available("bandit"):
         return False, "bandit non installe"
     cmd = [
@@ -164,7 +175,7 @@ def _check_bandit(_: argparse.Namespace) -> tuple[bool, str]:
     return code == 0, out or "Aucun probleme de securite detecte"
 
 
-def _check_mypy(_: argparse.Namespace) -> tuple[bool, str]:
+def _check_mypy(_: QualiteArgs) -> tuple[bool, str]:
     if not _module_available("mypy"):
         return False, "mypy non installe (optionnel : python qualite.py --install)"
     code, out = _run(
@@ -174,7 +185,7 @@ def _check_mypy(_: argparse.Namespace) -> tuple[bool, str]:
     return code == 0, out or "Typage mypy OK"
 
 
-def _check_pyright(_: argparse.Namespace) -> tuple[bool, str]:
+def _check_pyright(_: QualiteArgs) -> tuple[bool, str]:
     module = "basedpyright" if _module_available("basedpyright") else "pyright"
     if not _module_available(module):
         return False, "basedpyright/pyright non installe (optionnel : python qualite.py --install)"
@@ -185,7 +196,7 @@ def _check_pyright(_: argparse.Namespace) -> tuple[bool, str]:
     return code == 0, out or "Typage pyright OK"
 
 
-def _check_radon_cc(_: argparse.Namespace) -> tuple[bool, str]:
+def _check_radon_cc(_: QualiteArgs) -> tuple[bool, str]:
     if not _module_available("radon"):
         return False, "radon non installe"
     code, out = _run(
@@ -204,7 +215,7 @@ def _check_radon_cc(_: argparse.Namespace) -> tuple[bool, str]:
     return code == 0, out or "Complexite cyclomatique acceptable"
 
 
-def _check_radon_mi(_: argparse.Namespace) -> tuple[bool, str]:
+def _check_radon_mi(_: QualiteArgs) -> tuple[bool, str]:
     if not _module_available("radon"):
         return False, "radon non installe"
     code, out = _run(
@@ -214,7 +225,7 @@ def _check_radon_mi(_: argparse.Namespace) -> tuple[bool, str]:
     return code == 0, out or "Indice de maintenabilite acceptable"
 
 
-def _check_interrogate(_: argparse.Namespace) -> tuple[bool, str]:
+def _check_interrogate(_: QualiteArgs) -> tuple[bool, str]:
     if not _module_available("interrogate"):
         return False, "interrogate non installe"
     code, out = _run(
@@ -231,7 +242,7 @@ def _check_interrogate(_: argparse.Namespace) -> tuple[bool, str]:
     return code == 0, out or "Couverture docstrings OK"
 
 
-def _check_pytest(args: argparse.Namespace) -> tuple[bool, str]:
+def _check_pytest(args: QualiteArgs) -> tuple[bool, str]:
     if not _module_available("pytest"):
         return False, "pytest non installe"
     tests_dir = ROOT / "tests"
@@ -257,7 +268,7 @@ def _check_pytest(args: argparse.Namespace) -> tuple[bool, str]:
     return code == 0, out or "Tests OK"
 
 
-def _check_pip_audit(_: argparse.Namespace) -> tuple[bool, str]:
+def _check_pip_audit(_: QualiteArgs) -> tuple[bool, str]:
     if not _module_available("pip_audit"):
         return False, "pip-audit non installe"
     req_files = [
@@ -285,7 +296,7 @@ def _check_pip_audit(_: argparse.Namespace) -> tuple[bool, str]:
     return ok, "\n".join(messages)
 
 
-def _check_deptry(_: argparse.Namespace) -> tuple[bool, str]:
+def _check_deptry(_: QualiteArgs) -> tuple[bool, str]:
     if not _module_available("deptry"):
         return False, "deptry non installe"
     code, out = _run(
@@ -307,7 +318,7 @@ def _check_deptry(_: argparse.Namespace) -> tuple[bool, str]:
     return code == 0, out or "Dependances coherentes"
 
 
-def _check_requirements_pinned(_: argparse.Namespace) -> tuple[bool, str]:
+def _check_requirements_pinned(_: QualiteArgs) -> tuple[bool, str]:
     """Verifie que les requirements utilisent des bornes de version."""
     issues: list[str] = []
     for req_file in (
@@ -418,7 +429,7 @@ def _print_versions() -> None:
         print(f"  - {label:14} {_tool_version(mod)}", flush=True)
 
 
-def _select_checks(args: argparse.Namespace) -> list[Check]:
+def _select_checks(args: QualiteArgs) -> list[Check]:
     selected = list(CHECKS)
     if args.only:
         wanted = {x.strip() for x in args.only.split(",") if x.strip()}
@@ -432,7 +443,7 @@ def _select_checks(args: argparse.Namespace) -> list[Check]:
     return selected
 
 
-def _run_checks(args: argparse.Namespace) -> int:
+def _run_checks(args: QualiteArgs) -> int:
     selected = _select_checks(args)
     failures = 0
     warnings = 0
@@ -520,37 +531,37 @@ def _build_parser() -> argparse.ArgumentParser:
             """
         ).strip(),
     )
-    parser.add_argument(
+    _ = parser.add_argument(
         "--fix",
         action="store_true",
         help="Applique ruff format et ruff check --fix avant les autres controles",
     )
-    parser.add_argument(
+    _ = parser.add_argument(
         "--install",
         action="store_true",
         help="Installe requirements-dev.txt puis quitte",
     )
-    parser.add_argument(
+    _ = parser.add_argument(
         "--list",
         action="store_true",
         help="Affiche la liste des controles et quitte",
     )
-    parser.add_argument(
+    _ = parser.add_argument(
         "--only",
         metavar="IDS",
         help="Controles a lancer (virgules), ex. ruff,pytest,vulture",
     )
-    parser.add_argument(
+    _ = parser.add_argument(
         "--skip",
         metavar="IDS",
         help="Controles a ignorer, ex. radon-cc,interrogate",
     )
-    parser.add_argument(
+    _ = parser.add_argument(
         "--strict",
         action="store_true",
         help="Echoue aussi sur outils optionnels manquants et avertissements",
     )
-    parser.add_argument(
+    _ = parser.add_argument(
         "-v",
         "--verbose",
         action="store_true",
@@ -561,7 +572,7 @@ def _build_parser() -> argparse.ArgumentParser:
 
 def main() -> None:
     parser = _build_parser()
-    args = parser.parse_args()
+    args = parser.parse_args(namespace=QualiteArgs())
 
     if args.install:
         raise SystemExit(_install_dev_requirements())

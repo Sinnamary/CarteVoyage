@@ -11,6 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import openpyxl
 
+from outils.cli_args import SyncListesArgs
 from outils.excel_utils import (
     LISTES_COLUMN_LETTERS,
     backup_excel,
@@ -24,9 +25,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Met a jour les plages de validation des feuilles Jour depuis Listes."
     )
-    parser.add_argument("excel", nargs="?", default=str(default_excel_path()))
-    parser.add_argument("--dry-run", action="store_true", help="Afficher sans ecrire")
-    args = parser.parse_args()
+    _ = parser.add_argument("excel", nargs="?", default=str(default_excel_path()))
+    _ = parser.add_argument("--dry-run", action="store_true", help="Afficher sans ecrire")
+    args = parser.parse_args(namespace=SyncListesArgs())
 
     excel_path = Path(args.excel).resolve()
     if not excel_path.exists():

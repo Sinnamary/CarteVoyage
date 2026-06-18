@@ -8,9 +8,10 @@ import json
 import re
 import sys
 from collections import Counter, defaultdict
+from collections.abc import Iterable, Sequence
 from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
-from typing import Any
+from typing import cast
 from urllib.parse import quote
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -20,6 +21,20 @@ from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.worksheet import Worksheet
 
+from outils.app_types import (
+    ExcelCellValue,
+    LodgingVilleBucket,
+    OverviewCollectedData,
+    OverviewConfig,
+    OverviewDaySummary,
+    OverviewLodgingRow,
+    OverviewPhaseData,
+    OverviewRow,
+    OverviewTripStep,
+    OverviewVilleAccumulator,
+    OverviewVilleRow,
+)
+from outils.cli_args import BuildOverviewArgs
 from outils.excel_utils import (
     OVERVIEW_SHEET_LEGACY,
     ActivityRow,
@@ -121,7 +136,7 @@ def format_lodging_dates_label(start: date, end: date, nights: int) -> str:
     return label
 
 
-def row_entry(item: ActivityRow) -> dict[str, Any]:
+def row_entry(item: ActivityRow) -> OverviewRow:
     row = item["row"]
     ci = item["col_index"]
     nom = item["nom"]
@@ -179,11 +194,11 @@ def fill_from_hex(hex_color: str, *, light: bool = False) -> PatternFill:
 
 
 def nightly_lodging_by_jour(
-    rows: list[dict[str, Any]],
+    rows: list[OverviewRow],
     last_jour: int,
 ) -> dict[int, dict[str, str]]:
     """Nuit à : dernière ligne Hébergement du jour (ordre N° étape)."""
-    by_jour: dict[int, list[dict[str, Any]]] = defaultdict(list)
+    by_jour: dict[int, list[OverviewRow]] = defaultdict(list)
     for row in rows:
         if is_lodging_action(row["action"]):
             by_jour[row["jour"]].append(row)
@@ -210,11 +225,11 @@ def format_night_cell(entry: dict[str, str] | None) -> str:
     return nom or ville or "—"
 
 
-def format_day_villes(summary: dict[str, Any]) -> str:
+def format_day_villes(summary: OverviewDaySummary) -> str:
     return summary.get("lodging_villes_label") or "—"
 
 
-def day_theme_auto(day_rows: list[dict[str, Any]], summary: dict[str, Any]) -> str:
+def day_theme_auto(day_rows: Sequence[OverviewRow], summary: OverviewDaySummary) -> str:
     activities = [r for r in day_rows if not r["is_trajet_line"]]
     if not activities:
         ville = summary.get("ville") or ""
@@ -228,11 +243,11 @@ def day_theme_auto(day_rows: list[dict[str, Any]], summary: dict[str, Any]) -> s
     return summary.get("resume") or day_resume(day_rows, limit=2)
 
 
-def should_highlight_day(summary: dict[str, Any]) -> bool:
+def should_highlight_day(summary: OverviewDaySummary) -> bool:
     return summary.get("activities", 0) == 0
 
 
-def phase_jour_bounds(phase: dict[str, Any]) -> tuple[int, int] | None:
+def phase_jour_bounds(phase: OverviewPhaseData) -> tuple[int, int] | None:
     match = re.search(r"Jour\s+(\d+)[\u2013-](\d+)", normalize_text(phase.get("jours")))
     if not match:
         return None
@@ -240,20 +255,20 @@ def phase_jour_bounds(phase: dict[str, Any]) -> tuple[int, int] | None:
 
 
 def build_trip_steps(
-    phases: list[dict[str, Any]],
-    day_summaries: list[dict[str, Any]],
-) -> list[dict[str, Any]]:
+    phases: list[OverviewPhaseData],
+    day_summaries: list[OverviewDaySummary],
+) -> list[OverviewTripStep]:
     by_jour = {summary["jour"]: summary for summary in day_summaries}
-    steps: list[dict[str, Any]] = []
+    steps: list[OverviewTripStep] = []
     for phase in phases:
         bounds = phase_jour_bounds(phase)
         description = ""
         if bounds:
             from_jour, to_jour = bounds
             themes = [
-                normalize_text(by_jour[j]["theme"])
+                normalize_text(theme)
                 for j in range(from_jour, to_jour + 1)
-                if j in by_jour and normalize_text(by_jour[j]["theme"])
+                if j in by_jour and (theme := by_jour[j].get("theme")) and normalize_text(theme)
             ]
             if len(themes) == 1:
                 description = themes[0]
@@ -269,7 +284,7 @@ def build_trip_steps(
     return steps
 
 
-def fill_empty_day_villes(day_summaries: list[dict[str, Any]]) -> None:
+def fill_empty_day_villes(day_summaries: list[OverviewDaySummary]) -> None:
     last_ville = ""
     for summary in day_summaries:
         if summary["ville"]:
@@ -284,7 +299,7 @@ def fill_empty_day_villes(day_summaries: list[dict[str, Any]]) -> None:
             summary["ville"] = next_ville
 
 
-def max_planned_jour(wb: openpyxl.Workbook, by_jour: dict[int, list[dict[str, Any]]]) -> int:
+def max_planned_jour(wb: openpyxl.Workbook, by_jour: dict[int, list[OverviewRow]]) -> int:
     from_sheets = 0
     for sheet_name in day_sheets(wb):
         try:
@@ -316,16 +331,16 @@ def google_maps_url(
 
 
 def lodging_from_excel(
-    rows: list[dict[str, Any]],
+    rows: list[OverviewRow],
     start_date: date,
     last_jour: int,
-) -> dict[str, dict[str, Any]]:
-    by_jour: dict[int, list[dict[str, Any]]] = defaultdict(list)
+) -> dict[str, OverviewLodgingRow]:
+    by_jour: dict[int, list[OverviewRow]] = defaultdict(list)
     for row in rows:
         if is_lodging_action(row["action"]):
             by_jour[row["jour"]].append(row)
 
-    by_ville: dict[str, dict[str, Any]] = {}
+    by_ville: dict[str, LodgingVilleBucket] = {}
     for jour, stays in by_jour.items():
         stays.sort(key=lambda r: r["visite"])
         evening = lodging_evening_stay(stays, jour=jour, last_jour=last_jour)
@@ -340,16 +355,16 @@ def lodging_from_excel(
         )
         if evening["nom"]:
             entry["nom"] = evening["nom"]
-        if evening.get("lat") is not None and evening.get("lon") is not None:
+        if evening["lat"] is not None and evening["lon"] is not None:
             entry["lat"] = evening["lat"]
             entry["lon"] = evening["lon"]
-        if evening.get("lien"):
+        if evening["lien"]:
             entry["lien"] = evening["lien"]
-        elif evening.get("site") and not entry["lien"]:
+        elif evening["site"] and not entry["lien"]:
             entry["lien"] = evening["site"]
         entry["jours"].add(jour)
 
-    auto_rows: dict[str, dict[str, Any]] = {}
+    auto_rows: dict[str, OverviewLodgingRow] = {}
     for ville, entry in by_ville.items():
         jours = sorted(entry["jours"])
         start = date_for_jour(start_date, jours[0])
@@ -372,15 +387,15 @@ def lodging_from_excel(
 
 
 def build_lodging_rows(
-    rows: list[dict[str, Any]],
+    rows: list[OverviewRow],
     start_date: date,
     last_jour: int,
-) -> list[dict[str, Any]]:
+) -> list[OverviewLodgingRow]:
     auto_by_ville = lodging_from_excel(rows, start_date, last_jour)
     return sorted(auto_by_ville.values(), key=lambda row: row["start"])
 
 
-def resolve_banner_title(config: dict[str, Any], start_date: date) -> str:
+def resolve_banner_title(config: OverviewConfig, start_date: date) -> str:
     custom = normalize_text(config.get("banner_title"))
     if custom:
         return custom
@@ -390,20 +405,20 @@ def resolve_banner_title(config: dict[str, Any], start_date: date) -> str:
     return "Vue d'ensemble"
 
 
-def primary_ville(rows: list[dict[str, Any]]) -> str:
+def primary_ville(rows: Sequence[OverviewRow]) -> str:
     counts: Counter[str] = Counter()
     first_order: dict[str, int] = {}
     for row in rows:
         if row["is_trajet_line"] or not row["ville"]:
             continue
         counts[row["ville"]] += 1
-        first_order.setdefault(row["ville"], row["visite"])
+        _ = first_order.setdefault(row["ville"], row["visite"])
     if not counts:
         return ""
     return max(counts.keys(), key=lambda v: (counts[v], -first_order[v]))
 
 
-def villes_for_day(rows: list[dict[str, Any]]) -> list[str]:
+def villes_for_day(rows: Sequence[OverviewRow]) -> list[str]:
     seen: list[str] = []
     for row in sorted(rows, key=lambda r: r["visite"]):
         ville = row["ville"]
@@ -413,7 +428,7 @@ def villes_for_day(rows: list[dict[str, Any]]) -> list[str]:
     return seen
 
 
-def day_resume(rows: list[dict[str, Any]], limit: int = 3) -> str:
+def day_resume(rows: Sequence[OverviewRow], limit: int = 3) -> str:
     visites = [
         row["nom"]
         for row in sorted(rows, key=lambda r: r["visite"])
@@ -429,8 +444,8 @@ def day_resume(rows: list[dict[str, Any]], limit: int = 3) -> str:
     return ", ".join(f"{n} {label.lower()}" for label, n in actions.most_common(3))
 
 
-def build_phases_auto(day_summaries: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    phases: list[dict[str, Any]] = []
+def build_phases_auto(day_summaries: list[OverviewDaySummary]) -> list[OverviewPhaseData]:
+    phases: list[OverviewPhaseData] = []
     if not day_summaries:
         return phases
 
@@ -467,22 +482,26 @@ def build_phases_auto(day_summaries: list[dict[str, Any]]) -> list[dict[str, Any
     return phases
 
 
+def _empty_ville_accumulator() -> OverviewVilleAccumulator:
+    return {"activities": 0, "visites": 0, "prix": 0.0, "jours": set()}
+
+
 def collect_overview_data(
     wb: openpyxl.Workbook,
-    config: dict[str, Any],
-) -> dict[str, Any]:
+    config: OverviewConfig,
+) -> OverviewCollectedData:
     start_date = parse_start_date(config["start_date"])
     resume_limit = int(config.get("day_resume_limit") or 3)
 
     rows = [row_entry(item) for item in iter_activity_rows(wb)]
-    by_jour: dict[int, list[dict[str, Any]]] = defaultdict(list)
+    by_jour: dict[int, list[OverviewRow]] = defaultdict(list)
     for row in rows:
         by_jour[row["jour"]].append(row)
 
     planned_last_jour = max_planned_jour(wb, by_jour)
     domicile = normalize_text(config.get("domicile"))
 
-    day_summaries: list[dict[str, Any]] = []
+    day_summaries: list[OverviewDaySummary] = []
     route_cities: list[str] = []
 
     for jour in range(1, planned_last_jour + 1):
@@ -496,8 +515,8 @@ def collect_overview_data(
         activities = [r for r in day_rows if not r["is_trajet_line"]]
         visites = [r for r in activities if r["action"].lower() == "visite"]
         prix_rows = [r for r in day_rows if r["prix"] is not None]
-        prix_total = sum(r["prix"] for r in prix_rows)
-        summary = {
+        prix_total = sum(r["prix"] for r in prix_rows if r["prix"] is not None)
+        summary: OverviewDaySummary = {
             "jour": jour,
             "date": date_for_jour(start_date, jour),
             "ville": main_ville,
@@ -526,9 +545,7 @@ def collect_overview_data(
     jours = [summary["jour"] for summary in day_summaries]
     phases = build_phases_auto(day_summaries)
 
-    by_ville: dict[str, dict[str, Any]] = defaultdict(
-        lambda: {"activities": 0, "visites": 0, "prix": 0.0, "jours": set()}
-    )
+    by_ville: dict[str, OverviewVilleAccumulator] = defaultdict(_empty_ville_accumulator)
     for row in rows:
         if row["is_trajet_line"] or not row["ville"]:
             continue
@@ -540,7 +557,7 @@ def collect_overview_data(
         if row["prix"] is not None:
             entry["prix"] += row["prix"]
 
-    ville_rows = []
+    ville_rows: list[OverviewVilleRow] = []
     for ville in sorted(by_ville, key=lambda v: min(by_ville[v]["jours"])):
         entry = by_ville[ville]
         ville_rows.append(
@@ -586,13 +603,13 @@ def collect_overview_data(
     }
 
 
-def json_default(value: Any) -> Any:
+def json_default(value: object) -> object:
     if isinstance(value, date):
         return value.isoformat()
     raise TypeError(f"Type non serialisable: {type(value)!r}")
 
 
-def write_overview_snapshot(data: dict[str, Any], config: dict[str, Any]) -> Path:
+def write_overview_snapshot(data: OverviewCollectedData, config: OverviewConfig) -> Path:
     snapshot = {
         "generated_at": data["generated_at"],
         "config": {
@@ -615,7 +632,7 @@ def write_overview_snapshot(data: dict[str, Any], config: dict[str, Any]) -> Pat
         "by_ville": data["ville_rows"],
     }
     path = data_dir() / "overview.json"
-    path.write_text(
+    _ = path.write_text(
         json.dumps(snapshot, ensure_ascii=False, indent=2, default=json_default),
         encoding="utf-8",
     )
@@ -626,7 +643,7 @@ def set_cell(
     ws: Worksheet,
     row: int,
     col: int,
-    value: Any,
+    value: ExcelCellValue,
     *,
     font: Font | None = None,
     fill: PatternFill | None = None,
@@ -697,7 +714,7 @@ def apply_fixed_column_widths(ws: Worksheet) -> None:
 
 
 def clear_sheet(ws: Worksheet) -> None:
-    for merged in list(ws.merged_cells.ranges):
+    for merged in list(cast(Iterable[object], ws.merged_cells.ranges)):
         ws.unmerge_cells(str(merged))
     if ws.max_row:
         ws.delete_rows(1, ws.max_row)
@@ -718,13 +735,13 @@ def ensure_overview_sheet(wb: openpyxl.Workbook, sheet_name: str) -> Worksheet:
             ws.title = sheet_name
             return ws
 
-    return wb.create_sheet(sheet_name, 0)
+    return cast(Worksheet, wb.create_sheet(sheet_name, 0))
 
 
 def write_day_row(
     ws: Worksheet,
     row: int,
-    summary: dict[str, Any],
+    summary: OverviewDaySummary,
 ) -> None:
     ws.row_dimensions[row].height = DATA_ROW_HEIGHT
     jour = summary["jour"]
@@ -733,7 +750,7 @@ def write_day_row(
     jour_fill = fill_from_hex(day_color)
     night_text = format_night_cell(summary.get("nuit"))
 
-    values = [
+    values: list[ExcelCellValue] = [
         jour,
         format_date_fr(summary["date"]),
         format_day_villes(summary),
@@ -794,7 +811,11 @@ def write_section_title(ws: Worksheet, row: int, title: str) -> None:
     ws.row_dimensions[row].height = 22
 
 
-def write_lodging_table(ws: Worksheet, start_row: int, lodging_rows: list[dict[str, Any]]) -> int:
+def write_lodging_table(
+    ws: Worksheet,
+    start_row: int,
+    lodging_rows: list[OverviewLodgingRow],
+) -> int:
     row = start_row
     ws.row_dimensions[row].height = 24
     lodging_headers = [
@@ -886,7 +907,7 @@ def write_lodging_table(ws: Worksheet, start_row: int, lodging_rows: list[dict[s
     return row
 
 
-def write_totals_row(ws: Worksheet, row: int, data: dict[str, Any]) -> None:
+def write_totals_row(ws: Worksheet, row: int, data: OverviewCollectedData) -> None:
     ws.row_dimensions[row].height = 22
     label = (
         f"{data['jours_count']} jour(s) · "
@@ -924,7 +945,7 @@ def write_auto_generated_notice(ws: Worksheet, row: int) -> int:
     return row + 1
 
 
-def render_overview_sheet(ws: Worksheet, data: dict[str, Any]) -> None:
+def render_overview_sheet(ws: Worksheet, data: OverviewCollectedData) -> None:
     clear_sheet(ws)
     row = 1
 
@@ -979,7 +1000,7 @@ def render_overview_sheet(ws: Worksheet, data: dict[str, Any]) -> None:
     apply_fixed_column_widths(ws)
 
 
-def write_snapshot_from_excel(excel_path: Path, config: dict[str, Any]) -> Path | None:
+def write_snapshot_from_excel(excel_path: Path, config: OverviewConfig) -> Path | None:
     """Ecrit data/overview.json sans modifier la feuille Excel."""
     if not config.get("write_snapshot", True):
         return None
@@ -990,7 +1011,7 @@ def write_snapshot_from_excel(excel_path: Path, config: dict[str, Any]) -> Path 
 
 def run_build(
     excel_path: Path,
-    config: dict[str, Any],
+    config: OverviewConfig,
     *,
     config_path: Path | None = None,
     dry_run: bool = False,
@@ -1043,24 +1064,28 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Regenere la feuille Vue d'ensemble depuis les feuilles Jour N."
     )
-    parser.add_argument("excel", nargs="?", default=str(default_excel_path()))
-    parser.add_argument(
+    _ = parser.add_argument("excel", nargs="?", default=str(default_excel_path()))
+    _ = parser.add_argument(
         "--config",
         default=str(default_overview_config_path()),
         help="Fichier JSON de configuration (defaut: data/overview_config.json).",
     )
-    parser.add_argument(
+    _ = parser.add_argument(
         "--start-date",
         default=None,
         help="Surcharge la date du jour 1 (AAAA-MM-JJ).",
     )
-    parser.add_argument("--dry-run", action="store_true", help="Afficher sans ecrire dans Excel")
-    parser.add_argument(
+    _ = parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Afficher sans ecrire dans Excel",
+    )
+    _ = parser.add_argument(
         "--snapshot-only",
         action="store_true",
         help="Ecrire uniquement data/overview.json (sans modifier Excel).",
     )
-    args = parser.parse_args()
+    args = parser.parse_args(namespace=BuildOverviewArgs())
 
     excel_path = Path(args.excel).resolve()
     if not excel_path.exists():
@@ -1072,7 +1097,7 @@ def main() -> None:
             config_path,
             start_date=args.start_date,
         )
-        parse_start_date(config["start_date"])
+        _ = parse_start_date(config["start_date"])
     except (ValueError, json.JSONDecodeError) as exc:
         raise SystemExit(str(exc)) from exc
 

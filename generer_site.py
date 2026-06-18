@@ -10,6 +10,7 @@ from pathlib import Path
 SCRIPTS = Path(__file__).resolve().parent / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
+from outils.cli_args import GenererSiteArgs
 from pipeline_common import ROOT, resolve_workbook_paths, run_step, source_excel_args
 
 BYPASS_EPILOG = """
@@ -21,6 +22,7 @@ Contournements ponctuels (le comportement par defaut suit le workflow) :
 
 
 def main() -> None:
+    """Point d'entree CLI : enchaine geocodage, stats, carte et controle."""
     parser = argparse.ArgumentParser(
         description=(
             "Phase 2 du workflow : genere web/ (carte, stats, controle) "
@@ -31,22 +33,22 @@ def main() -> None:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=BYPASS_EPILOG,
     )
-    parser.add_argument(
+    _ = parser.add_argument(
         "excel",
         nargs="?",
         help=argparse.SUPPRESS,
     )
-    parser.add_argument(
+    _ = parser.add_argument(
         "--drive-pull",
         action="store_true",
         help=argparse.SUPPRESS,
     )
-    parser.add_argument(
+    _ = parser.add_argument(
         "--no-osrm",
         action="store_true",
         help=argparse.SUPPRESS,
     )
-    args = parser.parse_args()
+    args = parser.parse_args(namespace=GenererSiteArgs())
 
     local_excel, drive_path, _ = resolve_workbook_paths(args.excel)
 

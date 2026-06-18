@@ -10,9 +10,10 @@ import math
 import sys
 import time
 from collections import Counter, defaultdict
+from collections.abc import Sequence
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, cast
+from typing import cast
 
 if hasattr(sys.stdout, "reconfigure"):
     cast(io.TextIOWrapper, sys.stdout).reconfigure(encoding="utf-8", errors="replace")
@@ -22,6 +23,16 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import openpyxl
 import requests
 
+from outils.app_types import (
+    DayStatsAccumulator,
+    OsrmRoute,
+    ResolvedRoute,
+    RouteCacheEntry,
+    StatsPayload,
+    StatsRow,
+    TravelSegment,
+)
+from outils.cli_args import BuildStatsArgs
 from outils.excel_utils import (
     ActivityRow,
     cell_value,
@@ -86,7 +97,7 @@ def is_transport(action: str) -> bool:
     return normalize_text(action).lower() == "transport"
 
 
-def row_entry(item: ActivityRow) -> dict[str, Any]:
+def row_entry(item: ActivityRow) -> StatsRow:
     row = item["row"]
     ci = item["col_index"]
     pt = row_to_point(item)
@@ -112,7 +123,14 @@ def row_entry(item: ActivityRow) -> dict[str, Any]:
     }
 
 
-def segment_travel_mode(from_r: dict[str, Any], to_r: dict[str, Any]) -> str:
+def _row_coords(row: StatsRow) -> tuple[float, float]:
+    lat, lon = row["lat"], row["lon"]
+    if lat is None or lon is None:
+        raise ValueError("coordonnees requises")
+    return lat, lon
+
+
+def segment_travel_mode(from_r: StatsRow, to_r: StatsRow) -> str:
     if is_transport(from_r["action"]) or is_transport(to_r["action"]):
         return "car"
     ville_from = from_r["ville"].strip().lower()
@@ -120,20 +138,24 @@ def segment_travel_mode(from_r: dict[str, Any], to_r: dict[str, Any]) -> str:
     if ville_from and ville_to and ville_from != ville_to:
         return "car"
     if from_r["has_coords"] and to_r["has_coords"]:
-        dist = haversine_m(from_r["lat"], from_r["lon"], to_r["lat"], to_r["lon"])
+        lat1, lon1 = _row_coords(from_r)
+        lat2, lon2 = _row_coords(to_r)
+        dist = haversine_m(lat1, lon1, lat2, lon2)
         if dist > WALKING_MAX_AIR_DISTANCE_M:
             return "car"
     return "foot"
 
 
-def load_route_cache(path: Path) -> dict[str, Any]:
+def load_route_cache(path: Path) -> dict[str, RouteCacheEntry]:
     if path.exists():
-        return json.loads(path.read_text(encoding="utf-8"))
+        raw = cast(object, json.loads(path.read_text(encoding="utf-8")))
+        if isinstance(raw, dict):
+            return cast(dict[str, RouteCacheEntry], raw)
     return {}
 
 
-def save_route_cache(path: Path, cache: dict[str, Any]) -> None:
-    path.write_text(json.dumps(cache, ensure_ascii=False, indent=2), encoding="utf-8")
+def save_route_cache(path: Path, cache: dict[str, RouteCacheEntry]) -> None:
+    _ = path.write_text(json.dumps(cache, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
 def route_cache_key(mode: str, lat1: float, lon1: float, lat2: float, lon2: float) -> str:
@@ -142,7 +164,7 @@ def route_cache_key(mode: str, lat1: float, lon1: float, lat2: float, lon2: floa
 
 def fetch_osrm_route(
     lat1: float, lon1: float, lat2: float, lon2: float, mode: str
-) -> dict[str, Any] | None:
+) -> OsrmRoute | None:
     servers = OSRM_SERVERS.get(mode, OSRM_SERVERS["foot"])
     for base in servers:
         url = f"{base}/{lon1},{lat1};{lon2},{lat2}?overview=false&geometries=geojson"
@@ -150,36 +172,44 @@ def fetch_osrm_route(
             response = requests.get(url, timeout=30)
             if not response.ok:
                 continue
-            payload = response.json()
-            if payload.get("code") != "Ok" or not payload.get("routes"):
+            payload = cast(object, response.json())
+            if not isinstance(payload, dict):
                 continue
-            route = payload["routes"][0]
-            return {
-                "distance_m": round(route["distance"]),
-                "duration_s": round(route["duration"]),
-                "source": "osrm",
-            }
+            routes = payload.get("routes")
+            if payload.get("code") != "Ok" or not isinstance(routes, list) or not routes:
+                continue
+            route = routes[0]
+            if not isinstance(route, dict):
+                continue
+            distance = route.get("distance")
+            duration = route.get("duration")
+            if isinstance(distance, (int, float)) and isinstance(duration, (int, float)):
+                return {
+                    "distance_m": round(distance),
+                    "duration_s": round(duration),
+                    "source": "osrm",
+                }
         except requests.RequestException:
             continue
     return None
 
 
 def resolve_route(
-    from_r: dict[str, Any],
-    to_r: dict[str, Any],
+    from_r: StatsRow,
+    to_r: StatsRow,
     mode: str,
-    cache: dict[str, Any],
+    cache: dict[str, RouteCacheEntry],
     use_osrm: bool,
-) -> dict[str, Any]:
-    air_m = haversine_m(from_r["lat"], from_r["lon"], to_r["lat"], to_r["lon"])
-    key = route_cache_key(mode, from_r["lat"], from_r["lon"], to_r["lat"], to_r["lon"])
+) -> ResolvedRoute:
+    lat1, lon1 = _row_coords(from_r)
+    lat2, lon2 = _row_coords(to_r)
+    air_m = haversine_m(lat1, lon1, lat2, lon2)
+    key = route_cache_key(mode, lat1, lon1, lat2, lon2)
 
     if key in cache:
-        result = dict(cache[key])
-        result["cached"] = True
-        return result
+        return {**cache[key], "cached": True}
 
-    result: dict[str, Any] = {
+    result: ResolvedRoute = {
         "distance_m": round(air_m),
         "duration_s": None,
         "source": "air",
@@ -187,10 +217,9 @@ def resolve_route(
     }
 
     if use_osrm:
-        osrm = fetch_osrm_route(from_r["lat"], from_r["lon"], to_r["lat"], to_r["lon"], mode)
+        osrm = fetch_osrm_route(lat1, lon1, lat2, lon2, mode)
         if osrm:
-            result = osrm
-            result["cached"] = False
+            result = {**osrm, "cached": False}
         time.sleep(ROUTE_DELAY_S)
 
     if mode == "car" and result["duration_s"] is None:
@@ -207,22 +236,22 @@ def resolve_route(
 
 
 def build_segments(
-    rows: list[dict[str, Any]],
-    cache: dict[str, Any],
+    rows: Sequence[StatsRow],
+    cache: dict[str, RouteCacheEntry],
     use_osrm: bool,
-) -> list[dict[str, Any]]:
-    by_day: dict[int, list[dict[str, Any]]] = defaultdict(list)
+) -> list[TravelSegment]:
+    by_day: dict[int, list[StatsRow]] = defaultdict(list)
     for row in rows:
         by_day[row["jour"]].append(row)
     for day_rows in by_day.values():
         day_rows.sort(key=lambda x: x["visite"])
 
-    segments: list[dict[str, Any]] = []
+    segments: list[TravelSegment] = []
     for jour, day_rows in sorted(by_day.items()):
         for i in range(len(day_rows) - 1):
             from_r, to_r = day_rows[i], day_rows[i + 1]
             mode = segment_travel_mode(from_r, to_r)
-            seg: dict[str, Any] = {
+            seg: TravelSegment = {
                 "jour": jour,
                 "from_ordre": from_r["ordre"],
                 "to_ordre": to_r["ordre"],
@@ -238,9 +267,9 @@ def build_segments(
                 seg["distance_m"] = route["distance_m"]
                 seg["duration_s"] = route["duration_s"]
                 seg["source"] = route["source"]
-                seg["air_m"] = round(
-                    haversine_m(from_r["lat"], from_r["lon"], to_r["lat"], to_r["lon"])
-                )
+                lat1, lon1 = _row_coords(from_r)
+                lat2, lon2 = _row_coords(to_r)
+                seg["air_m"] = round(haversine_m(lat1, lon1, lat2, lon2))
             segments.append(seg)
     return segments
 
@@ -277,7 +306,7 @@ def format_euro(amount: float | None) -> str:
     return f"{text} €"
 
 
-def escape_html(text: Any) -> str:
+def escape_html(text: object) -> str:
     if text is None:
         return ""
     s = str(text)
@@ -297,7 +326,7 @@ def render_stat_cards(cards: list[tuple[str, str, str]]) -> str:
     return f'<section class="stats-cards">{"".join(items)}</section>'
 
 
-def render_table(headers: list[str], rows: list[list[Any]]) -> str:
+def render_table(headers: list[str], rows: Sequence[Sequence[object]]) -> str:
     head = "".join(f"<th>{escape_html(h)}</th>" for h in headers)
     body_rows = []
     for row in rows:
@@ -334,7 +363,20 @@ def render_section(title: str, body: str) -> str:
     return f'<section class="stats-section"><h2>{escape_html(title)}</h2>{body}</section>'
 
 
-def build_statistics(wb: openpyxl.Workbook, use_osrm: bool) -> dict[str, Any]:
+def _empty_day_stats() -> DayStatsAccumulator:
+    return {
+        "activities": 0,
+        "geocoded": 0,
+        "foot_m": 0,
+        "car_m": 0,
+        "foot_min": 0,
+        "car_min": 0,
+        "prix": 0.0,
+        "prix_count": 0,
+    }
+
+
+def build_statistics(wb: openpyxl.Workbook, use_osrm: bool) -> StatsPayload:
     rows = [row_entry(item) for item in iter_activity_rows(wb)]
     cache_path = data_dir() / "route_stats_cache.json"
     cache = load_route_cache(cache_path)
@@ -352,23 +394,12 @@ def build_statistics(wb: openpyxl.Workbook, use_osrm: bool) -> dict[str, Any]:
     car_mode_count = sum(1 for s in segments if s["mode"] == "car")
     non_calc_count = len(segments) - len(calc_segments)
 
-    foot_distance = sum(s["distance_m"] for s in foot_segments)
-    car_distance = sum(s["distance_m"] for s in car_segments)
+    foot_distance = sum(s["distance_m"] for s in foot_segments if "distance_m" in s)
+    car_distance = sum(s["distance_m"] for s in car_segments if "distance_m" in s)
     foot_duration = sum(s.get("duration_s") or 0 for s in foot_segments)
     car_duration = sum(s.get("duration_s") or 0 for s in car_segments)
 
-    by_day: dict[int, dict[str, Any]] = defaultdict(
-        lambda: {
-            "activities": 0,
-            "geocoded": 0,
-            "foot_m": 0,
-            "car_m": 0,
-            "foot_min": 0,
-            "car_min": 0,
-            "prix": 0.0,
-            "prix_count": 0,
-        }
-    )
+    by_day: dict[int, DayStatsAccumulator] = defaultdict(_empty_day_stats)
     for row in rows:
         d = by_day[row["jour"]]
         d["activities"] += 1
@@ -380,43 +411,54 @@ def build_statistics(wb: openpyxl.Workbook, use_osrm: bool) -> dict[str, Any]:
 
     for seg in calc_segments:
         d = by_day[seg["jour"]]
+        seg_distance = seg.get("distance_m", 0)
+        duration_s = seg.get("duration_s") or 0
         if seg["mode"] == "foot":
-            d["foot_m"] += seg["distance_m"]
-            d["foot_min"] += (seg.get("duration_s") or 0) / 60
+            d["foot_m"] += seg_distance
+            d["foot_min"] += duration_s / 60
         else:
-            d["car_m"] += seg["distance_m"]
-            d["car_min"] += (seg.get("duration_s") or 0) / 60
+            d["car_m"] += seg_distance
+            d["car_min"] += duration_s / 60
 
     by_ville_activities: Counter[str] = Counter()
-    by_ville_foot: defaultdict[str, int] = defaultdict(int)
-    by_ville_car: defaultdict[str, int] = defaultdict(int)
+    by_ville_foot: defaultdict[str, int | float] = defaultdict(int)
+    by_ville_car: defaultdict[str, int | float] = defaultdict(int)
     for row in rows:
         ville = row["ville"] or "Non renseignee"
         if not row["is_trajet_line"]:
             by_ville_activities[ville] += 1
     for seg in calc_segments:
         ville = seg["from_ville"] or seg["to_ville"] or "Non renseignee"
+        seg_distance = seg.get("distance_m", 0)
         if seg["mode"] == "foot":
-            by_ville_foot[ville] += seg["distance_m"]
+            by_ville_foot[ville] += seg_distance
         else:
-            by_ville_car[ville] += seg["distance_m"]
+            by_ville_car[ville] += seg_distance
 
     by_action: Counter[str] = Counter(r["action"] or "Non renseignee" for r in rows)
     by_type: Counter[str] = Counter(r["type"] or "Non renseignee" for r in rows)
     by_billet: Counter[str] = Counter(r["billet"] or "Non renseignee" for r in rows)
 
     prix_rows = [r for r in rows if r["prix"] is not None]
-    prix_total = sum(r["prix"] for r in prix_rows)
+    prix_total = sum(r["prix"] for r in prix_rows if r["prix"] is not None)
     prix_visites = [
         r for r in prix_rows if r["action"].lower() in {"visite", "croisière", "croisiere"}
     ]
-    prix_visites_total = sum(r["prix"] for r in prix_visites)
+    prix_visites_total = sum(r["prix"] for r in prix_visites if r["prix"] is not None)
 
     villes = sorted({r["ville"] for r in rows if r["ville"] and not r["is_trajet_line"]})
     jours = sorted({r["jour"] for r in rows})
 
-    longest_foot = max(foot_segments, key=lambda s: s["distance_m"], default=None)
-    longest_car = max(car_segments, key=lambda s: s["distance_m"], default=None)
+    longest_foot = max(
+        foot_segments,
+        key=lambda s: s.get("distance_m", 0),
+        default=None,
+    )
+    longest_car = max(
+        car_segments,
+        key=lambda s: s.get("distance_m", 0),
+        default=None,
+    )
     most_walked_day = max(
         jours,
         key=lambda j: by_day[j]["foot_m"],
@@ -503,7 +545,7 @@ def build_statistics(wb: openpyxl.Workbook, use_osrm: bool) -> dict[str, Any]:
                 {
                     "jour": longest_foot["jour"],
                     "label": f"{longest_foot['from_ordre']} -> {longest_foot['to_ordre']}",
-                    "distance_m": longest_foot["distance_m"],
+                    "distance_m": longest_foot.get("distance_m", 0),
                     "from_nom": longest_foot["from_nom"],
                     "to_nom": longest_foot["to_nom"],
                 }
@@ -514,7 +556,7 @@ def build_statistics(wb: openpyxl.Workbook, use_osrm: bool) -> dict[str, Any]:
                 {
                     "jour": longest_car["jour"],
                     "label": f"{longest_car['from_ordre']} -> {longest_car['to_ordre']}",
-                    "distance_m": longest_car["distance_m"],
+                    "distance_m": longest_car.get("distance_m", 0),
                     "from_nom": longest_car["from_nom"],
                     "to_nom": longest_car["to_nom"],
                 }
@@ -536,7 +578,7 @@ def build_statistics(wb: openpyxl.Workbook, use_osrm: bool) -> dict[str, Any]:
     }
 
 
-def render_html(stats: dict[str, Any]) -> str:
+def render_html(stats: StatsPayload) -> str:
     s = stats["summary"]
     d = stats["distances"]
     b = stats["budget"]
@@ -656,7 +698,7 @@ def render_html(stats: dict[str, Any]) -> str:
                 f"J{seg['jour']}",
                 f"{seg['from_ordre']}->{seg['to_ordre']}",
                 "À pied" if seg["mode"] == "foot" else "Voiture",
-                format_distance(seg["distance_m"]),
+                format_distance(seg.get("distance_m")),
                 format_duration(seg.get("duration_s")),
                 seg.get("source", "—"),
             ]
@@ -756,10 +798,10 @@ def run_build(excel_path: Path, use_osrm: bool = True) -> None:
     stats = build_statistics(wb, use_osrm=use_osrm)
 
     json_path = data_dir() / "stats.json"
-    json_path.write_text(json.dumps(stats, ensure_ascii=False, indent=2), encoding="utf-8")
+    _ = json_path.write_text(json.dumps(stats, ensure_ascii=False, indent=2), encoding="utf-8")
 
     html_path = web_dir() / "stats.html"
-    html_path.write_text(render_html(stats), encoding="utf-8")
+    _ = html_path.write_text(render_html(stats), encoding="utf-8")
 
     d = stats["distances"]
     s = stats["summary"]
@@ -773,13 +815,13 @@ def run_build(excel_path: Path, use_osrm: bool = True) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Genere la page de statistiques du voyage.")
-    parser.add_argument("excel", nargs="?", default=str(default_excel_path()))
-    parser.add_argument(
+    _ = parser.add_argument("excel", nargs="?", default=str(default_excel_path()))
+    _ = parser.add_argument(
         "--no-osrm",
         action="store_true",
         help="N'appelle pas OSRM (distances a vol d'oiseau uniquement).",
     )
-    args = parser.parse_args()
+    args = parser.parse_args(namespace=BuildStatsArgs())
 
     excel_path = Path(args.excel).resolve()
     if not excel_path.exists():
