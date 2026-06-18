@@ -285,6 +285,45 @@ summary:focus-visible {
 
 /* --- Trajets --- */
 
+.route-mode-toggle {
+  display: flex;
+  margin: 0.5rem 0 0.35rem;
+  border: 1px solid #c5d0db;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.route-mode-btn {
+  flex: 1;
+  padding: 0.45rem 0.5rem;
+  border: none;
+  background: transparent;
+  color: #3d4f5f;
+  cursor: pointer;
+  font-size: 0.82rem;
+  line-height: 1.2;
+}
+
+.route-mode-btn + .route-mode-btn {
+  border-left: 1px solid #c5d0db;
+}
+
+.route-mode-btn.is-active {
+  background: #1f6fa8;
+  color: #fff;
+  font-weight: 600;
+}
+
+.route-mode-btn:hover:not(.is-active) {
+  background: #f4f6f8;
+}
+
+.route-mode-hint {
+  margin-top: 0;
+  margin-bottom: 0.35rem;
+}
+
 .trajets-actions {
   display: flex;
   gap: 0.5rem;

@@ -476,6 +476,7 @@
     jours: new Set(allJours),
     segments: new Set(),
     excludeCarRoutes: true,
+    routeCalculation: "osm",
   };
 
   function isCarSegment(segment) {
@@ -500,6 +501,9 @@
     }
     if (!filterState.excludeCarRoutes) {
       parts.push("c=0");
+    }
+    if (filterState.routeCalculation === "air") {
+      parts.push("r=air");
     }
     const hash = parts.length ? "#" + parts.join("&") : "";
     if (window.history.replaceState) {
@@ -528,6 +532,8 @@
         });
       } else if (key === "c" && value === "0") {
         filterState.excludeCarRoutes = false;
+      } else if (key === "r" && value === "air") {
+        filterState.routeCalculation = "air";
       }
     });
   }
@@ -625,7 +631,7 @@
   }
 
   function routeCacheKey(from, to, mode) {
-    return mode + ":" + from.id + "->" + to.id;
+    return filterState.routeCalculation + ":" + mode + ":" + from.id + "->" + to.id;
   }
 
   function sleep(ms) {
@@ -659,6 +665,19 @@
     return 6371000 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   }
 
+  function buildAirRoute(from, to, mode) {
+    const airDist = airDistanceMeters(from, to);
+    return {
+      latlngs: straightLine(from, to),
+      fallback: false,
+      airMode: true,
+      distance: airDist,
+      duration: mode === "car" ? Math.round(airDist / 22) : Math.round(airDist / 1.4),
+      mode: mode,
+      source: "vol d'oiseau",
+    };
+  }
+
   async function fetchRouteFromServer(baseUrl, from, to, mode) {
     const url = baseUrl + "/" + from.lon + "," + from.lat + ";" + to.lon + "," + to.lat
       + "?overview=full&geometries=geojson";
@@ -689,6 +708,12 @@
     const cacheKey = routeCacheKey(from, to, mode);
     if (routeCache.has(cacheKey)) {
       return routeCache.get(cacheKey);
+    }
+
+    if (filterState.routeCalculation === "air") {
+      const route = buildAirRoute(from, to, mode);
+      routeCache.set(cacheKey, route);
+      return route;
     }
 
     const airDist = airDistanceMeters(from, to);
@@ -766,7 +791,11 @@
     if (!el) return;
     const route = routeCache.get(routeCacheKey(segment.from, segment.to, segment.mode));
     if (!route) return;
-    if (route.fallback) {
+    if (route.airMode) {
+      const parts = ["≈ " + formatDistance(route.distance), "vol d'oiseau"];
+      if (route.duration != null) parts.splice(1, 0, formatDuration(route.duration));
+      el.textContent = parts.join(" · ");
+    } else if (route.fallback) {
       el.textContent = "≈ " + formatDistance(route.distance) + " (ligne droite)";
     } else {
       const parts = [formatDistance(route.distance)];
@@ -872,11 +901,13 @@
       if (route.fallback) fallbackCount += 1;
 
       const isCar = segment.mode === "car";
+      const isAir = !!route.airMode;
+      const isApprox = route.fallback || isAir;
       const polyline = L.polyline(route.latlngs, {
         color: segment.routeColor,
-        weight: route.fallback ? 3 : (isCar ? 4 : 5),
-        opacity: route.fallback ? 0.5 : 0.85,
-        dashArray: route.fallback ? "8 8" : (isCar ? "10 6" : null),
+        weight: isApprox ? 3 : (isCar ? 4 : 5),
+        opacity: isApprox ? 0.55 : 0.85,
+        dashArray: isApprox ? "8 8" : (isCar ? "10 6" : null),
         lineJoin: "round",
         lineCap: "round",
       });
@@ -884,9 +915,11 @@
       const distanceText = formatDistance(route.distance);
       const durationText = formatDuration(route.duration);
       const modeText = travelModeLabel(segment.mode);
-      const metaParts = [route.fallback
-        ? "Trajet approximatif (ligne droite, " + modeText + ")"
-        : "Trajet " + modeText + " (" + route.source + ")"];
+      const metaParts = [isAir
+        ? "Trajet " + modeText + " (vol d'oiseau)"
+        : route.fallback
+          ? "Trajet approximatif (ligne droite, " + modeText + ")"
+          : "Trajet " + modeText + " (" + route.source + ")"];
       if (distanceText) metaParts.push(distanceText);
       if (durationText) metaParts.push(durationText);
 
@@ -922,6 +955,9 @@
     }
     if (fallbackCount > 0) {
       statusText += " (dont " + fallbackCount + " approximatif" + (fallbackCount > 1 ? "s" : "") + ")";
+    }
+    if (filterState.routeCalculation === "air") {
+      statusText += " · vol d'oiseau";
     }
     setTrajetsStatus(statusText + ".", true);
 
@@ -1403,11 +1439,52 @@
   /* ---------- Boutons globaux ---------- */
 
   const excludeCarToggle = document.getElementById("toggle-exclude-car");
+  const routeModeOsmBtn = document.getElementById("route-mode-osm");
+  const routeModeAirBtn = document.getElementById("route-mode-air");
+
+  function syncRouteModeButtons() {
+    const isAir = filterState.routeCalculation === "air";
+    if (routeModeOsmBtn) {
+      routeModeOsmBtn.classList.toggle("is-active", !isAir);
+      routeModeOsmBtn.setAttribute("aria-pressed", String(!isAir));
+    }
+    if (routeModeAirBtn) {
+      routeModeAirBtn.classList.toggle("is-active", isAir);
+      routeModeAirBtn.setAttribute("aria-pressed", String(isAir));
+    }
+  }
+
+  function setRouteCalculation(mode) {
+    if (mode !== "osm" && mode !== "air") return;
+    if (filterState.routeCalculation === mode) return;
+    filterState.routeCalculation = mode;
+    routeCache.clear();
+    syncRouteModeButtons();
+    writeStateToHash();
+    if (filterState.segments.size > 0) {
+      refreshRoutes(false);
+    } else {
+      updateDayTotals();
+    }
+  }
+
+  if (routeModeOsmBtn) {
+    routeModeOsmBtn.addEventListener("click", function () {
+      setRouteCalculation("osm");
+    });
+  }
+  if (routeModeAirBtn) {
+    routeModeAirBtn.addEventListener("click", function () {
+      setRouteCalculation("air");
+    });
+  }
 
   document.getElementById("btn-reset").addEventListener("click", function () {
     filterState.jours = new Set(allJours);
     filterState.excludeCarRoutes = true;
+    filterState.routeCalculation = "osm";
     if (excludeCarToggle) excludeCarToggle.checked = true;
+    syncRouteModeButtons();
     clearAllSegments();
     syncDayCheckboxes();
     writeStateToHash();
@@ -1433,6 +1510,7 @@
   /* ---------- Initialisation ---------- */
 
   readStateFromHash();
+  syncRouteModeButtons();
   buildFilters();
   syncSegmentInputs();
   syncCarSegmentStyles();
