@@ -1,5 +1,5 @@
 {
-  "generated_at": "17/06/2026 18:19 UTC",
+  "generated_at": "18/06/2026 05:14 UTC",
   "config": {
     "start_date": "2026-08-03",
     "sheet_name": "Vue d'ensemble",
@@ -9,9 +9,9 @@
     "period": "3 au 14 août 2026",
     "route": "Strasbourg → Cologne → Amsterdam → Ennevelin → Lille → Bergues → Ennevelin → Côte d'Opale → Ennevelin → Cap Gris-Nez → Ennevelin",
     "jours_count": 12,
-    "activities_total": 60,
+    "activities_total": 62,
     "visites_total": 23,
-    "prix_total": 335.5
+    "prix_total": 363.0
   },
   "phases": [
     {
@@ -108,9 +108,9 @@
       "villes": [
         "Cologne"
       ],
-      "activities": 4,
+      "activities": 6,
       "visites": 1,
-      "prix": 0.0,
+      "prix": 27.5,
       "resume": "Musée Wallraf Richartz",
       "couleur": "#27ae60",
       "theme": "Musée Wallraf Richartz",
@@ -335,9 +335,9 @@
     },
     {
       "ville": "Cologne",
-      "activities": 9,
+      "activities": 11,
       "visites": 3,
-      "prix": 0.0,
+      "prix": 27.5,
       "jours": 3
     },
     {

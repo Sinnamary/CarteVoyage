@@ -1,14 +1,14 @@
 {
-  "generated_at": "17/06/2026 18:19 UTC",
+  "generated_at": "18/06/2026 05:14 UTC",
   "overall_status": "warn",
   "has_overview": true,
   "summary": {
     "title": "Strasbourg → Cologne → Amsterdam → Ennevelin → Lille → Bergues → Ennevelin → Côte d'Opale → Ennevelin → Cap Gris-Nez → Ennevelin",
     "period": "3 au 14 août 2026",
     "route": "Strasbourg → Cologne → Amsterdam → Ennevelin → Lille → Bergues → Ennevelin → Côte d'Opale → Ennevelin → Cap Gris-Nez → Ennevelin",
-    "activities": 67,
-    "on_map": 59,
-    "budget": 335.5,
+    "activities": 69,
+    "on_map": 61,
+    "budget": 363.0,
     "jours": 12
   },
   "sources": {
@@ -21,43 +21,43 @@
     "overview": {
       "path": "data/overview.json",
       "present": true,
-      "mtime": "17/06/2026 18:19 UTC",
-      "size": 9678
+      "mtime": "18/06/2026 05:14 UTC",
+      "size": 9681
     },
     "voyages": {
       "path": "data/voyages.json",
       "present": true,
-      "mtime": "17/06/2026 18:19 UTC",
-      "size": 33161
+      "mtime": "18/06/2026 05:14 UTC",
+      "size": 34311
     },
     "stats": {
       "path": "data/stats.json",
       "present": true,
-      "mtime": "17/06/2026 18:19 UTC",
-      "size": 27440
+      "mtime": "18/06/2026 05:14 UTC",
+      "size": 28207
     },
     "geocode_cache": {
       "path": "data/geocode_cache.json",
       "present": true,
-      "mtime": "17/06/2026 18:19 UTC",
+      "mtime": "18/06/2026 05:14 UTC",
       "size": 10642
     },
     "route_stats_cache": {
       "path": "data/route_stats_cache.json",
       "present": true,
-      "mtime": "17/06/2026 18:19 UTC",
-      "size": 6059
+      "mtime": "18/06/2026 05:14 UTC",
+      "size": 6315
     },
     "geocode_errors": {
       "path": "data/geocode_errors.csv",
       "present": true,
-      "mtime": "17/06/2026 18:19 UTC",
+      "mtime": "18/06/2026 05:14 UTC",
       "size": 89
     },
     "missing_coords": {
       "path": "data/lignes_sans_coords.csv",
       "present": true,
-      "mtime": "17/06/2026 18:19 UTC",
+      "mtime": "18/06/2026 05:14 UTC",
       "size": 418
     }
   },
@@ -95,13 +95,13 @@
     {
       "id": "geocoded_map",
       "status": "ok",
-      "message": "59 points carte = activités géolocalisées",
+      "message": "61 points carte = activités géolocalisées",
       "details": ""
     },
     {
       "id": "activities_inventory",
       "status": "ok",
-      "message": "67 activités recensées",
+      "message": "69 activités recensées",
       "details": ""
     },
     {
@@ -119,7 +119,7 @@
     {
       "id": "budget_align",
       "status": "ok",
-      "message": "Budget cohérent (335.50 €)",
+      "message": "Budget cohérent (363.00 €)",
       "details": ""
     },
     {
@@ -160,10 +160,10 @@
       "date": "2026-08-04",
       "ville": "Cologne",
       "resume": "Musée Wallraf Richartz",
-      "activities": 4,
-      "geocoded": 3,
-      "prix": 0.0,
-      "foot_km": 1.14,
+      "activities": 6,
+      "geocoded": 5,
+      "prix": 27.5,
+      "foot_km": 2.88,
       "car_km": 0.0,
       "couleur": "#27ae60",
       "in_overview": true
@@ -385,7 +385,20 @@
       "nom": "Musée Wallraf Richartz",
       "ville": "Cologne",
       "action": "Visite",
-      "prix": null,
+      "prix": 10,
+      "on_map": true,
+      "in_stats": true,
+      "is_trajet": false,
+      "in_overview": true
+    },
+    {
+      "key": "2:2.5",
+      "jour": 2,
+      "ordre": "2.5",
+      "nom": "Musée du chocolat",
+      "ville": "Cologne",
+      "action": "Pause",
+      "prix": 17.5,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -400,6 +413,19 @@
       "action": "",
       "prix": null,
       "on_map": false,
+      "in_stats": true,
+      "is_trajet": false,
+      "in_overview": true
+    },
+    {
+      "key": "2:2.7",
+      "jour": 2,
+      "ordre": "2.7",
+      "nom": "Gaffel am Dom - Brauhaus",
+      "ville": "Cologne",
+      "action": "Repas",
+      "prix": null,
+      "on_map": true,
       "in_stats": true,
       "is_trajet": false,
       "in_overview": true
@@ -1252,6 +1278,17 @@
     },
     {
       "jour": 2,
+      "ordre": "2.5",
+      "nom": "Musée du chocolat",
+      "ville": "Cologne",
+      "in_stats": true,
+      "on_map": true,
+      "in_overview": true,
+      "is_trajet": false,
+      "status": "ok"
+    },
+    {
+      "jour": 2,
       "ordre": "2.6",
       "nom": "Balade en ville",
       "ville": "",
@@ -1260,6 +1297,17 @@
       "in_overview": true,
       "is_trajet": false,
       "status": "warn"
+    },
+    {
+      "jour": 2,
+      "ordre": "2.7",
+      "nom": "Gaffel am Dom - Brauhaus",
+      "ville": "Cologne",
+      "in_stats": true,
+      "on_map": true,
+      "in_overview": true,
+      "is_trajet": false,
+      "status": "ok"
     },
     {
       "jour": 2,
@@ -2063,6 +2111,24 @@
       "ville": "Cologne",
       "lat": 50.9374105,
       "lon": 6.9584434,
+      "couleur": "#27ae60"
+    },
+    {
+      "jour": 2,
+      "ordre": "2.5",
+      "nom": "Musée du chocolat",
+      "ville": "Cologne",
+      "lat": 50.9321835,
+      "lon": 6.9623967,
+      "couleur": "#27ae60"
+    },
+    {
+      "jour": 2,
+      "ordre": "2.7",
+      "nom": "Gaffel am Dom - Brauhaus",
+      "ville": "Cologne",
+      "lat": 50.941911,
+      "lon": 6.9543191,
       "couleur": "#27ae60"
     },
     {
