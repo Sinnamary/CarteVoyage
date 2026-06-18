@@ -22,6 +22,7 @@ from outils.excel_utils import (
     find_ordre_collisions,
     iter_activity_rows,
     normalize_text,
+    ordre_cell_format_issue,
     row_to_point,
     sync_listes_validations,
 )
@@ -38,15 +39,16 @@ def check_ordre_text_format(excel_path: Path, wb: openpyxl.Workbook) -> list[str
         ws = wb_fmt[sheet_name]
         for r in range(3, ws.max_row + 1):
             cell = ws.cell(r, 1)
-            etape = cell.value
-            if etape is None:
+            if cell.value is None:
                 continue
-            text = str(etape)
-            if ".10" in text and cell.number_format != "@":
-                issues.append(
-                    f"{sheet_name} L{r}: {text!r} doit être en texte (@), "
-                    + f"format={cell.number_format!r}"
-                )
+            issue = ordre_cell_format_issue(
+                sheet_name,
+                r,
+                value=cell.value,
+                number_format=cell.number_format,
+            )
+            if issue:
+                issues.append(issue)
     return issues
 
 

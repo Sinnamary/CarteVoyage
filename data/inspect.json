@@ -1,14 +1,14 @@
 {
-  "generated_at": "18/06/2026 16:40 UTC",
+  "generated_at": "18/06/2026 20:00 UTC",
   "overall_status": "ok",
   "has_overview": true,
   "summary": {
     "title": "Strasbourg → Cologne → Amsterdam → Ennevelin → Lille → Bergues → Ennevelin → Côte d'Opale → Ennevelin → Cap Gris-Nez → Ennevelin",
     "period": "3 au 14 août 2026",
     "route": "Strasbourg → Cologne → Amsterdam → Ennevelin → Lille → Bergues → Ennevelin → Côte d'Opale → Ennevelin → Cap Gris-Nez → Ennevelin",
-    "activities": 69,
-    "on_map": 62,
-    "budget": 363.0,
+    "activities": 72,
+    "on_map": 65,
+    "budget": 371.0,
     "jours": 12
   },
   "sources": {
@@ -21,43 +21,43 @@
     "overview": {
       "path": "data/overview.json",
       "present": true,
-      "mtime": "18/06/2026 16:40 UTC",
-      "size": 9675
+      "mtime": "18/06/2026 20:00 UTC",
+      "size": 9751
     },
     "voyages": {
       "path": "data/voyages.json",
       "present": true,
-      "mtime": "18/06/2026 16:40 UTC",
-      "size": 34913
+      "mtime": "18/06/2026 20:00 UTC",
+      "size": 36736
     },
     "stats": {
       "path": "data/stats.json",
       "present": true,
-      "mtime": "18/06/2026 16:40 UTC",
-      "size": 28311
+      "mtime": "18/06/2026 20:00 UTC",
+      "size": 29558
     },
     "geocode_cache": {
       "path": "data/geocode_cache.json",
       "present": true,
-      "mtime": "18/06/2026 16:40 UTC",
+      "mtime": "18/06/2026 20:00 UTC",
       "size": 10642
     },
     "route_stats_cache": {
       "path": "data/route_stats_cache.json",
       "present": true,
-      "mtime": "18/06/2026 16:40 UTC",
-      "size": 6572
+      "mtime": "18/06/2026 20:00 UTC",
+      "size": 7477
     },
     "geocode_errors": {
       "path": "data/geocode_errors.csv",
       "present": true,
-      "mtime": "18/06/2026 16:40 UTC",
+      "mtime": "18/06/2026 20:00 UTC",
       "size": 39
     },
     "missing_coords": {
       "path": "data/lignes_sans_coords.csv",
       "present": true,
-      "mtime": "18/06/2026 16:40 UTC",
+      "mtime": "18/06/2026 20:00 UTC",
       "size": 386
     }
   },
@@ -95,13 +95,13 @@
     {
       "id": "geocoded_map",
       "status": "ok",
-      "message": "62 points carte = activités géolocalisées",
+      "message": "65 points carte = activités géolocalisées",
       "details": ""
     },
     {
       "id": "activities_inventory",
       "status": "ok",
-      "message": "69 activités recensées",
+      "message": "72 activités recensées",
       "details": ""
     },
     {
@@ -119,7 +119,7 @@
     {
       "id": "budget_align",
       "status": "ok",
-      "message": "Budget cohérent (363.00 €)",
+      "message": "Budget cohérent (371.00 €)",
       "details": ""
     },
     {
@@ -153,10 +153,10 @@
       "date": "2026-08-03",
       "ville": "Cologne",
       "resume": "Römisch-Germanisches Museum, Köln, Farina Fragance Museum and Atelier",
-      "activities": 5,
-      "geocoded": 5,
+      "activities": 6,
+      "geocoded": 6,
       "prix": 0.0,
-      "foot_km": 2.04,
+      "foot_km": 3.9,
       "car_km": 356.77,
       "couleur": "#e74c3c",
       "in_overview": true
@@ -165,11 +165,11 @@
       "jour": 2,
       "date": "2026-08-04",
       "ville": "Cologne",
-      "resume": "Musée Wallraf Richartz",
-      "activities": 6,
-      "geocoded": 6,
-      "prix": 27.5,
-      "foot_km": 4.63,
+      "resume": "Musée du chocolat, Cathédrale de Cologne (Kölner Dom), Musée Wallraf Richartz",
+      "activities": 8,
+      "geocoded": 8,
+      "prix": 35.5,
+      "foot_km": 11.27,
       "car_km": 0.0,
       "couleur": "#27ae60",
       "in_overview": true
@@ -333,6 +333,19 @@
       "in_overview": true
     },
     {
+      "key": "1:1.3",
+      "jour": 1,
+      "ordre": "1.3",
+      "nom": "Parking Pullman, prise chambre",
+      "ville": "Cologne",
+      "action": "Hébergement",
+      "prix": null,
+      "on_map": true,
+      "in_stats": true,
+      "is_trajet": false,
+      "in_overview": true
+    },
+    {
       "key": "1:1.5",
       "jour": 1,
       "ordre": "1.5",
@@ -385,13 +398,39 @@
       "in_overview": true
     },
     {
+      "key": "2:2.2",
+      "jour": 2,
+      "ordre": "2.2",
+      "nom": "Flora – Jardin Botanique Köln",
+      "ville": "Cologne",
+      "action": "Parc",
+      "prix": 0.0,
+      "on_map": true,
+      "in_stats": true,
+      "is_trajet": false,
+      "in_overview": true
+    },
+    {
+      "key": "2:2.3",
+      "jour": 2,
+      "ordre": "2.3",
+      "nom": "Musée du chocolat",
+      "ville": "Cologne",
+      "action": "Visite",
+      "prix": 17.5,
+      "on_map": true,
+      "in_stats": true,
+      "is_trajet": false,
+      "in_overview": true
+    },
+    {
       "key": "2:2.4",
       "jour": 2,
       "ordre": "2.4",
-      "nom": "Musée Wallraf Richartz",
+      "nom": "Cathédrale de Cologne (Kölner Dom)",
       "ville": "Cologne",
       "action": "Visite",
-      "prix": 10.0,
+      "prix": 8.0,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -401,10 +440,10 @@
       "key": "2:2.5",
       "jour": 2,
       "ordre": "2.5",
-      "nom": "Musée du chocolat",
+      "nom": "Musée Wallraf Richartz",
       "ville": "Cologne",
-      "action": "Pause",
-      "prix": 17.5,
+      "action": "Visite",
+      "prix": 10.0,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -1229,6 +1268,17 @@
     },
     {
       "jour": 1,
+      "ordre": "1.3",
+      "nom": "Parking Pullman, prise chambre",
+      "ville": "Cologne",
+      "in_stats": true,
+      "on_map": true,
+      "in_overview": true,
+      "is_trajet": false,
+      "status": "ok"
+    },
+    {
+      "jour": 1,
       "ordre": "1.5",
       "nom": "Farina Fragance Museum and Atelier",
       "ville": "Cologne",
@@ -1273,8 +1323,30 @@
     },
     {
       "jour": 2,
+      "ordre": "2.2",
+      "nom": "Flora – Jardin Botanique Köln",
+      "ville": "Cologne",
+      "in_stats": true,
+      "on_map": true,
+      "in_overview": true,
+      "is_trajet": false,
+      "status": "ok"
+    },
+    {
+      "jour": 2,
+      "ordre": "2.3",
+      "nom": "Musée du chocolat",
+      "ville": "Cologne",
+      "in_stats": true,
+      "on_map": true,
+      "in_overview": true,
+      "is_trajet": false,
+      "status": "ok"
+    },
+    {
+      "jour": 2,
       "ordre": "2.4",
-      "nom": "Musée Wallraf Richartz",
+      "nom": "Cathédrale de Cologne (Kölner Dom)",
       "ville": "Cologne",
       "in_stats": true,
       "on_map": true,
@@ -1285,7 +1357,7 @@
     {
       "jour": 2,
       "ordre": "2.5",
-      "nom": "Musée du chocolat",
+      "nom": "Musée Wallraf Richartz",
       "ville": "Cologne",
       "in_stats": true,
       "on_map": true,
@@ -2045,13 +2117,22 @@
         },
         "lodging_lines": [
           {
+            "ordre": "1.3",
+            "visite": 3,
+            "nom": "Parking Pullman, prise chambre",
+            "ville": "Cologne",
+            "ville_display": "Cologne",
+            "role": "depart_matin",
+            "role_label": "Départ matin"
+          },
+          {
             "ordre": "1.7",
             "visite": 7,
             "nom": "Hotel Pullman Cologne",
             "ville": "Cologne",
             "ville_display": "Cologne",
-            "role": "check_in",
-            "role_label": "Arrivée / nuit"
+            "role": "arrivee_soir",
+            "role_label": "Arrivée soir"
           }
         ],
         "night": {
@@ -2063,7 +2144,8 @@
         "night_reason": "Dernière ligne Hébergement : 1.7 (visite 7) → nuit à Cologne",
         "villes_label": "Strasbourg → Cologne",
         "steps": [
-          "Arrivée / nuit : Hotel Pullman Cologne (1.7)",
+          "Départ matin : Parking Pullman, prise chambre (1.3)",
+          "Arrivée soir : Hotel Pullman Cologne (1.7)",
           "Domicile « Strasbourg » ajouté en tête (jour 1, nuit hors domicile)"
         ],
         "notes": [
@@ -2581,6 +2663,15 @@
     },
     {
       "jour": 1,
+      "ordre": "1.3",
+      "nom": "Parking Pullman, prise chambre",
+      "ville": "Cologne",
+      "lat": 50.9402013,
+      "lon": 6.9455643,
+      "couleur": "#e74c3c"
+    },
+    {
+      "jour": 1,
       "ordre": "1.5",
       "nom": "Farina Fragance Museum and Atelier",
       "ville": "Cologne",
@@ -2617,20 +2708,38 @@
     },
     {
       "jour": 2,
-      "ordre": "2.4",
-      "nom": "Musée Wallraf Richartz",
+      "ordre": "2.2",
+      "nom": "Flora – Jardin Botanique Köln",
       "ville": "Cologne",
-      "lat": 50.9374105,
-      "lon": 6.9584434,
+      "lat": 50.9606143,
+      "lon": 6.9724688,
+      "couleur": "#27ae60"
+    },
+    {
+      "jour": 2,
+      "ordre": "2.3",
+      "nom": "Musée du chocolat",
+      "ville": "Cologne",
+      "lat": 50.9321835,
+      "lon": 6.9623967,
+      "couleur": "#27ae60"
+    },
+    {
+      "jour": 2,
+      "ordre": "2.4",
+      "nom": "Cathédrale de Cologne (Kölner Dom)",
+      "ville": "Cologne",
+      "lat": 50.9413035,
+      "lon": 6.958138,
       "couleur": "#27ae60"
     },
     {
       "jour": 2,
       "ordre": "2.5",
-      "nom": "Musée du chocolat",
+      "nom": "Musée Wallraf Richartz",
       "ville": "Cologne",
-      "lat": 50.9321835,
-      "lon": 6.9623967,
+      "lat": 50.9374105,
+      "lon": 6.9584434,
       "couleur": "#27ae60"
     },
     {

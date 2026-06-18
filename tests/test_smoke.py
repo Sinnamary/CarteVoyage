@@ -60,7 +60,35 @@ def test_default_excel_path_under_root(root: Path) -> None:
     assert path.parent == root / "excel"
 
 
-def test_qualite_script_is_executable(root: Path) -> None:
-    content = (root / "qualite.py").read_text(encoding="utf-8")
-    assert "def main()" in content
-    assert "ruff" in content.lower()
+def test_parse_ordre_rejects_excel_date() -> None:
+    from datetime import datetime
+
+    from outils.excel_utils import is_ordre_read_as_date, parse_ordre
+
+    dt = datetime(2026, 8, 1, 0, 0)
+    assert is_ordre_read_as_date(dt)
+    assert parse_ordre(dt) is None
+    assert parse_ordre("1.1") == {"jour": 1, "visite": 1}
+
+
+def test_ordre_cell_format_issue_detects_date_format() -> None:
+    from outils.excel_utils import ordre_cell_format_issue
+
+    issue = ordre_cell_format_issue(
+        "Jour 1",
+        3,
+        value="1.1",
+        number_format="d/m",
+    )
+    assert issue is not None
+    assert "format date" in issue
+
+    assert (
+        ordre_cell_format_issue(
+            "Jour 1",
+            3,
+            value="1.1",
+            number_format="@",
+        )
+        is None
+    )

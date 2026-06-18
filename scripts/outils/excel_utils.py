@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 import shutil
 from collections.abc import Iterable, Iterator, Sequence
-from datetime import datetime
+from datetime import date, datetime
 from pathlib import Path
 from typing import Protocol, TypedDict, cast
 
@@ -68,6 +68,10 @@ DAY_COLORS = [
 ]
 
 ORDRE_RE = re.compile(r"^\s*(\d+)[.,](\d+)\s*$")
+_EXCEL_DATE_NUMBER_FORMAT_RE = re.compile(
+    r"(?:[dDyY]+[/.\-][mM]+|[mM]+[/.\-][dDyY]+|[dD]+[/.\-][mM]+(?:[/.\-][yY]+)?)",
+    re.IGNORECASE,
+)
 
 
 class ActivityRow(TypedDict):
@@ -401,8 +405,56 @@ def build_lodging_audit(
     }
 
 
+def is_ordre_read_as_date(value: object) -> bool:
+    """True si openpyxl lit la cellule N° étape comme une date Excel."""
+    return isinstance(value, (datetime, date))
+
+
+def is_excel_date_number_format(number_format: str | None) -> bool:
+    """True si le format de cellule ressemble a un format date Excel."""
+    fmt = str(number_format or "").strip()
+    if not fmt or fmt == "@" or fmt.lower() == "general":
+        return False
+    cleaned = re.sub(r"\[[^\]]*\]", "", fmt)
+    cleaned = re.sub(r'"[^"]*"', "", cleaned)
+    return bool(_EXCEL_DATE_NUMBER_FORMAT_RE.search(cleaned))
+
+
+def ordre_cell_format_issue(
+    sheet_name: str,
+    row: int,
+    *,
+    value: object,
+    number_format: str | None,
+) -> str | None:
+    """Signale une cellule N° étape lue ou formatee comme date (sans corriger)."""
+    if is_ordre_read_as_date(value):
+        dt = value
+        assert isinstance(dt, (datetime, date))
+        return (
+            f"{sheet_name} L{row}: N° étape lu comme date Excel "
+            f"({dt.day}.{dt.month}), format={number_format!r} "
+            "— mettre la cellule en texte (@) avec la valeur jour.visite"
+        )
+    if is_excel_date_number_format(number_format):
+        return (
+            f"{sheet_name} L{row}: N° étape au format date {number_format!r} "
+            f"(valeur={value!r}) — mettre la cellule en texte (@) avec jour.visite"
+        )
+    text = str(value)
+    if ".10" in text and number_format != "@":
+        return (
+            f"{sheet_name} L{row}: {text!r} doit être en texte (@), "
+            f"format={number_format!r}"
+        )
+    return None
+
+
 def parse_ordre(value: object) -> dict[str, int] | None:
     if value is None or value == "":
+        return None
+
+    if is_ordre_read_as_date(value):
         return None
 
     text = normalize_text(value).replace(",", ".")
@@ -476,7 +528,7 @@ def cell_value(row: ExcelRow, col_index: dict[str, int], column: str) -> ExcelCe
     if idx >= len(row):
         return None
     value = row[idx]
-    if isinstance(value, (str, int, float, bool, datetime)) or value is None:
+    if isinstance(value, (str, int, float, bool, datetime, date)) or value is None:
         return value
     return str(value)
 
@@ -609,9 +661,7 @@ def iter_activity_rows(wb: openpyxl.Workbook) -> Iterator[ActivityRow]:
             if not parsed:
                 continue
 
-            ordre_label = normalize_text(ordre_raw).replace(",", ".")
-            if not ordre_label:
-                ordre_label = f"{parsed['jour']}.{parsed['visite']}"
+            ordre_label = f"{parsed['jour']}.{parsed['visite']}"
 
             yield {
                 "row_idx": row_idx,

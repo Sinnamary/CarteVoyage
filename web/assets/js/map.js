@@ -139,6 +139,8 @@
   const markers = [];
   const markersByPointId = new Map();
   const routeCache = new Map();
+  const OSM_CACHE_STORAGE_KEY = "cartevoyage-osm-routes-v1";
+  const osmPersistentCache = new Map();
   const segmentInputs = new Map();
   const segmentMetaEls = new Map();
   const segmentsById = new Map();
@@ -634,6 +636,52 @@
     return filterState.routeCalculation + ":" + mode + ":" + from.id + "->" + to.id;
   }
 
+  function osmCacheKey(from, to, mode) {
+    return mode + ":"
+      + from.lat.toFixed(5) + "," + from.lon.toFixed(5) + "->"
+      + to.lat.toFixed(5) + "," + to.lon.toFixed(5);
+  }
+
+  function loadOsmCacheFromStorage() {
+    try {
+      const raw = localStorage.getItem(OSM_CACHE_STORAGE_KEY);
+      if (!raw) return;
+      const data = JSON.parse(raw);
+      if (typeof data !== "object" || !data) return;
+      Object.keys(data).forEach(function (key) {
+        const route = data[key];
+        if (route && Array.isArray(route.latlngs)) {
+          osmPersistentCache.set(key, route);
+        }
+      });
+    } catch (error) {
+      console.warn("Cache OSM local illisible", error);
+    }
+  }
+
+  function persistOsmRoute(from, to, mode, route) {
+    if (!route || route.fallback || route.airMode) return;
+    const key = osmCacheKey(from, to, mode);
+    osmPersistentCache.set(key, route);
+    try {
+      const data = {};
+      osmPersistentCache.forEach(function (value, cacheKey) {
+        data[cacheKey] = value;
+      });
+      localStorage.setItem(OSM_CACHE_STORAGE_KEY, JSON.stringify(data));
+    } catch (error) {
+      console.warn("Cache OSM local non enregistre", error);
+    }
+  }
+
+  function getOsmPersistentRoute(from, to, mode) {
+    return osmPersistentCache.get(osmCacheKey(from, to, mode)) || null;
+  }
+
+  function isRouteCached(from, to, mode) {
+    return routeCache.has(routeCacheKey(from, to, mode));
+  }
+
   function sleep(ms) {
     return new Promise(function (resolve) {
       setTimeout(resolve, ms);
@@ -716,6 +764,12 @@
       return route;
     }
 
+    const storedRoute = getOsmPersistentRoute(from, to, mode);
+    if (storedRoute) {
+      routeCache.set(cacheKey, storedRoute);
+      return storedRoute;
+    }
+
     const airDist = airDistanceMeters(from, to);
     const servers = OSRM_SERVERS[mode] || OSRM_SERVERS.foot;
     let bestRoute = null;
@@ -744,6 +798,7 @@
 
     if (bestRoute) {
       routeCache.set(cacheKey, bestRoute);
+      persistOsmRoute(from, to, mode, bestRoute);
       return bestRoute;
     }
 
@@ -854,39 +909,58 @@
       return;
     }
 
-    setTrajetsStatus("Calcul de " + segments.length + " trajet(s)…", true);
+    const uncachedSegments = segments.filter(function (segment) {
+      return !isRouteCached(segment.from, segment.to, segment.mode);
+    });
 
-    // Requetes en parallele limite, pour rester rapide sans surcharger OSRM.
-    const results = new Array(segments.length);
-    let nextIndex = 0;
-    let done = 0;
+    let results;
+    if (uncachedSegments.length === 0) {
+      results = segments.map(function (segment) {
+        return routeCache.get(routeCacheKey(segment.from, segment.to, segment.mode));
+      });
+      segments.forEach(updateSegmentMeta);
+    } else {
+      setTrajetsStatus("Calcul de " + uncachedSegments.length + " trajet(s)…", true);
 
-    async function worker() {
-      while (nextIndex < segments.length) {
-        const i = nextIndex;
-        nextIndex += 1;
-        if (requestId !== routeRequestId) return;
+      results = new Array(segments.length);
+      let nextIndex = 0;
+      let fetchedCount = 0;
 
-        const segment = segments[i];
-        results[i] = await fetchRouteGeometry(segment.from, segment.to, segment.mode);
-        done += 1;
+      async function worker() {
+        while (nextIndex < segments.length) {
+          const i = nextIndex;
+          nextIndex += 1;
+          if (requestId !== routeRequestId) return;
 
-        if (requestId !== routeRequestId) return;
-        setTrajetsStatus("Calcul des trajets (" + done + "/" + segments.length + ")…", true);
-        updateSegmentMeta(segment);
+          const segment = segments[i];
+          const wasCached = isRouteCached(segment.from, segment.to, segment.mode);
+          results[i] = await fetchRouteGeometry(segment.from, segment.to, segment.mode);
 
-        if (nextIndex < segments.length) {
-          await sleep(ROUTE_DELAY_MS);
+          if (requestId !== routeRequestId) return;
+          if (!wasCached) {
+            fetchedCount += 1;
+            if (filterState.routeCalculation === "osm") {
+              setTrajetsStatus(
+                "Calcul des trajets (" + fetchedCount + "/" + uncachedSegments.length + ")…",
+                true
+              );
+            }
+          }
+          updateSegmentMeta(segment);
+
+          if (!wasCached && filterState.routeCalculation === "osm") {
+            await sleep(ROUTE_DELAY_MS);
+          }
         }
       }
-    }
 
-    const workers = [];
-    const workerCount = Math.min(ROUTE_CONCURRENCY, segments.length);
-    for (let w = 0; w < workerCount; w += 1) {
-      workers.push(worker());
+      const workers = [];
+      const workerCount = Math.min(ROUTE_CONCURRENCY, segments.length);
+      for (let w = 0; w < workerCount; w += 1) {
+        workers.push(worker());
+      }
+      await Promise.all(workers);
     }
-    await Promise.all(workers);
 
     if (requestId !== routeRequestId) return;
 
@@ -1458,7 +1532,6 @@
     if (mode !== "osm" && mode !== "air") return;
     if (filterState.routeCalculation === mode) return;
     filterState.routeCalculation = mode;
-    routeCache.clear();
     syncRouteModeButtons();
     writeStateToHash();
     if (filterState.segments.size > 0) {
@@ -1509,6 +1582,7 @@
 
   /* ---------- Initialisation ---------- */
 
+  loadOsmCacheFromStorage();
   readStateFromHash();
   syncRouteModeButtons();
   buildFilters();
