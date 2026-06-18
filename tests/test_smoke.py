@@ -31,6 +31,9 @@ def test_project_layout(root: Path) -> None:
 @pytest.mark.parametrize(
     "module_name",
     [
+        "generer_site",
+        "preparer_excel",
+        "qualite",
         "pipeline_common",
         "outils.excel_utils",
         "outils.drive_config",
@@ -39,7 +42,7 @@ def test_project_layout(root: Path) -> None:
     ],
 )
 def test_import_core_modules(module_name: str) -> None:
-    importlib.import_module(module_name)
+    _ = importlib.import_module(module_name)
 
 
 def test_pipeline_common_root(root: Path) -> None:

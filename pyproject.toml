@@ -76,7 +76,7 @@ filterwarnings = ["ignore::DeprecationWarning"]
 
 [tool.coverage.run]
 branch = true
-source = ["scripts", "generer_site.py", "preparer_excel.py", "qualite.py"]
+source = ["scripts", "generer_site", "preparer_excel", "qualite"]
 omit = ["tests/*", "*/__pycache__/*"]
 
 [tool.coverage.report]

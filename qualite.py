@@ -254,9 +254,9 @@ def _check_pytest(args: QualiteArgs) -> tuple[bool, str]:
         "pytest",
         "tests",
         "--cov=scripts",
-        "--cov=generer_site.py",
-        "--cov=preparer_excel.py",
-        "--cov=qualite.py",
+        "--cov=generer_site",
+        "--cov=preparer_excel",
+        "--cov=qualite",
         "--cov-report=term-missing:skip-covered",
         "--cov-fail-under=0",
     ]
