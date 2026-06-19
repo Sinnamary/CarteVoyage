@@ -51,7 +51,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
           <section class="filter-section filter-section-map">
             <h3>Carte</h3>
             <label class="map-view-toggle" for="toggle-exclude-car">
-              <input type="checkbox" id="toggle-exclude-car" checked>
+              <input type="checkbox" id="toggle-exclude-car">
               Centrer sur les activites du jour
             </label>
             <p class="filter-hint">
@@ -69,8 +69,17 @@ HTML_TEMPLATE = """<!DOCTYPE html>
               Cochez un ou plusieurs trajets entre visites consecutives du meme jour
               (a pied en ville, en voiture si changement de ville, transport ou plus de 5 km).
             </p>
-            <div class="route-mode-toggle" role="group" aria-label="Mode de calcul des trajets">
-              <button type="button" id="route-mode-osm" class="route-mode-btn is-active" aria-pressed="true">
+            <div
+              class="route-mode-toggle"
+              role="group"
+              aria-label="Mode de calcul des trajets"
+            >
+              <button
+                type="button"
+                id="route-mode-osm"
+                class="route-mode-btn is-active"
+                aria-pressed="true"
+              >
                 OSM
               </button>
               <button type="button" id="route-mode-air" class="route-mode-btn" aria-pressed="false">
@@ -78,7 +87,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
               </button>
             </div>
             <p class="filter-hint route-mode-hint">
-              OSM : itineraire sur le reseau routier. Vol d'oiseau : distance directe entre les points.
+              OSM : itineraire sur le reseau routier.
+              Vol d'oiseau : distance directe entre les points.
             </p>
             <div class="trajets-actions">
               <button type="button" id="btn-trajets-clear" class="btn-secondary">

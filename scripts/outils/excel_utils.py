@@ -429,8 +429,7 @@ def ordre_cell_format_issue(
 ) -> str | None:
     """Signale une cellule N° étape lue ou formatee comme date (sans corriger)."""
     if is_ordre_read_as_date(value):
-        dt = value
-        assert isinstance(dt, (datetime, date))
+        dt = cast(datetime | date, value)
         return (
             f"{sheet_name} L{row}: N° étape lu comme date Excel "
             f"({dt.day}.{dt.month}), format={number_format!r} "
@@ -443,10 +442,7 @@ def ordre_cell_format_issue(
         )
     text = str(value)
     if ".10" in text and number_format != "@":
-        return (
-            f"{sheet_name} L{row}: {text!r} doit être en texte (@), "
-            f"format={number_format!r}"
-        )
+        return f"{sheet_name} L{row}: {text!r} doit être en texte (@), format={number_format!r}"
     return None
 
 
@@ -581,6 +577,65 @@ LISTES_SHEET = "Listes"
 LISTES_DATA_START_ROW = 2
 # Colonnes de la feuille Listes -> plages utilisees par les listes deroulantes.
 LISTES_COLUMN_LETTERS = ("A", "B", "C", "D", "E")
+# Valeurs garanties dans Listes (insérées avant « Autre » si absentes).
+LISTES_ENSURE_BY_COLUMN: dict[int, tuple[str, ...]] = {
+    1: ("Parking",),  # Nature
+    2: ("Parking",),  # Catégorie
+}
+
+
+def _listes_column_values(ws: Worksheet, col_idx: int) -> list[tuple[int, str]]:
+    rows: list[tuple[int, str]] = []
+    for row_idx in range(LISTES_DATA_START_ROW, ws.max_row + 1):
+        value = normalize_text(ws.cell(row_idx, col_idx).value)
+        if value:
+            rows.append((row_idx, value))
+    return rows
+
+
+def _listes_next_empty_row(ws: Worksheet, col_idx: int, start_row: int) -> int:
+    row_idx = start_row
+    while normalize_text(ws.cell(row_idx, col_idx).value):
+        row_idx += 1
+    return row_idx
+
+
+def ensure_listes_values(wb: openpyxl.Workbook) -> list[str]:
+    """Ajoute les entrées manquantes de LISTES_ENSURE_BY_COLUMN (avant « Autre »)."""
+    if LISTES_SHEET not in wb.sheetnames:
+        return []
+
+    ws = wb[LISTES_SHEET]
+    changes: list[str] = []
+
+    for col_idx, values in LISTES_ENSURE_BY_COLUMN.items():
+        col_letter = LISTES_COLUMN_LETTERS[col_idx - 1]
+        existing = {value.lower() for _, value in _listes_column_values(ws, col_idx)}
+
+        for value in values:
+            key = normalize_text(value).lower()
+            if key in existing:
+                continue
+
+            autre_row = next(
+                (
+                    row
+                    for row, cell_value in _listes_column_values(ws, col_idx)
+                    if cell_value.lower() == "autre"
+                ),
+                None,
+            )
+            if autre_row is not None:
+                _ = ws.cell(autre_row, col_idx, value=value)
+                new_autre_row = _listes_next_empty_row(ws, col_idx, autre_row + 1)
+                _ = ws.cell(new_autre_row, col_idx, value="Autre")
+            else:
+                _ = ws.cell(listes_end_row(ws, col_idx) + 1, col_idx, value=value)
+
+            existing.add(key)
+            changes.append(f"Listes!{col_letter}: ajout de {value!r}")
+
+    return changes
 
 
 def listes_end_row(ws: Worksheet, col_idx: int) -> int:

@@ -148,15 +148,16 @@
     "query": "Houseboat Museum"
   },
   "query|nl|Bob W Amsterdam Noord": {
-    "lat": 52.3549181,
-    "lon": 4.9284135,
-    "source": "nominatim"
+    "lat": 52.3966454,
+    "lon": 4.9074412,
+    "source": "manual",
+    "query": "Papaverhof 71, Amsterdam Noord"
   },
   "nl|Bob W Amsterdam Noord|": {
-    "lat": 52.3549181,
-    "lon": 4.9284135,
-    "source": "nominatim",
-    "query": "Bob W Amsterdam Noord"
+    "lat": 52.3966454,
+    "lon": 4.9074412,
+    "source": "manual",
+    "query": "Papaverhof 71, Amsterdam Noord"
   },
   "query|nl|Vondelpark": {
     "lat": 52.3571974,
@@ -417,15 +418,16 @@
     "query": "Pullman Cologne Hotel"
   },
   "query|nl|Bob W Amsterdam Noord Amsterdam": {
-    "lat": 52.3549181,
-    "lon": 4.9284135,
-    "source": "nominatim"
+    "lat": 52.3966454,
+    "lon": 4.9074412,
+    "source": "manual",
+    "query": "Papaverhof 71, Amsterdam Noord"
   },
   "nl|Bob W Amsterdam Noord Amsterdam|": {
-    "lat": 52.3549181,
-    "lon": 4.9284135,
-    "source": "nominatim",
-    "query": "Bob W Amsterdam Noord Amsterdam"
+    "lat": 52.3966454,
+    "lon": 4.9074412,
+    "source": "manual",
+    "query": "Papaverhof 71, Amsterdam Noord"
   },
   "query|de|Musée Wallraf Richartz": {
     "lat": 50.9374105,
@@ -437,5 +439,40 @@
     "lon": 6.9584434,
     "source": "nominatim",
     "query": "Musée Wallraf Richartz"
+  },
+  "query|nl|Bob W Amsterdam Noord, Amsterdam": {
+    "lat": 52.3966454,
+    "lon": 4.9074412,
+    "source": "manual",
+    "query": "Papaverhof 71, Amsterdam Noord"
+  },
+  "nl|Bob W Amsterdam Noord, Amsterdam|": {
+    "lat": 52.3966454,
+    "lon": 4.9074412,
+    "source": "manual",
+    "query": "Papaverhof 71, Amsterdam Noord"
+  },
+  "query|nl|Papaverhof 71, Amsterdam Noord": {
+    "lat": 52.3966454,
+    "lon": 4.9074412,
+    "source": "manual",
+    "query": "Papaverhof 71, Amsterdam Noord"
+  },
+  "nl|Papaverhof 71, Amsterdam Noord|": {
+    "lat": 52.3966454,
+    "lon": 4.9074412,
+    "source": "manual",
+    "query": "Papaverhof 71, Amsterdam Noord"
+  },
+  "query|de|Printen Schmitz": {
+    "lat": 50.9388164,
+    "lon": 6.9499979,
+    "source": "nominatim"
+  },
+  "de|Printen Schmitz|Centre": {
+    "lat": 50.9388164,
+    "lon": 6.9499979,
+    "source": "nominatim",
+    "query": "Printen Schmitz"
   }
 }

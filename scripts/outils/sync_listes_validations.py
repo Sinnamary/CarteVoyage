@@ -17,6 +17,7 @@ from outils.excel_utils import (
     backup_excel,
     build_listes_ranges,
     default_excel_path,
+    ensure_listes_values,
     sync_listes_validations,
 )
 
@@ -34,6 +35,12 @@ def main() -> None:
         raise SystemExit(f"Fichier introuvable: {excel_path}")
 
     wb = openpyxl.load_workbook(excel_path)
+    listes_changes = ensure_listes_values(wb)
+    if listes_changes:
+        print("Entrees Listes ajoutees:")
+        for change in listes_changes:
+            print(f"  - {change}")
+
     ranges = build_listes_ranges(wb)
 
     print(f"Feuille Listes ({excel_path.name}):")

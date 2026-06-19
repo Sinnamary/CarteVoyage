@@ -58,6 +58,10 @@ MANUAL_COORDS = {
     "Ville de Bergues": (50.9683886, 2.4325247),
     "Bergues": (50.9683886, 2.4325247),
     "Bergues, Nord, France": (50.9683886, 2.4325247),
+    "Bob W Amsterdam Noord": (52.3966454, 4.9074412),
+    "Bob W Amsterdam Noord, Amsterdam": (52.3966454, 4.9074412),
+    "Bob W Amsterdam Noord Amsterdam": (52.3966454, 4.9074412),
+    "bob w amsterdam noord": (52.3966454, 4.9074412),
 }
 
 GENERIC_REMARQUES = frozenset(
@@ -114,7 +118,7 @@ NAME_ALIASES: dict[str, str] = {
     "Anne Frank Huis, Amsterdam": "Anne Frank House Amsterdam",
     "ARTIS Micropia, Amsterdam": "ARTIS Micropia Amsterdam",
     "Begijnhof, Amsterdam": "Begijnhof Amsterdam",
-    "Bob W Amsterdam Noord, Amsterdam": "Bob W Amsterdam Noord Amsterdam",
+    "Bob W Amsterdam Noord, Amsterdam": "Papaverhof 71, Amsterdam Noord",
     "Cathédrale de Cologne (Kölner Dom)": "Kölner Dom",
     "Het Grachtenhuis, Amsterdam": "Het Grachtenhuis Amsterdam",
     "Het Scheepvaartmuseum, Amsterdam": "Het Scheepvaartmuseum Amsterdam",

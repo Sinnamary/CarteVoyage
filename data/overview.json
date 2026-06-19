@@ -1,5 +1,5 @@
 {
-  "generated_at": "18/06/2026 20:00 UTC",
+  "generated_at": "19/06/2026 16:15 UTC",
   "config": {
     "start_date": "2026-08-03",
     "sheet_name": "Vue d'ensemble",
@@ -10,8 +10,8 @@
     "route": "Strasbourg → Cologne → Amsterdam → Ennevelin → Lille → Bergues → Ennevelin → Côte d'Opale → Ennevelin → Cap Gris-Nez → Ennevelin",
     "jours_count": 12,
     "activities_total": 65,
-    "visites_total": 25,
-    "prix_total": 371.0
+    "visites_total": 23,
+    "prix_total": 333.0
   },
   "phases": [
     {
@@ -43,12 +43,12 @@
     {
       "ville": "Cologne",
       "dates": "3 au 4 août 2026",
-      "description": "Strasbourg  → Cologne (4h) + 1h sandwich … Flora – Jardin Botanique Köln"
+      "description": "Strasbourg  → Cologne (4h) + 1h sandwich … Parking"
     },
     {
       "ville": "Amsterdam",
       "dates": "5 au 10 août 2026",
-      "description": "Les grands canaux, Amsterdam … 2 hébergement"
+      "description": "Monnickendam, Marken ou Edam … 2 hébergement"
     },
     {
       "ville": "Ennevelin",
@@ -68,7 +68,7 @@
       "ville": "Amsterdam",
       "nom": "Bob W Amsterdam Noord, Amsterdam",
       "dates": "5 au 9 août 2026 (5 nuits)",
-      "maps_url": "https://www.google.com/maps/search/?api=1&query=52.3549181,4.9284135",
+      "maps_url": "https://www.google.com/maps/search/?api=1&query=52.3966454,4.9074412",
       "start": "2026-08-05"
     },
     {
@@ -88,7 +88,7 @@
         "Strasbourg",
         "Cologne"
       ],
-      "activities": 6,
+      "activities": 7,
       "visites": 2,
       "prix": 0,
       "resume": "Römisch-Germanisches Museum, Köln, Farina Fragance Museum and Atelier",
@@ -108,12 +108,12 @@
       "villes": [
         "Cologne"
       ],
-      "activities": 8,
+      "activities": 10,
       "visites": 3,
       "prix": 35.5,
       "resume": "Musée du chocolat, Cathédrale de Cologne (Kölner Dom), Musée Wallraf Richartz",
       "couleur": "#27ae60",
-      "theme": "Flora – Jardin Botanique Köln",
+      "theme": "Parking",
       "lodging_villes_label": "Cologne",
       "highlight": false,
       "nuit": {
@@ -129,12 +129,12 @@
         "Cologne",
         "Amsterdam"
       ],
-      "activities": 12,
-      "visites": 5,
-      "prix": 58.5,
-      "resume": "Begijnhof, Amsterdam, Allard Pierson Museum, Amsterdam, Het Grachtenhuis, Amsterdam (+2)",
+      "activities": 8,
+      "visites": 3,
+      "prix": 45.5,
+      "resume": "Tour A'DAM, Het Grachtenhuis, Amsterdam, Houseboat Museum, Amsterdam",
       "couleur": "#3498db",
-      "theme": "Les grands canaux, Amsterdam",
+      "theme": "Monnickendam, Marken ou Edam",
       "lodging_villes_label": "Cologne → Amsterdam",
       "highlight": false,
       "nuit": {
@@ -149,12 +149,12 @@
       "villes": [
         "Amsterdam"
       ],
-      "activities": 8,
-      "visites": 3,
-      "prix": 71.5,
-      "resume": "Rijksmuseum, Amsterdam, Van Gogh Museum, Amsterdam, Stedelijk Museum, Amsterdam",
+      "activities": 6,
+      "visites": 2,
+      "prix": 49.0,
+      "resume": "Van Gogh Museum, Amsterdam, Rijksmuseum, Amsterdam",
       "couleur": "#9b59b6",
-      "theme": "Vondelpark",
+      "theme": "Van Gogh Museum, Amsterdam",
       "lodging_villes_label": "Amsterdam",
       "highlight": false,
       "nuit": {
@@ -189,12 +189,12 @@
       "villes": [
         "Amsterdam"
       ],
-      "activities": 3,
-      "visites": 1,
-      "prix": 18.5,
-      "resume": "Tour A'DAM",
+      "activities": 6,
+      "visites": 2,
+      "prix": 16.0,
+      "resume": "Begijnhof, Amsterdam, Anne Frank Huis, Amsterdam",
       "couleur": "#1abc9c",
-      "theme": "Tour A'DAM",
+      "theme": "Begijnhof, Amsterdam",
       "lodging_villes_label": "Amsterdam",
       "highlight": false,
       "nuit": {
@@ -335,16 +335,16 @@
     },
     {
       "ville": "Cologne",
-      "activities": 14,
+      "activities": 17,
       "visites": 5,
       "prix": 35.5,
       "jours": 3
     },
     {
       "ville": "Amsterdam",
-      "activities": 38,
-      "visites": 18,
-      "prix": 335.5,
+      "activities": 34,
+      "visites": 16,
+      "prix": 297.5,
       "jours": 6
     },
     {

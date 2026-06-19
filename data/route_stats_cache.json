@@ -288,5 +288,150 @@
     "distance_m": 3511,
     "duration_s": 2747,
     "source": "osrm"
+  },
+  "foot:52.370153,4.882602->52.396645,4.907441": {
+    "distance_m": 4338,
+    "duration_s": 3542,
+    "source": "osrm"
+  },
+  "foot:52.396645,4.907441->52.396645,4.907441": {
+    "distance_m": 0,
+    "duration_s": 0,
+    "source": "osrm"
+  },
+  "car:52.396645,4.907441->52.357197,4.864119": {
+    "distance_m": 14942,
+    "duration_s": 1142,
+    "source": "osrm"
+  },
+  "foot:52.355851,4.895021->52.396645,4.907441": {
+    "distance_m": 5815,
+    "duration_s": 4734,
+    "source": "osrm"
+  },
+  "foot:52.396645,4.907441->52.368803,4.903099": {
+    "distance_m": 4022,
+    "duration_s": 3286,
+    "source": "osrm"
+  },
+  "car:52.351814,4.930553->52.396645,4.907441": {
+    "distance_m": 7059,
+    "duration_s": 840,
+    "source": "osrm"
+  },
+  "foot:52.396645,4.907441->52.383856,4.902103": {
+    "distance_m": 1947,
+    "duration_s": 1558,
+    "source": "osrm"
+  },
+  "foot:52.383856,4.902103->52.396645,4.907441": {
+    "distance_m": 1947,
+    "duration_s": 1558,
+    "source": "osrm"
+  },
+  "car:48.581277,7.750525->50.939393,6.951427": {
+    "distance_m": 356701,
+    "duration_s": 14209,
+    "source": "osrm"
+  },
+  "foot:50.939393,6.951427->50.936400,6.955600": {
+    "distance_m": 598,
+    "duration_s": 479,
+    "source": "osrm"
+  },
+  "foot:50.936400,6.955600->50.938816,6.949998": {
+    "distance_m": 656,
+    "duration_s": 525,
+    "source": "osrm"
+  },
+  "foot:50.938816,6.949998->50.937750,6.957930": {
+    "distance_m": 646,
+    "duration_s": 517,
+    "source": "osrm"
+  },
+  "foot:50.940201,6.945564->50.939393,6.951427": {
+    "distance_m": 575,
+    "duration_s": 460,
+    "source": "osrm"
+  },
+  "foot:50.939393,6.951427->50.960614,6.972469": {
+    "distance_m": 3285,
+    "duration_s": 2581,
+    "source": "osrm"
+  },
+  "foot:50.960614,6.972469->50.939393,6.951427": {
+    "distance_m": 3285,
+    "duration_s": 2581,
+    "source": "osrm"
+  },
+  "foot:50.939393,6.951427->50.932184,6.962397": {
+    "distance_m": 1562,
+    "duration_s": 1225,
+    "source": "osrm"
+  },
+  "foot:52.383856,4.902103->52.375416,4.881096": {
+    "distance_m": 2246,
+    "duration_s": 1860,
+    "source": "osrm"
+  },
+  "foot:52.375416,4.881096->52.367892,4.886220": {
+    "distance_m": 1236,
+    "duration_s": 989,
+    "source": "osrm"
+  },
+  "foot:52.367892,4.886220->52.370153,4.882602": {
+    "distance_m": 520,
+    "duration_s": 416,
+    "source": "osrm"
+  },
+  "foot:52.396645,4.907441->52.358367,4.881090": {
+    "distance_m": 5750,
+    "duration_s": 4668,
+    "source": "osrm"
+  },
+  "foot:52.358367,4.881090->52.359843,4.885040": {
+    "distance_m": 420,
+    "duration_s": 336,
+    "source": "osrm"
+  },
+  "foot:52.359843,4.885040->52.363534,4.880547": {
+    "distance_m": 712,
+    "duration_s": 571,
+    "source": "osrm"
+  },
+  "foot:52.363534,4.880547->52.357197,4.864119": {
+    "distance_m": 1490,
+    "duration_s": 1196,
+    "source": "osrm"
+  },
+  "car:52.357197,4.864119->52.396645,4.907441": {
+    "distance_m": 9212,
+    "duration_s": 1145,
+    "source": "osrm"
+  },
+  "foot:52.396645,4.907441->52.369431,4.890043": {
+    "distance_m": 3979,
+    "duration_s": 3251,
+    "source": "osrm"
+  },
+  "foot:52.369431,4.890043->52.375156,4.884081": {
+    "distance_m": 1110,
+    "duration_s": 890,
+    "source": "osrm"
+  },
+  "foot:52.375156,4.884081->52.368882,4.885838": {
+    "distance_m": 866,
+    "duration_s": 697,
+    "source": "osrm"
+  },
+  "foot:52.368882,4.885838->52.371979,4.884727": {
+    "distance_m": 454,
+    "duration_s": 364,
+    "source": "osrm"
+  },
+  "foot:52.371979,4.884727->52.396645,4.907441": {
+    "distance_m": 3997,
+    "duration_s": 3269,
+    "source": "osrm"
   }
 }

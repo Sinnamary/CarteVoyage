@@ -5,7 +5,7 @@ from __future__ import annotations
 from datetime import date, datetime
 from typing import NotRequired, TypedDict
 
-ExcelCellValue = str | int | float | bool | datetime | None
+ExcelCellValue = str | int | float | bool | datetime | date | None
 ExcelRow = tuple[object, ...]
 
 
