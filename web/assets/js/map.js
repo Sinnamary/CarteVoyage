@@ -477,7 +477,7 @@
   const filterState = {
     jours: new Set(allJours),
     segments: new Set(),
-    excludeCarRoutes: true,
+    excludeCarRoutes: false,
     routeCalculation: "osm",
   };
 
@@ -1554,9 +1554,9 @@
 
   document.getElementById("btn-reset").addEventListener("click", function () {
     filterState.jours = new Set(allJours);
-    filterState.excludeCarRoutes = true;
+    filterState.excludeCarRoutes = false;
     filterState.routeCalculation = "osm";
-    if (excludeCarToggle) excludeCarToggle.checked = true;
+    if (excludeCarToggle) excludeCarToggle.checked = false;
     syncRouteModeButtons();
     clearAllSegments();
     syncDayCheckboxes();
