@@ -543,6 +543,7 @@
   function pointHiddenByCarFilter(point) {
     if (!filterState.excludeCarRoutes) return false;
     if (isTransportPoint(point)) return true;
+    if (isLodgingPoint(point)) return lodgingHiddenByActivitiesFilter(point);
     const segments = allSegments.filter(function (segment) {
       return segment.jour === String(point.jour)
         && (segment.from.id === point.id || segment.to.id === point.id);
@@ -593,6 +594,57 @@
   allSegments.forEach(function (segment) {
     segmentsById.set(segment.id, segment);
   });
+
+  /* ---------- Déplacement inter-villes (hébergement matin ≠ soir) ---------- */
+  // Même règle que excel_utils.lodging_villes_label : les jours avec déplacement
+  // masquent l'hébergement précédent pour ne garder que la nuitée finale.
+  let dayLodgingMeta = {};
+
+  function normalizeLodgingVille(point) {
+    const nom = String(point.nom || "").toLowerCase();
+    if (nom.indexOf("ennevelin") >= 0) return "ennevelin";
+    return normalizeVille(point.ville);
+  }
+
+  function buildDayLodgingMeta() {
+    const meta = {};
+
+    allJours.forEach(function (jourKey) {
+      const stays = (pointsByDay[jourKey] || []).filter(isLodgingPoint);
+      let evening = null;
+      if (stays.length) {
+        evening = stays[stays.length - 1];
+      }
+
+      let displacement = false;
+      if (stays.length >= 2) {
+        displacement = normalizeLodgingVille(stays[0]) !== normalizeLodgingVille(stays[stays.length - 1]);
+      }
+      if (!displacement) {
+        const pts = pointsByDay[jourKey] || [];
+        displacement = pts.some(isTransportPoint);
+      }
+
+      meta[jourKey] = { evening: evening, displacement: displacement };
+    });
+
+    return meta;
+  }
+
+  function lodgingHiddenByActivitiesFilter(point) {
+    const jourKey = String(point.jour);
+    const dayMeta = dayLodgingMeta[jourKey];
+    if (!dayMeta || !dayMeta.displacement) return false;
+    if (!dayMeta.evening) return false;
+
+    const lodgingKey = point.jour + ":" + point.nom;
+    const entry = lodgingRegistry.get(lodgingKey);
+    if (entry && entry.ids.indexOf(dayMeta.evening.id) >= 0) return false;
+
+    return point.id !== dayMeta.evening.id;
+  }
+
+  dayLodgingMeta = buildDayLodgingMeta();
 
   function segmentAvailable(segment) {
     return pointVisible(segment.from) && pointVisible(segment.to);
