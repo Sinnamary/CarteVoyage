@@ -1,5 +1,5 @@
 {
-  "generated_at": "19/06/2026 16:15 UTC",
+  "generated_at": "22/06/2026 12:53 UTC",
   "config": {
     "start_date": "2026-08-03",
     "sheet_name": "Vue d'ensemble",
@@ -9,9 +9,9 @@
     "period": "3 au 14 août 2026",
     "route": "Strasbourg → Cologne → Amsterdam → Ennevelin → Lille → Bergues → Ennevelin → Côte d'Opale → Ennevelin → Cap Gris-Nez → Ennevelin",
     "jours_count": 12,
-    "activities_total": 65,
-    "visites_total": 23,
-    "prix_total": 333.0
+    "activities_total": 63,
+    "visites_total": 17,
+    "prix_total": 206.0
   },
   "phases": [
     {
@@ -48,7 +48,7 @@
     {
       "ville": "Amsterdam",
       "dates": "5 au 10 août 2026",
-      "description": "Monnickendam, Marken ou Edam … 2 hébergement"
+      "description": "Jordaan, Amsterdam … 2 hébergement"
     },
     {
       "ville": "Ennevelin",
@@ -129,12 +129,12 @@
         "Cologne",
         "Amsterdam"
       ],
-      "activities": 8,
-      "visites": 3,
-      "prix": 45.5,
-      "resume": "Tour A'DAM, Het Grachtenhuis, Amsterdam, Houseboat Museum, Amsterdam",
+      "activities": 6,
+      "visites": 1,
+      "prix": 34.5,
+      "resume": "Tour A'DAM",
       "couleur": "#3498db",
-      "theme": "Monnickendam, Marken ou Edam",
+      "theme": "Jordaan, Amsterdam",
       "lodging_villes_label": "Cologne → Amsterdam",
       "highlight": false,
       "nuit": {
@@ -149,7 +149,7 @@
       "villes": [
         "Amsterdam"
       ],
-      "activities": 6,
+      "activities": 7,
       "visites": 2,
       "prix": 49.0,
       "resume": "Van Gogh Museum, Amsterdam, Rijksmuseum, Amsterdam",
@@ -169,12 +169,12 @@
       "villes": [
         "Amsterdam"
       ],
-      "activities": 13,
-      "visites": 9,
-      "prix": 187.0,
-      "resume": "Museum Rembrandthuis, Amsterdam, Joods Historisch Museum, Amsterdam, National Holocaust Museum, Amsterdam (+6)",
+      "activities": 8,
+      "visites": 4,
+      "prix": 71.0,
+      "resume": "Museum Rembrandthuis, Amsterdam, ARTIS Micropia, Amsterdam, Het Scheepvaartmuseum, Amsterdam (+1)",
       "couleur": "#e67e22",
-      "theme": "Balade dans l'ancien quartier juif",
+      "theme": "Museum Rembrandthuis, Amsterdam",
       "lodging_villes_label": "Amsterdam",
       "highlight": false,
       "nuit": {
@@ -189,7 +189,7 @@
       "villes": [
         "Amsterdam"
       ],
-      "activities": 6,
+      "activities": 7,
       "visites": 2,
       "prix": 16.0,
       "resume": "Begijnhof, Amsterdam, Anne Frank Huis, Amsterdam",
@@ -209,12 +209,12 @@
       "villes": [
         "Amsterdam"
       ],
-      "activities": 2,
-      "visites": 0,
+      "activities": 5,
+      "visites": 1,
       "prix": 0,
-      "resume": "2 hébergement",
+      "resume": "Zaanse Schans",
       "couleur": "#f39c12",
-      "theme": "2 hébergement",
+      "theme": "Zaanse Schans",
       "lodging_villes_label": "Amsterdam",
       "highlight": false,
       "nuit": {
@@ -342,9 +342,9 @@
     },
     {
       "ville": "Amsterdam",
-      "activities": 34,
-      "visites": 16,
-      "prix": 297.5,
+      "activities": 33,
+      "visites": 10,
+      "prix": 170.5,
       "jours": 6
     },
     {

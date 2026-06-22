@@ -420,20 +420,20 @@
       "popup": {
         "action": "Hébergement",
         "type": "Hôtel",
-        "billet": "Oui",
+        "billet": "Réservé",
         "prix": 0.0,
         "city_card": null,
         "ouverture": "00h00",
-        "fermeture": "10h00",
+        "fermeture": "11h00",
         "remarque": "Centre"
       }
     },
     {
-      "id": "3.4-6",
-      "ordre": 4,
-      "ordre_label": "3.4",
+      "id": "3.3-5",
+      "ordre": 3,
+      "ordre_label": "3.3",
       "jour": 3,
-      "visite": 4,
+      "visite": 3,
       "nom": "Check in",
       "ville": "Amsterdam",
       "lat": 52.3966454,
@@ -443,43 +443,20 @@
       "popup": {
         "action": "Hébergement",
         "type": "Hôtel",
-        "billet": null,
+        "billet": "Réservé",
         "prix": null,
         "city_card": null,
         "ouverture": "15h00",
-        "fermeture": "16h00",
-        "remarque": "Centre"
-      }
-    },
-    {
-      "id": "3.5-7",
-      "ordre": 5,
-      "ordre_label": "3.5",
-      "jour": 3,
-      "visite": 5,
-      "nom": "Tour A'DAM",
-      "ville": "Amsterdam",
-      "lat": 52.3838564,
-      "lon": 4.9021028,
-      "lien": null,
-      "couleur": "#3498db",
-      "popup": {
-        "action": "Visite",
-        "type": "Point de vue",
-        "billet": "Oui",
-        "prix": 18.5,
-        "city_card": "Réduit",
-        "ouverture": "16h00",
-        "fermeture": "17h00",
+        "fermeture": "15h30",
         "remarque": "Noord / IJ"
       }
     },
     {
-      "id": "3.6-8",
-      "ordre": 6,
-      "ordre_label": "3.6",
+      "id": "3.4-6",
+      "ordre": 4,
+      "ordre_label": "3.4",
       "jour": 3,
-      "visite": 6,
+      "visite": 4,
       "nom": "Jordaan, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.3754157,
@@ -492,9 +469,55 @@
         "billet": "Non",
         "prix": 0.0,
         "city_card": null,
-        "ouverture": "14h30",
-        "fermeture": "15h00",
+        "ouverture": "16h00",
+        "fermeture": "17h30",
         "remarque": "Jordaan"
+      }
+    },
+    {
+      "id": "3.5-7",
+      "ordre": 5,
+      "ordre_label": "3.5",
+      "jour": 3,
+      "visite": 5,
+      "nom": "Tour A'DAM",
+      "ville": "Amsterdam",
+      "lat": 52.3838564,
+      "lon": 4.9021028,
+      "lien": "https://tickets.adamlookout.com/?lang=en",
+      "couleur": "#3498db",
+      "popup": {
+        "action": "Visite",
+        "type": "Point de vue",
+        "billet": "À faire",
+        "prix": 0.0,
+        "city_card": "Réduit",
+        "ouverture": "18h00",
+        "fermeture": "19h00",
+        "remarque": "Noord / IJ"
+      }
+    },
+    {
+      "id": "3.6-8",
+      "ordre": 6,
+      "ordre_label": "3.6",
+      "jour": 3,
+      "visite": 6,
+      "nom": "Restaurant A'DAM",
+      "ville": "Amsterdam",
+      "lat": 52.3838564,
+      "lon": 4.9021028,
+      "lien": "https://tickets.adamlookout.com/?lang=en",
+      "couleur": "#3498db",
+      "popup": {
+        "action": "Repas",
+        "type": "Restaurant",
+        "billet": "À faire",
+        "prix": 34.5,
+        "city_card": "Réduit",
+        "ouverture": "19h00",
+        "fermeture": "21h00",
+        "remarque": "Noord / IJ"
       }
     },
     {
@@ -503,52 +526,6 @@
       "ordre_label": "3.7",
       "jour": 3,
       "visite": 7,
-      "nom": "Het Grachtenhuis, Amsterdam",
-      "ville": "Amsterdam",
-      "lat": 52.3678921,
-      "lon": 4.8862198,
-      "lien": "https://grachten.museum/en/",
-      "couleur": "#3498db",
-      "popup": {
-        "action": "Visite",
-        "type": "Musée",
-        "billet": "Oui",
-        "prix": 17.5,
-        "city_card": "0",
-        "ouverture": "18h00",
-        "fermeture": "18h15",
-        "remarque": "Centre"
-      }
-    },
-    {
-      "id": "3.8-10",
-      "ordre": 8,
-      "ordre_label": "3.8",
-      "jour": 3,
-      "visite": 8,
-      "nom": "Houseboat Museum, Amsterdam",
-      "ville": "Amsterdam",
-      "lat": 52.3701526,
-      "lon": 4.882602,
-      "lien": null,
-      "couleur": "#3498db",
-      "popup": {
-        "action": "Visite",
-        "type": "Musée",
-        "billet": "Oui",
-        "prix": 9.5,
-        "city_card": "0",
-        "ouverture": "18h30",
-        "fermeture": "19h00",
-        "remarque": "Centre"
-      }
-    },
-    {
-      "id": "3.9-11",
-      "ordre": 9,
-      "ordre_label": "3.9",
-      "jour": 3,
-      "visite": 9,
       "nom": "Bob W Amsterdam Noord, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.3966454,
@@ -558,12 +535,12 @@
       "popup": {
         "action": "Hébergement",
         "type": "Hôtel",
-        "billet": null,
+        "billet": "Réservé",
         "prix": null,
         "city_card": null,
         "ouverture": "20h00",
         "fermeture": "00h00",
-        "remarque": "Centre"
+        "remarque": "Noord / IJ"
       }
     },
     {
@@ -580,13 +557,13 @@
       "couleur": "#9b59b6",
       "popup": {
         "action": "Hébergement",
-        "type": null,
-        "billet": null,
+        "type": "Hôtel",
+        "billet": "Réservé",
         "prix": null,
         "city_card": null,
         "ouverture": "00h00",
         "fermeture": "09h30",
-        "remarque": null
+        "remarque": "Noord / IJ"
       }
     },
     {
@@ -609,6 +586,29 @@
         "city_card": "0",
         "ouverture": "10h00",
         "fermeture": "12h00",
+        "remarque": "Museumplein"
+      }
+    },
+    {
+      "id": "4.3-5",
+      "ordre": 3,
+      "ordre_label": "4.3",
+      "jour": 4,
+      "visite": 3,
+      "nom": "Oeuf Amsterdam",
+      "ville": "Amsterdam",
+      "lat": 52.3563493,
+      "lon": 4.8816547,
+      "lien": "https://www.oeufamsterdam.nl/",
+      "couleur": "#9b59b6",
+      "popup": {
+        "action": "Repas",
+        "type": "Restaurant",
+        "billet": "À faire",
+        "prix": null,
+        "city_card": null,
+        "ouverture": "12h15",
+        "fermeture": "14h00",
         "remarque": "Museumplein"
       }
     },
@@ -650,7 +650,7 @@
       "popup": {
         "action": "Croisière",
         "type": "Balade",
-        "billet": "Oui",
+        "billet": "À faire",
         "prix": null,
         "city_card": "0",
         "ouverture": "17h00",
@@ -695,13 +695,13 @@
       "couleur": "#9b59b6",
       "popup": {
         "action": "Hébergement",
-        "type": null,
-        "billet": null,
+        "type": "Hôtel",
+        "billet": "Réservé",
         "prix": null,
         "city_card": null,
         "ouverture": "20h30",
         "fermeture": "00h00",
-        "remarque": null
+        "remarque": "Noord / IJ"
       }
     },
     {
@@ -719,12 +719,12 @@
       "popup": {
         "action": "Hébergement",
         "type": "Hôtel",
-        "billet": null,
+        "billet": "Réservé",
         "prix": null,
         "city_card": null,
         "ouverture": "00h00",
-        "fermeture": "07h00",
-        "remarque": null
+        "fermeture": "10h00",
+        "remarque": "Noord / IJ"
       }
     },
     {
@@ -733,6 +733,98 @@
       "ordre_label": "5.2",
       "jour": 5,
       "visite": 2,
+      "nom": "Museum Rembrandthuis, Amsterdam",
+      "ville": "Amsterdam",
+      "lat": 52.3693692,
+      "lon": 4.9012497,
+      "lien": null,
+      "couleur": "#e67e22",
+      "popup": {
+        "action": "Visite",
+        "type": "Musée",
+        "billet": "À faire",
+        "prix": 21.5,
+        "city_card": "0",
+        "ouverture": "10h30",
+        "fermeture": "12h00",
+        "remarque": "Jodenbuurt"
+      }
+    },
+    {
+      "id": "5.3-5",
+      "ordre": 3,
+      "ordre_label": "5.3",
+      "jour": 5,
+      "visite": 3,
+      "nom": "Rembrandt Corner",
+      "ville": "Amsterdam",
+      "lat": 52.3694338,
+      "lon": 4.8977204,
+      "lien": "https://www.rembrandtcorner.nl/",
+      "couleur": "#e67e22",
+      "popup": {
+        "action": "Repas",
+        "type": "Restaurant",
+        "billet": "Non",
+        "prix": null,
+        "city_card": null,
+        "ouverture": "12h00",
+        "fermeture": "13h30",
+        "remarque": "Jodenbuurt"
+      }
+    },
+    {
+      "id": "5.4-6",
+      "ordre": 4,
+      "ordre_label": "5.4",
+      "jour": 5,
+      "visite": 4,
+      "nom": "ARTIS Micropia, Amsterdam",
+      "ville": "Amsterdam",
+      "lat": 52.3668906,
+      "lon": 4.9126888,
+      "lien": null,
+      "couleur": "#e67e22",
+      "popup": {
+        "action": "Visite",
+        "type": "Musée",
+        "billet": "Non",
+        "prix": 17.5,
+        "city_card": "0",
+        "ouverture": "13h30",
+        "fermeture": "15h00",
+        "remarque": "Plantage"
+      }
+    },
+    {
+      "id": "5.5-7",
+      "ordre": 5,
+      "ordre_label": "5.5",
+      "jour": 5,
+      "visite": 5,
+      "nom": "Het Scheepvaartmuseum, Amsterdam",
+      "ville": "Amsterdam",
+      "lat": 52.372005,
+      "lon": 4.9149527,
+      "lien": null,
+      "couleur": "#e67e22",
+      "popup": {
+        "action": "Visite",
+        "type": "Musée",
+        "billet": "Non",
+        "prix": 18.5,
+        "city_card": "0",
+        "ouverture": "15h30",
+        "fermeture": "17h00",
+        "remarque": "Oost"
+      }
+    },
+    {
+      "id": "5.6-8",
+      "ordre": 6,
+      "ordre_label": "5.6",
+      "jour": 5,
+      "visite": 6,
       "nom": "Balade dans l'ancien quartier juif",
       "ville": "Amsterdam",
       "lat": 52.368803,
@@ -745,78 +837,9 @@
         "billet": "Non",
         "prix": null,
         "city_card": null,
-        "ouverture": "9h00",
-        "fermeture": "10h00",
+        "ouverture": "17h00",
+        "fermeture": "18h00",
         "remarque": "Jodenbuurt"
-      }
-    },
-    {
-      "id": "5.3-5",
-      "ordre": 3,
-      "ordre_label": "5.3",
-      "jour": 5,
-      "visite": 3,
-      "nom": "Museum Rembrandthuis, Amsterdam",
-      "ville": "Amsterdam",
-      "lat": 52.3693692,
-      "lon": 4.9012497,
-      "lien": null,
-      "couleur": "#e67e22",
-      "popup": {
-        "action": "Visite",
-        "type": "Musée",
-        "billet": "Oui",
-        "prix": 21.5,
-        "city_card": "0",
-        "ouverture": "10h00",
-        "fermeture": "10h30",
-        "remarque": "Jodenbuurt"
-      }
-    },
-    {
-      "id": "5.4-6",
-      "ordre": 4,
-      "ordre_label": "5.4",
-      "jour": 5,
-      "visite": 4,
-      "nom": "Joods Historisch Museum, Amsterdam",
-      "ville": "Amsterdam",
-      "lat": 52.367015,
-      "lon": 4.903445,
-      "lien": null,
-      "couleur": "#e67e22",
-      "popup": {
-        "action": "Visite",
-        "type": "Musée",
-        "billet": "Oui",
-        "prix": 30.0,
-        "city_card": "0",
-        "ouverture": "10h30",
-        "fermeture": "11h00",
-        "remarque": "Plantage"
-      }
-    },
-    {
-      "id": "5.5-7",
-      "ordre": 5,
-      "ordre_label": "5.5",
-      "jour": 5,
-      "visite": 5,
-      "nom": "National Holocaust Museum, Amsterdam",
-      "ville": "Amsterdam",
-      "lat": 52.3668719,
-      "lon": 4.9110104,
-      "lien": null,
-      "couleur": "#e67e22",
-      "popup": {
-        "action": "Visite",
-        "type": "Musée",
-        "billet": "Oui",
-        "prix": 30.0,
-        "city_card": "0",
-        "ouverture": "11h00",
-        "fermeture": "12h00",
-        "remarque": "Plantage"
       }
     },
     {
@@ -825,29 +848,6 @@
       "ordre_label": "5.7",
       "jour": 5,
       "visite": 7,
-      "nom": "Amsterdam Museum, Amsterdam",
-      "ville": "Amsterdam",
-      "lat": 52.3704312,
-      "lon": 4.8904288,
-      "lien": null,
-      "couleur": "#e67e22",
-      "popup": {
-        "action": "Visite",
-        "type": "Musée",
-        "billet": "Oui",
-        "prix": 20.0,
-        "city_card": "0",
-        "ouverture": "14h00",
-        "fermeture": "14h30",
-        "remarque": "Centrum"
-      }
-    },
-    {
-      "id": "5.8-10",
-      "ordre": 8,
-      "ordre_label": "5.8",
-      "jour": 5,
-      "visite": 8,
       "nom": "Hortus Botanicus, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.366806,
@@ -857,135 +857,20 @@
       "popup": {
         "action": "Visite",
         "type": "Jardin",
-        "billet": "Oui",
+        "billet": "Non",
         "prix": 13.5,
         "city_card": "0",
-        "ouverture": "14h30",
-        "fermeture": "15h00",
+        "ouverture": "18h00",
+        "fermeture": "19h00",
         "remarque": "Plantage"
       }
     },
     {
-      "id": "5.9-11",
+      "id": "5.9-10",
       "ordre": 9,
       "ordre_label": "5.9",
       "jour": 5,
       "visite": 9,
-      "nom": "Wereldmuseum, Amsterdam",
-      "ville": "Amsterdam",
-      "lat": 52.362688,
-      "lon": 4.9224397,
-      "lien": null,
-      "couleur": "#e67e22",
-      "popup": {
-        "action": "Visite",
-        "type": "Musée",
-        "billet": "Oui",
-        "prix": 20.0,
-        "city_card": "0",
-        "ouverture": "15h00",
-        "fermeture": "15h30",
-        "remarque": "Oost"
-      }
-    },
-    {
-      "id": "5.10-12",
-      "ordre": 10,
-      "ordre_label": "5.10",
-      "jour": 5,
-      "visite": 10,
-      "nom": "ARTIS Micropia, Amsterdam",
-      "ville": "Amsterdam",
-      "lat": 52.3668906,
-      "lon": 4.9126888,
-      "lien": null,
-      "couleur": "#e67e22",
-      "popup": {
-        "action": "Visite",
-        "type": "Musée",
-        "billet": "Oui",
-        "prix": 17.5,
-        "city_card": "?",
-        "ouverture": "15h30",
-        "fermeture": "16h00",
-        "remarque": "Plantage"
-      }
-    },
-    {
-      "id": "5.11-13",
-      "ordre": 11,
-      "ordre_label": "5.11",
-      "jour": 5,
-      "visite": 11,
-      "nom": "Verzetsmuseum, Amsterdam",
-      "ville": "Amsterdam",
-      "lat": 52.3678083,
-      "lon": 4.912728,
-      "lien": null,
-      "couleur": "#e67e22",
-      "popup": {
-        "action": "Visite",
-        "type": "Musée",
-        "billet": "Oui",
-        "prix": 16.0,
-        "city_card": "0",
-        "ouverture": "16h00",
-        "fermeture": "16h30",
-        "remarque": "Plantage"
-      }
-    },
-    {
-      "id": "5.12-14",
-      "ordre": 12,
-      "ordre_label": "5.12",
-      "jour": 5,
-      "visite": 12,
-      "nom": "Het Scheepvaartmuseum, Amsterdam",
-      "ville": "Amsterdam",
-      "lat": 52.372005,
-      "lon": 4.9149527,
-      "lien": null,
-      "couleur": "#e67e22",
-      "popup": {
-        "action": "Visite",
-        "type": "Musée",
-        "billet": "Oui",
-        "prix": 18.5,
-        "city_card": "0",
-        "ouverture": "16h30",
-        "fermeture": "17h00",
-        "remarque": "Oost"
-      }
-    },
-    {
-      "id": "5.13-15",
-      "ordre": 13,
-      "ordre_label": "5.13",
-      "jour": 5,
-      "visite": 13,
-      "nom": "Oostelijk havengebied",
-      "ville": "Amsterdam",
-      "lat": 52.3518137,
-      "lon": 4.9305528,
-      "lien": null,
-      "couleur": "#e67e22",
-      "popup": {
-        "action": "Balade",
-        "type": "Balade",
-        "billet": "Non",
-        "prix": null,
-        "city_card": null,
-        "ouverture": "17h00",
-        "fermeture": "17h30",
-        "remarque": "Oost"
-      }
-    },
-    {
-      "id": "5.15-17",
-      "ordre": 15,
-      "ordre_label": "5.15",
-      "jour": 5,
-      "visite": 15,
       "nom": "Bob W Amsterdam Noord, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.3966454,
@@ -995,12 +880,12 @@
       "popup": {
         "action": "Hébergement",
         "type": "Hôtel",
-        "billet": null,
+        "billet": "Réservé",
         "prix": null,
         "city_card": null,
         "ouverture": "20h00",
         "fermeture": "00h00",
-        "remarque": null
+        "remarque": "Noord / IJ"
       }
     },
     {
@@ -1017,13 +902,13 @@
       "couleur": "#1abc9c",
       "popup": {
         "action": "Hébergement",
-        "type": null,
-        "billet": null,
+        "type": "Hôtel",
+        "billet": "Réservé",
         "prix": null,
         "city_card": null,
         "ouverture": "00h00",
         "fermeture": "10h00",
-        "remarque": null
+        "remarque": "Noord / IJ"
       }
     },
     {
@@ -1050,6 +935,29 @@
       }
     },
     {
+      "id": "6.3-5",
+      "ordre": 3,
+      "ordre_label": "6.3",
+      "jour": 6,
+      "visite": 3,
+      "nom": "t Westerhuys",
+      "ville": "Amsterdam",
+      "lat": 52.3750072,
+      "lon": 4.8828711,
+      "lien": null,
+      "couleur": "#1abc9c",
+      "popup": {
+        "action": "Repas",
+        "type": "Restaurant",
+        "billet": "Non",
+        "prix": null,
+        "city_card": null,
+        "ouverture": "12h00",
+        "fermeture": "14h00",
+        "remarque": "Centre"
+      }
+    },
+    {
       "id": "6.4-6",
       "ordre": 4,
       "ordre_label": "6.4",
@@ -1064,7 +972,7 @@
       "popup": {
         "action": "Visite",
         "type": "Musée",
-        "billet": "Oui",
+        "billet": "À faire",
         "prix": 16.0,
         "city_card": "16",
         "ouverture": "14h30",
@@ -1132,13 +1040,13 @@
       "couleur": "#1abc9c",
       "popup": {
         "action": "Hébergement",
-        "type": null,
-        "billet": null,
+        "type": "Hôtel",
+        "billet": "Réservé",
         "prix": null,
         "city_card": null,
         "ouverture": "19h00",
         "fermeture": "00h00",
-        "remarque": null
+        "remarque": "Noord / IJ"
       }
     },
     {
@@ -1155,13 +1063,36 @@
       "couleur": "#f39c12",
       "popup": {
         "action": "Hébergement",
-        "type": null,
-        "billet": null,
+        "type": "Hôtel",
+        "billet": "Réservé",
         "prix": null,
         "city_card": null,
         "ouverture": "00h00",
         "fermeture": "10h00",
-        "remarque": null
+        "remarque": "Noord / IJ"
+      }
+    },
+    {
+      "id": "7.2-4",
+      "ordre": 2,
+      "ordre_label": "7.2",
+      "jour": 7,
+      "visite": 2,
+      "nom": "Zaanse Schans",
+      "ville": "Amsterdam",
+      "lat": 52.4764699,
+      "lon": 4.8170198,
+      "lien": null,
+      "couleur": "#f39c12",
+      "popup": {
+        "action": "Visite",
+        "type": "Balade",
+        "billet": "À faire",
+        "prix": null,
+        "city_card": null,
+        "ouverture": "10h30",
+        "fermeture": "12h00",
+        "remarque": "Noord / IJ"
       }
     },
     {
@@ -1170,6 +1101,52 @@
       "ordre_label": "7.3",
       "jour": 7,
       "visite": 3,
+      "nom": "Devant le port de Volendam",
+      "ville": "Amsterdam",
+      "lat": 52.4935662,
+      "lon": 5.0732482,
+      "lien": null,
+      "couleur": "#f39c12",
+      "popup": {
+        "action": "Repas",
+        "type": "Restaurant",
+        "billet": "Non",
+        "prix": null,
+        "city_card": null,
+        "ouverture": "12h30",
+        "fermeture": "14h00",
+        "remarque": "Noord / IJ"
+      }
+    },
+    {
+      "id": "7.4-6",
+      "ordre": 4,
+      "ordre_label": "7.4",
+      "jour": 7,
+      "visite": 4,
+      "nom": "Balade Edam, Monnickendam et Marken",
+      "ville": "Amsterdam",
+      "lat": 52.3986078,
+      "lon": 4.9381171,
+      "lien": null,
+      "couleur": "#f39c12",
+      "popup": {
+        "action": "Balade",
+        "type": "Balade",
+        "billet": "Non",
+        "prix": null,
+        "city_card": null,
+        "ouverture": "14h00",
+        "fermeture": "17h00",
+        "remarque": "Noord / IJ"
+      }
+    },
+    {
+      "id": "7.5-7",
+      "ordre": 5,
+      "ordre_label": "7.5",
+      "jour": 7,
+      "visite": 5,
       "nom": "Bob W Amsterdam Noord, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.3966454,
@@ -1178,13 +1155,13 @@
       "couleur": "#f39c12",
       "popup": {
         "action": "Hébergement",
-        "type": null,
-        "billet": null,
+        "type": "Hôtel",
+        "billet": "Réservé",
         "prix": null,
         "city_card": null,
-        "ouverture": "19h00",
+        "ouverture": "17h00",
         "fermeture": "00h00",
-        "remarque": null
+        "remarque": "Noord / IJ"
       }
     },
     {

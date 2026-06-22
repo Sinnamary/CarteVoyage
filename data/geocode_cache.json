@@ -474,5 +474,16 @@
     "lon": 6.9499979,
     "source": "nominatim",
     "query": "Printen Schmitz"
+  },
+  "query|nl|Noord / IJ, Amsterdam": {
+    "lat": 52.3986078,
+    "lon": 4.9381171,
+    "source": "nominatim"
+  },
+  "nl|Balade Edam, Monnickendam et Marken|Noord / IJ": {
+    "lat": 52.3986078,
+    "lon": 4.9381171,
+    "source": "nominatim",
+    "query": "Noord / IJ, Amsterdam"
   }
 }

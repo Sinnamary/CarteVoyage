@@ -1,14 +1,14 @@
 {
-  "generated_at": "19/06/2026 16:15 UTC",
-  "overall_status": "warn",
+  "generated_at": "22/06/2026 12:53 UTC",
+  "overall_status": "ok",
   "has_overview": true,
   "summary": {
     "title": "Strasbourg → Cologne → Amsterdam → Ennevelin → Lille → Bergues → Ennevelin → Côte d'Opale → Ennevelin → Cap Gris-Nez → Ennevelin",
     "period": "3 au 14 août 2026",
     "route": "Strasbourg → Cologne → Amsterdam → Ennevelin → Lille → Bergues → Ennevelin → Côte d'Opale → Ennevelin → Cap Gris-Nez → Ennevelin",
-    "activities": 72,
-    "on_map": 64,
-    "budget": 333.0,
+    "activities": 70,
+    "on_map": 63,
+    "budget": 206.0,
     "jours": 12
   },
   "sources": {
@@ -21,44 +21,44 @@
     "overview": {
       "path": "data/overview.json",
       "present": true,
-      "mtime": "19/06/2026 16:14 UTC",
-      "size": 9716
+      "mtime": "22/06/2026 12:53 UTC",
+      "size": 9618
     },
     "voyages": {
       "path": "data/voyages.json",
       "present": true,
-      "mtime": "19/06/2026 16:14 UTC",
-      "size": 36172
+      "mtime": "22/06/2026 12:53 UTC",
+      "size": 35903
     },
     "stats": {
       "path": "data/stats.json",
       "present": true,
-      "mtime": "19/06/2026 16:14 UTC",
-      "size": 29448
+      "mtime": "22/06/2026 12:53 UTC",
+      "size": 28425
     },
     "geocode_cache": {
       "path": "data/geocode_cache.json",
       "present": true,
-      "mtime": "19/06/2026 16:14 UTC",
-      "size": 11680
+      "mtime": "22/06/2026 12:53 UTC",
+      "size": 11976
     },
     "route_stats_cache": {
       "path": "data/route_stats_cache.json",
       "present": true,
-      "mtime": "19/06/2026 16:14 UTC",
-      "size": 11220
+      "mtime": "22/06/2026 12:53 UTC",
+      "size": 14058
     },
     "geocode_errors": {
       "path": "data/geocode_errors.csv",
       "present": true,
-      "mtime": "19/06/2026 16:14 UTC",
-      "size": 110
+      "mtime": "22/06/2026 12:53 UTC",
+      "size": 39
     },
     "missing_coords": {
       "path": "data/lignes_sans_coords.csv",
       "present": true,
-      "mtime": "19/06/2026 16:14 UTC",
-      "size": 438
+      "mtime": "22/06/2026 12:53 UTC",
+      "size": 391
     }
   },
   "checks": [
@@ -95,19 +95,19 @@
     {
       "id": "geocoded_map",
       "status": "ok",
-      "message": "64 points carte = activités géolocalisées",
+      "message": "63 points carte = activités géolocalisées",
       "details": ""
     },
     {
       "id": "activities_inventory",
       "status": "ok",
-      "message": "72 activités recensées",
+      "message": "70 activités recensées",
       "details": ""
     },
     {
       "id": "missing_coords",
-      "status": "warn",
-      "message": "1 activité(s) sans coordonnées (CSV cohérent)",
+      "status": "ok",
+      "message": "Aucune activité hors carte",
       "details": ""
     },
     {
@@ -119,7 +119,7 @@
     {
       "id": "budget_align",
       "status": "ok",
-      "message": "Budget cohérent (333.00 €)",
+      "message": "Budget cohérent (206.00 €)",
       "details": ""
     },
     {
@@ -136,8 +136,8 @@
     },
     {
       "id": "geocode_errors",
-      "status": "warn",
-      "message": "1 erreur(s) de géocodage",
+      "status": "ok",
+      "message": "Aucune erreur de géocodage (CSV vide)",
       "details": ""
     },
     {
@@ -178,11 +178,11 @@
       "jour": 3,
       "date": "2026-08-05",
       "ville": "Amsterdam",
-      "resume": "Tour A'DAM, Het Grachtenhuis, Amsterdam, Houseboat Museum, Amsterdam",
-      "activities": 9,
-      "geocoded": 7,
-      "prix": 45.5,
-      "foot_km": 10.29,
+      "resume": "Tour A'DAM",
+      "activities": 7,
+      "geocoded": 6,
+      "prix": 34.5,
+      "foot_km": 8.26,
       "car_km": 0.0,
       "couleur": "#3498db",
       "in_overview": true
@@ -192,10 +192,10 @@
       "date": "2026-08-06",
       "ville": "Amsterdam",
       "resume": "Van Gogh Museum, Amsterdam, Rijksmuseum, Amsterdam",
-      "activities": 6,
-      "geocoded": 6,
+      "activities": 7,
+      "geocoded": 7,
       "prix": 49.0,
-      "foot_km": 8.37,
+      "foot_km": 8.72,
       "car_km": 9.21,
       "couleur": "#9b59b6",
       "in_overview": true
@@ -204,12 +204,12 @@
       "jour": 5,
       "date": "2026-08-07",
       "ville": "Amsterdam",
-      "resume": "Museum Rembrandthuis, Amsterdam, Joods Historisch Museum, Amsterdam, National Holocaust Museum, Amsterdam (+6)",
-      "activities": 13,
-      "geocoded": 13,
-      "prix": 187.0,
-      "foot_km": 15.09,
-      "car_km": 7.06,
+      "resume": "Museum Rembrandthuis, Amsterdam, ARTIS Micropia, Amsterdam, Het Scheepvaartmuseum, Amsterdam (+1)",
+      "activities": 8,
+      "geocoded": 8,
+      "prix": 71.0,
+      "foot_km": 12.63,
+      "car_km": 0.0,
       "couleur": "#e67e22",
       "in_overview": true
     },
@@ -218,10 +218,10 @@
       "date": "2026-08-08",
       "ville": "Amsterdam",
       "resume": "Begijnhof, Amsterdam, Anne Frank Huis, Amsterdam",
-      "activities": 6,
-      "geocoded": 6,
+      "activities": 7,
+      "geocoded": 7,
       "prix": 16.0,
-      "foot_km": 10.41,
+      "foot_km": 10.81,
       "car_km": 0.0,
       "couleur": "#1abc9c",
       "in_overview": true
@@ -230,12 +230,12 @@
       "jour": 7,
       "date": "2026-08-09",
       "ville": "Amsterdam",
-      "resume": "2 hébergement",
-      "activities": 2,
-      "geocoded": 2,
+      "resume": "Zaanse Schans",
+      "activities": 5,
+      "geocoded": 5,
       "prix": 0.0,
-      "foot_km": 0.0,
-      "car_km": 0.0,
+      "foot_km": 2.82,
+      "car_km": 55.83,
       "couleur": "#f39c12",
       "in_overview": true
     },
@@ -557,11 +557,11 @@
       "key": "3:3.3",
       "jour": 3,
       "ordre": "3.3",
-      "nom": "Monnickendam, Marken ou Edam",
-      "ville": "",
-      "action": "",
+      "nom": "Check in",
+      "ville": "Amsterdam",
+      "action": "Hébergement",
       "prix": null,
-      "on_map": false,
+      "on_map": true,
       "in_stats": true,
       "is_trajet": false,
       "in_overview": true
@@ -570,10 +570,10 @@
       "key": "3:3.4",
       "jour": 3,
       "ordre": "3.4",
-      "nom": "Check in",
+      "nom": "Jordaan, Amsterdam",
       "ville": "Amsterdam",
-      "action": "Hébergement",
-      "prix": null,
+      "action": "Balade",
+      "prix": 0.0,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -586,7 +586,7 @@
       "nom": "Tour A'DAM",
       "ville": "Amsterdam",
       "action": "Visite",
-      "prix": 18.5,
+      "prix": 0.0,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -596,10 +596,10 @@
       "key": "3:3.6",
       "jour": 3,
       "ordre": "3.6",
-      "nom": "Jordaan, Amsterdam",
+      "nom": "Restaurant A'DAM",
       "ville": "Amsterdam",
-      "action": "Balade",
-      "prix": 0.0,
+      "action": "Repas",
+      "prix": 34.5,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -609,32 +609,6 @@
       "key": "3:3.7",
       "jour": 3,
       "ordre": "3.7",
-      "nom": "Het Grachtenhuis, Amsterdam",
-      "ville": "Amsterdam",
-      "action": "Visite",
-      "prix": 17.5,
-      "on_map": true,
-      "in_stats": true,
-      "is_trajet": false,
-      "in_overview": true
-    },
-    {
-      "key": "3:3.8",
-      "jour": 3,
-      "ordre": "3.8",
-      "nom": "Houseboat Museum, Amsterdam",
-      "ville": "Amsterdam",
-      "action": "Visite",
-      "prix": 9.5,
-      "on_map": true,
-      "in_stats": true,
-      "is_trajet": false,
-      "in_overview": true
-    },
-    {
-      "key": "3:3.9",
-      "jour": 3,
-      "ordre": "3.9",
       "nom": "Bob W Amsterdam Noord, Amsterdam",
       "ville": "Amsterdam",
       "action": "Hébergement",
@@ -665,6 +639,19 @@
       "ville": "Amsterdam",
       "action": "Visite",
       "prix": 24.0,
+      "on_map": true,
+      "in_stats": true,
+      "is_trajet": false,
+      "in_overview": true
+    },
+    {
+      "key": "4:4.3",
+      "jour": 4,
+      "ordre": "4.3",
+      "nom": "Oeuf Amsterdam",
+      "ville": "Amsterdam",
+      "action": "Repas",
+      "prix": null,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -736,87 +723,9 @@
       "in_overview": true
     },
     {
-      "key": "5:5.10",
-      "jour": 5,
-      "ordre": "5.10",
-      "nom": "ARTIS Micropia, Amsterdam",
-      "ville": "Amsterdam",
-      "action": "Visite",
-      "prix": 17.5,
-      "on_map": true,
-      "in_stats": true,
-      "is_trajet": false,
-      "in_overview": true
-    },
-    {
-      "key": "5:5.11",
-      "jour": 5,
-      "ordre": "5.11",
-      "nom": "Verzetsmuseum, Amsterdam",
-      "ville": "Amsterdam",
-      "action": "Visite",
-      "prix": 16.0,
-      "on_map": true,
-      "in_stats": true,
-      "is_trajet": false,
-      "in_overview": true
-    },
-    {
-      "key": "5:5.12",
-      "jour": 5,
-      "ordre": "5.12",
-      "nom": "Het Scheepvaartmuseum, Amsterdam",
-      "ville": "Amsterdam",
-      "action": "Visite",
-      "prix": 18.5,
-      "on_map": true,
-      "in_stats": true,
-      "is_trajet": false,
-      "in_overview": true
-    },
-    {
-      "key": "5:5.13",
-      "jour": 5,
-      "ordre": "5.13",
-      "nom": "Oostelijk havengebied",
-      "ville": "Amsterdam",
-      "action": "Balade",
-      "prix": null,
-      "on_map": true,
-      "in_stats": true,
-      "is_trajet": false,
-      "in_overview": true
-    },
-    {
-      "key": "5:5.15",
-      "jour": 5,
-      "ordre": "5.15",
-      "nom": "Bob W Amsterdam Noord, Amsterdam",
-      "ville": "Amsterdam",
-      "action": "Hébergement",
-      "prix": null,
-      "on_map": true,
-      "in_stats": true,
-      "is_trajet": false,
-      "in_overview": true
-    },
-    {
       "key": "5:5.2",
       "jour": 5,
       "ordre": "5.2",
-      "nom": "Balade dans l'ancien quartier juif",
-      "ville": "Amsterdam",
-      "action": "Balade",
-      "prix": null,
-      "on_map": true,
-      "in_stats": true,
-      "is_trajet": false,
-      "in_overview": true
-    },
-    {
-      "key": "5:5.3",
-      "jour": 5,
-      "ordre": "5.3",
       "nom": "Museum Rembrandthuis, Amsterdam",
       "ville": "Amsterdam",
       "action": "Visite",
@@ -827,13 +736,26 @@
       "in_overview": true
     },
     {
+      "key": "5:5.3",
+      "jour": 5,
+      "ordre": "5.3",
+      "nom": "Rembrandt Corner",
+      "ville": "Amsterdam",
+      "action": "Repas",
+      "prix": null,
+      "on_map": true,
+      "in_stats": true,
+      "is_trajet": false,
+      "in_overview": true
+    },
+    {
       "key": "5:5.4",
       "jour": 5,
       "ordre": "5.4",
-      "nom": "Joods Historisch Museum, Amsterdam",
+      "nom": "ARTIS Micropia, Amsterdam",
       "ville": "Amsterdam",
       "action": "Visite",
-      "prix": 30.0,
+      "prix": 17.5,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -843,10 +765,23 @@
       "key": "5:5.5",
       "jour": 5,
       "ordre": "5.5",
-      "nom": "National Holocaust Museum, Amsterdam",
+      "nom": "Het Scheepvaartmuseum, Amsterdam",
       "ville": "Amsterdam",
       "action": "Visite",
-      "prix": 30.0,
+      "prix": 18.5,
+      "on_map": true,
+      "in_stats": true,
+      "is_trajet": false,
+      "in_overview": true
+    },
+    {
+      "key": "5:5.6",
+      "jour": 5,
+      "ordre": "5.6",
+      "nom": "Balade dans l'ancien quartier juif",
+      "ville": "Amsterdam",
+      "action": "Balade",
+      "prix": null,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -856,19 +791,6 @@
       "key": "5:5.7",
       "jour": 5,
       "ordre": "5.7",
-      "nom": "Amsterdam Museum, Amsterdam",
-      "ville": "Amsterdam",
-      "action": "Visite",
-      "prix": 20.0,
-      "on_map": true,
-      "in_stats": true,
-      "is_trajet": false,
-      "in_overview": true
-    },
-    {
-      "key": "5:5.8",
-      "jour": 5,
-      "ordre": "5.8",
       "nom": "Hortus Botanicus, Amsterdam",
       "ville": "Amsterdam",
       "action": "Visite",
@@ -882,10 +804,10 @@
       "key": "5:5.9",
       "jour": 5,
       "ordre": "5.9",
-      "nom": "Wereldmuseum, Amsterdam",
+      "nom": "Bob W Amsterdam Noord, Amsterdam",
       "ville": "Amsterdam",
-      "action": "Visite",
-      "prix": 20.0,
+      "action": "Hébergement",
+      "prix": null,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -912,6 +834,19 @@
       "ville": "Amsterdam",
       "action": "Visite",
       "prix": 0.0,
+      "on_map": true,
+      "in_stats": true,
+      "is_trajet": false,
+      "in_overview": true
+    },
+    {
+      "key": "6:6.3",
+      "jour": 6,
+      "ordre": "6.3",
+      "nom": "t Westerhuys",
+      "ville": "Amsterdam",
+      "action": "Repas",
+      "prix": null,
       "on_map": true,
       "in_stats": true,
       "is_trajet": false,
@@ -983,9 +918,48 @@
       "in_overview": true
     },
     {
+      "key": "7:7.2",
+      "jour": 7,
+      "ordre": "7.2",
+      "nom": "Zaanse Schans",
+      "ville": "Amsterdam",
+      "action": "Visite",
+      "prix": null,
+      "on_map": true,
+      "in_stats": true,
+      "is_trajet": false,
+      "in_overview": true
+    },
+    {
       "key": "7:7.3",
       "jour": 7,
       "ordre": "7.3",
+      "nom": "Devant le port de Volendam",
+      "ville": "Amsterdam",
+      "action": "Repas",
+      "prix": null,
+      "on_map": true,
+      "in_stats": true,
+      "is_trajet": false,
+      "in_overview": true
+    },
+    {
+      "key": "7:7.4",
+      "jour": 7,
+      "ordre": "7.4",
+      "nom": "Balade Edam, Monnickendam et Marken",
+      "ville": "Amsterdam",
+      "action": "Balade",
+      "prix": null,
+      "on_map": true,
+      "in_stats": true,
+      "is_trajet": false,
+      "in_overview": true
+    },
+    {
+      "key": "7:7.5",
+      "jour": 7,
+      "ordre": "7.5",
       "nom": "Bob W Amsterdam Noord, Amsterdam",
       "ville": "Amsterdam",
       "action": "Hébergement",
@@ -1456,18 +1430,18 @@
     {
       "jour": 3,
       "ordre": "3.3",
-      "nom": "Monnickendam, Marken ou Edam",
-      "ville": "",
+      "nom": "Check in",
+      "ville": "Amsterdam",
       "in_stats": true,
-      "on_map": false,
+      "on_map": true,
       "in_overview": true,
       "is_trajet": false,
-      "status": "warn"
+      "status": "ok"
     },
     {
       "jour": 3,
       "ordre": "3.4",
-      "nom": "Check in",
+      "nom": "Jordaan, Amsterdam",
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
@@ -1489,7 +1463,7 @@
     {
       "jour": 3,
       "ordre": "3.6",
-      "nom": "Jordaan, Amsterdam",
+      "nom": "Restaurant A'DAM",
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
@@ -1500,28 +1474,6 @@
     {
       "jour": 3,
       "ordre": "3.7",
-      "nom": "Het Grachtenhuis, Amsterdam",
-      "ville": "Amsterdam",
-      "in_stats": true,
-      "on_map": true,
-      "in_overview": true,
-      "is_trajet": false,
-      "status": "ok"
-    },
-    {
-      "jour": 3,
-      "ordre": "3.8",
-      "nom": "Houseboat Museum, Amsterdam",
-      "ville": "Amsterdam",
-      "in_stats": true,
-      "on_map": true,
-      "in_overview": true,
-      "is_trajet": false,
-      "status": "ok"
-    },
-    {
-      "jour": 3,
-      "ordre": "3.9",
       "nom": "Bob W Amsterdam Noord, Amsterdam",
       "ville": "Amsterdam",
       "in_stats": true,
@@ -1545,6 +1497,17 @@
       "jour": 4,
       "ordre": "4.2",
       "nom": "Van Gogh Museum, Amsterdam",
+      "ville": "Amsterdam",
+      "in_stats": true,
+      "on_map": true,
+      "in_overview": true,
+      "is_trajet": false,
+      "status": "ok"
+    },
+    {
+      "jour": 4,
+      "ordre": "4.3",
+      "nom": "Oeuf Amsterdam",
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
@@ -1609,73 +1572,7 @@
     },
     {
       "jour": 5,
-      "ordre": "5.10",
-      "nom": "ARTIS Micropia, Amsterdam",
-      "ville": "Amsterdam",
-      "in_stats": true,
-      "on_map": true,
-      "in_overview": true,
-      "is_trajet": false,
-      "status": "ok"
-    },
-    {
-      "jour": 5,
-      "ordre": "5.11",
-      "nom": "Verzetsmuseum, Amsterdam",
-      "ville": "Amsterdam",
-      "in_stats": true,
-      "on_map": true,
-      "in_overview": true,
-      "is_trajet": false,
-      "status": "ok"
-    },
-    {
-      "jour": 5,
-      "ordre": "5.12",
-      "nom": "Het Scheepvaartmuseum, Amsterdam",
-      "ville": "Amsterdam",
-      "in_stats": true,
-      "on_map": true,
-      "in_overview": true,
-      "is_trajet": false,
-      "status": "ok"
-    },
-    {
-      "jour": 5,
-      "ordre": "5.13",
-      "nom": "Oostelijk havengebied",
-      "ville": "Amsterdam",
-      "in_stats": true,
-      "on_map": true,
-      "in_overview": true,
-      "is_trajet": false,
-      "status": "ok"
-    },
-    {
-      "jour": 5,
-      "ordre": "5.15",
-      "nom": "Bob W Amsterdam Noord, Amsterdam",
-      "ville": "Amsterdam",
-      "in_stats": true,
-      "on_map": true,
-      "in_overview": true,
-      "is_trajet": false,
-      "status": "ok"
-    },
-    {
-      "jour": 5,
       "ordre": "5.2",
-      "nom": "Balade dans l'ancien quartier juif",
-      "ville": "Amsterdam",
-      "in_stats": true,
-      "on_map": true,
-      "in_overview": true,
-      "is_trajet": false,
-      "status": "ok"
-    },
-    {
-      "jour": 5,
-      "ordre": "5.3",
       "nom": "Museum Rembrandthuis, Amsterdam",
       "ville": "Amsterdam",
       "in_stats": true,
@@ -1686,8 +1583,19 @@
     },
     {
       "jour": 5,
+      "ordre": "5.3",
+      "nom": "Rembrandt Corner",
+      "ville": "Amsterdam",
+      "in_stats": true,
+      "on_map": true,
+      "in_overview": true,
+      "is_trajet": false,
+      "status": "ok"
+    },
+    {
+      "jour": 5,
       "ordre": "5.4",
-      "nom": "Joods Historisch Museum, Amsterdam",
+      "nom": "ARTIS Micropia, Amsterdam",
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
@@ -1698,7 +1606,18 @@
     {
       "jour": 5,
       "ordre": "5.5",
-      "nom": "National Holocaust Museum, Amsterdam",
+      "nom": "Het Scheepvaartmuseum, Amsterdam",
+      "ville": "Amsterdam",
+      "in_stats": true,
+      "on_map": true,
+      "in_overview": true,
+      "is_trajet": false,
+      "status": "ok"
+    },
+    {
+      "jour": 5,
+      "ordre": "5.6",
+      "nom": "Balade dans l'ancien quartier juif",
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
@@ -1709,17 +1628,6 @@
     {
       "jour": 5,
       "ordre": "5.7",
-      "nom": "Amsterdam Museum, Amsterdam",
-      "ville": "Amsterdam",
-      "in_stats": true,
-      "on_map": true,
-      "in_overview": true,
-      "is_trajet": false,
-      "status": "ok"
-    },
-    {
-      "jour": 5,
-      "ordre": "5.8",
       "nom": "Hortus Botanicus, Amsterdam",
       "ville": "Amsterdam",
       "in_stats": true,
@@ -1731,7 +1639,7 @@
     {
       "jour": 5,
       "ordre": "5.9",
-      "nom": "Wereldmuseum, Amsterdam",
+      "nom": "Bob W Amsterdam Noord, Amsterdam",
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
@@ -1754,6 +1662,17 @@
       "jour": 6,
       "ordre": "6.2",
       "nom": "Begijnhof, Amsterdam",
+      "ville": "Amsterdam",
+      "in_stats": true,
+      "on_map": true,
+      "in_overview": true,
+      "is_trajet": false,
+      "status": "ok"
+    },
+    {
+      "jour": 6,
+      "ordre": "6.3",
+      "nom": "t Westerhuys",
       "ville": "Amsterdam",
       "in_stats": true,
       "on_map": true,
@@ -1818,7 +1737,40 @@
     },
     {
       "jour": 7,
+      "ordre": "7.2",
+      "nom": "Zaanse Schans",
+      "ville": "Amsterdam",
+      "in_stats": true,
+      "on_map": true,
+      "in_overview": true,
+      "is_trajet": false,
+      "status": "ok"
+    },
+    {
+      "jour": 7,
       "ordre": "7.3",
+      "nom": "Devant le port de Volendam",
+      "ville": "Amsterdam",
+      "in_stats": true,
+      "on_map": true,
+      "in_overview": true,
+      "is_trajet": false,
+      "status": "ok"
+    },
+    {
+      "jour": 7,
+      "ordre": "7.4",
+      "nom": "Balade Edam, Monnickendam et Marken",
+      "ville": "Amsterdam",
+      "in_stats": true,
+      "on_map": true,
+      "in_overview": true,
+      "is_trajet": false,
+      "status": "ok"
+    },
+    {
+      "jour": 7,
+      "ordre": "7.5",
       "nom": "Bob W Amsterdam Noord, Amsterdam",
       "ville": "Amsterdam",
       "in_stats": true,
@@ -2037,42 +1989,14 @@
       "status": "ok"
     }
   ],
-  "anomalies": [
-    {
-      "jour": 3,
-      "ordre": "3.3",
-      "nom": "Monnickendam, Marken ou Edam",
-      "ville": "",
-      "in_stats": true,
-      "on_map": false,
-      "in_overview": true,
-      "is_trajet": false,
-      "status": "warn"
-    }
-  ],
-  "geocode_errors": [
-    {
-      "﻿jour": "3",
-      "visite": "3",
-      "nom": "Monnickendam, Marken ou Edam",
-      "ville": "",
-      "pays": "nl",
-      "requete": "Monnickendam, Marken ou Edam"
-    }
-  ],
+  "anomalies": [],
+  "geocode_errors": [],
   "missing_coords": [
     {
       "﻿jour": "3",
       "visite": "2",
       "ordre": "3.2",
       "nom": "Trajet Cologne → Amsterdam (4h)",
-      "feuille": "Jour 3"
-    },
-    {
-      "﻿jour": "3",
-      "visite": "3",
-      "ordre": "3.3",
-      "nom": "Monnickendam, Marken ou Edam",
       "feuille": "Jour 3"
     },
     {
@@ -2237,8 +2161,8 @@
             "role_label": "Départ matin"
           },
           {
-            "ordre": "3.4",
-            "visite": 4,
+            "ordre": "3.3",
+            "visite": 3,
             "nom": "Check in",
             "ville": "Amsterdam",
             "ville_display": "Amsterdam",
@@ -2246,8 +2170,8 @@
             "role_label": "Arrivée / nuit"
           },
           {
-            "ordre": "3.9",
-            "visite": 9,
+            "ordre": "3.7",
+            "visite": 7,
             "nom": "Bob W Amsterdam Noord, Amsterdam",
             "ville": "Amsterdam",
             "ville_display": "Amsterdam",
@@ -2256,17 +2180,17 @@
           }
         ],
         "night": {
-          "ordre": "3.9",
-          "visite": 9,
+          "ordre": "3.7",
+          "visite": 7,
           "nom": "Bob W Amsterdam Noord, Amsterdam",
           "ville": "Amsterdam"
         },
-        "night_reason": "Dernière ligne Hébergement : 3.9 (visite 9) → nuit à Amsterdam",
+        "night_reason": "Dernière ligne Hébergement : 3.7 (visite 7) → nuit à Amsterdam",
         "villes_label": "Cologne → Amsterdam",
         "steps": [
           "Départ matin : Hotel Pullman Cologne (3.1)",
-          "Arrivée / nuit : Check in (3.4)",
-          "Arrivée soir : Bob W Amsterdam Noord, Amsterdam (3.9)"
+          "Arrivée / nuit : Check in (3.3)",
+          "Arrivée soir : Bob W Amsterdam Noord, Amsterdam (3.7)"
         ],
         "notes": [],
         "overview_nuit": "Bob W Amsterdam Noord, Amsterdam",
@@ -2337,8 +2261,8 @@
             "role_label": "Départ matin"
           },
           {
-            "ordre": "5.15",
-            "visite": 15,
+            "ordre": "5.9",
+            "visite": 9,
             "nom": "Bob W Amsterdam Noord, Amsterdam",
             "ville": "Amsterdam",
             "ville_display": "Amsterdam",
@@ -2347,16 +2271,16 @@
           }
         ],
         "night": {
-          "ordre": "5.15",
-          "visite": 15,
+          "ordre": "5.9",
+          "visite": 9,
           "nom": "Bob W Amsterdam Noord, Amsterdam",
           "ville": "Amsterdam"
         },
-        "night_reason": "Dernière ligne Hébergement : 5.15 (visite 15) → nuit à Amsterdam",
+        "night_reason": "Dernière ligne Hébergement : 5.9 (visite 9) → nuit à Amsterdam",
         "villes_label": "Amsterdam",
         "steps": [
           "Départ matin : Bob W Amsterdam Noord, Amsterdam (5.1)",
-          "Arrivée soir : Bob W Amsterdam Noord, Amsterdam (5.15)"
+          "Arrivée soir : Bob W Amsterdam Noord, Amsterdam (5.9)"
         ],
         "notes": [],
         "overview_nuit": "Bob W Amsterdam Noord, Amsterdam",
@@ -2427,8 +2351,8 @@
             "role_label": "Départ matin"
           },
           {
-            "ordre": "7.3",
-            "visite": 3,
+            "ordre": "7.5",
+            "visite": 5,
             "nom": "Bob W Amsterdam Noord, Amsterdam",
             "ville": "Amsterdam",
             "ville_display": "Amsterdam",
@@ -2437,16 +2361,16 @@
           }
         ],
         "night": {
-          "ordre": "7.3",
-          "visite": 3,
+          "ordre": "7.5",
+          "visite": 5,
           "nom": "Bob W Amsterdam Noord, Amsterdam",
           "ville": "Amsterdam"
         },
-        "night_reason": "Dernière ligne Hébergement : 7.3 (visite 3) → nuit à Amsterdam",
+        "night_reason": "Dernière ligne Hébergement : 7.5 (visite 5) → nuit à Amsterdam",
         "villes_label": "Amsterdam",
         "steps": [
           "Départ matin : Bob W Amsterdam Noord, Amsterdam (7.1)",
-          "Arrivée soir : Bob W Amsterdam Noord, Amsterdam (7.3)"
+          "Arrivée soir : Bob W Amsterdam Noord, Amsterdam (7.5)"
         ],
         "notes": [],
         "overview_nuit": "Bob W Amsterdam Noord, Amsterdam",
@@ -2835,11 +2759,20 @@
     },
     {
       "jour": 3,
-      "ordre": "3.4",
+      "ordre": "3.3",
       "nom": "Check in",
       "ville": "Amsterdam",
       "lat": 52.3966454,
       "lon": 4.9074412,
+      "couleur": "#3498db"
+    },
+    {
+      "jour": 3,
+      "ordre": "3.4",
+      "nom": "Jordaan, Amsterdam",
+      "ville": "Amsterdam",
+      "lat": 52.3754157,
+      "lon": 4.8810958,
       "couleur": "#3498db"
     },
     {
@@ -2854,33 +2787,15 @@
     {
       "jour": 3,
       "ordre": "3.6",
-      "nom": "Jordaan, Amsterdam",
+      "nom": "Restaurant A'DAM",
       "ville": "Amsterdam",
-      "lat": 52.3754157,
-      "lon": 4.8810958,
+      "lat": 52.3838564,
+      "lon": 4.9021028,
       "couleur": "#3498db"
     },
     {
       "jour": 3,
       "ordre": "3.7",
-      "nom": "Het Grachtenhuis, Amsterdam",
-      "ville": "Amsterdam",
-      "lat": 52.3678921,
-      "lon": 4.8862198,
-      "couleur": "#3498db"
-    },
-    {
-      "jour": 3,
-      "ordre": "3.8",
-      "nom": "Houseboat Museum, Amsterdam",
-      "ville": "Amsterdam",
-      "lat": 52.3701526,
-      "lon": 4.882602,
-      "couleur": "#3498db"
-    },
-    {
-      "jour": 3,
-      "ordre": "3.9",
       "nom": "Bob W Amsterdam Noord, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.3966454,
@@ -2903,6 +2818,15 @@
       "ville": "Amsterdam",
       "lat": 52.3583673,
       "lon": 4.88109,
+      "couleur": "#9b59b6"
+    },
+    {
+      "jour": 4,
+      "ordre": "4.3",
+      "nom": "Oeuf Amsterdam",
+      "ville": "Amsterdam",
+      "lat": 52.3563493,
+      "lon": 4.8816547,
       "couleur": "#9b59b6"
     },
     {
@@ -2953,15 +2877,6 @@
     {
       "jour": 5,
       "ordre": "5.2",
-      "nom": "Balade dans l'ancien quartier juif",
-      "ville": "Amsterdam",
-      "lat": 52.368803,
-      "lon": 4.9030991,
-      "couleur": "#e67e22"
-    },
-    {
-      "jour": 5,
-      "ordre": "5.3",
       "nom": "Museum Rembrandthuis, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.3693692,
@@ -2970,34 +2885,43 @@
     },
     {
       "jour": 5,
-      "ordre": "5.4",
-      "nom": "Joods Historisch Museum, Amsterdam",
+      "ordre": "5.3",
+      "nom": "Rembrandt Corner",
       "ville": "Amsterdam",
-      "lat": 52.367015,
-      "lon": 4.903445,
+      "lat": 52.3694338,
+      "lon": 4.8977204,
+      "couleur": "#e67e22"
+    },
+    {
+      "jour": 5,
+      "ordre": "5.4",
+      "nom": "ARTIS Micropia, Amsterdam",
+      "ville": "Amsterdam",
+      "lat": 52.3668906,
+      "lon": 4.9126888,
       "couleur": "#e67e22"
     },
     {
       "jour": 5,
       "ordre": "5.5",
-      "nom": "National Holocaust Museum, Amsterdam",
+      "nom": "Het Scheepvaartmuseum, Amsterdam",
       "ville": "Amsterdam",
-      "lat": 52.3668719,
-      "lon": 4.9110104,
+      "lat": 52.372005,
+      "lon": 4.9149527,
+      "couleur": "#e67e22"
+    },
+    {
+      "jour": 5,
+      "ordre": "5.6",
+      "nom": "Balade dans l'ancien quartier juif",
+      "ville": "Amsterdam",
+      "lat": 52.368803,
+      "lon": 4.9030991,
       "couleur": "#e67e22"
     },
     {
       "jour": 5,
       "ordre": "5.7",
-      "nom": "Amsterdam Museum, Amsterdam",
-      "ville": "Amsterdam",
-      "lat": 52.3704312,
-      "lon": 4.8904288,
-      "couleur": "#e67e22"
-    },
-    {
-      "jour": 5,
-      "ordre": "5.8",
       "nom": "Hortus Botanicus, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.366806,
@@ -3007,51 +2931,6 @@
     {
       "jour": 5,
       "ordre": "5.9",
-      "nom": "Wereldmuseum, Amsterdam",
-      "ville": "Amsterdam",
-      "lat": 52.362688,
-      "lon": 4.9224397,
-      "couleur": "#e67e22"
-    },
-    {
-      "jour": 5,
-      "ordre": "5.10",
-      "nom": "ARTIS Micropia, Amsterdam",
-      "ville": "Amsterdam",
-      "lat": 52.3668906,
-      "lon": 4.9126888,
-      "couleur": "#e67e22"
-    },
-    {
-      "jour": 5,
-      "ordre": "5.11",
-      "nom": "Verzetsmuseum, Amsterdam",
-      "ville": "Amsterdam",
-      "lat": 52.3678083,
-      "lon": 4.912728,
-      "couleur": "#e67e22"
-    },
-    {
-      "jour": 5,
-      "ordre": "5.12",
-      "nom": "Het Scheepvaartmuseum, Amsterdam",
-      "ville": "Amsterdam",
-      "lat": 52.372005,
-      "lon": 4.9149527,
-      "couleur": "#e67e22"
-    },
-    {
-      "jour": 5,
-      "ordre": "5.13",
-      "nom": "Oostelijk havengebied",
-      "ville": "Amsterdam",
-      "lat": 52.3518137,
-      "lon": 4.9305528,
-      "couleur": "#e67e22"
-    },
-    {
-      "jour": 5,
-      "ordre": "5.15",
       "nom": "Bob W Amsterdam Noord, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.3966454,
@@ -3074,6 +2953,15 @@
       "ville": "Amsterdam",
       "lat": 52.3694314,
       "lon": 4.8900431,
+      "couleur": "#1abc9c"
+    },
+    {
+      "jour": 6,
+      "ordre": "6.3",
+      "nom": "t Westerhuys",
+      "ville": "Amsterdam",
+      "lat": 52.3750072,
+      "lon": 4.8828711,
       "couleur": "#1abc9c"
     },
     {
@@ -3123,7 +3011,34 @@
     },
     {
       "jour": 7,
+      "ordre": "7.2",
+      "nom": "Zaanse Schans",
+      "ville": "Amsterdam",
+      "lat": 52.4764699,
+      "lon": 4.8170198,
+      "couleur": "#f39c12"
+    },
+    {
+      "jour": 7,
       "ordre": "7.3",
+      "nom": "Devant le port de Volendam",
+      "ville": "Amsterdam",
+      "lat": 52.4935662,
+      "lon": 5.0732482,
+      "couleur": "#f39c12"
+    },
+    {
+      "jour": 7,
+      "ordre": "7.4",
+      "nom": "Balade Edam, Monnickendam et Marken",
+      "ville": "Amsterdam",
+      "lat": 52.3986078,
+      "lon": 4.9381171,
+      "couleur": "#f39c12"
+    },
+    {
+      "jour": 7,
+      "ordre": "7.5",
       "nom": "Bob W Amsterdam Noord, Amsterdam",
       "ville": "Amsterdam",
       "lat": 52.3966454,
