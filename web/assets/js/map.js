@@ -172,6 +172,28 @@
     return text.length > 28 ? text.slice(0, 25) + "…" : text;
   }
 
+  function formatDayDate(jour) {
+    const start = data.start_date;
+    if (!start) return "";
+    const parts = String(start).split("-");
+    if (parts.length !== 3) return "";
+    const year = Number(parts[0]);
+    const month = Number(parts[1]);
+    const day = Number(parts[2]);
+    if (!year || !month || !day) return "";
+    const date = new Date(year, month - 1, day + (Number(jour) - 1));
+    if (Number.isNaN(date.getTime())) return "";
+    const dd = String(date.getDate()).padStart(2, "0");
+    const mm = String(date.getMonth() + 1).padStart(2, "0");
+    const yyyy = date.getFullYear();
+    return dd + "/" + mm + "/" + yyyy;
+  }
+
+  function dayLabel(jour) {
+    const dateText = formatDayDate(jour);
+    return dateText ? "Jour " + jour + " (" + dateText + ")" : "Jour " + jour;
+  }
+
   function formatDistance(meters) {
     if (meters == null) return "";
     if (meters < 950) return Math.round(meters) + " m";
@@ -1368,7 +1390,7 @@
 
       wrap.appendChild(input);
       wrap.appendChild(swatch);
-      wrap.appendChild(document.createTextNode("Jour " + jour));
+      wrap.appendChild(document.createTextNode(dayLabel(jour)));
 
       const countEl = document.createElement("span");
       countEl.className = "filter-day-count";
@@ -1379,7 +1401,7 @@
       onlyBtn.type = "button";
       onlyBtn.className = "filter-day-only";
       onlyBtn.textContent = "seul";
-      onlyBtn.title = "Afficher uniquement le jour " + jour;
+      onlyBtn.title = "Afficher uniquement le " + dayLabel(jour);
       onlyBtn.addEventListener("click", function () {
         filterState.jours = new Set([jour]);
         syncDayCheckboxes();
@@ -1408,7 +1430,7 @@
         swatch.className = "day-swatch";
         swatch.style.backgroundColor = dayColor(jourKey);
         summary.appendChild(swatch);
-        summary.appendChild(document.createTextNode("Jour " + jourKey));
+        summary.appendChild(document.createTextNode(dayLabel(jourKey)));
         details.appendChild(summary);
 
         const list = document.createElement("div");
@@ -1483,7 +1505,7 @@
         details.open = Number(jourKey) === Number(allJours[0]);
 
         const summary = document.createElement("summary");
-        summary.appendChild(document.createTextNode("Jour " + jourKey));
+        summary.appendChild(document.createTextNode(dayLabel(jourKey)));
 
         const total = document.createElement("span");
         total.className = "trajets-day-total";
